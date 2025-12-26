@@ -117,8 +117,6 @@ const Navbar: React.FC = () => {
             href="/community"
             onClick={closeDropdowns}
           />
-
-          <NavLink label="Eventos" href="/eventos" onClick={closeDropdowns} />
           <NavLink
             label="Bolsas de estudos"
             href="/bolsas"
