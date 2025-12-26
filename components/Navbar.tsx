@@ -111,41 +111,12 @@ const Navbar: React.FC = () => {
             onClick={closeDropdowns}
           />
 
-          <Dropdown
-            title="Comunidades"
-            open={openComunidades}
-            setOpen={setOpenComunidades}
-            onLinkClick={closeDropdowns}
-          >
-            <Link
-              href="/games"
-              onClick={closeDropdowns}
-              className="block px-4 py-3 text-sm hover:bg-white/10 transition"
-            >
-              Game Developers
-            </Link>
-            <Link
-              href="/comunidades/javascript"
-              onClick={closeDropdowns}
-              className="block px-4 py-3 text-sm hover:bg-white/10 transition"
-            >
-              Comunidade JavaScript
-            </Link>
-            <Link
-              href="/comunidades/cyber-security"
-              onClick={closeDropdowns}
-              className="block px-4 py-3 text-sm hover:bg-white/10 transition"
-            >
-              Comunidades de Cyber Security
-            </Link>
-            <Link
-              href="/comunidades/others"
-              onClick={closeDropdowns}
-              className="block px-4 py-3 text-sm hover:bg-white/10 transition"
-            >
-              Outras comunidades
-            </Link>
-          </Dropdown>
+          <NavLink label="Eventos" href="/Community" onClick={closeDropdowns} />
+          <NavLink
+            label="Comunidades"
+            href="/community"
+            onClick={closeDropdowns}
+          />
 
           <NavLink label="Eventos" href="/eventos" onClick={closeDropdowns} />
           <NavLink
@@ -266,36 +237,11 @@ const Navbar: React.FC = () => {
             onClick={closeMobileMenu}
           />
 
-          <MobileDropdown title="Comunidades" onItemClick={closeMobileMenu}>
-            <Link
-              href="/games"
-              onClick={closeMobileMenu}
-              className="block px-4 py-2 text-sm hover:bg-gray-200"
-            >
-              Game Developers
-            </Link>
-            <Link
-              href="/comunidades/javascript"
-              onClick={closeMobileMenu}
-              className="block px-4 py-2 text-sm hover:bg-gray-200"
-            >
-              Comunidade JavaScript
-            </Link>
-            <Link
-              href="/comunidades/cyber-security"
-              onClick={closeMobileMenu}
-              className="block px-4 py-2 text-sm hover:bg-gray-200"
-            >
-              Comunidades de Cyber Security
-            </Link>
-            <Link
-              href="/comunidades/others"
-              onClick={closeMobileMenu}
-              className="block px-4 py-2 text-sm hover:bg-gray-200"
-            >
-              Outras comunidades
-            </Link>
-          </MobileDropdown>
+          <MobileLink
+            label="Comunidades"
+            href="/community"
+            onClick={closeMobileMenu}
+          />
 
           <MobileLink
             label="Eventos"

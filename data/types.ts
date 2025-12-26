@@ -71,3 +71,14 @@ export interface CareerInfo {
   color: string; // tailwind gradient
   skills: string[];
 }
+export interface Community {
+  id: string;
+  name: string;
+  location: string;
+  description: string;
+  logoUrl: string;
+  members: number;
+  type: string;
+  category: string;
+  tags: string[];
+}
