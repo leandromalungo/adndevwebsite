@@ -15,6 +15,7 @@ export default function Page() {
           <h1 className="text-2xl font-bold text-gray-900">Comunidades</h1>
           <p className="text-gray-500 text-sm mt-1">Descubra grupos e comunidades de tecnologia no Brasil.</p>
         </div>
+        
       </header>
       
       <main>

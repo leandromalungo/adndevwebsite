@@ -32,112 +32,27 @@ const Navbar: React.FC = () => {
 
         {/* Links Desktop */}
         <div className="hidden lg:flex items-center gap-6 font-bold">
-          <Dropdown
-            title="Áreas dentro da T.I"
-            open={openAreas}
-            setOpen={setOpenAreas}
-            onLinkClick={closeDropdowns}
-          >
-            <Link
-              href="/areas/web-development"
-              onClick={closeDropdowns}
-              className="block px-4 py-3 text-sm hover:bg-white/10 transition"
-            >
-              Web Development
-            </Link>
-            <Link
-              href="/areas/data-science"
-              onClick={closeDropdowns}
-              className="block px-4 py-3 text-sm hover:bg-white/10 transition"
-            >
-              Data Science
-            </Link>
-            <Link
-              href="/areas/cybersecurity"
-              onClick={closeDropdowns}
-              className="block px-4 py-3 text-sm hover:bg-white/10 transition"
-            >
-              Cybersecurity
-            </Link>
-            <Link
-              href="/areas/cloud-computing"
-              onClick={closeDropdowns}
-              className="block px-4 py-3 text-sm hover:bg-white/10 transition"
-            >
-              Cloud Computing
-            </Link>
-            <Link
-              href="/areas/devops"
-              onClick={closeDropdowns}
-              className="block px-4 py-3 text-sm hover:bg-white/10 transition"
-            >
-              DevOps
-            </Link>
-            <Link
-              href="/areas/mobile-development"
-              onClick={closeDropdowns}
-              className="block px-4 py-3 text-sm hover:bg-white/10 transition"
-            >
-              Mobile Development
-            </Link>
-            <Link
-              href="/areas/ai-ml"
-              onClick={closeDropdowns}
-              className="block px-4 py-3 text-sm hover:bg-white/10 transition"
-            >
-              AI & Machine Learning
-            </Link>
-            <Link
-              href="/areas/software-engineering"
-              onClick={closeDropdowns}
-              className="block px-4 py-3 text-sm hover:bg-white/10 transition"
-            >
-              Software Engineering
-            </Link>
-            <Link
-              href="/areas/others"
-              onClick={closeDropdowns}
-              className="block px-4 py-3 text-sm hover:bg-white/10 transition"
-            >
-              Outras áreas
-            </Link>
-          </Dropdown>
-
+          <NavLink label="Blog" href="/roadmaps" onClick={closeDropdowns} />
+          <NavLink label="Road Maps" href="/roadmaps" onClick={closeDropdowns} />
           <NavLink label="Cursos" href="/cursos" onClick={closeDropdowns} />
-          <NavLink label="Ranking" href="/ranking" onClick={closeDropdowns} />
-          <NavLink
-            label="Competições"
-            href="/competicoes"
-            onClick={closeDropdowns}
-          />
-
           <NavLink label="Eventos" href="/Community" onClick={closeDropdowns} />
-          <NavLink
-            label="Comunidades"
-            href="/community"
-            onClick={closeDropdowns}
-          />
-          <NavLink
-            label="Bolsas de estudos"
-            href="/bolsas"
-            onClick={closeDropdowns}
-          />
-          <NavLink label="Startups" href="/startups" onClick={closeDropdowns} />
+          <NavLink label="Guia Startup" href="/startups" onClick={closeDropdowns} />
+          <NavLink label="Ranking" href="/ranking" onClick={closeDropdowns} />
+          <NavLink label="Competições" href="/hackthon" onClick={closeDropdowns} />
+          <NavLink label="Comunidades" href="/community" onClick={closeDropdowns} />
+          <NavLink label="Bolsas de estudo" href="/bolsas" onClick={closeDropdowns} />
         </div>
 
         {/* Ações */}
         <div className="flex items-center gap-3">
-          <Link href="/howknow">
+          <Link href="/quiz">
             <button className="px-5 py-2 text-[13px] font-bold text-gray-50 bg-[#224c54] rounded-xl hover:bg-[#2d646f] transition">
               Qual área é para mim?
             </button>
           </Link>
 
           {/* Botão Mobile */}
-          <button
-            onClick={() => setOpenMenu(!openMenu)}
-            className="lg:hidden p-2 rounded-xl hover:bg-gray-100 transition"
-          >
+          <button onClick={() => setOpenMenu(!openMenu)} className="lg:hidden p-2 rounded-xl hover:bg-gray-100 transition" >
             {openMenu ? (
               <X className="w-6 h-6" />
             ) : (
@@ -154,108 +69,15 @@ const Navbar: React.FC = () => {
         }`}
       >
         <div className="px-6 pb-6 space-y-2 font-bold">
-          <MobileDropdown
-            title="Áreas dentro da T.I"
-            onItemClick={closeMobileMenu}
-          >
-            <Link
-              href="/areas/web-development"
-              onClick={closeMobileMenu}
-              className="block px-4 py-2 text-sm hover:bg-gray-200"
-            >
-              Web Development
-            </Link>
-            <Link
-              href="/areas/data-science"
-              onClick={closeMobileMenu}
-              className="block px-4 py-2 text-sm hover:bg-gray-200"
-            >
-              Data Science
-            </Link>
-            <Link
-              href="/areas/cybersecurity"
-              onClick={closeMobileMenu}
-              className="block px-4 py-2 text-sm hover:bg-gray-200"
-            >
-              Cybersecurity
-            </Link>
-            <Link
-              href="/areas/cloud-computing"
-              onClick={closeMobileMenu}
-              className="block px-4 py-2 text-sm hover:bg-gray-200"
-            >
-              Cloud Computing
-            </Link>
-            <Link
-              href="/areas/devops"
-              onClick={closeMobileMenu}
-              className="block px-4 py-2 text-sm hover:bg-gray-200"
-            >
-              DevOps
-            </Link>
-            <Link
-              href="/areas/mobile-development"
-              onClick={closeMobileMenu}
-              className="block px-4 py-2 text-sm hover:bg-gray-200"
-            >
-              Mobile Development
-            </Link>
-            <Link
-              href="/areas/ai-ml"
-              onClick={closeMobileMenu}
-              className="block px-4 py-2 text-sm hover:bg-gray-200"
-            >
-              AI & Machine Learning
-            </Link>
-            <Link
-              href="/areas/software-engineering"
-              onClick={closeMobileMenu}
-              className="block px-4 py-2 text-sm hover:bg-gray-200"
-            >
-              Software Engineering
-            </Link>
-            <Link
-              href="/areas/others"
-              onClick={closeMobileMenu}
-              className="block px-4 py-2 text-sm hover:bg-gray-200"
-            >
-              Outras áreas
-            </Link>
-          </MobileDropdown>
-
+          <MobileLink label="Blog" href="/blog" onClick={closeMobileMenu} />
+          <MobileLink label="Road Maps" href="/roadmaps" onClick={closeMobileMenu} />
           <MobileLink label="Cursos" href="/cursos" onClick={closeMobileMenu} />
-          <MobileLink
-            label="Ranking"
-            href="/ranking"
-            onClick={closeMobileMenu}
-          />
-          <MobileLink
-            label="Competições"
-            href="/competicoes"
-            onClick={closeMobileMenu}
-          />
-
-          <MobileLink
-            label="Comunidades"
-            href="/community"
-            onClick={closeMobileMenu}
-          />
-
-          <MobileLink
-            label="Eventos"
-            href="/eventos"
-            onClick={closeMobileMenu}
-          />
-          <MobileLink
-            label="Bolsas de estudos"
-            href="/bolsas"
-            onClick={closeMobileMenu}
-          />
-          <MobileLink
-            label="Startups"
-            href="/startups"
-            onClick={closeMobileMenu}
-          />
+          <MobileLink label="Eventos" href="/eventos" onClick={closeMobileMenu} />
+          <MobileLink label="Guia Startup" href="/startups" onClick={closeMobileMenu} />
+          <MobileLink label="Ranking" href="/ranking" onClick={closeMobileMenu} />
+          <MobileLink label="Competições" href="/hackthon" onClick={closeMobileMenu} />
+          <MobileLink label="Comunidades" href="/community" onClick={closeMobileMenu} />
+          <MobileLink label="Bolsas de estudo" href="/bolsas" onClick={closeMobileMenu} />
         </div>
       </div>
     </nav>
@@ -275,13 +97,7 @@ const NavLink = ({
   href: string;
   onClick?: () => void;
 }) => (
-  <Link
-    href={href}
-    onClick={onClick}
-    className="text-[13px] font-medium text-gray-600 hover:text-gray-900 transition"
-  >
-    {label}
-  </Link>
+  <Link href={href} onClick={onClick} className="text-[13px] font-medium text-gray-600 hover:text-gray-900 transition" >{label}</Link>
 );
 
 interface DropdownProps {
@@ -310,16 +126,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, [open]);
 
   return (
-    <div
-      className="relative"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-    >
-      <button className="flex items-center gap-1 text-[13px] font-medium text-gray-600 hover:text-gray-900 transition">
-        {title}
-        <ChevronDown
-          className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}
-        />
+    <div className="relative" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} >
+      <button className="flex items-center gap-1 text-[13px] font-medium text-gray-600 hover:text-gray-900 transition">{title}<ChevronDown className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
 
       {display && (
@@ -351,8 +159,7 @@ const MobileDropdown: React.FC<{
         className="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg"
       >
         {title}
-        <ChevronDown
-          className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}
+        <ChevronDown className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -376,11 +183,5 @@ const MobileLink = ({
   href: string;
   onClick: () => void;
 }) => (
-  <Link
-    href={href}
-    onClick={onClick}
-    className="block px-3 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50"
-  >
-    {label}
-  </Link>
+  <Link href={href} onClick={onClick} className="block px-3 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50">{label}</Link>
 );

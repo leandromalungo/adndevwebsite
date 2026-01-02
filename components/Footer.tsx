@@ -1,9 +1,9 @@
 import React from "react";
 import { Facebook, Twitter, Linkedin, Youtube, Rss, Instagram } from "lucide-react";
 
-const Footer: React.FC = () => {
+const Footer = () => {
   return (
-    <footer className="bg-gray-50 border-t border-gray-200 mt-20">
+    <footer className="bg-gray-50 border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-4 py-12">
         {/* Main Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-600 transition-colors text-sm"
                 >
                   Tecnologia
                 </a>
@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Negócios
                 </a>
@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Saúde
                 </a>
@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Educação
                 </a>
@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Cultura
                 </a>
@@ -56,7 +56,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Mundo
                 </a>
@@ -64,7 +64,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Economia
                 </a>
@@ -75,13 +75,13 @@ const Footer: React.FC = () => {
           {/* Browse by provider */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
-              Parceiros
+              Carreira
             </h3>
             <ul className="space-y-2">
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   LinkedIn Learning
                 </a>
@@ -89,7 +89,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Microsoft Learn
                 </a>
@@ -97,7 +97,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   AWS Training
                 </a>
@@ -105,7 +105,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Google Cloud
                 </a>
@@ -113,7 +113,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Udemy
                 </a>
@@ -121,15 +121,15 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Coursera
+                  Rankhank
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Udacity
                 </a>
@@ -154,49 +154,49 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  MIT
+                  Universidade Catolica
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Stanford
+                  ISPTEC
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Oxford
+                  UAN
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  University of Michigan
+                  UTANGA
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Georgia Tech
+                  ISPAS
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Purdue
+                  UNIVERSIDADE CALANDULA
                 </a>
               </li>
             </ul>
@@ -205,63 +205,39 @@ const Footer: React.FC = () => {
           {/* Browse by institution */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
-              Instituições
+              COMUNIDADES
             </h3>
             <ul className="space-y-2">
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  ONU
+                  GDG Luanda
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  FMI
+                  Open Source Angola
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Banco Mundial
+                  Elas no Code
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  OMS
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
-                >
-                  Linux Foundation
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
-                >
-                  IBM Education
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
-                >
-                  Salesforce
+                  Comunidade de Devs de Angola
                 </a>
               </li>
             </ul>
@@ -270,13 +246,13 @@ const Footer: React.FC = () => {
           {/* Rankings */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
-              Rankings
+              Recursos
             </h3>
             <ul className="space-y-2">
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Melhores do Ano
                 </a>
@@ -284,7 +260,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Mais Lidos de Sempre
                 </a>
@@ -292,7 +268,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Cursos Gratuitos Populares
                 </a>
@@ -300,7 +276,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Edições de Colecionador
                 </a>
@@ -308,7 +284,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Top 100 Artigos
                 </a>
@@ -316,7 +292,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Guias de Carreira
                 </a>
@@ -324,7 +300,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Anuário the news
                 </a>
@@ -338,38 +314,38 @@ const Footer: React.FC = () => {
           {/* The Report */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <span className="italic">A voz do desenvolvedor</span>
+              <span>Tenha informações sobre</span>
               <Rss className="w-4 h-4 text-blue-400" />
             </h3>
             <ul className="space-y-2">
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-gray-900 text-sm transition-colors"
+                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
                 >
-                  O novo normal da tecnologia
+                  Tecnologia
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-gray-900 text-sm transition-colors"
+                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
                 >
-                  Relatório semestral de mercado
+                  Inovação
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-gray-900 text-sm transition-colors"
+                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
                 >
-                  Educação 5.0: O futuro
+                  Insghts
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-gray-900 text-sm transition-colors"
+                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
                 >
                   Guia de certificações gratuitas
                 </a>
@@ -377,7 +353,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-gray-900 text-sm transition-colors"
+                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
                 >
                   Como o mercado se adaptou
                 </a>
@@ -388,13 +364,13 @@ const Footer: React.FC = () => {
           {/* Free Certificates & Courses */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4">
-              Certificados & Cursos
+              Certificados Gratuitos
             </h3>
             <ul className="space-y-2">
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-gray-900 text-sm transition-colors"
+                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
                 >
                   450+ Certificados Google
                 </a>
@@ -402,7 +378,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-gray-900 text-sm transition-colors"
+                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
                 >
                   10000+ Cursos das Big Techs
                 </a>
@@ -410,7 +386,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-gray-900 text-sm transition-colors"
+                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
                 >
                   Cursos Gratuitos Ivy League
                 </a>
@@ -418,7 +394,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-gray-900 text-sm transition-colors"
+                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
                 >
                   Formação em Escrita Online
                 </a>
@@ -426,7 +402,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-gray-900 text-sm transition-colors"
+                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
                 >
                   Especialização em IA
                 </a>
@@ -437,7 +413,7 @@ const Footer: React.FC = () => {
           {/* About Branding */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4">
-              Sobre nós
+              O que fazemos?
             </h3>
             <p className="text-gray-600 text-sm mb-4 leading-relaxed">
               the news agrega o melhor conteúdo do mercado para ajudar você a

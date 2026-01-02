@@ -82,3 +82,52 @@ export interface Community {
   category: string;
   tags: string[];
 }
+
+export interface RoadmapItem {
+  id: string;
+  title: string;
+  isNew?: boolean;
+}
+
+export type Difficulty = 'Beginner' | 'Intermediate' | 'Advanced';
+
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  difficulty: Difficulty;
+  tag: string;
+  startedCount: string;
+}
+export interface NewsItem {
+  id: string;
+  category: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  dateBadge?: string;
+}
+
+export interface HeroProps {
+  items: NewsItem[];
+}
+
+
+export enum AspectRatio {
+  SQUARE = 'aspect-square',
+  LANDSCAPE = 'aspect-video',
+  PORTRAIT = 'aspect-[9/16]',
+  WIDE = 'aspect-[4/3]'
+}
+
+export interface MediaItem {
+  id: string;
+  title: string;
+  subtitle?: string;
+  imageUrl: string;
+  aspectRatio: AspectRatio;
+  width: string; // Tailwind width class
+  label?: string;
+  logo?: string;
+}
+

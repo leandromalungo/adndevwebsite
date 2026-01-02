@@ -1,105 +1,184 @@
-
 "use client";
-import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { MOCK_EDITIONS } from '@/components/newslatter/Constants';
-import { Category } from '../data/types';
-import Navbar from '../components/Navbar';
-import Hero from '@/components/newslatter/Hero';
-import EditionCard from '../components/newslatter/EditionCard';
-import SearchAndFilter from '../components/newslatter/SearchAndFilter';
-import Pagination from '../components/newslatter/Pagination';
-import Newsletter from '../components/newslatter/Newsletter';
-import Footer from '../components/Footer';
 
-const ITEMS_PER_PAGE = 4;
+import React from "react";
 
-const App = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [activeCategory, setActiveCategory] = useState<Category | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const gridStartRef = useRef<HTMLDivElement>(null);
+/* Layout base */
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/home/hero";
+import Faq from "@/components/home/faq-Hero";
+import Footer from "@/components/Footer";
 
-  // Reset to first page when filters change
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm, activeCategory]);
+/* Home sections */
+import { EcosystemHero } from "@/components/home/EcosystemHero";
+import { ServicesSection } from "@/components/home/sectionHero";
+import { LogoCloud } from "@/components/home/logosHero";
 
-  const filteredEditions = useMemo(() => {
+const Page = () => {
+  /* ---------- DADOS ---------- */
 
-    return MOCK_EDITIONS.filter((edition) => {
-      const matchesSearch = edition.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           edition.displayDate.includes(searchTerm);
-      const matchesCategory = activeCategory ? edition.category === activeCategory : true;
-      return matchesSearch && matchesCategory;
-    });
-  }, [searchTerm, activeCategory]);
+  const servicesData = [
+    {
+      id: 1,
+      title: "AngoTic",
+      description:
+        "Create jaw-dropping renders thanks to Cycles, high-end production path tracer.",
+      imageUrl:
+        "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=800&auto=format&fit=crop",
+      link: "#",
+    },
+    {
+      id: 2,
+      title: "DevFest",
+      description:
+        "Sculpting, retopology, modeling, curves. Blender's modeling toolset is extensive.",
+      imageUrl:
+        "https://images.unsplash.com/photo-1633167606207-d840b5070fc2?q=80&w=800&auto=format&fit=crop",
+      link: "#",
+    },
+    {
+      id: 3,
+      title: "Sculpting",
+      description:
+        "Digital sculpting tools provide the power and flexibility required in several stages of the digital production pipeline.",
+      imageUrl:
+        "https://images.unsplash.com/photo-1614728263952-84ea206f99b6?q=80&w=800&auto=format&fit=crop",
+      link: "#",
+    },
+    {
+      id: 4,
+      title: "Animation & Rigging",
+      description:
+        "Designed for animation, Blender is being used for award-winning shorts and feature films.",
+      imageUrl:
+        "https://images.unsplash.com/photo-1635316332717-d2f62776c5b9?q=80&w=800&auto=format&fit=crop",
+      link: "#",
+    },
+    {
+      id: 5,
+      title: "Story Artist",
+      description:
+        "Push the boundaries of Story Art and by drawing in a 3D environment.",
+      imageUrl:
+        "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
+      link: "#",
+    },
+    {
+      id: 6,
+      title: "VFX",
+      description:
+        'From camera and object motion tracking to masking and compositing, you can "fix it in post".',
+      imageUrl:
+        "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
+      link: "#",
+    },
+  ];
 
-  const totalPages = Math.ceil(filteredEditions.length / ITEMS_PER_PAGE);
+  const blogPosts = [
+    {
+      id: 1,
+      date: "4/22/2024",
+      title: "Why TripleTen Grads Have an 87% Chance of Getting Hired",
+      imageUrl:
+        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop",
+    },
+    {
+      id: 2,
+      date: "4/4/2024",
+      title:
+        "Want to Be a Safe Hire? Join a Bootcamp With a Moneyback Guarantee",
+      imageUrl:
+        "https://images.unsplash.com/photo-1517594422361-5eeb8ae275a9?q=80&w=800&auto=format&fit=crop",
+    },
+    {
+      id: 3,
+      date: "4/15/2025",
+      title:
+        "Can I Afford a Bootcamp? All About How to Pay, Financial Aid, and More.",
+      imageUrl:
+        "https://images.unsplash.com/photo-1579621970795-87faff2f9200?q=80&w=800&auto=format&fit=crop",
+    },
+  ];
 
-  const paginatedEditions = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    return filteredEditions.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  }, [filteredEditions, currentPage]);
+  const teamMembers = [
+    {
+      id: 1,
+      name: "Elise",
+      role: "CPO",
+      imageUrl:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop",
+      socials: { instagram: "#", linkedin: "#", facebook: "#" },
+    },
+    {
+      id: 2,
+      name: "Christina",
+      role: "Director of Industry Experiences",
+      imageUrl:
+        "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=400&auto=format&fit=crop",
+      socials: { instagram: "#", linkedin: "#", facebook: "#" },
+    },
+    {
+      id: 3,
+      name: "Mike",
+      role: "Data Science Instructor",
+      imageUrl:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
+      socials: { instagram: "#", linkedin: "#", facebook: "#" },
+    },
+  ];
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    // Usar a ref para rolar a visualização é a abordagem idiomática do React,
-    // evitando a manipulação direta do DOM com getElementById.
-    gridStartRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
+  /* ---------- RENDER ---------- */
 
   return (
     <div className="min-h-screen bg-white selection:bg-yellow-200">
       <Navbar />
-      
-      <Hero />
- 
-      <div ref={gridStartRef} className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 border-t border-gray-100 mt-2 scroll-mt-20">
-        
-        {/* Header section with Search and Filter */}
-        <header className="mb-12">
-          <h2 className="text-3xl text-gray-800 mb-6 uppercase tracking-tight">
-            Feed de notícias
-          </h2>
-          <SearchAndFilter searchTerm={searchTerm} setSearchTerm={setSearchTerm} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
-        </header>
 
-        {/* Main Feed */}
-        <main>
-          {paginatedEditions.length > 0 ? (
-            <div className="space-y-4">
-              {paginatedEditions.map((edition) => (
-                <EditionCard key={edition.id} edition={edition} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-20 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
-              <p className="text-gray-400 text-lg">Nenhuma edição encontrada para sua busca.</p>
-              <button 
-                onClick={() => {setSearchTerm(''); setActiveCategory(null);}}
-                className="mt-4 text-yellow-600 font-bold hover:underline"
-              >
-                Limpar filtros
-              </button>
-            </div>
-          )}
+      {/* ================= HERO SECTION ================= */}
+      <section className="relative min-h-screen w-full bg-black overflow-hidden">
+        {/* Conteúdo do Hero */}
+        <main className="relative z-10">
+          <Hero />
+          <LogoCloud />
         </main>
 
-        {/* Pagination */}
-        <Pagination 
-          currentPage={currentPage} 
-          totalPages={totalPages} 
-          onPageChange={handlePageChange} 
-        />
-      </div>
+        {/* Background isolado APENAS do Hero */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <img
+            src="https://cdn.prod.website-files.com/685be7dcd32275d3830651d3/68f7343a86a7563b64024c01_hp_desktop_a.webp"
+            alt="Hero Background"
+            className="absolute w-full h-full object-cover opacity-60 grayscale-[0.2]"
+          />
 
-      {/* Newsletter Signup at the bottom */}
-      <Newsletter />
+          {/* Overlays */}
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent hidden md:block" />
+        </div>
+      </section>
 
-      {/* Comprehensive Footer */}
+      {/* ================= CONTEÚDO NORMAL ================= */}
+      <section className="relative z-10 bg-[#f7f8f9] flex flex-col items-center py-5 px-4 md:px-10 space-y-24">
+        <div className="w-full max-w-7xl">
+          <ServicesSection services={servicesData} />
+        </div>
+
+        <div className="w-full max-w-7xl">
+          <EcosystemHero
+            title="The Ecosystem"
+            paragraphs={[
+              "Countless communities and thriving businesses are built around Blender.",
+              "Together, these tutorial makers and content creators, add-on developers and global marketplaces form an ever-expanding ecosystem.",
+            ]}
+            ctaText="Find Blender Communities"
+            ctaHref="#"
+          />
+        </div>
+
+      </section>
+
+      <Faq />
       <Footer />
     </div>
   );
 };
 
-export default App;
+export default Page;
