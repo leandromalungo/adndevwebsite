@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-
 /* Layout base */
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/home/hero";
@@ -126,7 +124,7 @@ const Page = () => {
     },
   ];
 
-  /* ---------- RENDER ---------- */
+  /* ---------- RENDERIZAÇÃO ---------- */
 
   return (
     <div className="min-h-screen bg-white selection:bg-yellow-200">
