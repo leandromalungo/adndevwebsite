@@ -1,9 +1,163 @@
-import React from 'react'
+'use client';
 
-export const page = () => {
+import { useState, useMemo } from 'react';
+import { ArrowRight, Loader2 } from 'lucide-react';
+
+import Filters from '@/components/events/Filters';
+import EventCard from '@/components/events/EventCard';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+
+import { MOCK_EVENTS } from '@/components/events/constants';
+import { FilterTab } from '@/data/types';
+
+const App: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [locationQuery, setLocationQuery] = useState('');
+  const [isOnline, setIsOnline] = useState(false);
+  const [activeTab, setActiveTab] = useState<FilterTab>('Upcoming');
+  const [loading, setLoading] = useState(false);
+
+  const handleClick = () => {
+    setLoading(true);
+
+    // simulação de ação (ex: redirecionar ou iniciar quiz)
+    setTimeout(() => {
+      setLoading(false);
+      console.log('Quiz iniciado');
+    }, 1500);
+  };
+
+  const filteredEvents = useMemo(() => {
+    const now = new Date();
+
+    return MOCK_EVENTS.filter(event => {
+      const title = event.title?.toLowerCase() ?? '';
+      const description = event.description?.toLowerCase() ?? '';
+      const location = event.location?.toLowerCase() ?? '';
+
+      const matchesSearch =
+        title.includes(searchQuery.toLowerCase()) ||
+        description.includes(searchQuery.toLowerCase());
+
+      const matchesLocation =
+        location.includes(locationQuery.toLowerCase());
+
+      const matchesOnline =
+        !isOnline || event.isOnline === true;
+
+      const matchesTab =
+        activeTab === 'Upcoming'
+          ? new Date(event.date) >= now
+          : activeTab === 'Past'
+          ? new Date(event.date) < now
+          : true;
+
+      return (
+        matchesSearch &&
+        matchesLocation &&
+        matchesOnline &&
+        matchesTab
+      );
+    });
+  }, [searchQuery, locationQuery, isOnline, activeTab]);
+
+  const clearFilters = () => {
+    setSearchQuery('');
+    setLocationQuery('');
+    setIsOnline(false);
+    setActiveTab('Upcoming');
+  };
+
   return (
-    <div>page</div>
-  )
-}
+    <>
+      <Navbar />
 
-export default page;
+      {/* HERO SECTION */}
+      <section className="relative w-full overflow-hidden bg-zinc-900">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url('/fundo.jpg')` }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
+        </div>
+
+        <div className="relative flex items-center px-8 py-20 md:px-12 md:py-24">
+          <div className="max-w-md">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+              Não sabes qual área ou função combina com suas habilidades?
+            </h2>
+
+            <p className="text-gray-100 mb-6">
+              Faça nosso quiz rápido para descobrir a carreira ideal para você.
+            </p>
+
+            <button
+              onClick={handleClick}
+              disabled={loading}
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all
+                ${loading
+                  ? 'bg-orange-300 cursor-not-allowed text-zinc-800'
+                  : 'bg-orange-400 hover:bg-orange-500 text-white'}
+              `}
+            >
+              {loading ? (
+                <>
+                  <Loader2 size={20} className="animate-spin" />
+                  Processando...
+                </>
+              ) : (
+                <>
+                  Faça o teste e descubra!
+                  <ArrowRight size={20} />
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <div className="min-h-screen bg-[#fcfcfc]">
+        <header className="bg-[#FFF5E5] px-6 py-10 border-b border-orange-100">
+          <h1 className="text-3xl font-extrabold text-[#334155]">
+            ACTUALIZAÇÃO DE EVENTOS SOBRE TECNOLOGIA
+          </h1>
+        </header>
+
+        <main className="max-w-7xl mx-auto px-6 py-10">
+          <Filters
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            locationQuery={locationQuery}
+            setLocationQuery={setLocationQuery}
+            isOnline={isOnline}
+            setIsOnline={setIsOnline}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            clearFilters={clearFilters}
+          />
+
+          <h2 className="text-2xl font-bold my-6">
+            Events ({filteredEvents.length})
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {filteredEvents.map(event => (
+              <EventCard key={event.id} event={event} />
+            ))}
+
+            {filteredEvents.length === 0 && (
+              <p className="col-span-full text-center text-gray-500">
+                No events found.
+              </p>
+            )}
+          </div>
+        </main>
+      </div>
+
+      <Footer />
+    </>
+  );
+};
+
+export default App;

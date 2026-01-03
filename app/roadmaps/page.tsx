@@ -1,12 +1,7 @@
 "use client"; // <- adicione isto no topo do arquivo
 
 import React, { useState } from "react";
-import {
-  ROLE_ROADMAPS,
-  SKILL_ROADMAPS,
-  PROJECT_IDEAS,
-  BEST_PRACTICES,
-} from "@/components/roadmaps/constants";
+import { ROLE_ROADMAPS, SKILL_ROADMAPS, PROJECT_IDEAS, BEST_PRACTICES } from "@/components/roadmaps/constants";
 import { RoadmapCard } from "@/components/roadmaps/RoadmapCard";
 import { RoadmapDetailView } from "@/components/roadmaps/RoadmapDetailView";
 import Navbar from "@/components/Navbar";

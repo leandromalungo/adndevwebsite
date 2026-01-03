@@ -131,3 +131,21 @@ export interface MediaItem {
   logo?: string;
 }
 
+export interface Event {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  timeRange: string;
+  location: string;
+  organizer: string;
+  organizerLogo: string;
+  imageUrl: string;
+  isOnline: boolean;
+  isFree: boolean;
+  tags: string[];
+  day: string;
+  month: string;
+}
+
+export type FilterTab = 'Past' | 'Upcoming' | 'Next 7 days' | 'Next 30 days';

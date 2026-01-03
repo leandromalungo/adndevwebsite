@@ -32,14 +32,13 @@ const Navbar: React.FC = () => {
 
         {/* Links Desktop */}
         <div className="hidden lg:flex items-center gap-6 font-bold">
-          <NavLink label="Blog" href="/roadmaps" onClick={closeDropdowns} />
           <NavLink label="Road Maps" href="/roadmaps" onClick={closeDropdowns} />
-          <NavLink label="Cursos" href="/cursos" onClick={closeDropdowns} />
-          <NavLink label="Eventos" href="/Community" onClick={closeDropdowns} />
+          <NavLink label="Eventos" href="/events" onClick={closeDropdowns} />
           <NavLink label="Guia Startup" href="/startups" onClick={closeDropdowns} />
           <NavLink label="Ranking" href="/ranking" onClick={closeDropdowns} />
           <NavLink label="Competições" href="/hackthon" onClick={closeDropdowns} />
           <NavLink label="Comunidades" href="/community" onClick={closeDropdowns} />
+          <NavLink label="Mulheres na T.I" href="/wtm" onClick={closeDropdowns} />
           <NavLink label="Bolsas de estudo" href="/bolsas" onClick={closeDropdowns} />
         </div>
 
@@ -69,14 +68,13 @@ const Navbar: React.FC = () => {
         }`}
       >
         <div className="px-6 pb-6 space-y-2 font-bold">
-          <MobileLink label="Blog" href="/blog" onClick={closeMobileMenu} />
           <MobileLink label="Road Maps" href="/roadmaps" onClick={closeMobileMenu} />
-          <MobileLink label="Cursos" href="/cursos" onClick={closeMobileMenu} />
-          <MobileLink label="Eventos" href="/eventos" onClick={closeMobileMenu} />
+          <MobileLink label="Eventos" href="/events" onClick={closeMobileMenu} />
           <MobileLink label="Guia Startup" href="/startups" onClick={closeMobileMenu} />
           <MobileLink label="Ranking" href="/ranking" onClick={closeMobileMenu} />
           <MobileLink label="Competições" href="/hackthon" onClick={closeMobileMenu} />
           <MobileLink label="Comunidades" href="/community" onClick={closeMobileMenu} />
+          <MobileLink label="Mulheres na T.I" href="/community" onClick={closeMobileMenu} />
           <MobileLink label="Bolsas de estudo" href="/bolsas" onClick={closeMobileMenu} />
         </div>
       </div>

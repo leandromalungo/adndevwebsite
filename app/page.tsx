@@ -11,6 +11,11 @@ import { EcosystemHero } from "@/components/home/EcosystemHero";
 import { ServicesSection } from "@/components/home/sectionHero";
 import { LogoCloud } from "@/components/home/logosHero";
 
+import VisionSection from '@/components/home/VisionSection';
+import ImpactSection from '@/components/home/ImpactSection';
+import PartnersSection from '@/components/home/PartnersSection';
+import TestimonialsSection from '@/components/home/TestimonialsSection';
+
 const Page = () => {
   /* ---------- DADOS ---------- */
 
@@ -159,6 +164,9 @@ const Page = () => {
           <ServicesSection services={servicesData} />
         </div>
 
+        <ImpactSection />
+        <VisionSection />
+
         <div className="w-full max-w-7xl">
           <EcosystemHero
             title="The Ecosystem"
@@ -172,6 +180,9 @@ const Page = () => {
         </div>
 
       </section>
+      
+      <TestimonialsSection />
+      <PartnersSection />
 
       <Faq />
       <Footer />
