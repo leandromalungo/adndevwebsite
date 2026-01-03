@@ -40,7 +40,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ services,}) =>
               <p className="text-gray-600 text-sm leading-relaxed mb-8 flex-grow">
                 {service.description}
               </p>
-
+            
             </div>
           </div>
         ))}

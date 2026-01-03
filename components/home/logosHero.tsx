@@ -14,7 +14,7 @@ export const LogoCloud = () => {
   ];
 
   return (
-    <div className="relative z-20 w-full px-6 py-4 max-w-[1400px] mx-auto">
+    <div className="relative z-20 w-full px-6 py-18 max-w-[1400px] mx-auto">
       {/* Container justified to center */}
       <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10">
         {/* Label */}

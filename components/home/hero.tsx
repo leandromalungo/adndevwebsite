@@ -1,6 +1,5 @@
 "use client";
 
-import React from 'react';
 import { Tag } from './Tag';
 
 export const Hero = () => {
@@ -13,7 +12,9 @@ export const Hero = () => {
     'Bootcamps',
     'E-books',
     'Workshops',
-    'Eventos',
+    'Eventos', 
+    'Talks',
+  
   ];
 
   return (
