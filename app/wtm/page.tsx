@@ -61,7 +61,7 @@ const App: React.FC = () => {
                   ? "bg-orange-300 cursor-not-allowed text-zinc-800"
                   : "bg-orange-400 hover:bg-orange-500 text-white"
               }`} >
-                    
+                    Cooomece agora!
             </button>
           </div>
         </div>
