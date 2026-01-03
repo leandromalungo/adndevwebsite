@@ -1,3 +1,4 @@
+"use client";
 
 import React from 'react';
 import { CommunityCard } from '@/components/community/CommunityCard';
