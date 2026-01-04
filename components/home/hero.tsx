@@ -12,7 +12,7 @@ export const Hero = () => {
   ];
 
   return (
-    <section className="relative z-10 pt-5 px-6 max-w-7xl mx-auto flex flex-col justify-center min-h-[85vh]">
+    <section className="relative z-10 pt-8 px-6 max-w-7xl mx-auto flex flex-col justify-center min-h-[85vh]">
       <div className="max-w-2xl">
         <h1 className="text-4xl md:text-7xl font-extrabold leading-[1.1] mb-6 tracking-tight text-gray-50"> Ecossistema
           de conteúdo, impulsionado por Tecnologia.
