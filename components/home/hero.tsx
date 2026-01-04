@@ -4,24 +4,18 @@ import { Tag } from './Tag';
 
 export const Hero = () => {
   const tags = [
-    'Intrevistas',
-    'Webinars',
+    'Talks',
     'Artigos',
-    'Tutoriais',
-    'Cursos',
     'Bootcamps',
     'E-books',
-    'Workshops',
-    'Eventos', 
-    'Talks',
-  
+    'Workshops', 
   ];
 
   return (
-    <section className="relative z-10 pt-32 pb-20 px-6 max-w-7xl mx-auto flex flex-col justify-center min-h-[85vh]">
+    <section className="relative z-10 px-6 max-w-7xl mx-auto flex flex-col justify-center min-h-[85vh]">
       <div className="max-w-2xl">
-        <h1 className="text-5xl md:text-7xl font-extrabold leading-[1.1] mb-6 tracking-tight text-gray-50"> Ecossistema
-          <br /> de conteúdo, impulsionado por Tecnologia.
+        <h1 className="text-4xl md:text-7xl font-extrabold leading-[1.1] mb-6 tracking-tight text-gray-50"> Ecossistema
+          de conteúdo, impulsionado por Tecnologia.
         </h1>
         
         <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed max-w-lg">

@@ -1,4 +1,27 @@
 
+// Eventos
+export interface Event {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  timeRange: string;
+  location: string;
+  country: string;
+  organizer: string;
+  organizerLogo: string;
+  imageUrl: string;
+  isOnline: boolean;
+  isFree: boolean;
+  tags: string[];
+  day: string;
+  month: string;
+}
+
+// Filter Tabs
+export type FilterTab = 'Past' | 'Upcoming' | 'Next 7 days' | 'Next 30 days';
+
+// Comentários e edições (para blog/social)
 export interface Comment {
   author: string;
   authorImage: string;
@@ -15,7 +38,6 @@ export interface Edition {
   imageUrl: string;
   category?: string;
   hasLogo?: boolean;
-  // Social/Blog features
   author: string;
   authorImage: string;
   tags: string[];
@@ -25,18 +47,7 @@ export interface Edition {
   topComments?: Comment[];
 }
 
-export type Category = 
-  | "DOMINGO" 
-  | "SEGUNDA" 
-  | "TERÇA" 
-  | "QUARTA" 
-  | "QUINTA" 
-  | "SEXTA" 
-  | "SABADO";
-
-
-  // app/data/types.ts
-
+// Quiz e Carreira
 export type QuizState = 'START' | 'QUIZ' | 'RESULT';
 
 export enum CareerType {
@@ -47,7 +58,6 @@ export enum CareerType {
   UX_UI = "UX_UI",
 }
 
-// Cada opção de pergunta
 export type ScoreWeights = Partial<Record<CareerType, number>>;
 
 export interface QuestionOption {
@@ -57,20 +67,21 @@ export interface QuestionOption {
 }
 
 export interface Question {
-  id: number; // você está usando números nos seus IDs
+  id: number;
   title: string;
   description: string;
   options: QuestionOption[];
 }
 
-// Informações de cada carreira
 export interface CareerInfo {
   type: CareerType;
   title: string;
   description: string;
-  color: string; // tailwind gradient
+  color: string;
   skills: string[];
 }
+
+// Comunidade e Projetos
 export interface Community {
   id: string;
   name: string;
@@ -99,6 +110,8 @@ export interface Project {
   tag: string;
   startedCount: string;
 }
+
+// Notícias e Hero
 export interface NewsItem {
   id: string;
   category: string;
@@ -112,7 +125,7 @@ export interface HeroProps {
   items: NewsItem[];
 }
 
-
+// Mídia
 export enum AspectRatio {
   SQUARE = 'aspect-square',
   LANDSCAPE = 'aspect-video',
@@ -126,26 +139,7 @@ export interface MediaItem {
   subtitle?: string;
   imageUrl: string;
   aspectRatio: AspectRatio;
-  width: string; // Tailwind width class
+  width: string;
   label?: string;
   logo?: string;
 }
-
-export interface Event {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  timeRange: string;
-  location: string;
-  organizer: string;
-  organizerLogo: string;
-  imageUrl: string;
-  isOnline: boolean;
-  isFree: boolean;
-  tags: string[];
-  day: string;
-  month: string;
-}
-
-export type FilterTab = 'Past' | 'Upcoming' | 'Next 7 days' | 'Next 30 days';

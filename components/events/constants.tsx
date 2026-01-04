@@ -1,6 +1,4 @@
-'use client';
-
-import { Event } from '@/data/types';
+import type { Event } from '@/data/types';
 
 export const MOCK_EVENTS: Event[] = [
   {
@@ -10,6 +8,7 @@ export const MOCK_EVENTS: Event[] = [
     date: 'December 20, 2025',
     timeRange: '4:00 PM - 9:00 PM WAT',
     location: 'Cherry Bldg, 715 Barbour Dr, Raleigh, NC 27603, USA',
+    country: 'Angola', 
     organizer: 'BGC Programs Team Admins',
     organizerLogo: 'https://picsum.photos/40/40?random=1',
     imageUrl: 'https://picsum.photos/600/400?random=101',
@@ -21,11 +20,12 @@ export const MOCK_EVENTS: Event[] = [
   },
   {
     id: '2',
-    title: "Santa's AI Workshop: Design Your Dream Product (Ages 14-18)",
+    title: 'Santa\'s AI Workshop: Design Your Dream Product (Ages 14-18)',
     description: 'Explore AI tools and design concepts.',
     date: 'December 19, 2025',
     timeRange: '12:00 AM - 2:00 AM WAT',
     location: 'Online event',
+    country: 'Online',
     organizer: 'BGC Programs Team Admins',
     organizerLogo: 'https://picsum.photos/40/40?random=2',
     imageUrl: 'https://picsum.photos/600/400?random=102',
@@ -42,6 +42,7 @@ export const MOCK_EVENTS: Event[] = [
     date: 'December 17, 2025',
     timeRange: '12:00 AM - 2:00 AM WAT',
     location: 'Online event',
+    country: 'Online',
     organizer: 'BGC Programs Team Admins',
     organizerLogo: 'https://picsum.photos/40/40?random=3',
     imageUrl: 'https://picsum.photos/600/400?random=103',
@@ -58,6 +59,7 @@ export const MOCK_EVENTS: Event[] = [
     date: 'December 13, 2025',
     timeRange: '8:00 PM - 10:00 PM WAT',
     location: '6343 S Halsted St, Chicago, IL 60621, USA',
+    country: 'Brasil', // Presencial em país lusófono
     organizer: 'BGC Programs Team Admins',
     organizerLogo: 'https://picsum.photos/40/40?random=4',
     imageUrl: 'https://picsum.photos/600/400?random=104',
@@ -74,6 +76,7 @@ export const MOCK_EVENTS: Event[] = [
     date: 'December 13, 2025',
     timeRange: '4:00 PM - 7:00 PM WAT',
     location: 'Houston, TX',
+    country: 'Portugal', // Presencial em país lusófono
     organizer: 'BGC Programs Team Admins',
     organizerLogo: 'https://picsum.photos/40/40?random=5',
     imageUrl: 'https://picsum.photos/600/400?random=105',

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { MapPin, Globe, Clock } from 'lucide-react';
-import { Event } from '@/data/types';
+import type { Event } from '@/data/types';
 
 interface EventCardProps {
   event: Event;
@@ -32,12 +32,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
           <span className="text-[10px] text-[#004d79] uppercase font-bold">{event.month}</span>
         </div>
 
-        {/* BGC Logo Badge */}
-        <div className="absolute top-3 right-3 bg-white/20 backdrop-blur-md rounded-lg p-1 border border-white/30">
-           <div className="w-8 h-8 bg-black/80 rounded flex items-center justify-center text-[7px] text-white font-black leading-tight text-center p-1">
-             BLACK GIRLS CODE
-           </div>
-        </div>
+    
       </div>
 
       {/* Content Section */}

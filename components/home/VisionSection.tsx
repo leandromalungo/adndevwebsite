@@ -12,7 +12,7 @@ interface AccordionItemProps {
 
 const AccordionItem: React.FC<AccordionItemProps> = ({ title, content, isOpen, onClick }) => {
   return (
-    <div className="bg-[#FEF3E2] rounded-2xl overflow-hidden mb-4 border border-transparent transition-all duration-300">
+    <div className="bg-[#efefef] rounded-2xl overflow-hidden mb-4 border border-transparent transition-all duration-300">
       <button 
         onClick={onClick}
         className="w-full px-6 py-6 flex items-center justify-between text-left focus:outline-none"
@@ -35,16 +35,16 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, content, isOpen, o
   );
 };
 
-const VisionSection: React.FC = () => {
+const VisionSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const items = [
     {
-      title: "Inspire",
+      title: "Tecnologia",
       content: "Ignite joy and curiosity in learners of all ages by showing them that tech is a space where they belong, where their ideas matter, and where they have the power to build bold, thriving careers."
     },
     {
-      title: "Educate",
+      title: "Educação",
       content: "Provide world-class technical training and mentorship that bridges the gap between curiosity and mastery, ensuring our community is prepared for the demands of the future."
     },
     {
@@ -60,17 +60,12 @@ const VisionSection: React.FC = () => {
         <div className="flex flex-col">
           <span className="text-base font-bold text-[#1e293b] mb-4 uppercase">Nossa visão</span>
           <h2 className="text-4xl sm:text-3xl font-extrabold text-[#1e293b] leading-[1.1] mb-8">
-            Capacitando a próxima geração de líderes de tecnologia para prosperar em tecnologia por meio da criatividade, da confiança e da programação.
+            Tecnologia por meio da criatividade, da confiança e da programação.
           </h2>
           <p className="text-[#475569] text-base text-lg mb-10 leading-relaxed">
             Estamos ampliando o acesso a quem poderá programar o futuro. Ao apoiar a ADN Developer, você investe na próxima geração de inovadores, criadores e líderes. 
             Juntos, estamos reconstruindo um amanhã inclusivo, poderoso e projetado para todos. 
           </p>
-          <div>
-            <button className="bg-[#FF4D00] text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-[#e64500] transition-all shadow-lg shadow-orange-100 hover:scale-105 active:scale-95">
-              Contribute Today
-            </button>
-          </div>
         </div>
 
         {/* Accordion */}

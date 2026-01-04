@@ -108,7 +108,7 @@ const PartnersSection: React.FC = () => {
              Tornece um parceiro da ADN Developer. Para mais informacoes,{" "}
             <a
               href="#"
-              className="text-[#1e293b] font-bold underline hover:text-[#FF4D00] transition-colors"
+              className="text-[#1e293b] font-bold hover:text-[#0062ff] transition-colors"
             >
               Clique aqui.
             </a>

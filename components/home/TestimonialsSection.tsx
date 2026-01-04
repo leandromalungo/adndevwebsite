@@ -34,7 +34,7 @@ const TestimonialsSection: React.FC = () => {
     <section className="py-24 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-20 text-center">
         <div className="mb-12">
-          <h3 className="text-lg font-bold text-[#1e293b] mb-2">Testimonials</h3>
+          <h3 className="text-lg font-bold text-[#1e293b] mb-2">Testemunhos</h3>
           <h2 className="text-4xl sm:text-5xl font-extrabold text-[#1e293b]">
             Hear What The Girls Have To Say
           </h2>
@@ -52,7 +52,7 @@ const TestimonialsSection: React.FC = () => {
               </div>
               
               {/* Orange Bottom Section */}
-              <div className="bg-[#FF4D00] p-6 flex items-center gap-4 text-left">
+              <div className="bg-[#1e293b] p-6 flex items-center gap-4 text-left">
                 <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white/20 shrink-0">
                   <img src={t.avatar} alt="" className="w-full h-full object-cover" />
                 </div>

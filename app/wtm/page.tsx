@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef, useEffect } from "react";
-import { ArrowRight, Loader2 } from "lucide-react";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -61,7 +60,7 @@ const App: React.FC = () => {
                   ? "bg-orange-300 cursor-not-allowed text-zinc-800"
                   : "bg-orange-400 hover:bg-orange-500 text-white"
               }`} >
-                    Cooomece agora!
+              Comece agora!
             </button>
           </div>
         </div>

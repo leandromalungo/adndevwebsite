@@ -22,8 +22,8 @@ const ImpactSection: React.FC = () => {
     <section className="py-24 bg-white border-t border-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-20">
         <div className="mb-16">
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-[#1e293b] mb-6">
-            Our Impact
+          <h2 className="text-4xl sm:text-5xl font-semibold text-[#1e293b] mb-6 uppercase">
+            Nossos alcance
           </h2>
           <p className="text-[#64748b] text-base sm:text-lg max-w-3xl leading-relaxed">
             We're closing the opportunity gap for the next generation of innovators— from elementary school to early career.
@@ -33,7 +33,7 @@ const ImpactSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
           {stats.map((stat, index) => (
             <div key={index} className="flex flex-col">
-              <span className="text-5xl lg:text-6xl font-black text-[#1e293b] mb-4 tracking-tight">
+              <span className="text-3xl lg:text-6xl font-semibold text-[#1e293b] mb-4 tracking-tight">
                 {stat.value}
               </span>
               <p className="text-[#475569] text-sm sm:text-base leading-relaxed">

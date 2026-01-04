@@ -45,7 +45,7 @@ const Navbar: React.FC = () => {
         {/* Ações */}
         <div className="flex items-center gap-3">
           <Link href="/quiz">
-            <button className="px-5 py-2 text-[13px] font-bold text-gray-50 bg-[#224c54] rounded-xl hover:bg-[#2d646f] transition">
+            <button className="px-5 py-2 text-[13px] font-bold text-gray-50 bg-[#2e405c] rounded-xl hover:bg-[#243146] transition">
               Qual área é para mim?
             </button>
           </Link>
@@ -74,7 +74,7 @@ const Navbar: React.FC = () => {
           <MobileLink label="Ranking" href="/ranking" onClick={closeMobileMenu} />
           <MobileLink label="Competições" href="/hackthon" onClick={closeMobileMenu} />
           <MobileLink label="Comunidades" href="/community" onClick={closeMobileMenu} />
-          <MobileLink label="Mulheres na T.I" href="/community" onClick={closeMobileMenu} />
+          <MobileLink label="Mulheres na T.I" href="/wtm" onClick={closeMobileMenu} />
           <MobileLink label="Bolsas de estudo" href="/bolsas" onClick={closeMobileMenu} />
         </div>
       </div>
