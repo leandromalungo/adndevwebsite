@@ -34,8 +34,7 @@ const Navbar: React.FC = () => {
         <div className="hidden lg:flex items-center gap-6 font-bold">
           <NavLink label="Road Maps" href="/roadmaps" onClick={closeDropdowns} />
           <NavLink label="Eventos" href="/events" onClick={closeDropdowns} />
-          <NavLink label="Ranking" href="/ranking" onClick={closeDropdowns} />
-          <NavLink label="Competições" href="/hackthon" onClick={closeDropdowns} />
+          <NavLink label="Competições" href="/comp" onClick={closeDropdowns} />
           <NavLink label="Comunidades" href="/community" onClick={closeDropdowns} />
           <NavLink label="Mulheres na T.I" href="/wtm" onClick={closeDropdowns} />
           <NavLink label="Bolsas de estudo" href="/bolsas" onClick={closeDropdowns} />
@@ -66,8 +65,7 @@ const Navbar: React.FC = () => {
         <div className="px-6 pb-6 space-y-2 font-bold">
           <MobileLink label="Road Maps" href="/roadmaps" onClick={closeMobileMenu} />
           <MobileLink label="Eventos" href="/events" onClick={closeMobileMenu} />
-          <MobileLink label="Ranking" href="/ranking" onClick={closeMobileMenu} />
-          <MobileLink label="Competições" href="/hackthon" onClick={closeMobileMenu} />
+          <MobileLink label="Competições" href="/comp" onClick={closeMobileMenu} />
           <MobileLink label="Comunidades" href="/community" onClick={closeMobileMenu} />
           <MobileLink label="Mulheres na T.I" href="/wtm" onClick={closeMobileMenu} />
           <MobileLink label="Bolsas de estudo" href="/bolsas" onClick={closeMobileMenu} />

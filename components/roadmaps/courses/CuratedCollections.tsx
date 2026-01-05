@@ -1,9 +1,8 @@
 
-import React from 'react';
-import { CollectionCard } from '@/components/courses/CollectionCard';
+import { CollectionCard } from '@/components/roadmaps/courses/CollectionCard';
 import { ChevronRight } from 'lucide-react';
 
-export const CuratedCollections: React.FC = () => {
+export const CuratedCollections = () => {
   return (
     <section className="max-w-7xl mx-auto relative">
       {/* Background Decorative Lines (SVG) */}
@@ -16,7 +15,7 @@ export const CuratedCollections: React.FC = () => {
 
       <div className="relative z-10 text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-extrabold text-[#002D2D]">
-          Browse our popular <span className="text-[#007E7E]">curated collections</span>
+          Navegue pela diversidade de áreas dentro do sector <span className="text-[#007E7E]">tecnologico.</span>
         </h2>
       </div>
 
@@ -160,10 +159,12 @@ export const CuratedCollections: React.FC = () => {
 
       <div className="flex justify-center">
         <button className="flex items-center gap-2 bg-[#B1DBDD] text-[#002D2D] font-bold py-3 px-10 rounded-lg hover:bg-[#9AD2D5] transition-colors shadow-sm group">
-          Browse collections
+          Escolha uma e faça um curso gratuito
           <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </button>
       </div>
     </section>
   );
 };
+
+export default CuratedCollections;

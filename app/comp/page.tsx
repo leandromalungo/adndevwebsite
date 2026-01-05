@@ -1,10 +1,10 @@
 "use client";
 
-import Hero from '@/components/hackthon/Hero';
-import FifaHospitalityBanner from '@/components/hackthon/HospitalityBanner';
-import FifaTournaments from '@/components/hackthon/Tournaments';
-import FifaInfoSection from '@/components/hackthon/InfoSection';
-import FifaRecentEvents from '@/components/hackthon/RecentEvents';
+import Hero from '@/components/comp/Hero';
+import FifaHospitalityBanner from '@/components/comp/HospitalityBanner';
+import FifaTournaments from '@/components/comp/Tournaments';
+import FifaInfoSection from '@/components/comp/InfoSection';
+import FifaRecentEvents from '@/components/comp/RecentEvents';
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 

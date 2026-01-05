@@ -1,11 +1,12 @@
 "use client"; // <- adicione isto no topo do arquivo
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { ROLE_ROADMAPS, SKILL_ROADMAPS, PROJECT_IDEAS, BEST_PRACTICES } from "@/components/roadmaps/constants";
 import { RoadmapCard } from "@/components/roadmaps/RoadmapCard";
 import { RoadmapDetailView } from "@/components/roadmaps/RoadmapDetailView";
 import Navbar from "@/components/Navbar";
 import { RoadmapItem } from "@/data/types";
+import  Footer  from '@/components/Footer';
 
 // ... resto do código
 
@@ -143,13 +144,8 @@ const Page = () => {
           </div>
         </section>
 
-        {/* Footer info */}
-        <footer className="pt-8 border-t border-slate-200 text-center pb-12">
-          <p className="text-slate-400 text-sm">
-            Roadmaps updated weekly based on industry trends and community
-            feedback.
-          </p>
-        </footer>
+        {/* Footer */}
+       <Footer />
       </div>
     </div>
     </>
