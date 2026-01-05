@@ -39,16 +39,6 @@ const FifaInfoSection: React.FC = () => {
           </svg>
         </div>
         
-        {/* Subtle branding or caption overlay if needed */}
-        <div className="absolute bottom-6 right-6">
-           <div className="bg-[#001b33] p-3 rounded-full shadow-lg">
-             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-6 h-6">
-               <path d="M11.644 1.59a.75.75 0 01.712 0l9.75 5.25a.75.75 0 010 1.32l-9.75 5.25a.75.75 0 01-.712 0l-9.75-5.25a.75.75 0 010-1.32l9.75-5.25z" />
-               <path d="M3.265 10.602l7.667 4.13a2.25 2.25 0 002.136 0l7.667-4.13a.75.75 0 01.702 1.322l-7.665 4.13a3.75 3.75 0 01-3.564 0l-7.665-4.13a.75.75 0 01.702-1.322z" />
-               <path d="M3.265 14.352l7.667 4.13a2.25 2.25 0 002.136 0l7.667-4.13a.75.75 0 01.702 1.322l-7.665 4.13a3.75 3.75 0 01-3.564 0l-7.665-4.13a.75.75 0 01.702-1.322z" />
-             </svg>
-           </div>
-        </div>
       </div>
     </section>
   );

@@ -1,4 +1,4 @@
-
+""
 import React from 'react';
 
 const FifaHospitalityBanner: React.FC = () => {
@@ -8,14 +8,8 @@ const FifaHospitalityBanner: React.FC = () => {
       <div className="flex-shrink-0">
         <div className="w-20 h-24 bg-white/5 rounded flex items-center justify-center overflow-hidden">
           {/* Using a placeholder that mimics the 2026 logo structure */}
-          <img 
-            src="https://upload.wikimedia.org/wikipedia/pt/d/d1/2026_FIFA_World_Cup_logo.svg" 
-            alt="FIFA 26 Logo" 
-            className="w-16 h-auto invert"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = "https://www.fifa.com/static-assets/fifacom-logo.png";
-            }}
-          />
+          <img src="..." alt="logo" className="w-16 h-auto invert"
+           onError={(e) => { (e.target as HTMLImageElement).src = "..."; }} />
         </div>
       </div>
 

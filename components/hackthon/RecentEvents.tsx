@@ -35,7 +35,7 @@ const RECENT_EVENTS: RecentEvent[] = [
   }
 ];
 
-const FifaRecentEvents: React.FC = () => {
+const FifaRecentEvents = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -102,11 +102,6 @@ const FifaRecentEvents: React.FC = () => {
               <button className="bg-white text-[#001b33] px-8 py-3 rounded-full font-bold text-sm hover:bg-gray-100 transition-colors shadow-lg active:scale-95">
                 Relembre
               </button>
-            </div>
-            
-            {/* Background "CHAMPIONS" text effect (simulated) */}
-            <div className="absolute bottom-4 left-0 w-full text-center pointer-events-none opacity-10 select-none">
-                <span className="text-[120px] font-black text-white italic tracking-tighter">CHAMPIONS</span>
             </div>
           </div>
         ))}

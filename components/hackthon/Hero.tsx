@@ -1,3 +1,4 @@
+"use client"
 
 import React, { useState, useEffect } from 'react';
 import { HeroProps } from '@/data/types';
@@ -39,17 +40,8 @@ const FifaHero: React.FC<HeroProps> = ({ items }) => {
         {/* Background Layers for Images - Cross-fade transition */}
         <div className="absolute inset-0 lg:col-start-1 lg:col-end-11 z-0 overflow-hidden">
           {items.map((item, index) => (
-            <div
-              key={`img-${item.id}`}
-              className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
-                index === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
-              }`}
-            >
-              <img 
-                src={item.imageUrl} 
-                alt={item.title}
-                className="w-full h-full object-cover"
-              />
+            <div key={`img-${item.id}`} className={`absolute inset-0 transition-all duration-1000 ease-in-out ${ index === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105' }`} >
+              <img src={item.imageUrl} className="w-full h-full object-cover" />
               {/* Gradient Overlay for Text Readability */}
               <div className="absolute inset-0 bg-gradient-to-r from-[#002e54] via-[#002e54]/60 to-transparent"></div>
             </div>
@@ -59,14 +51,11 @@ const FifaHero: React.FC<HeroProps> = ({ items }) => {
         {/* Left Side: Content Overlays with slide-up animation */}
         <div className="lg:col-span-5 p-8 md:p-12 lg:p-16 flex flex-col justify-center z-10 relative pointer-events-none">
           {items.map((item, index) => (
-            <div
-              key={`content-${item.id}`}
-              className={`absolute inset-x-8 md:inset-x-12 lg:inset-x-16 transition-all duration-1000 ease-out flex flex-col space-y-6 ${
+            <div key={`content-${item.id}`} className={`absolute inset-x-8 md:inset-x-12 lg:inset-x-16 transition-all duration-1000 ease-out flex flex-col space-y-6 ${
                 index === currentIndex 
                   ? 'opacity-100 translate-y-0 pointer-events-auto' 
-                  : 'opacity-0 translate-y-8 pointer-events-none'
-              }`}
-            >
+                  : 'opacity-0 translate-y-8 pointer-events-none' }`} >
+
               <div className="space-y-4">
                 <h3 className="text-sm font-semibold tracking-wider uppercase text-white/80">
                   {item.category}

@@ -1,14 +1,12 @@
 "use client";
 
-import React from 'react';
-import FifaHero from '@/components/hackthon/Hero';
+import Hero from '@/components/hackthon/Hero';
 import FifaHospitalityBanner from '@/components/hackthon/HospitalityBanner';
 import FifaTournaments from '@/components/hackthon/Tournaments';
 import FifaInfoSection from '@/components/hackthon/InfoSection';
 import FifaRecentEvents from '@/components/hackthon/RecentEvents';
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
-import heroImg from "@/public/heriImg.jpg";
 
 import { NewsItem } from '@/data/types';
 
@@ -50,13 +48,11 @@ const App = () => {
             <h1 className="text-2xl font-black text-gray-900 tracking-tighter uppercase">Descubra as melhores competições.</h1>
             <p className="text-gray-500 text-xs font-medium uppercase tracking-widest">Portal Oficial de Notícias</p>
           </div>
-          <div className="hidden md:block">
-          
-          </div>
+      
         </header>
         
         {/* Main News Slider */}
-        <FifaHero items={MOCK_NEWS} />
+        <Hero items={MOCK_NEWS} />
         
         {/* Hospitality Banner */}
         <div className="mt-8">
