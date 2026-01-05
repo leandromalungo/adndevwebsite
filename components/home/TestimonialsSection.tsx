@@ -14,18 +14,20 @@ const TestimonialsSection: React.FC = () => {
   const testimonials: Testimonial[] = [
     {
       text: "Great group, amazing energy, and I was able to receive so much help and assistance in the areas I need help in. I really enjoyed it here!",
-      name: "Raleigh-Durham",
-      role: "Workshop student, Unreal Game Create",
+      name: "Filipe Mafuila",
+      role: "Desenvolvedor Front-end, de Angola.",
       avatar: "https://picsum.photos/100/100?random=11"
     },
     {
       text: "I liked that the workshop was concise while still showing us a full tour and a full description of classes including example projects. I like the connection between music and technology and will consider it in the future.",
-      role: "Workshop student, NYU BGC New York",
+      name: "Francisco Diakomas",
+      role: "Programador, de Moçambique.",
       avatar: "https://picsum.photos/100/100?random=12"
     },
     {
       text: "Attending AfroTech was a transformative experience that reinforced the power of representation and community in tech. The connections and insights I gained have sharpened my focus on using technology to drive meaningful impact.",
-      role: "AfroTech conference scholarship recipient",
+      name: "Bernardo Manuel",
+      role: "Desenvolvedor Back-end, do Brasil.",
       avatar: "https://picsum.photos/100/100?random=13"
     }
   ];
@@ -35,8 +37,8 @@ const TestimonialsSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-20 text-center">
         <div className="mb-12">
           <h3 className="text-lg font-bold text-[#1e293b] mb-2">Testemunhos</h3>
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-[#1e293b]">
-            Hear What The Girls Have To Say
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-[#1e293b] uppercase opacity-40">
+            Somos a voz dos estudantes de T.I.
           </h2>
         </div>
 

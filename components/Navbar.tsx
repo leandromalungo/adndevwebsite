@@ -1,7 +1,7 @@
+import { ChevronDown, Menu, X } from "lucide-react";
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown, Menu, X } from "lucide-react";
 import logo from "@/public/images/logo-cafe.png";
 
 /* -------------------- NAVBAR -------------------- */
@@ -34,12 +34,12 @@ const Navbar: React.FC = () => {
         <div className="hidden lg:flex items-center gap-6 font-bold">
           <NavLink label="Road Maps" href="/roadmaps" onClick={closeDropdowns} />
           <NavLink label="Eventos" href="/events" onClick={closeDropdowns} />
-          <NavLink label="Guia Startup" href="/startups" onClick={closeDropdowns} />
           <NavLink label="Ranking" href="/ranking" onClick={closeDropdowns} />
           <NavLink label="Competições" href="/hackthon" onClick={closeDropdowns} />
           <NavLink label="Comunidades" href="/community" onClick={closeDropdowns} />
           <NavLink label="Mulheres na T.I" href="/wtm" onClick={closeDropdowns} />
           <NavLink label="Bolsas de estudo" href="/bolsas" onClick={closeDropdowns} />
+          <NavLink label="Guia Startup" href="/startups" onClick={closeDropdowns} />
         </div>
 
         {/* Ações */}
@@ -52,30 +52,26 @@ const Navbar: React.FC = () => {
 
           {/* Botão Mobile */}
           <button onClick={() => setOpenMenu(!openMenu)} className="lg:hidden p-2 rounded-xl hover:bg-gray-100 transition" >
-            {openMenu ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
+            {openMenu ? ( <X className="w-6 h-6" /> ) 
+            : 
+            ( <Menu className="w-6 h-6" /> )
+            }
           </button>
         </div>
       </div>
 
       {/* -------------------- MENU MOBILE -------------------- */}
       <div
-        className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          openMenu ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
+        className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${ openMenu ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0" }`} >
         <div className="px-6 pb-6 space-y-2 font-bold">
           <MobileLink label="Road Maps" href="/roadmaps" onClick={closeMobileMenu} />
           <MobileLink label="Eventos" href="/events" onClick={closeMobileMenu} />
-          <MobileLink label="Guia Startup" href="/startups" onClick={closeMobileMenu} />
           <MobileLink label="Ranking" href="/ranking" onClick={closeMobileMenu} />
           <MobileLink label="Competições" href="/hackthon" onClick={closeMobileMenu} />
           <MobileLink label="Comunidades" href="/community" onClick={closeMobileMenu} />
           <MobileLink label="Mulheres na T.I" href="/wtm" onClick={closeMobileMenu} />
           <MobileLink label="Bolsas de estudo" href="/bolsas" onClick={closeMobileMenu} />
+          <MobileLink label="Guia Startup" href="/startups" onClick={closeMobileMenu} />
         </div>
       </div>
     </nav>

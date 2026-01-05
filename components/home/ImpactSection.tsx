@@ -1,20 +1,18 @@
 "use client";
 
-import React from 'react';
-
-const ImpactSection: React.FC = () => {
+const ImpactSection = () => {
   const stats = [
     {
-      value: "40,000",
-      description: "Learners reached through live and virtual workshops since 2011."
+      value: "+ 500 Mil",
+      description: "A soma das nossas taxas de visualizações nas redes sociais passam as espectativas mensais."
     },
     {
-      value: "4,766",
-      description: "Learners took part in our programs in 2024, driving a 47% year-over-year growth and expanding access to tech across communities."
+      value: "1000",
+      description: "Já contamos com mil inscrito na nossa plataforma."
     },
     {
-      value: "8M+",
-      description: "Global learners viewed our digital content, with 100k subscribers and counting."
+      value: "2",
+      description: "Contamos com dois projectos já implementados."
     }
   ];
 
@@ -33,7 +31,7 @@ const ImpactSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
           {stats.map((stat, index) => (
             <div key={index} className="flex flex-col">
-              <span className="text-3xl lg:text-6xl font-semibold text-[#1e293b] mb-4 tracking-tight">
+              <span className="text-3xl lg:text-5xl font-semibold text-[#1e293b] mb-4 tracking-tight">
                 {stat.value}
               </span>
               <p className="text-[#475569] text-sm sm:text-base leading-relaxed">
