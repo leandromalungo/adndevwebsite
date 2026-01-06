@@ -47,40 +47,6 @@ export interface Edition {
   topComments?: Comment[];
 }
 
-// Quiz e Carreira
-export type QuizState = 'START' | 'QUIZ' | 'RESULT';
-
-export enum CareerType {
-  FRONTEND = "FRONTEND",
-  BACKEND = "BACKEND",
-  DATA_IA = "DATA_IA",
-  PRODUCT = "PRODUCT",
-  UX_UI = "UX_UI",
-}
-
-export type ScoreWeights = Partial<Record<CareerType, number>>;
-
-export interface QuestionOption {
-  id: string;
-  text: string;
-  weights: ScoreWeights;
-}
-
-export interface Question {
-  id: number;
-  title: string;
-  description: string;
-  options: QuestionOption[];
-}
-
-export interface CareerInfo {
-  type: CareerType;
-  title: string;
-  description: string;
-  color: string;
-  skills: string[];
-}
-
 // Comunidade e Projetos
 export interface Community {
   id: string;
@@ -100,7 +66,7 @@ export interface RoadmapItem {
   isNew?: boolean;
 }
 
-export type Difficulty = 'Beginner' | 'Intermediate' | 'Advanced';
+export type Difficulty = 'Junior' | 'Pleno' | 'Senior';
 
 export interface Project {
   id: string;

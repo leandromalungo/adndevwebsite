@@ -97,13 +97,6 @@ export const RoadmapCard: React.FC<RoadmapCardProps> = ({ item }) => {
             {item.title}
           </h3>
         </div>
-
-        {item.isNew && (
-          <div className="flex items-center gap-1.5 mt-0.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
-            <span className="text-[11px] font-bold text-purple-600">New</span>
-          </div>
-        )}
       </div>
 
       {/* Subtle chevron for better affordance */}

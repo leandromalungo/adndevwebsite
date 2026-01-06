@@ -77,7 +77,7 @@ const App: React.FC = () => {
       <section className="relative w-full overflow-hidden bg-zinc-900">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/fundo.jpg')` }}
+          style={{ backgroundImage: `url('/fundo_1.jpg')` }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
         </div>

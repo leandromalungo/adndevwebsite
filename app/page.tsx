@@ -78,59 +78,6 @@ const Page = () => {
     },
   ];
 
-  const blogPosts = [
-    {
-      id: 1,
-      date: "4/22/2024",
-      title: "Why TripleTen Grads Have an 87% Chance of Getting Hired",
-      imageUrl:
-        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop",
-    },
-    {
-      id: 2,
-      date: "4/4/2024",
-      title:
-        "Want to Be a Safe Hire? Join a Bootcamp With a Moneyback Guarantee",
-      imageUrl:
-        "https://images.unsplash.com/photo-1517594422361-5eeb8ae275a9?q=80&w=800&auto=format&fit=crop",
-    },
-    {
-      id: 3,
-      date: "4/15/2025",
-      title:
-        "Can I Afford a Bootcamp? All About How to Pay, Financial Aid, and More.",
-      imageUrl:
-        "https://images.unsplash.com/photo-1579621970795-87faff2f9200?q=80&w=800&auto=format&fit=crop",
-    },
-  ];
-
-  const teamMembers = [
-    {
-      id: 1,
-      name: "Elise",
-      role: "CPO",
-      imageUrl:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop",
-      socials: { instagram: "#", linkedin: "#", facebook: "#" },
-    },
-    {
-      id: 2,
-      name: "Christina",
-      role: "Director of Industry Experiences",
-      imageUrl:
-        "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=400&auto=format&fit=crop",
-      socials: { instagram: "#", linkedin: "#", facebook: "#" },
-    },
-    {
-      id: 3,
-      name: "Mike",
-      role: "Data Science Instructor",
-      imageUrl:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
-      socials: { instagram: "#", linkedin: "#", facebook: "#" },
-    },
-  ];
-
   /* ---------- RENDERIZAÇÃO ---------- */
 
   return (
