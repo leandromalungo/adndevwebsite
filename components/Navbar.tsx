@@ -9,36 +9,30 @@ import logo from "@/public/images/logo-cafe.png";
 const Navbar: React.FC = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const [openAreas, setOpenAreas] = useState(false);
-  const [openComunidades, setOpenComunidades] = useState(false);
 
   const closeMobileMenu = () => {
     setOpenMenu(false);
     setOpenAreas(false);
-    setOpenComunidades(false);
   };
 
-  const closeDropdowns = () => {
-    setOpenAreas(false);
-    setOpenComunidades(false);
-  };
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-100">
       <div className="flex items-center justify-between px-6 py-4">
         {/* Logo */}
-        <Link href="/" onClick={closeDropdowns}>
+        <Link href="/">
             <Image src={logo} alt="Logo" className="w-10 h-10 cursor-pointer" />
         </Link>
 
         {/* Links Desktop */}
         <div className="hidden lg:flex items-center gap-6 font-bold">
-          <NavLink label="Road Maps" href="/roadmaps" onClick={closeDropdowns} />
-          <NavLink label="Eventos" href="/events" onClick={closeDropdowns} />
-          <NavLink label="Competições" href="/comp" onClick={closeDropdowns} />
-          <NavLink label="Comunidades" href="/community" onClick={closeDropdowns} />
-          <NavLink label="Mulheres na T.I" href="/wtm" onClick={closeDropdowns} />
-          <NavLink label="Bolsas de estudo" href="/bolsas" onClick={closeDropdowns} />
-          <NavLink label="Guia Startup" href="/startups" onClick={closeDropdowns} />
+          <NavLink label="Road Maps" href="/roadmaps" />
+          <NavLink label="Eventos" href="/events" />
+          <NavLink label="Competições" href="/comp" />
+          <NavLink label="Comunidades" href="/community" />
+          <NavLink label="Mulheres na T.I" href="/wtm" />
+          <NavLink label="Bolsas de estudo" href="/bolsas" />
+          <NavLink label="Guia Startup" href="/startups" />
         </div>
 
         {/* Ações */}
@@ -91,51 +85,6 @@ const NavLink = ({
 }) => (
   <Link href={href} onClick={onClick} className="text-[13px] font-medium text-gray-600 hover:text-gray-900 transition" >{label}</Link>
 );
-
-interface DropdownProps {
-  title: string;
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  onLinkClick?: () => void;
-  children: React.ReactNode;
-}
-
-const Dropdown: React.FC<DropdownProps> = ({
-  title,
-  open,
-  setOpen,
-  onLinkClick,
-  children,
-}) => {
-  const [display, setDisplay] = useState(open);
-
-  React.useEffect(() => {
-    if (open) setDisplay(true);
-    else {
-      const timeout = setTimeout(() => setDisplay(false), 300);
-      return () => clearTimeout(timeout);
-    }
-  }, [open]);
-
-  return (
-    <div className="relative" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} >
-      <button className="flex items-center gap-1 text-[13px] font-medium text-gray-600 hover:text-gray-900 transition">{title}<ChevronDown className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`} />
-      </button>
-
-      {display && (
-        <div
-          className={`absolute top-full left-0 pt-3 z-50 transition-all duration-300 ${
-            open ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
-          }`}
-        >
-          <div className="w-56 bg-black text-white rounded-xl shadow-lg overflow-hidden">
-            {children}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
 
 const MobileDropdown: React.FC<{
   title: string;
