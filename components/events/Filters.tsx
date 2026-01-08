@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { MapPin, X } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { FilterTab } from '@/data/types';
 
 interface FiltersProps {
@@ -27,7 +27,15 @@ const Filters: React.FC<FiltersProps> = ({
   setActiveTab,
   clearFilters
 }) => {
-  const tabs: FilterTab[] = ['Angola', 'Brasil', 'Moçambique', 'Portugal', 'São Tomé e Principe', 'Guíne-Bissau', 'Cabo-Verde'];
+  const tabs: FilterTab[] = [
+    'Angola', 
+    'Brasil', 
+    'Moçambique', 
+    'Portugal', 
+    'São Tomé e Principe', 
+    'Guiné-Bissau', 
+    'Cabo-Verde'
+  ];
 
   return (
     <div className="space-y-6">
@@ -54,7 +62,13 @@ const Filters: React.FC<FiltersProps> = ({
             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
               <MapPin className="w-5 h-5" />
             </div>
-            <input type="text" placeholder="Digite sua localização" className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004d79] focus:border-transparent outline-none text-sm bg-white" value={locationQuery} onChange={(e) => setLocationQuery(e.target.value)} />
+            <input 
+              type="text" 
+              placeholder="Digite sua localização" 
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004d79] focus:border-transparent outline-none text-sm bg-white" 
+              value={locationQuery} 
+              onChange={(e) => setLocationQuery(e.target.value)} 
+            />
           </div>
         </div>
 
@@ -63,16 +77,20 @@ const Filters: React.FC<FiltersProps> = ({
           <div className="flex items-center h-[50px]">
             <label className="flex items-center cursor-pointer gap-2 select-none group">
               <div className="relative">
-                <input type="checkbox" className="sr-only peer" checked={isOnline} onChange={() => setIsOnline(!isOnline)} />
-
+                <input 
+                  type="checkbox" 
+                  className="sr-only peer" 
+                  checked={isOnline} 
+                  onChange={() => setIsOnline(!isOnline)} 
+                />
                 <div className="w-6 h-6 border-2 border-gray-300 rounded-md peer-checked:bg-[#004d79] peer-checked:border-[#004d79] transition-colors"></div>
                 {isOnline && (
                   <div className="absolute inset-0 flex items-center justify-center text-white">
                     <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
-                  </div> )}
+                  </div> 
+                )}
               </div>
-              
-              <span className="text-sm text-gray-700 font-medium">Eventos Online </span>
+              <span className="text-sm text-gray-700 font-medium">Eventos Online</span>
             </label>
           </div>
 
