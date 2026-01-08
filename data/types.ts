@@ -19,7 +19,7 @@ export interface Event {
 }
 
 // Filter Tabs
-export type FilterTab = 'Past' | 'Upcoming' | 'Next 7 days' | 'Next 30 days';
+export type FilterTab = 'Angola' | 'Brasil' | 'Moçambique' | 'São Tome e Principe';
 
 // Comentários e edições (para blog/social)
 export interface Comment {

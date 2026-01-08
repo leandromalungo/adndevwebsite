@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { ArrowRight, Loader2 } from 'lucide-react';
+import { useState, useMemo, useRef } from 'react';
+import { Loader2 } from 'lucide-react';
 
 import Filters from '@/components/events/Filters';
 import EventCard from '@/components/events/EventCard';
@@ -12,12 +12,17 @@ import { MOCK_EVENTS } from '@/components/events/constants';
 import { FilterTab } from '@/data/types';
 
 const App: React.FC = () => {
+  // --- REFERÊNCIA DO VÍDEO ---
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // --- ESTADOS ---
   const [searchQuery, setSearchQuery] = useState('');
   const [locationQuery, setLocationQuery] = useState('');
   const [isOnline, setIsOnline] = useState(false);
-  const [activeTab, setActiveTab] = useState<FilterTab>('Upcoming');
+  const [activeTab, setActiveTab] = useState<FilterTab>('Angola');
   const [loading, setLoading] = useState(false);
 
+  // --- MANIPULADOR DE CLIQUE ---
   const handleClick = () => {
     setLoading(true);
 
@@ -28,6 +33,7 @@ const App: React.FC = () => {
     }, 1500);
   };
 
+  // --- FILTRAGEM DE EVENTOS ---
   const filteredEvents = useMemo(() => {
     const now = new Date();
 
@@ -40,66 +46,69 @@ const App: React.FC = () => {
         title.includes(searchQuery.toLowerCase()) ||
         description.includes(searchQuery.toLowerCase());
 
-      const matchesLocation =
-        location.includes(locationQuery.toLowerCase());
+      const matchesLocation = location.includes(locationQuery.toLowerCase());
 
-      const matchesOnline =
-        !isOnline || event.isOnline === true;
+      const matchesOnline = !isOnline || event.isOnline === true;
 
       const matchesTab =
-        activeTab === 'Upcoming'
+        activeTab === 'Angola'
           ? new Date(event.date) >= now
-          : activeTab === 'Past'
+          : activeTab === 'Brasil'
           ? new Date(event.date) < now
           : true;
 
-      return (
-        matchesSearch &&
-        matchesLocation &&
-        matchesOnline &&
-        matchesTab
-      );
+      return matchesSearch && matchesLocation && matchesOnline && matchesTab;
     });
   }, [searchQuery, locationQuery, isOnline, activeTab]);
 
+  // --- LIMPAR FILTROS ---
   const clearFilters = () => {
     setSearchQuery('');
     setLocationQuery('');
     setIsOnline(false);
-    setActiveTab('Upcoming');
+    setActiveTab('Angola');
   };
 
   return (
     <>
       <Navbar />
 
-      {/* HERO SECTION */}
+      {/* SEÇÃO DO VÍDEO HERO */}
       <section className="relative w-full overflow-hidden bg-zinc-900">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/fundo_1.jpg')` }}
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
-        </div>
+          <source src="/videos/video.mp4" type="video/mp4" />
+          Seu navegador não suporta vídeo em HTML5.
+        </video>
 
-        <div className="relative flex items-center px-8 py-20 md:px-12 md:py-24">
+        <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
+
+        <div className="relative z-10 flex items-center px-8 py-20 md:px-12 md:py-24">
           <div className="max-w-md">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
-              Não sabes qual área ou função combina com suas habilidades?
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 leading-tight">
+              O maior repositório de eventos de tecnologia da lusofonia.
             </h2>
 
             <p className="text-gray-100 mb-6">
-              Faça nosso quiz rápido para descobrir a carreira ideal para você.
+              Descubra eventos imperdíveis, conecte-se com profissionais e
+              impulsione sua carreira tech.
             </p>
 
             <button
               onClick={handleClick}
               disabled={loading}
-              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all
-                ${loading
-                  ? 'bg-orange-300 cursor-not-allowed text-zinc-800'
-                  : 'bg-orange-400 hover:bg-orange-500 text-white'}
-              `}
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all duration-200 active:scale-95 ${
+                loading
+                  ? "bg-orange-300 cursor-not-allowed text-zinc-800"
+                  : "bg-orange-400 hover:bg-orange-500 text-white"
+              }`}
             >
               {loading ? (
                 <>
@@ -107,24 +116,16 @@ const App: React.FC = () => {
                   Processando...
                 </>
               ) : (
-                <>
-                  Faça o teste e descubra!
-                  <ArrowRight size={20} />
-                </>
+                '< Acessar agora! />'
               )}
             </button>
           </div>
         </div>
       </section>
 
+      {/* LISTAGEM DE EVENTOS */}
       <div className="min-h-screen bg-[#fcfcfc]">
-        <header className="bg-[#FFF5E5] px-6 py-10 border-b border-orange-100">
-          <h1 className="text-3xl font-extrabold text-[#334155]">
-            ACTUALIZAÇÃO DE EVENTOS SOBRE TECNOLOGIA
-          </h1>
-        </header>
-
-        <main className="max-w-7xl mx-auto px-6 py-10">
+        <main className="max-w-7xl mx-auto px-6 py-10 rounded-lg">
           <Filters
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}

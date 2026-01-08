@@ -1,17 +1,16 @@
 "use client";
 
-import React from 'react';
-
 export const LogoCloud = () => {
   const logos = [
-    { name: 'Spotify', url: 'https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg' },
-    { name: 'Microsoft', url: 'https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg' },
-    { name: 'Netflix', url: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg' },
-    { name: 'Marvel', url: 'https://upload.wikimedia.org/wikipedia/commons/b/b9/Marvel_Logo.svg' },
-    { name: 'HubSpot', url: 'https://upload.wikimedia.org/wikipedia/commons/c/c4/HubSpot_Logo.svg' },
-    { name: 'New York Times', url: 'https://upload.wikimedia.org/wikipedia/commons/7/77/The_New_York_Times_logo_white.svg' },
-    { name: 'TED', url: 'https://upload.wikimedia.org/wikipedia/commons/a/aa/TED_logo.svg' },
-    { name: 'The Economist', url: 'https://upload.wikimedia.org/wikipedia/commons/6/65/The_Economist_logo.svg' },
+    { name: 'JavaScript', url: '../../public/images/1.png' },
+    { name: 'Linux', url: '../../public/images/' },
+    { name: 'Docker', url: '../../public/images/' },
+    { name: 'C#', url: '../../public/images/' },
+    { name: 'Java', url: '../../public/images/' },
+    { name: 'GitHub', url: '../../public/images/' },
+    { name: 'Php', url: '../../public/images/' },
+    { name: 'html5', url: '../../public/images/' },
+    { name: 'Css3', url: '../../public/images/' },
   ];
 
   return (

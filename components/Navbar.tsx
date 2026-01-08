@@ -2,7 +2,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "@/public/images/logo-cafe.png";
+import logo from "@/public/images/logos/logo-cafe.png";
 
 /* -------------------- NAVBAR -------------------- */
 
@@ -33,6 +33,7 @@ const Navbar: React.FC = () => {
           <NavLink label="Mulheres na T.I" href="/wtm" />
           <NavLink label="Bolsas de estudo" href="/bolsas" />
           <NavLink label="Guia Startup" href="/startups" />
+          <NavLink label="Notícias" href="/startups" />
         </div>
 
         {/* Ações */}
@@ -64,6 +65,7 @@ const Navbar: React.FC = () => {
           <MobileLink label="Mulheres na T.I" href="/wtm" onClick={closeMobileMenu} />
           <MobileLink label="Bolsas de estudo" href="/bolsas" onClick={closeMobileMenu} />
           <MobileLink label="Guia Startup" href="/startups" onClick={closeMobileMenu} />
+          <MobileLink label="Notícias" href="/startups" onClick={closeMobileMenu} />
         </div>
       </div>
     </nav>

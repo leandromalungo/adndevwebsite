@@ -48,7 +48,7 @@ const VisionSection = () => {
       content: "Provide world-class technical training and mentorship that bridges the gap between curiosity and mastery, ensuring our community is prepared for the demands of the future."
     },
     {
-      title: "Launch",
+      title: "Eventos",
       content: "Create direct pathways into the tech ecosystem through partnerships, career development, and real-world project experience that turns potential into leadership."
     }
   ];
