@@ -149,7 +149,7 @@ const App: React.FC = () => {
 
             {filteredEvents.length === 0 && (
               <p className="col-span-full text-center text-gray-500">
-                No events found.
+                Sem eventos de momento.
               </p>
             )}
           </div>

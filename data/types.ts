@@ -19,7 +19,7 @@ export interface Event {
 }
 
 // Filter Tabs
-export type FilterTab = 'Angola' | 'Brasil' | 'Moçambique' | 'São Tome e Principe';
+export type FilterTab = 'Angola' | 'Brasil' | 'Moçambique' | 'Portugal'| 'São Tomé e Principe' | 'Guíne-Bissau' | 'Cabo-Verde';
 
 // Comentários e edições (para blog/social)
 export interface Comment {
