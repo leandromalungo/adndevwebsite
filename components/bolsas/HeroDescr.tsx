@@ -1,0 +1,98 @@
+"use client";
+
+import React from 'react';
+import { DollarSign, Check, ShieldCheck } from 'lucide-react';
+
+export const ScholarshipSection: React.FC = () => {
+  return (
+    <section className="bg-[#f0fdfa] py-20 px-6 md:px-12 overflow-hidden">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        
+        {/* Left Side: Content */}
+        <div className="flex flex-col space-y-8">
+          <h2 className="text-4xl md:text-4xl font-normal text-[#111827] leading-tight">
+            Find <span className="text-[#0d9488]">Scholarships</span> for College
+          </h2>
+          
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="mt-1 p-1 bg-gray-200 rounded-full">
+                <DollarSign className="w-5 h-5 text-gray-700" />
+              </div>
+              <p className="text-xl text-[#374151]">
+                Scholarships for <span className="font-bold">every type</span> of student
+              </p>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="mt-1 p-1 bg-gray-200 rounded-full">
+                <Check className="w-5 h-5 text-gray-700" />
+              </div>
+              <p className="text-xl text-[#374151]">
+                <span className="font-bold">100%</span> free
+              </p>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="mt-1 p-1 bg-gray-200 rounded-full">
+                <ShieldCheck className="w-5 h-5 text-gray-700" />
+              </div>
+              <p className="text-xl text-[#374151]">
+                <span className="font-bold">Vetted</span> scholarship opportunities
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Right Side: Visual Composition */}
+        <div className="relative">
+          {/* Main Character Image */}
+          <div className="relative z-10 w-full max-w-[500px] mx-auto">
+            
+            {/* Background Confetti/Graphics (Simplified with CSS) */}
+            <div className="absolute -top-10 -right-10 w-32 h-32 bg-yellow-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+            <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-teal-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+            
+            {/* Matched Badge */}
+            <div className="absolute top-10 -left-6 md:-left-12 bg-[#243146] text-white p-4 md:p-6 rounded-[2rem] shadow-xl z-20 flex items-center gap-3 ">
+               <div className="w-12 h-12 md:w-16 md:h-16 border-2 border-dashed border-white rounded-full flex items-center justify-center font-bold text-lg md:text-xl">
+                 $1.92M
+               </div>
+               <div className="flex flex-col">
+                 <span className="text-xs md:text-sm font-medium opacity-90 uppercase">Matched</span>
+                 <span className="text-sm md:text-base font-bold leading-tight">scholarship amount</span>
+               </div>
+            </div>
+
+            {/* Testimonial Card */}
+            <div className="absolute -bottom-8 right-0 md:-right-8 bg-white p-6 rounded-2xl shadow-2xl z-20 max-w-[320px] border border-gray-100">
+              <p className="text-gray-700 text-sm md:text-base mb-4 leading-relaxed italic">
+                "Scholarships.com has made my scholarship search so much easier. I could quickly browse opportunities, click, apply, and win money!"
+              </p>
+              <div className="flex items-center gap-3">
+                <img 
+                  src="https://i.pravatar.cc/150?u=leslie" 
+                  alt="Leslie N."
+                  className="w-10 h-10 rounded-full object-cover border-2 border-teal-100"
+                />
+                <div className="flex flex-col">
+                  <span className="font-bold text-teal-900 text-sm">Leslie N.</span>
+                  <span className="text-xs text-teal-700 font-medium leading-none">UNCF STEM Scholar - $25,000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Decorative Squiggles */}
+          <div className="absolute top-1/2 left-0 w-full h-full pointer-events-none -translate-y-1/2 z-0 opacity-40">
+             <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                <path fill="#2DD4BF" d="M41.5,-63.1C51.5,-54.6,55.8,-39.3,62.8,-24.5C69.8,-9.6,79.5,4.7,78.2,18.4C76.9,32,64.7,45,51.3,53.4C37.9,61.8,23.3,65.6,8.6,67.5C-6.1,69.4,-20.9,69.5,-34.5,64.4C-48.1,59.3,-60.5,49,-68.2,35.8C-75.9,22.6,-78.9,6.5,-75.8,-8.5C-72.7,-23.4,-63.5,-37.2,-51.1,-46.3C-38.6,-55.4,-22.9,-59.8,-6.9,-51.5C9.1,-43.3,31.5,-71.6,41.5,-63.1Z" transform="translate(100 100)" />
+             </svg>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+};
