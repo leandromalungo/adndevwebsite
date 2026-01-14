@@ -1,4 +1,4 @@
-
+import React from 'react';
 // Eventos
 export interface Event {
   id: string;
@@ -108,4 +108,10 @@ export interface MediaItem {
   width: string;
   label?: string;
   logo?: string;
+}
+export interface CommunityItem {
+  id: string;
+  title: string;
+  icon: React.ReactNode;
+  href: string;
 }

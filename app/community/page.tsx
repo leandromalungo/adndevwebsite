@@ -3,11 +3,13 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CommunityGrid } from '@/components/community/CommunityGrid';
+import MicrosoftCommunitySection from "@/components/community/MicrosoftCommunitySection";
 
 export default function Page() {
   return (
     <>
       <Navbar />
+      <MicrosoftCommunitySection />
 
       <div className="min-h-screen bg-[#f9fafb]">
       <header className="bg-white border-b border-gray-200 py-6 mb-8">
