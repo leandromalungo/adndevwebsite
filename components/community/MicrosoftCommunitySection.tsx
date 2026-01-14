@@ -76,7 +76,7 @@ const MicrosoftCommunitySection: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <header className="mb-12 text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
-            Conheça as melhores comunidades para você crescer com na área de tecnologia
+            Conheça as melhores comunidades para você crescer na área de tecnologia
           </h2>
           <p className="text-slate-600 text-base md:text-lg max-w-5xl mx-auto leading-relaxed">
            Explore um universo de comunidades dedicadas à tecnologia, onde você pode aprender, compartilhar e crescer profissionalmente. Seja você um iniciante ou um especialista, há um espaço para você se conectar com outros entusiastas e profissionais da área.
