@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Calculator, Book, Pencil, Beaker } from "lucide-react";
 
 // ✅ IMPORT DIRETO DA IMAGEM
-import heroBg from "@/public/images/img1.jpg";
+import heroBg from "@/public/images/cnjgrad09.jpg";
 
 export const HeroSection = () => {
   return (
