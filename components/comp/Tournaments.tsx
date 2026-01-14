@@ -87,10 +87,6 @@ const FifaTournaments: React.FC = () => {
                 alt={t.title} 
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              {/* Badge Overlay */}
-              <div className="absolute bottom-4 left-4 border border-white/40 bg-white/10 backdrop-blur-md px-4 py-1 rounded-sm">
-                <span className="text-white font-black text-xl italic">{t.year}</span>
-              </div>
               <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
             </div>
             <h3 className="text-[15px] font-semibold text-gray-800 group-hover:text-[#002e54] transition-colors leading-tight">
