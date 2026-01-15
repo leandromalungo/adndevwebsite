@@ -33,7 +33,7 @@ export const Hero = () => {
         {/* CTA Container */}
         <div className="flex flex-col items-start gap-4">
           <button className="border border-violet-600 bg-violet-550 hover:bg-violet-600 text-white px-10 py-4 rounded-full text-lg font-bold transition-all transform hover:scale-105 shadow-xl shadow-violet-500/20 active:scale-95">
-            Comece agora
+            Assinar agora
           </button>
           <p className="text-xs text-gray-500 mt-5 font-medium">
            Não perca tempo! Junte-se a nós e esteja com profissionais de tecnologia que já estão a transformar suas carreiras com nossos recursos exclusivos.
