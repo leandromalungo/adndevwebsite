@@ -13,19 +13,19 @@ interface Testimonial {
 const TestimonialsSection: React.FC = () => {
   const testimonials: Testimonial[] = [
     {
-      text: "Great group, amazing energy, and I was able to receive so much help and assistance in the areas I need help in. I really enjoyed it here!",
+      text: "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       name: "Filipe Mafuila",
       role: "Desenvolvedor Front-end, de Angola.",
       avatar: "https://picsum.photos/100/100?random=11"
     },
     {
-      text: "I liked that the workshop was concise while still showing us a full tour and a full description of classes including example projects. I like the connection between music and technology and will consider it in the future.",
+      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada.",
       name: "Francisco Diakomas",
       role: "Programador, de Moçambique.",
       avatar: "https://picsum.photos/100/100?random=12"
     },
     {
-      text: "Attending AfroTech was a transformative experience that reinforced the power of representation and community in tech. The connections and insights I gained have sharpened my focus on using technology to drive meaningful impact.",
+      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.",
       name: "Bernardo Manuel",
       role: "Desenvolvedor Back-end, do Brasil.",
       avatar: "https://picsum.photos/100/100?random=13"
@@ -71,16 +71,8 @@ const TestimonialsSection: React.FC = () => {
 
         <div className="max-w-3xl mx-auto space-y-6">
           <p className="text-[#1e293b] text-base sm:text-lg font-medium leading-relaxed">
-            These stories are just a glimpse of the impact Black Girls Code is making every day — join us and help build a future where every girl sees herself in tech.
-          </p>
-          <div>
-            <a 
-              href="#" 
-              className="text-[#1e293b] font-bold text-lg underline hover:text-white transition-colors decoration-2 underline-offset-4"
-            >
-              Discover ways you can get involved now.
-            </a>
-          </div>
+            Junte-se a milhares de estudantes de tecnologia que já estão transformando suas carreiras com a ADN Developer. Veja por si mesmo por que somos a escolha número um para quem busca excelência em educação tecnológica.
+    </p>
         </div>
       </div>
     </section>

@@ -41,15 +41,15 @@ const VisionSection = () => {
   const items = [
     {
       title: "Tecnologia",
-      content: "Ignite joy and curiosity in learners of all ages by showing them that tech is a space where they belong, where their ideas matter, and where they have the power to build bold, thriving careers."
+      content: "Desenvolver soluções criativas e colaborativas em equipe, com desafios práticos e oportunidades de networking, impulsionando sua carreira na área de tecnologia."
     },
     {
       title: "Educação",
-      content: "Provide world-class technical training and mentorship that bridges the gap between curiosity and mastery, ensuring our community is prepared for the demands of the future."
+      content: "Fomentar o aprendizado contínuo e o desenvolvimento de habilidades técnicas por meio de programas educacionais inovadores e acessíveis."
     },
     {
       title: "Eventos",
-      content: "Create direct pathways into the tech ecosystem through partnerships, career development, and real-world project experience that turns potential into leadership."
+      content: "Participe de eventos e atividades que promovem o networking e o desenvolvimento profissional, impulsionando sua carreira na área de tecnologia."
     }
   ];
 
@@ -63,8 +63,7 @@ const VisionSection = () => {
             Tecnologia por meio da criatividade, da confiança e da programação.
           </h2>
           <p className="text-[#475569] text-base text-lg mb-10 leading-relaxed">
-            Estamos ampliando o acesso a quem poderá programar o futuro. Ao apoiar a ADN Developer, você investe na próxima geração de inovadores, criadores e líderes. 
-            Juntos, estamos reconstruindo um amanhã inclusivo, poderoso e projetado para todos. 
+            Somos a voz que impulsiona a inovação tecnológica, promovendo a criatividade e a confiança através da programação. Nosso compromisso é capacitar indivíduos e organizações a alcançarem seu potencial máximo, transformando ideias em soluções tecnológicas impactantes. 
           </p>
         </div>
 

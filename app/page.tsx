@@ -22,50 +22,49 @@ const Page = () => {
  const servicesData = [
   {
     id: 1,
-    title: "AngoTic",
-    description:
-      "Create jaw-dropping renders thanks to Cycles, high-end production path tracer.",
+    title: "Workshops",
+    description: "Participe de workshops práticos e interativos para aprimorar suas habilidades técnicas. Liderados por especialistas da indústria, esses workshops oferecem aprendizado prático em diversas áreas tecnológicas.",
     imageUrl: "/images/img1.jpg",
     link: "#",
   },
   {
     id: 2,
-    title: "DevFest",
+    title: "Palestras",
     description:
-      "Sculpting, retopology, modeling, curves. Blender's modeling toolset is extensive.",
-    imageUrl: "/images/img1.jpg",
+      "Junte-se a palestras inspiradoras ministradas por profissionais renomados do setor de tecnologia, compartilhando insights valiosos e tendências emergentes. Para expandir seu conhecimento e rede de contatos, não perca essas oportunidades únicas.",
+    imageUrl: "/images/IMG-20251221-WA0008.jpg",
     link: "#",
   },
   {
     id: 3,
-    title: "Sculpting",
+    title: "Bolsas de estudos",
     description:
-      "Digital sculpting tools provide the power and flexibility required in several stages of the digital production pipeline.",
-    imageUrl: "/images/img1.jpg",
+      "Acesse oportunidades de bolsas de estudo para impulsionar sua carreira na área de tecnologia, com apoio financeiro e mentoria especializada, ajudando você a alcançar seus objetivos acadêmicos e profissionais.",
+    imageUrl: "/images/cnjgrad09.jpg",
     link: "#",
   },
   {
     id: 4,
-    title: "Animation & Rigging",
+    title: "Hackathon",
     description:
-      "Designed for animation, Blender is being used for award-winning shorts and feature films.",
-    imageUrl: "/images/img1.jpg",
+      "Participe de hackathons para desenvolver soluções criativas e colaborativas em equipe, com desafios práticos e oportunidades de networking, impulsionando sua carreira na área de tecnologia.",
+    imageUrl: "images/1768288539585.jpg",
     link: "#",
   },
   {
     id: 5,
-    title: "Story Artist",
+    title: "Desafios e competições nacionais",
     description:
-      "Push the boundaries of Story Art and by drawing in a 3D environment.",
-    imageUrl: "/images/img1.jpg",
+      "Engaje-se em desafios e competições nacionais para testar suas habilidades técnicas e inovadoras, com prêmios emocionantes e reconhecimento no setor, impulsionando sua carreira na área de tecnologia.",
+    imageUrl: "/images/1765482668812.jpg",
     link: "#",
   },
   {
     id: 6,
-    title: "VFX",
+    title: "Testes de habilidades de codificação",
     description:
-      'From camera and object motion tracking to masking and compositing, you can "fix it in post".',
-    imageUrl: "/images/img1.jpg",
+      "Teste suas habilidades de codificação em desafios práticos e competições, desenvolvendo soluções criativas e colaborativas com oportunidades de networking, impulsionando sua carreira na área de tecnologia.",
+    imageUrl: "/images/1768288533539.jpg",
     link: "#",
   },
 ];
@@ -111,10 +110,10 @@ const Page = () => {
 
         <div className="w-full max-w-7xl">
           <CardHero
-            title="The Ecosystem"
+            title="SOBRE A ADN Developer"
             paragraphs={[
-              "Countless communities and thriving businesses are built around Blender.",
-              "Together, these tutorial makers and content creators, add-on developers and global marketplaces form an ever-expanding ecosystem.",
+              "A ADN Developer é um ecossistema dinâmico e inovador no setor de tecnologia",
+              "Que abrange desde a educação até a inovação empresarial. Nossa missão é conectar indivíduos, instituições e empresas para fomentar o crescimento e a transformação digital.",
             ]}
           />
         </div>
