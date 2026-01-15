@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import img from "@/public/images/img1.jpg";
 
 interface CardHero {
   title: string;
@@ -16,7 +15,7 @@ export const CardHero: React.FC<CardHero> = ({ title, paragraphs }) => {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src={img}
+          src="/images/img1.jpg"
           alt="heroimg"
           fill
           priority

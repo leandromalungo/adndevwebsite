@@ -48,7 +48,7 @@ const Page = () => {
     title: "Hackathon",
     description:
       "Participe de hackathons para desenvolver soluções criativas e colaborativas em equipe, com desafios práticos e oportunidades de networking, impulsionando sua carreira na área de tecnologia.",
-    imageUrl: "images/1768288539585.jpg",
+    imageUrl: "/images/1768288539585.jpg",
     link: "#",
   },
   {
