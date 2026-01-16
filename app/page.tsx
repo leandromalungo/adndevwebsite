@@ -15,6 +15,7 @@ import Impact from "@/components/home/ImpactHero";
 import Partners from "@/components/home/PartnersHero";
 import Testimonials from "@/components/home/TestimonialsHero";
 import CuratedCollections from "@/components/roadmaps/courses/CuratedCollections";
+import TeamMemberSection from "@/components/home/TeamMember";
 
 const Page = () => {
   /* ---------- DADOS ---------- */
@@ -121,6 +122,18 @@ const Page = () => {
 
       <Testimonials />
       <Partners />
+
+      <div className="min-h-screen">
+      {/* Spacer to show the component in context */}
+      <div className="h-20" />
+      
+      {/* New Section added here */}
+      <TeamMemberSection />
+      
+      {/* Footer-like spacer */}
+      <div className="h-40" />
+    </div>
+
       <Faq />
       <Footer />
     </div>
