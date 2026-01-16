@@ -107,7 +107,7 @@ const Page = () => {
           <section>
             <div className="flex flex-col items-center mb-12">
               <div className="text-center space-y-3 max-w-2xl">
-                <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                <h2 className="text-3xl sm:text-4xl text-slate-900 tracking-tight">
                   Ferramentas e tecnologias de desenvolvimento
                 </h2>
                 <p className="text-slate-500 text-lg">
@@ -134,7 +134,7 @@ const Page = () => {
                 </span>
               </div>
               <div className="text-center space-y-3 max-w-2xl">
-                <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                <h2 className="text-3xl sm:text-4xl text-slate-900 tracking-tight">
                   Melhores práticas de desenvolvimento
                 </h2>
                 <p className="text-slate-500 text-lg">
