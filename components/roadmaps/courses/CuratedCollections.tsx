@@ -26,7 +26,7 @@ export const CuratedCollections = () => {
         <CollectionCard className="bg-[#EDF2F7] flex flex-col p-6">
           <div className="z-10">
             <h3 className="text-4xl font-extrabold text-[#1a202c] leading-tight">10,000+</h3>
-            <p className="inline-block bg-[#2D3748] text-white px-2 py-1 text-xl font-bold rounded-md tracking-wider">FREE COURSES</p>
+            <p className="inline-block bg-[#2D3748] text-white px-2 py-1 text-xl font-bold rounded-md ">CURSOS GRATUITOS</p>
           </div>
           {/* Logo cloud simulation */}
           <div className="absolute inset-0 flex items-center justify-end p-4 pointer-events-none">
@@ -66,7 +66,7 @@ export const CuratedCollections = () => {
           </div>
           {/* Partner logos */}
           <div className="flex flex-wrap items-center justify-center gap-4 mt-6 opacity-80 scale-90">
-             <span className="text-[10px] font-bold">Future Learn</span>
+             <span className="text-[10px] font-bold">Encontre</span>
              <span className="text-sm font-black italic">coursera</span>
              <span className="text-xs font-bold border px-1">edX</span>
           </div>

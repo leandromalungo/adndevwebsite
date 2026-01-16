@@ -11,6 +11,7 @@ export const LogoCloud = () => {
     { name: 'Php', url: '/images/logos/php.png' },
     { name: 'html5', url: '/images/logos/hcj.png' },
     { name: 'python', url: '/images/logos/python.png' },
+    { name: 'aws', url: '/images/logos/aws.png' },
   ];
 
   return (
