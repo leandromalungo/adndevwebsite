@@ -104,7 +104,7 @@ export default function CareerQuiz() {
             <button
               onClick={handleClick}
               disabled={loading}
-              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all duration-200 active:scale-95 rounded-lg ${
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all duration-200 active:scale-95 rounded-xl ${
                 loading
                   ? "bg-green-300 cursor-not-allowed text-zinc-800"
                   : "bg-green-500 hover:bg-green-600 text-white"
@@ -169,7 +169,7 @@ export default function CareerQuiz() {
             <button
               onClick={handleClick}
               disabled={loading}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-black text-white hover:bg-gray-800 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>

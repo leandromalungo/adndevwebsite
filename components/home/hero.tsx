@@ -32,7 +32,7 @@ export const Hero = () => {
 
         {/* CTA Container */}
         <div className="flex flex-col items-start gap-4">
-          <button className="border border-violet-600 bg-violet-550 hover:bg-violet-600 text-white px-10 py-4 rounded-full text-lg font-bold transition-all transform hover:scale-105 shadow-xl shadow-violet-500/20 active:scale-95">
+          <button className="border border-violet-600 bg-violet-550 hover:bg-violet-600 text-white px-10 py-4 rounded-xl text-lg font-bold transition-all transform hover:scale-105 shadow-xl shadow-violet-500/20 active:scale-95">
             Assinar agora
           </button>
           <p className="text-xs text-gray-500 mt-5 font-medium">

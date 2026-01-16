@@ -75,7 +75,7 @@ const Filters: React.FC<FiltersProps> = ({
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-5 py-2.5 rounded-full text-sm font-semibold border transition-all whitespace-nowrap ${
+              className={`px-5 py-2.5 rounded-xl text-sm font-semibold border transition-all whitespace-nowrap ${
                 activeTab === tab 
                 ? 'bg-[#004d79] text-white border-[#004d79]' 
                 : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
