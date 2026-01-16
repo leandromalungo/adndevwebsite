@@ -5,33 +5,46 @@ import React from "react";
 const PartnersSection: React.FC = () => {
   const partners = [
     {
-      name: "Sony",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/c/ca/Sony_logo.svg",
+      name: "gdgluanda",
+      logo: "/images/logos/gdgluanda.png",
     },
     {
-      name: "Nike",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg",
+      name: "opensourceangola",
+      logo: "/images/logos/opensourceangola.png",
     },
     {
-      name: "NextEra Energy Partners",
-      logo: "https://www.nexteraenergypartners.com/content/nextera-energy-partners/en/home/_jcr_content/root/header/header/logo.coreimg.svg/1649272378950/nep-logo.svg",
+      name: "wtm",
+      logo: "/images/logos/wtm.png",
     },
     {
-      name: "NBA Foundation",
-      logo: "https://foundation.nba.com/wp-content/themes/nba-foundation/assets/img/nba-foundation-logo.svg",
+      name: "podnerd",
+      logo: "/images/logos/podnerd.png",
     },
     {
-      name: "Infosys",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/9/95/Infosys_logo.svg",
+      name: "cftic",
+      logo: "/images/logos/cftic.png",
     },
     {
-      name: "IBM",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
+      name: "anetai",
+      logo: "/images/logos/anetai.png",
     },
     {
-      name: "Hasbro",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/d/d4/Hasbro_logo.svg",
+      name: "cdh",
+      logo: "/images/logos/cdh.png",
     },
+    {
+      name: "codingao",
+      logo: "/images/logos/codingao.png",
+    },
+    {
+      name: "wt",
+      logo: "/images/logos/womenintech.png",
+    },
+    {
+      name: "elaasnocode",
+      logo: "/images/logos/elasnocode.png",
+    },
+    
   ];
 
   // Doubling the array to create a seamless infinite loop effect

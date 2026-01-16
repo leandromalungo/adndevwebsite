@@ -11,7 +11,6 @@ import { CardHero } from "@/components/home/CardHero";
 import { ServicesSection } from "@/components/home/sectionHero";
 import { LogoCloud } from "@/components/home/logosHero";
 import Vision from "@/components/home/VisionHero";
-import Impact from "@/components/home/ImpactHero";
 import Partners from "@/components/home/PartnersHero";
 import Testimonials from "@/components/home/TestimonialsHero";
 import CuratedCollections from "@/components/roadmaps/courses/CuratedCollections";
@@ -106,7 +105,6 @@ const Page = () => {
           <ServicesSection services={servicesData} />
         </div>
         <CuratedCollections />
-        <Impact />
         <Vision />
 
         <div className="w-full max-w-7xl">
