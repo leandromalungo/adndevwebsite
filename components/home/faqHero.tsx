@@ -13,35 +13,35 @@ const faqItems: FAQItem[] = [
     id: "faq-1",
     question: "O que é a ADN Developers",
     answer:
-      "Sim, o Unity Engine é totalmente gratuito para uso pessoal e comercial, com certas limitações para empresas maiores.",
+      "Nós somos uma plaataforma de divulgação de conhecimento na área de tecnologia, focada em capacitar indivíduos com habilidades práticas e teóricas para prosperar no setor tecnológico.",
   },
   {
     id: "faq-2",
     question: "O que fazem?",
-    answer: "Sim, todo o conteúdo que você cria com o Unity é de sua propriedade intelectual exclusiva.",
+    answer: "Partilhamos conteúdos educativos, tutoriais, cursos e recursos relacionados a diversas áreas da tecnologia, incluindo desenvolvimento de software, ciência de dados, inteligência artificial, entre outros.",
   },
   {
     id: "faq-3",
-    question: 'Como faço para entrar na área?',
+    question: 'Como faço para falar com vocês?',
     answer:
-      "Você pode adquirir licenças compartilhadas através do nosso portal de vendas corporativas. Entre em contato com nosso time de vendas para obter mais informações.",
+      "Você pode entrar em contato conosco através do nosso e-mail oficial ou pelas redes sociais.",
   },
   {
     id: "faq-4",
     question:
       "Como aprender programação com vocês?",
-    answer: "Sim, o Unity oferece suporte para múltiplas plataformas, incluindo consoles e dispositivos móveis.",
+    answer: "Explore nossos tutoriais, cursos e artigos disponíveis na plataforma. Inscreva-se em nossos cursos online para obter uma experiência de aprendizado estruturada e prática.",
   },
   {
     id: "faq-5",
     question: "Vocês oferecem certificados?",
-    answer: "Você pode baixar uma versão de avaliação gratuita do Unity Pro diretamente do nosso site de downloads.",
+    answer: "Nós não oferecemos certificados, porém os cursos disponiveis na plataforma oferecem certificados de conclusão, que podem ser adicionados ao seu currículo ou perfil profissional.",
   },
   {
     id: "faq-6",
     question: "Onde estão localizados?",
     answer:
-      "Unity Ads é usado por milhares de jogos em todo o mundo. Visite nossa página de casos de uso para ver exemplos.",
+      "Nossa equipe está distribuída globalmente, com membros trabalhando remotamente de diferentes partes do mundo, permitindo-nos colaborar e compartilhar conhecimento de forma eficaz.",
   },
 ]
 
