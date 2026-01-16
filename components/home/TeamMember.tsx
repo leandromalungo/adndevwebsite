@@ -84,9 +84,9 @@ const TeamMemberSection = () => {
   ];
 
   return (
-    <section className="max-w-7xl mx-auto px-6 md:px-12 py-16">
+    <section className="max-w-7xl mx-auto px-6 md:px-12 py-10">
       {/* Main Card Container */}
-      <div className="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-8 md:p-16">
+      <div className="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-8 md:p-10">
         <div className="max-w-3xl mx-auto text-center">
           <h3 className="text-2xl font-bold text-[#334155] mb-8">
             Equipa de Desenvolvimento ADN Developer Conheça os talentosos profissionais por trás da nossa plataforma

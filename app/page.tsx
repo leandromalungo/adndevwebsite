@@ -122,18 +122,7 @@ const Page = () => {
 
       <Testimonials />
       <Partners />
-
-      <div className="min-h-screen">
-      {/* Spacer to show the component in context */}
-      <div className="h-20" />
-      
-      {/* New Section added here */}
       <TeamMemberSection />
-      
-      {/* Footer-like spacer */}
-      <div className="h-40" />
-    </div>
-
       <Faq />
       <Footer />
     </div>

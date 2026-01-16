@@ -100,21 +100,6 @@ const PartnersSection: React.FC = () => {
           ))}
         </div>
       </div>
-
-      {/* Partnership Link */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-20 text-center">
-        <div className="pt-8 border-t border-orange-100/30">
-          <p className="text-[#475569] font-medium text-sm sm:text-base">
-             Tornece um parceiro da ADN Developer. Para mais informacoes,{" "}
-            <a
-              href="#"
-              className="text-[#1e293b] font-bold hover:text-[#0062ff] transition-colors"
-            >
-              Clique aqui.
-            </a>
-          </p>
-        </div>
-      </div>
     </section>
   );
 };
