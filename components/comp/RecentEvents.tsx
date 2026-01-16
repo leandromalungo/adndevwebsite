@@ -100,7 +100,7 @@ const FifaRecentEvents = () => {
                 </p>
               </div>
               <button className="bg-white text-[#001b33] px-8 py-3 rounded-full font-bold text-sm hover:bg-gray-100 transition-colors shadow-lg active:scale-95">
-                Relembre
+                Saber mais
               </button>
             </div>
           </div>

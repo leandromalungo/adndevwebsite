@@ -11,31 +11,31 @@ interface Tournament {
 const TOURNAMENTS: Tournament[] = [
   {
     id: '1',
-    title: 'Copa do Mundo Feminina da FIFA 2027™',
-    imageUrl: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=800', 
+    title: 'Google Hackatohn',
+    imageUrl: '/images/JL202884.webp', 
     year: '2027',
   },
   {
     id: '2',
-    title: 'Copa do Mundo da FIFA 2030™',
-    imageUrl: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=800',
+    title: 'Microsooft Hackathon',
+    imageUrl: '/images/Redmond-3-1600x900.jpg',
     year: '2030',
   },
   {
     id: '3',
-    title: 'Copa do Mundo da FIFA 2034™',
-    imageUrl: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&q=80&w=800',
+    title: 'Nasa Space Apps Chalenge',
+    imageUrl: '/images/whatsapp-image-2019-10-21-at-10.23.16.webp',
     year: '2034',
   },
   {
     id: '4',
-    title: 'FIFA Women\'s Champions Cup 2026™',
-    imageUrl: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?auto=format&fit=crop&q=80&w=800',
+    title: 'Africa Hackathon',
+    imageUrl: '/images/hackathon-ais.jpg',
     year: '2026',
   }
 ];
 
-const FifaTournaments: React.FC = () => {
+const OnlineEvents = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -68,7 +68,7 @@ const FifaTournaments: React.FC = () => {
   return (
     <section className="w-full py-12">
       <h2 className="text-2xl md:text-3xl font-bold text-[#001b33] mb-8">
-        Próximos torneios e eventos
+        Torneios e competições on-line 
       </h2>
       
       <div 
@@ -133,4 +133,4 @@ const FifaTournaments: React.FC = () => {
   );
 };
 
-export default FifaTournaments;
+export default OnlineEvents;

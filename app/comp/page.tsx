@@ -1,9 +1,9 @@
 "use client";
 
-import FifaHospitalityBanner from '@/components/comp/Hero';
-import FifaTournaments from '@/components/comp/NextEvents';
-import FifaInfoSection from '@/components/comp/InfoSection';
-import FifaRecentEvents from '@/components/comp/RecentEvents';
+import Hero from '@/components/comp/Hero';
+import OnlineEvents from '@/components/comp/OnlineEvents';
+import InfoSection from '@/components/comp/InfoSection';
+import RecentEvents from '@/components/comp/RecentEvents';
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 
@@ -28,24 +28,24 @@ const Page = () => {
         
         {/* Hospitality Banner */}
         <div className="mt-8">
-          <FifaHospitalityBanner />
+          <Hero />
         </div>
 
         {/* Recent Events Section (History) */}
         <div className="mt-12">
-          <FifaRecentEvents />
+          <RecentEvents />
         </div>
 
         {/* Upcoming Tournaments Section */}
         <div className="mt-12">
-          <FifaTournaments />
+          <OnlineEvents />
         </div>
 
         <MoreCom />
 
         {/* Info Section - The best in the world */}
         <div className="mt-8">
-          <FifaInfoSection />
+          <InfoSection />
         </div>
           <Footer />
       </div>

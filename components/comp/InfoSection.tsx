@@ -1,22 +1,22 @@
 
 import React from 'react';
 
-const FifaInfoSection = () => {
+const InfoSection = () => {
   return (
     <section className="w-full py-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
       <div className="space-y-6">
         <h2 className="text-3xl md:text-4xl font-bold text-[#001b33] tracking-tight">
-          O melhor do mundo nos torneios FIFA
+         Assine a plataforma e tenha acesso a todas as competições.
         </h2>
         <div className="space-y-4 text-gray-600 text-sm md:text-base leading-relaxed">
           <p>
-            Além de mostrarem o melhor que o jogo bonito tem a oferecer, os torneios da FIFA levam desenvolvimento para o futebol e suas variantes.
+            Assine a plataforma e tenha acesso a todas as competições, incluido as competições de tecnologia nacionais e internacionais organizadas pela FIFA.
           </p>
           <p>
-            A Copa do Mundo FIFA e a Copa do Mundo FIFA Feminina oferecem uma chance de glória para as nações, e clubes de elite se reúnem para disputar a Copa do Mundo FIFA de Clubes.
+          As nossas newslatter são envidas sempre que houver uma nova competição disponivel na plataforma, para que não percas nenhuma oportunidade de participar e ganhar prémios incríveis.
           </p>
           <p>
-            As Copas do Mundo FIFA Sub-17 e Sub-20 da FIFA e suas equivalentes femininas têm uma merecida reputação por ajudar a desenvolver superestrelas em formação. Já a Copa do Mundo FIFA de Futsal e a Copa do Mundo FIFA de Beach Soccer fornecem uma plataforma para o melhor dessas emocionantes modalidades.
+          Esta plataforma é ideal para estudantes, profissionais e entusiastas de tecnologia que desejam aprimorar suas habilidades, competir com outros talentos e se destacar no mercado de trabalho.
           </p>
         </div>
       </div>
@@ -24,7 +24,7 @@ const FifaInfoSection = () => {
       <div className="relative rounded-lg overflow-hidden shadow-xl aspect-video lg:aspect-square max-h-[500px]">
         {/* Placeholder image that represents the collage from the screenshot */}
         <img 
-          src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=1200" 
+          src="/images/MozDevz-1160x713.jpg" 
           alt="Collage of football players" 
           className="w-full h-full object-cover"
         />
@@ -44,4 +44,4 @@ const FifaInfoSection = () => {
   );
 };
 
-export default FifaInfoSection;
+export default InfoSection;
