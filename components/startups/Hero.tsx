@@ -49,7 +49,7 @@ const Hero: React.FC<HeroProps> = ({ title, description, videoUrl, buttonText })
             ) : description}
           </p>
 
-          <button className="group relative inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-lg font-semibold transition-all duration-300 shadow-xl overflow-hidden">
+          <button className="group relative inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-lg font-semibold transition-all duration-300 shadow-xl overflow-hidden">
             <span>{buttonText}</span>
             <svg 
               xmlns="http://www.w3.org/2000/svg" 

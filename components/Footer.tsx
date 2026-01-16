@@ -459,10 +459,10 @@ const Footer = () => {
                 </svg>
               </a>
             </div>
-            <div className="mt-2 w-48 relative">
+            <div className="mt-2 w-48 relative rounded-xl">
               <label
                 htmlFor="language"
-                className="text-gray-600 text-sm block mb-1 rounded-lg"
+                className="text-gray-600 text-sm block mb-1 rounded-xl"
               >
                 Selecionar Idioma:
               </label>
@@ -470,24 +470,24 @@ const Footer = () => {
                 <select
                   name="language"
                   id="language"
-                  className="peer block w-full text-sm border border-gray-300 rounded-lg px-3 py-2 bg-white text-gray-900 focus:border-blue-500 focus:outline-none appearance-none"
+                  className="peer block w-full text-sm border border-gray-300 rounded-xl px-3 py-2 bg-white text-gray-900 focus:border-blue-500 focus:outline-none appearance-none"
                 >
-                  <option value="pt" className="bg-black text-white rounded-lg">
+                  <option value="pt" className="bg-black text-white rounded-xl">
                     Português
                   </option>
-                  <option value="en" className="bg-black text-white rounded-lg">
+                  <option value="en" className="bg-black text-white rounded-xl">
                     English
                   </option>
-                  <option value="fr" className="bg-black text-white rounded-lg">
+                  <option value="fr" className="bg-black text-white rounded-xl">
                     Français
                   </option>
-                  <option value="kb" className="bg-black text-white rounded-lg">
+                  <option value="kb" className="bg-black text-white rounded-xl">
                     Kinbundu
                   </option>
-                  <option value="kk" className="bg-black text-white rounded-lg">
+                  <option value="kk" className="bg-black text-white rounded-xl">
                     Kikongo
                   </option>
-                  <option value="lg" className="bg-black text-white rounded-lg">
+                  <option value="lg" className="bg-black text-white rounded-xl">
                     Lingala
                   </option>
                 </select>

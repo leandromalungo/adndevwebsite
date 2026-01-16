@@ -69,7 +69,7 @@ const ChallengesSection: React.FC = () => {
               <span className="tracking-tighter">principal desafio</span>
             </h2>
             
-            <button className="px-8 py-3.5 border-2 border-[#007dfc] text-[#007dfc] hover:bg-[#007dfc] hover:text-white transition-all duration-300 font-bold rounded-lg bg-white/5 backdrop-blur-sm">
+            <button className="px-8 py-3.5 border-2 border-[#007dfc] text-[#007dfc] hover:bg-[#007dfc] hover:text-white transition-all duration-300 font-bold rounded-xl bg-white/5 backdrop-blur-sm">
               Ver todos os cursos
             </button>
           </div>

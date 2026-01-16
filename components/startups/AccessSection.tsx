@@ -183,7 +183,7 @@ const AccessSection: React.FC = () => {
                       ))}
                     </ul>
 
-                    <button className="inline-flex items-center px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-bold text-xs md:text-sm transition-all transform hover:translate-x-1 active:scale-95">
+                    <button className="inline-flex items-center px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs md:text-sm transition-all transform hover:translate-x-1 active:scale-95">
                       {item.buttonText}
                       <svg className="ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />

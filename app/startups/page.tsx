@@ -19,7 +19,7 @@ const App = () => {
         <Hero 
           title="Descubra as melhores oportunidades para sua startup"
           description="Mostramos as startups inovadoras com investidores, aceleradoras e programas de apoio para impulsionar seu crescimento. Networking e sucesso no ecossistema de inovação."
-          videoUrl="https://assets.mixkit.co/videos/preview/mixkit-silhouette-of-a-man-walking-in-a-greenhouse-40030-large.mp4"
+          videoUrl="/videos/video.mp4"
           buttonText="Descubrir mais"
         />
         
