@@ -10,7 +10,7 @@ const InfoSection = () => {
         </h2>
         <div className="space-y-4 text-gray-600 text-sm md:text-base leading-relaxed">
           <p>
-            Assine a plataforma e tenha acesso a todas as competições, incluido as competições de tecnologia nacionais e internacionais organizadas pela FIFA.
+            Assine a plataforma e tenha acesso a todas as competições, incluido as competições de tecnologia nacionais e internacionais organizadas por diversas organizações.
           </p>
           <p>
           As nossas newslatter são envidas sempre que houver uma nova competição disponivel na plataforma, para que não percas nenhuma oportunidade de participar e ganhar prémios incríveis.
