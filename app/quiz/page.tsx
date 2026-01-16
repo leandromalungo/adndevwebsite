@@ -5,6 +5,10 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+// FontAwesome Icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+
 /* =======================
    TYPES / INTERFACES
 ======================= */
@@ -17,15 +21,8 @@ interface CareerTip {
   imageAlt: string;
 }
 
-interface CareerTipsSectionProps {
-  title?: string;
-  description?: string;
-  tips: CareerTip[];
-  blogUrl?: string;
-}
-
 /* =======================
-   DADOS DOS CARDS (IMAGENS)
+   DADOS DOS CARDS
 ======================= */
 
 const careerTipsData: CareerTip[] = [
@@ -34,14 +31,14 @@ const careerTipsData: CareerTip[] = [
     date: "Mar 12, 2025",
     title: "Carreira em Cybersecurity: o que você precisa saber",
     image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
-    imageAlt: "Frontend development",
+    imageAlt: "Cybersecurity",
   },
   {
     id: "2",
     date: "Mar 15, 2025",
-    title: "Como é trabalhar com tecnoologia no seculo XXI",
+    title: "Como é trabalhar com tecnologia no século XXI",
     image: "https://images.unsplash.com/photo-1517433456452-f9633a875f6f",
-    imageAlt: "Backend vs Frontend",
+    imageAlt: "Tecnologia",
   },
   {
     id: "3",
@@ -53,21 +50,21 @@ const careerTipsData: CareerTip[] = [
   {
     id: "4",
     date: "Mar 25, 2025",
-    title: "Quaal curso escolher na área de tecnologia?",
+    title: "Qual curso escolher na área de tecnologia?",
     image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
-    imageAlt: "DevOps",
+    imageAlt: "Cursos",
   },
   {
     id: "5",
     date: "Mar 28, 2025",
     title: "Como funciona a área de inteligência artificial e machine learning",
     image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
-    imageAlt: "AI & ML",
+    imageAlt: "IA e ML",
   },
 ];
 
 /* =======================
-   COMPONENTE ÚNICO
+   COMPONENTE PRINCIPAL
 ======================= */
 
 export default function CareerQuiz() {
@@ -87,41 +84,31 @@ export default function CareerQuiz() {
 
       {/* HERO SECTION */}
       <section className="relative w-full overflow-hidden bg-zinc-900">
-        {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url('../../fundo.jpg')`,
-          }}
+          style={{ backgroundImage: `url('/fundo.jpg')` }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
         </div>
 
-        {/* Content */}
         <div className="relative flex items-center px-8 py-20 md:px-12 md:py-24">
           <div className="max-w-md">
             <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-8">
-              Não sabes qual área ou função combina com suas habilidades?
+              Não sabes qual área combina com suas habilidades?
             </h2>
+
             <p className="mt-4 max-w-2xl text-gray-100 mb-3">
-              Faça nosso quiz apartir do seu whatsapp, rápido para descobrir a carreira ideal para você,
-              baseado em suas habilidades, interesses e dê o primeiro passo rumo
-              ao sucesso profissional!
+              Faça nosso quiz via WhatsApp e descubra a carreira ideal com base nas suas habilidades e interesses!
             </p>
 
             <button
               onClick={handleClick}
               disabled={loading}
-              className={`
-                inline-flex items-center gap-2 px-6 py-3 font-semibold
-                transition-all duration-200
-                active:scale-95
-                ${
-                  loading
-                    ? "bg-orange-300 cursor-not-allowed text-zinc-800"
-                    : "bg-orange-400 hover:bg-orange-500 text-gray-100"
-                }
-              `}
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all duration-200 active:scale-95 rounded-lg ${
+                loading
+                  ? "bg-green-300 cursor-not-allowed text-zinc-800"
+                  : "bg-green-500 hover:bg-green-600 text-white"
+              }`}
             >
               {loading ? (
                 <>
@@ -130,6 +117,7 @@ export default function CareerQuiz() {
                 </>
               ) : (
                 <>
+                  <FontAwesomeIcon icon={faWhatsapp} className="w-5 h-5" />
                   Faça o teste e descubra!
                   <ArrowRight size={20} />
                 </>
@@ -140,25 +128,17 @@ export default function CareerQuiz() {
       </section>
 
       {/* TIPS SECTION */}
-      <section className="w-full bg-background py-12 md:py-16 lg:py-20">
+      <section className="w-full bg-white py-12 md:py-16 lg:py-20">
         <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8">
-          {/* Header */}
           <div className="mb-12 text-center md:text-left">
-            <h2 className="text-balance text-4xl font-semibold tracking-tight md:text-5xl">
-              Leia dicas de quem já está trabalhando no mercado para impulsionar a tua forma de aprender.
-              <span className="font-bold">sua carreira</span>
+            <h2 className="text-4xl font-semibold tracking-tight md:text-5xl">
+              Leia dicas de quem já está no mercado e impulsione sua carreira
             </h2>
             <p className="mt-4 text-gray-600">
-              Dicas valiosas e insights para impulsionar sua jornada
-              profissional no mundo da tecnologia, desenvolvimento e muito mais
-              diretamente da nossa plataforma. ADN Developer, onde
-              compartilhamos conhecimento para ajudar você a alcançar o sucesso
-              na sua carreira. Seja você um iniciante ou um profissional
-              experiente.
+              Insights valiosos para quem quer entrar ou crescer no mundo da tecnologia.
             </p>
           </div>
 
-          {/* Tips Grid expandida */}
           <div className="mb-12 grid gap-6 md:grid-cols-2 lg:grid-cols-5">
             {careerTipsData.map((tip) => (
               <div
@@ -177,7 +157,7 @@ export default function CareerQuiz() {
                   <time className="text-xs font-medium text-gray-300 uppercase tracking-wide">
                     {tip.date}
                   </time>
-                  <h3 className="line-clamp-3 text-lg font-semibold leading-tight text-white">
+                  <h3 className="line-clamp-3 text-lg font-semibold text-white">
                     {tip.title}
                   </h3>
                 </div>
@@ -185,12 +165,12 @@ export default function CareerQuiz() {
             ))}
           </div>
 
-          {/* CTA Button */}
           <div className="flex justify-center">
             <button
               onClick={handleClick}
               disabled={loading}
-              className={`inline-flex items-center gap-2 px-6 p-3 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors disabled:cursor-not-allowed disabled:bg-gray-400`} >
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
               {loading ? (
                 <>
                   <Loader2 className="animate-spin" size={20} />
@@ -207,7 +187,6 @@ export default function CareerQuiz() {
         </div>
       </section>
 
-      {/* FOOTER */}
       <Footer />
     </>
   );
