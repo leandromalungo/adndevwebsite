@@ -20,8 +20,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ services,}) =>
       <h2 className="text-3xl font-bold text-[#444] mb-8 uppercase">
         Nós somos o caminho para o teu fututo
         <p className="text-xs text-gray-400 font-medium">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum earum eligendi ipsam quos doloremque rem at eaque iste, 
-          cum fugiat cupiditate sequi est reprehenderit.
+          Explora nossos serviços e descubra como podemos ajudar você a alcançar seus objetivos na área de tecnologia.
         </p>
       </h2>
 
