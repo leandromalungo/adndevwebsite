@@ -1,15 +1,18 @@
 "use client";
 
-import FifaHospitalityBanner from '@/components/comp/HospitalityBanner';
-import FifaTournaments from '@/components/comp/Tournaments';
+import FifaHospitalityBanner from '@/components/comp/Hero';
+import FifaTournaments from '@/components/comp/NextEvents';
 import FifaInfoSection from '@/components/comp/InfoSection';
 import FifaRecentEvents from '@/components/comp/RecentEvents';
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 
 import { NewsItem } from '@/data/types';
+import { MoreCom } from '@/components/comp/MoreCom';
 
-const App = () => {
+
+
+const Page = () => {
   return (
     <>
     <Navbar />
@@ -38,6 +41,8 @@ const App = () => {
           <FifaTournaments />
         </div>
 
+        <MoreCom />
+
         {/* Info Section - The best in the world */}
         <div className="mt-8">
           <FifaInfoSection />
@@ -49,4 +54,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Page;

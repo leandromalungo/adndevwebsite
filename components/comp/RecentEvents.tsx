@@ -11,27 +11,27 @@ interface RecentEvent {
 const RECENT_EVENTS: RecentEvent[] = [
   {
     id: '1',
-    title: 'Copa Árabe da FIFA Catar 2025™',
-    description: 'Relembre a conquista do Marrocos na Copa Árabe',
-    imageUrl: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=1200',
+title: 'NOSSA SEGUROS HACKATHON 2025',
+    description: 'Desafios de inovação em seguros e tecnologia, com prémios incríveis!',
+    imageUrl: '/images/1766493991472.jpg',
   },
   {
     id: '2',
-    title: 'Copa Intercontinental da FIFA 2024™',
-    description: 'Relembre a dramática vitória do Real Madrid',
-    imageUrl: 'https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?auto=format&fit=crop&q=80&w=1200',
+    title: 'AFRI CODER CHALLENGE 2025',
+    description: 'Uma competicao de programação para desenvolvedores africanos. Patrucinada pela Africell Angola',
+    imageUrl: '/images/1768288544155.jpg',
   },
   {
     id: '3',
-    title: 'Copa do Mundo de Clubes da FIFA 2023™',
-    description: 'A histórica campanha do Fluminense',
-    imageUrl: 'https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&q=80&w=1200',
+    title: 'CODING ANGOLA',
+    description: 'Uma maratona de programação para jovens talentos angolanos, com participação de grandes empresas de tecnologia.',
+    imageUrl: '/images/471203170_122192021180083808_8969725209442912081_n.jpg',
   },
   {
     id: '4',
-    title: 'Copa do Mundo Feminina da FIFA 2023™',
-    description: 'A glória da Espanha em Sydney',
-    imageUrl: 'https://images.unsplash.com/photo-1575361204480-aadea25e6e68?auto=format&fit=crop&q=80&w=1200',
+    title: 'AOCPC 2025',
+    description: 'Campeonato de Programação Competitiva entre universidades de Angola, com prémios para os melhores.',
+    imageUrl: '/images/567250292_18064963205358704_5196566744638119803_n.jpg',
   }
 ];
 

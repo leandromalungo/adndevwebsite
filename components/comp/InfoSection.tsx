@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-const FifaInfoSection: React.FC = () => {
+const FifaInfoSection = () => {
   return (
     <section className="w-full py-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
       <div className="space-y-6">

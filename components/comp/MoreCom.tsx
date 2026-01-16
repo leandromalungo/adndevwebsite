@@ -7,7 +7,7 @@ import React from 'react';
  * A clean, informative section that details software or hardware requirements.
  * Matches the visual style of the provided screenshot with a structured card layout.
  */
-export const SystemRequirements: React.FC = () => {
+export const MoreCom = () => {
   return (
     <section className="w-full max-w-7xl mx-auto py-12 px-4">
       {/* External Title */}
