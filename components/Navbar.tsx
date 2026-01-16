@@ -10,11 +10,9 @@ import logo from "@/public/images/logos/logo-cafe.png";
 
 const Navbar: React.FC = () => {
   const [openMenu, setOpenMenu] = useState(false);
-  const [openAreas, setOpenAreas] = useState(false);
 
   const closeMobileMenu = () => {
     setOpenMenu(false);
-    setOpenAreas(false);
   };
 
 

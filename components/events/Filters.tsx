@@ -9,11 +9,8 @@ interface FiltersProps {
   setSearchQuery: (val: string) => void;
   locationQuery: string;
   setLocationQuery: (val: string) => void;
-  isOnline: boolean;
-  setIsOnline: (val: boolean) => void;
   activeTab: FilterTab;
   setActiveTab: (tab: FilterTab) => void;
-  clearFilters: () => void;
 }
 
 const Filters: React.FC<FiltersProps> = ({
@@ -21,11 +18,8 @@ const Filters: React.FC<FiltersProps> = ({
   setSearchQuery,
   locationQuery,
   setLocationQuery,
-  isOnline,
-  setIsOnline,
   activeTab,
   setActiveTab,
-  clearFilters
 }) => {
   const tabs: FilterTab[] = [
     'Angola', 
@@ -47,8 +41,8 @@ const Filters: React.FC<FiltersProps> = ({
           <div className="relative">
             <input 
               type="text" 
-              placeholder="Keyword or category"
-              className="w-full pl-4 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004d79] focus:border-transparent outline-none text-sm bg-white"
+              placeholder="Tipo de evento"
+              className="w-full pl-4 pr-10 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-[#004d79] focus:border-transparent outline-none text-sm bg-white"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -65,44 +59,13 @@ const Filters: React.FC<FiltersProps> = ({
             <input 
               type="text" 
               placeholder="Digite sua localização" 
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004d79] focus:border-transparent outline-none text-sm bg-white" 
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-[#004d79] focus:border-transparent outline-none text-sm bg-white" 
               value={locationQuery} 
               onChange={(e) => setLocationQuery(e.target.value)} 
             />
           </div>
         </div>
 
-        {/* Online Toggle & Actions Row */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 xl:col-span-5">
-          <div className="flex items-center h-[50px]">
-            <label className="flex items-center cursor-pointer gap-2 select-none group">
-              <div className="relative">
-                <input 
-                  type="checkbox" 
-                  className="sr-only peer" 
-                  checked={isOnline} 
-                  onChange={() => setIsOnline(!isOnline)} 
-                />
-                <div className="w-6 h-6 border-2 border-gray-300 rounded-md peer-checked:bg-[#004d79] peer-checked:border-[#004d79] transition-colors"></div>
-                {isOnline && (
-                  <div className="absolute inset-0 flex items-center justify-center text-white">
-                    <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
-                  </div> 
-                )}
-              </div>
-              <span className="text-sm text-gray-700 font-medium">Eventos Online</span>
-            </label>
-          </div>
-
-          <div className="flex items-center gap-2 w-full sm:w-auto sm:ml-auto h-[50px]">
-            <button 
-              onClick={clearFilters}
-              className="flex-1 sm:flex-none border border-gray-300 text-gray-700 px-4 py-3 rounded-lg font-bold text-sm hover:bg-gray-50 transition-colors whitespace-nowrap"
-            >
-              Limpar
-            </button>
-          </div>
-        </div>
       </div>
 
       {/* Tabs Filter - Scrollable on mobile */}

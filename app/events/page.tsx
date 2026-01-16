@@ -11,7 +11,7 @@ import Footer from '@/components/Footer';
 import { MOCK_EVENTS } from '@/components/events/constants';
 import { FilterTab } from '@/data/types';
 
-const App: React.FC = () => {
+const Page = () => {
   // --- REFERÊNCIA DO VÍDEO ---
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -101,24 +101,6 @@ const App: React.FC = () => {
               impulsione sua carreira tech.
             </p>
 
-            <button
-              onClick={handleClick}
-              disabled={loading}
-              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all duration-200 active:scale-95 ${
-                loading
-                  ? "bg-orange-300 cursor-not-allowed text-zinc-800"
-                  : "bg-orange-400 hover:bg-orange-500 text-white"
-              }`}
-            >
-              {loading ? (
-                <>
-                  <Loader2 size={20} className="animate-spin" />
-                  Processando...
-                </>
-              ) : (
-                '< Acessar agora! />'
-              )}
-            </button>
           </div>
         </div>
       </section>
@@ -131,11 +113,8 @@ const App: React.FC = () => {
             setSearchQuery={setSearchQuery}
             locationQuery={locationQuery}
             setLocationQuery={setLocationQuery}
-            isOnline={isOnline}
-            setIsOnline={setIsOnline}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
-            clearFilters={clearFilters}
           />
 
           <h2 className="text-2xl font-bold my-6">
@@ -149,7 +128,7 @@ const App: React.FC = () => {
 
             {filteredEvents.length === 0 && (
               <p className="col-span-full text-center text-gray-500">
-                Sem eventos de momento.
+                Sem eventos listados de momento.
               </p>
             )}
           </div>
@@ -161,4 +140,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Page;

@@ -44,14 +44,14 @@ export const CuratedCollections = () => {
         <CollectionCard className="bg-[#1DB954] flex flex-col p-6 text-white overflow-hidden">
           <div className="z-10">
             <h3 className="text-4xl font-extrabold leading-tight">2000+</h3>
-            <p className="text-sm font-semibold opacity-90 mb-1 italic">UGC Approved</p>
+            <p className="text-sm font-semibold opacity-90 mb-1 italic">todos aprovados</p>
             <p className="text-3xl font-extrabold leading-tight">Online</p>
-            <p className="text-3xl font-extrabold leading-tight">Degrees</p>
+            <p className="text-3xl font-extrabold leading-tight">e ao teu ritmo</p>
           </div>
           {/* India Map Graphic Simulation */}
           <div className="absolute top-0 right-0 h-full w-1/2 bg-[#0A5D00] clip-path-india opacity-50 z-0"></div>
           <div className="mt-auto z-10 flex flex-col">
-            <p className="text-sm">from <span className="font-bold text-xl block">India's Top Universities</span></p>
+            <p className="text-sm">AO <span className="font-bold text-xl block">REDOR DO MUNDO.</span></p>
           </div>
           <style dangerouslySetInnerHTML={{ __html: `.clip-path-india { clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%); }` }} />
         </CollectionCard>
@@ -59,23 +59,23 @@ export const CuratedCollections = () => {
         {/* Card 3: Earn a Master's Degree Online */}
         <CollectionCard className="bg-[#0B1228] flex flex-col items-center justify-center text-center p-6 text-white">
           <div className="mb-2">
-            <span className="text-[10px] tracking-[0.2em] font-medium opacity-80">EARN A</span>
-            <h3 className="text-3xl font-extrabold text-[#D4AF37] leading-none my-1">MASTER'S</h3>
-            <h3 className="text-4xl font-extrabold leading-none mb-1">DEGREE</h3>
+            <span className="text-[10px] tracking-[0.2em] font-medium opacity-80">Acesseos cursos</span>
+            <h3 className="text-3xl font-extrabold text-[#D4AF37] leading-none my-1">Faculdade de tecnologia</h3>
+            <h3 className="text-4xl font-extrabold leading-none mb-1">COM CERTIFICADO</h3>
             <span className="text-[10px] tracking-[0.2em] font-medium opacity-80">ONLINE</span>
           </div>
           {/* Partner logos */}
           <div className="flex flex-wrap items-center justify-center gap-4 mt-6 opacity-80 scale-90">
-             <span className="text-[10px] font-bold">Encontre</span>
-             <span className="text-sm font-black italic">coursera</span>
-             <span className="text-xs font-bold border px-1">edX</span>
+             <span className="text-[10px] font-bold">HARDVERD</span>
+             <span className="text-sm font-black italic">M.I.T</span>
+             <span className="text-xs font-bold border px-1">CABRIDG</span>
           </div>
         </CollectionCard>
 
       </div>
 
       <div className="flex justify-center">
-        <button className="flex items-center gap-2 bg-[#B1DBDD] text-[#002D2D] font-bold py-3 px-10 rounded-lg hover:bg-[#9AD2D5] transition-colors shadow-sm group">
+        <button className="flex items-center gap-2 bg-[#B1DBDD] text-[#002D2D] font-bold py-3 px-10 rounded-xl hover:bg-[#9AD2D5] transition-colors shadow-sm group">
           <Link  href="/app/roadmaps"> Escolha uma e faça um curso gratuito </Link>
           <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /> 
         </button>
