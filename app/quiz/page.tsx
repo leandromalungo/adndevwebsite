@@ -170,7 +170,6 @@ export default function CareerQuiz() {
               onClick={handleClick}
               disabled={loading}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
-              href="/roadmaps"
             >
               {loading ? (
                 <>
