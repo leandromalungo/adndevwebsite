@@ -30,7 +30,7 @@ const careerTipsData: CareerTip[] = [
     id: "1",
     date: "Mar 12, 2025",
     title: "Carreira em Cybersecurity: o que você precisa saber",
-    image: "/images/logos/img3.jpg",
+    image: "/images/img3.jpg",
     imageAlt: "Cybersecurity",
   },
   {
@@ -57,8 +57,8 @@ const careerTipsData: CareerTip[] = [
   {
     id: "5",
     date: "Mar 28, 2025",
-    title: "Como funciona a área de inteligência artificial e machine learning",
-    image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
+    title: "Qual melhor linguagem?",
+    image: "/images/img5.jpg",
     imageAlt: "IA e ML",
   },
 ];
@@ -170,6 +170,7 @@ export default function CareerQuiz() {
               onClick={handleClick}
               disabled={loading}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+              href="/roadmaps"
             >
               {loading ? (
                 <>

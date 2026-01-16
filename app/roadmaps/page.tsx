@@ -47,11 +47,11 @@ const Page = () => {
         <div className="relative flex items-center px-8 py-20 md:px-12 md:py-24">
           <div className="max-w-md">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
-              Explore Roadmaps to Advance Your Tech Career
+              Descubra seu Roadmap Ideal e impulsione sua carreira.
             </h2>
 
             <p className="text-gray-100 mb-6">
-              Discover structured paths to master skills, build projects, and excel in your tech journey.
+            Faça um simples teste com a nossa assistente virtual pelo whatsapp e descubra o roadmap ideal para você. E acesse o roadmap correspodente as suas habilidades e objetivos profissionais.
             </p>
 
             <button
@@ -59,8 +59,8 @@ const Page = () => {
               disabled={loading}
               className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all
                 ${loading
-                  ? "bg-orange-300 cursor-not-allowed text-zinc-800"
-                  : "bg-orange-400 hover:bg-orange-500 text-white"
+                  ? "bg-blue-300 cursor-not-allowed text-zinc-800"
+                  : "bg-blue-400 hover:bg-blue-500 text-white rounded"
                 }`}
             >
               {loading ? (
@@ -84,17 +84,12 @@ const Page = () => {
           {/* Role-based Section */}
           <section>
             <div className="flex flex-col items-center mb-12">
-              <div className="inline-flex items-center px-4 py-1 rounded-full border border-slate-200 bg-white shadow-sm mb-6">
-                <span className="text-sm font-semibold text-slate-500">
-                  Role-based Roadmaps
-                </span>
-              </div>
               <div className="text-center space-y-3 max-w-2xl">
                 <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  Career Paths
+                  Acesse agora nossos Roadmaps
                 </h1>
                 <p className="text-slate-500 text-lg">
-                  Step-by-step guides for different engineering roles in the industry.
+                  Explore nossos roadmaps detalhados para guiar sua jornada de aprendizado e crescimento profissional, seja você um iniciante ou um profissional experiente.
                 </p>
               </div>
             </div>
@@ -111,17 +106,12 @@ const Page = () => {
           {/* Skill-based Section */}
           <section>
             <div className="flex flex-col items-center mb-12">
-              <div className="inline-flex items-center px-4 py-1 rounded-full border border-slate-200 bg-white shadow-sm mb-6">
-                <span className="text-sm font-semibold text-slate-500">
-                  Skill-based Roadmaps
-                </span>
-              </div>
               <div className="text-center space-y-3 max-w-2xl">
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  Technology Skills
+                  Ferramentas e tecnologias de desenvolvimento
                 </h2>
                 <p className="text-slate-500 text-lg">
-                  Deep-dive guides for specific tools, languages, and technologies.
+                  Domine as principais ferramentas e tecnologias essenciais para desenvolvedores modernos, aprimorando suas habilidades técnicas. 
                 </p>
               </div>
             </div>
@@ -135,47 +125,20 @@ const Page = () => {
             </div>
           </section>
 
-          {/* Project Ideas Section */}
-          <section>
-            <div className="flex flex-col items-center mb-12">
-              <div className="inline-flex items-center px-4 py-1 rounded-full border border-slate-200 bg-white shadow-sm mb-6">
-                <span className="text-sm font-semibold text-slate-500">
-                  Project Ideas
-                </span>
-              </div>
-              <div className="text-center space-y-3 max-w-2xl">
-                <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  Project Paths
-                </h2>
-                <p className="text-slate-500 text-lg">
-                  Comprehensive project ideas to help you build and showcase your portfolio.
-                </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {PROJECT_IDEAS.map((item) => (
-                <div key={item.id} onClick={() => setSelectedRoadmap(item)}>
-                  <RoadmapCard item={item} />
-                </div>
-              ))}
-            </div>
-          </section>
-
           {/* Best Practices Section */}
           <section>
             <div className="flex flex-col items-center mb-12">
               <div className="inline-flex items-center px-4 py-1 rounded-full border border-slate-200 bg-white shadow-sm mb-6">
                 <span className="text-sm font-semibold text-slate-500">
-                  Best Practices
+                  Dicas de boas práticas
                 </span>
               </div>
               <div className="text-center space-y-3 max-w-2xl">
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  Engineering Standards
+                  Melhores práticas de desenvolvimento
                 </h2>
                 <p className="text-slate-500 text-lg">
-                  Industry-standard practices for high-performance and secure software.
+                  Aprenda as melhores práticas de desenvolvimento para escrever código limpo, eficiente e sustentável, garantindo a qualidade dos seus projetos, independentemente da linguagem ou framework utilizado.
                 </p>
               </div>
             </div>
