@@ -2,15 +2,15 @@
 
 export const LogoCloud = () => {
   const logos = [
-    { name: 'JavaScript', url: '/images/1.png' },
-    { name: 'Linux', url: '/images/linux.png' },
-    { name: 'Docker', url: '/images/docker.png' },
-    { name: 'C#', url: '/images/csharp.png' },
-    { name: 'Java', url: '/images/java.png' },
-    { name: 'GitHub', url: '/images/github.png' },
-    { name: 'Php', url: '/images/php.png' },
-    { name: 'html5', url: '/images/html5.png' },
-    { name: 'Css3', url: '/images/css3.png' },
+    { name: 'JavaScript', url: '/images/logos/js.png' },
+    { name: 'Linux', url: '/images/logos/linux.png' },
+    { name: 'Docker', url: '/images/logos/docker.png' },
+    { name: 'C#', url: '/images/logos/csharp.png' },
+    { name: 'Java', url: '/images/logos/java.png' },
+    { name: 'GitHub', url: '/images/logos/github.png' },
+    { name: 'Php', url: '/images/logos/php.png' },
+    { name: 'html5', url: '/images/logos/hcj.png' },
+    { name: 'python', url: '/images/logos/python.png' },
   ];
 
   return (
@@ -34,7 +34,7 @@ export const LogoCloud = () => {
               <img 
                 src={logo.url} 
                 alt={logo.name} 
-                className="h-full w-auto object-contain brightness-0 invert opacity-60 hover:opacity-100 transition-opacity" 
+                className="h-full w-auto opacity-60 hover:opacity-100 transition-opacity" 
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                   const parent = e.currentTarget.parentElement;
