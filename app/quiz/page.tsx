@@ -32,35 +32,35 @@ const careerTipsData: CareerTip[] = [
   {
     id: "1",
     date: "Mar 12, 2025",
-    title: "How to start a career in Frontend Development",
+    title: "Carreira em Cybersecurity: o que você precisa saber",
     image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
     imageAlt: "Frontend development",
   },
   {
     id: "2",
     date: "Mar 15, 2025",
-    title: "Backend vs Frontend: which path should you choose?",
+    title: "Como é trabalhar com tecnoologia no seculo XXI",
     image: "https://images.unsplash.com/photo-1517433456452-f9633a875f6f",
     imageAlt: "Backend vs Frontend",
   },
   {
     id: "3",
     date: "Mar 20, 2025",
-    title: "Data Science career: skills you really need",
+    title: "Veja como iniciar sua carreira em Data Science",
     image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
     imageAlt: "Data Science",
   },
   {
     id: "4",
     date: "Mar 25, 2025",
-    title: "DevOps skills that will boost your career",
+    title: "Quaal curso escolher na área de tecnologia?",
     image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
     imageAlt: "DevOps",
   },
   {
     id: "5",
     date: "Mar 28, 2025",
-    title: "AI & Machine Learning: how to get started",
+    title: "Como funciona a área de inteligência artificial e machine learning",
     image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
     imageAlt: "AI & ML",
   },
@@ -104,7 +104,7 @@ export default function CareerQuiz() {
               Não sabes qual área ou função combina com suas habilidades?
             </h2>
             <p className="mt-4 max-w-2xl text-gray-100 mb-3">
-              Faça nosso quiz rápido para descobrir a carreira ideal para você,
+              Faça nosso quiz apartir do seu whatsapp, rápido para descobrir a carreira ideal para você,
               baseado em suas habilidades, interesses e dê o primeiro passo rumo
               ao sucesso profissional!
             </p>
@@ -145,7 +145,7 @@ export default function CareerQuiz() {
           {/* Header */}
           <div className="mb-12 text-center md:text-left">
             <h2 className="text-balance text-4xl font-semibold tracking-tight md:text-5xl">
-              Leia nossas dicas profissionais para construção.
+              Leia dicas de quem já está trabalhando no mercado para impulsionar a tua forma de aprender.
               <span className="font-bold">sua carreira</span>
             </h2>
             <p className="mt-4 text-gray-600">
