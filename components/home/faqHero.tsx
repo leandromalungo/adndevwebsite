@@ -13,7 +13,7 @@ const faqItems: FAQItem[] = [
     id: "faq-1",
     question: "O que é a ADN Developers",
     answer:
-      "Nós somos uma plaataforma de divulgação de conhecimento na área de tecnologia, focada em capacitar indivíduos com habilidades práticas e teóricas para prosperar no setor tecnológico.",
+      "Nós somos um repositório online dedicado a fornecer recursos educacionais gratuitos na área de tecnologia. Nosso objetivo é capacitar indivíduos com conhecimento e habilidades necessárias para prosperar na indústria tecnológica. Falando sobre eventos, workshops, hackathons, bolsas de estudo e muito mais.",
   },
   {
     id: "faq-2",
