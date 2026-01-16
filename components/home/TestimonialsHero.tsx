@@ -13,19 +13,19 @@ interface Testimonial {
 const TestimonialsSection: React.FC = () => {
   const testimonials: Testimonial[] = [
     {
-      text: "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      text: "Eu nunca pensei que aprender programação pudesse ser tão acessível. Graças à ADN Developers, consegui adquirir habilidades valiosas sem gastares muito tempo e esforço!",
       name: "Filipe Mafuila",
       role: "Desenvolvedor Front-end, de Angola.",
       avatar: "https://picsum.photos/100/100?random=11"
     },
     {
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada.",
+      text: "A ADN Developers transformou minha jornada de aprendizado em tecnologia. Os recursos gratuitos e a comunidade de apoio me ajudaram a crescer como desenvolvedor e a alcançar meus objetivos profissionais.",
       name: "Francisco Diakomas",
       role: "Programador, de Moçambique.",
       avatar: "https://picsum.photos/100/100?random=12"
     },
     {
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.",
+      text: "Como estudante de tecnologia, a ADN Developers tem sido uma fonte inestimável de conhecimento. Os tutoriais e cursos gratuitos me permitiram explorar novas áreas e aprimorar minhas habilidades técnicas.",
       name: "Bernardo Manuel",
       role: "Desenvolvedor Back-end, do Brasil.",
       avatar: "https://picsum.photos/100/100?random=13"
