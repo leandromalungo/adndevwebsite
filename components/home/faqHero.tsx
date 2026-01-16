@@ -13,12 +13,12 @@ const faqItems: FAQItem[] = [
     id: "faq-1",
     question: "O que é a ADN Developers",
     answer:
-      "Nós somos um repositório online dedicado a fornecer recursos educacionais gratuitos na área de tecnologia. Nosso objetivo é capacitar indivíduos com conhecimento e habilidades necessárias para prosperar na indústria tecnológica. Falando sobre eventos, workshops, hackathons, bolsas de estudo e muito mais.",
+      "Nós somos um repositório online dedicado a fornecer recursos educacionais gratuitos na área de tecnologia. Nosso objetivo é capacitar indivíduos com conhecimento e habilidades necessárias para prosperar na indústria tecnológica.",
   },
   {
     id: "faq-2",
     question: "O que fazem?",
-    answer: "Partilhamos conteúdos educativos, tutoriais, cursos e recursos relacionados a diversas áreas da tecnologia, incluindo desenvolvimento de software, ciência de dados, inteligência artificial, entre outros.",
+    answer: "Partilhamos conteúdos educativos, tutoriais, cursos, palestras, eventos, workshops, hackathons, bolsas de estudo e muito mais. Tudo isso de forma gratuita, para que qualquer pessoa interessada em tecnologia possa aprender e crescer connosco.",
   },
   {
     id: "faq-3",
