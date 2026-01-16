@@ -88,8 +88,8 @@ const TeamMemberSection = () => {
       {/* Main Card Container */}
       <div className="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-8 md:p-10">
         <div className="max-w-3xl mx-auto text-center">
-          <h3 className="text-2xl font-bold text-[#334155] mb-8">
-            Equipa de Desenvolvimento ADN Developer Conheça os talentosos profissionais por trás da nossa plataforma
+          <h3 className="text-2xl font-bold text-[#334155] mb-8 uppercase">
+            Conheça a equipe por trás da ADN Developer
           </h3>
 
           <p className="text-gray-600 text-lg leading-relaxed mb-12">
