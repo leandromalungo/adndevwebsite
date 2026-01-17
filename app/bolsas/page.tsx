@@ -1,13 +1,13 @@
 
 import React from 'react';
-import { HeroSection } from '@/components/bolsas/HeroSection';
-import { OurWorkSection } from '@/components/bolsas/OurWorkSection';
+import { Hero } from '@/components/bolsas/Hero';
+import { LeaderBo } from '@/components/bolsas/LeaderBo';
 import { AboutUsSection } from '@/components/bolsas/AboutUsSection';
-import { SupportersSection } from '@/components/bolsas/SupportersSection';
-import { ScholarshipSection } from '@/components/bolsas/HeroDescr';
-import { ScholarshipListSection } from '@/components/bolsas/ScholarshipListSection';
-import { HowToWinSection } from '@/components/bolsas/HowToWinSection';
-import { FAQSection } from '@/components/bolsas/faq';
+import { BigTechBo } from '@/components/bolsas/BigTechBo';
+import { Preview } from '@/components/bolsas/Preview';
+import { CarroselBo } from '@/components/bolsas/CarroselBo';
+import { RecentSection } from '@/components/bolsas/RecentSection';
+import { Faq } from '@/components/bolsas/Faq';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -18,25 +18,25 @@ const App: React.FC = () => {
     <>
     <Navbar />
     <main className="min-h-screen bg-white">
-      <HeroSection />
-      <ScholarshipSection />
+      <Hero />
+      <Preview />
       <div className="space-y-0">
    
         <div className="py-12 px-4 md:px-8">
           <AboutUsSection />
         </div>
         
-        <SupportersSection />
+        <BigTechBo />
 
         <div className="py-12 px-4 md:px-8">
-          <OurWorkSection />
+          <LeaderBo />
         </div>     
 
-        <ScholarshipListSection />
+        <CarroselBo />
 
-        <HowToWinSection />
+        <RecentSection />
 
-        <FAQSection />
+        <Faq />
 
         <Footer />
       </div>

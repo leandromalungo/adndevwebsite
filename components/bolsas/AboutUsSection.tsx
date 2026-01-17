@@ -10,61 +10,55 @@ export const AboutUsSection: React.FC = () => {
         {/* Left Column: Text Content */}
         <div className="flex flex-col">
           <span className="text-[#666666] font-bold text-sm tracking-widest uppercase mb-4">
-            Encontre as bolsas de estudos
+            Como funciona?
           </span>
           
-          <h2 className="text-4xl md:text-5xl lg:text-4xl font-bold text-[#222222] leading-[1.1] mb-8 uppercase">
-          Repositório é mantido para ajudar jovens talentos a encontrarem oportunidades educacionais globais.
+          <h2 className="text-4xl md:text-5xl lg:text-4xl text-[#222222] leading-[1.1] mb-8 uppercase">
+          O repositório é mantido para ajudar jovens talentos a encontrarem oportunidades educacionais globais.
           </h2>
 
           <p className="text-[#666666] text-lg leading-relaxed mb-10">
-            Global Young Leaders is a Brazilian initiative with international reach, 
-            founded in 2020 in Itarema, Ceará, by young people committed to social, 
-            climate, and territorial justice. It was born out of the urgent need to 
-            develop concrete actions that would positively impact traditional communities.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Error iste quae doloremque atque ad quibusdam ab delectus 
+            perferendis, fugiat sint molestiae reprehenderit quidem aspernatur. Mollitia illum possimus fugit iste porro quia exercitationem 
+            sunt, necessitatibus odio dicta at obcaecati repellendus nisi ipsum quis. Commodi voluptas optio quaerat obcaecati in maxime hic.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
             {/* Feature 1 */}
             <div className="flex flex-col">
               <div className="flex items-center gap-2 mb-3">
-                <div className="bg-[#FFD600] p-1 rounded-full">
-                  <Zap className="w-4 h-4 text-white fill-current" />
-                </div>
-                <h3 className="font-bold text-[#222222] text-xl">Our Communities</h3>
+                <h3 className="font-bold text-[#222222] text-xl">O que acontece se eu assinar?</h3>
               </div>
               <p className="text-[#666666] leading-relaxed">
-                We work with traditional communities including quilombola, Indigenous, 
-                riverside, and semi-arid populations through education, sanitation, 
-                culture, and youth empowerment.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum ex, commodi aliquam quo 
+                natus sit officiis vitae, facilis maiores repellendus asperiores eius ipsa magni dolorum perferendis placeat
+                dolores excepturi odit corrupti adipisci! Sit labore dolorum modi libero obcaecati? Nesciunt, ullam.
               </p>
             </div>
 
             {/* Feature 2 */}
             <div className="flex flex-col">
               <div className="flex items-center gap-2 mb-3">
-                <div className="bg-[#FFD600] p-1 rounded-full">
-                  <Network className="w-4 h-4 text-white" />
-                </div>
-                <h3 className="font-bold text-[#222222] text-xl">Global Network</h3>
+                <h3 className="font-bold text-[#222222] text-xl">
+                  Lorem, ipsum.
+                </h3>
               </div>
               <p className="text-[#666666] leading-relaxed">
-                From our roots in Brazil, we've grown into an international network 
-                connecting youth with initiatives in China, Sweden, the United States, 
-                and Latin America.
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis doloribus molestiae eaque natus unde aspernatur 
+                consectetur possimus assumenda. Tempore, doloremque facilis libero doloribus itaque vel voluptate repellendus non? Iusto 
+                fugit neque unde culpa fugiat, suscipit facilis inventore. Eum, expedita aliquid?
               </p>
             </div>
           </div>
 
           <p className="text-[#666666] text-lg leading-relaxed mb-10">
-            Guided by the mission of empowering young people from their own territories, 
-            we promote cultural exchange, political education, social innovation, and 
-            sustainability across borders.
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et, eum! Quam eaque voluptatem, rerum molestiae nemo perferendis quis illum 
+            doloribus voluptates quaerat repudiandae soluta saepe ex possimus dicta dolor eum minus ea itaque. Ab totam nisi eaque ad obcaecati debitis!
           </p>
 
           <div>
-            <button className="bg-[#FFD600] hover:bg-[#e6c100] text-[#222222] font-bold py-4 px-8 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md active:scale-95">
-              Read more about us
+            <button className="bg-[#07bb1f] hover:bg-[#0aa21e] text-[#ffffff] font-bold py-4 px-8 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md active:scale-95">
+              Baixar agora
             </button>
           </div>
         </div>

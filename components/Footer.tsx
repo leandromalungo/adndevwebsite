@@ -459,6 +459,7 @@ const Footer = () => {
                 </svg>
               </a>
             </div>
+            
             <div className="mt-2 w-48 relative rounded-xl">
               <label
                 htmlFor="language"
@@ -494,7 +495,7 @@ const Footer = () => {
                 {/* Ícone de seta para baixo com animação */}
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <svg
-                    className="w-4 h-4 text-gray-400 transition-transform duration-300 ease-in-out peer-focus:rotate-180"
+                    className="w-4 h-4 text-gray-400 transition-transform duration-300 ease-in-out peer-focus:rotate-180 rounded-xl"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

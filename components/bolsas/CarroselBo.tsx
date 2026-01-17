@@ -21,61 +21,53 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
   tags
 }) => {
   return (
-    <div className="bg-[#f0f9f9] rounded-2xl p-6 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow duration-300 border border-teal-50/50 min-w-full md:min-w-0">
+    <div className="bg-[#2e405c] rounded-2xl p-6 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow duration-300 border border-teal-50/50 min-w-full md:min-w-0">
       <div className="flex items-start gap-4 mb-6">
-        <div className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0 bg-white flex items-center justify-center shadow-sm border border-gray-100">
+        <div className="w-14 h-14 rounded-xl overflow-hidden flex-shrink-0 bg-white flex items-center justify-center shadow-sm border border-gray-100">
           <img src={logo} alt={title} className="w-10 h-10 object-contain" />
         </div>
-        <h3 className="text-lg font-bold text-[#1f2937] leading-tight pt-1">
+        <h3 className="text-lg font-bold text-[#ffffff] leading-tight pt-1">
           {title}
         </h3>
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>
-          <div className="flex items-center gap-1 text-[#4b5563] text-xs font-bold uppercase tracking-wider mb-1">
-            <DollarSign className="w-3.5 h-3.5" /> Amount:
+          <div className="flex items-center gap-1 text-[#d4d5d5] text-xs font-bold uppercase tracking-wider mb-1">
+            <DollarSign className="w-3.5 h-3.5" /> Mensalidade:
           </div>
-          <div className="text-xl font-extrabold text-[#111827]">{amount}</div>
+          <div className="text-xl font-extrabold text-[#ffffff]">{amount}</div>
         </div>
         <div>
-          <div className="flex items-center gap-1 text-[#4b5563] text-xs font-bold uppercase tracking-wider mb-1">
-            <Calendar className="w-3.5 h-3.5" /> Deadline:
+          <div className="flex items-center gap-1 text-[#d4d5d5] text-xs font-bold uppercase tracking-wider mb-1">
+            <Calendar className="w-3.5 h-3.5" /> Data do edital:
           </div>
-          <div className="text-base font-extrabold text-[#111827]">{deadline}</div>
+          <div className="text-base font-extrabold text-[#ffffff]">{deadline}</div>
         </div>
       </div>
 
-      <p className="text-[#4b5563] text-sm leading-relaxed mb-6 line-clamp-3">
+      <p className="text-[#ffffff] text-sm leading-relaxed mb-6 line-clamp-3">
         {description}
       </p>
 
       <div className="flex flex-wrap gap-2 mb-8">
         {tags.map((tag, idx) => (
-          <span key={idx} className="bg-white px-3 py-1.5 rounded-md text-[11px] font-bold text-[#374151] border border-gray-100 shadow-sm">
+          <span key={idx} className="bg-white px-3 py-1.5 rounded-xl text-[11px] font-bold text-[#374151] border border-gray-100 shadow-sm">
             {tag}
           </span>
         ))}
       </div>
 
       <div className="mt-auto pt-4 border-t border-gray-200/50 flex items-center justify-between">
-        <div className="flex items-center gap-4 text-[#9ca3af]">
-          <button className="hover:text-red-500 transition-colors">
-            <Heart className="w-5 h-5" />
-          </button>
-          <button className="hover:text-yellow-500 transition-colors">
-            <Trophy className="w-5 h-5" />
-          </button>
-        </div>
-        <button className="bg-[#f26533] hover:bg-[#e05626] text-white font-black py-2.5 px-8 rounded-lg transition-all duration-200 text-sm shadow-md active:scale-95">
-          Apply Now
+        <button className="bg-[#0080ff] hover:bg-[#0a77e3] text-white font-black py-2.5 px-8 rounded-xl transition-all duration-200 text-sm shadow-md active:scale-95">
+          Inscrever
         </button>
       </div>
     </div>
   );
 };
 
-export const ScholarshipListSection: React.FC = () => {
+export const CarroselBo = () => {
   const scholarships = [
     {
       logo: "https://upload.wikimedia.org/wikipedia/commons/e/e3/Dolly_Parton_logo.png",
@@ -164,8 +156,8 @@ export const ScholarshipListSection: React.FC = () => {
     <section className="bg-white py-16 px-6 md:px-12 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-start mb-10">
-          <button className="border-2 border-[#0d9488] text-[#0d9488] font-black py-2 px-6 rounded-lg hover:bg-teal-50 transition-colors text-sm uppercase tracking-tight">
-            See All Scholarships
+          <button className="border-2 border-[#0d9488] text-[#0d9488] font-black py-2 px-6 rounded-xl hover:bg-teal-50 transition-colors text-sm uppercase tracking-tight">
+            Bolsas de estudos 
           </button>
         </div>
 
@@ -218,7 +210,7 @@ export const ScholarshipListSection: React.FC = () => {
               onClick={() => setCurrentIndex(i)}
               className={`h-2 rounded-full transition-all duration-300 ${
                 currentIndex === i 
-                  ? 'w-8 bg-[#2dd4bf]' 
+                  ? 'w-8 bg-[#404040]' 
                   : 'w-2 bg-gray-200 hover:bg-gray-300'
               }`}
               aria-label={`Go to slide ${i + 1}`}

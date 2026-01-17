@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export const SupportersSection: React.FC = () => {
+export const BigTechBo = () => {
   const supporters = [
     { name: 'Amazon', logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg' },
     { name: 'Microsoft', logo: 'https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg' },
@@ -21,7 +21,7 @@ export const SupportersSection: React.FC = () => {
         {/* Left Side: Content */}
         <div className="lg:col-span-5 flex flex-col space-y-6">
           <span className="text-[#0ea5e9] font-bold text-xs md:text-sm tracking-wider uppercase">
-            Nossos Apoiadores
+            Bolsas patrocinadas pelas big techs mundiais
           </span>
           
           <h2 className="text-3xl md:text-5xl font-bold text-[#1f2937] leading-tight">
@@ -34,8 +34,8 @@ export const SupportersSection: React.FC = () => {
           </p>
 
           <div className="pt-4">
-            <button className="bg-[#9333ea] hover:bg-[#7e22ce] text-white font-bold py-3 px-8 rounded-lg transition-all duration-200 shadow-md active:scale-95">
-              Conheça nossos apoiadores
+            <button className="bg-[#006eff] hover:bg-[#0c69e3] text-white font-bold py-3 px-8 rounded-xl transition-all duration-200 shadow-md active:scale-95">
+              Ver agora
             </button>
           </div>
         </div>

@@ -18,16 +18,16 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ image, title, description }
           className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
         />
       </div>
-      <div className="flex flex-col flex-grow p-6 bg-[#f0fdfa]">
-        <h3 className="text-xl font-extrabold text-[#111827] mb-3 leading-tight">
+      <div className="flex flex-col flex-grow p-6 bg-[#2e405c]">
+        <h3 className="text-xl font-extrabold text-[#ffffff] mb-3 leading-tight">
           {title}
         </h3>
-        <p className="text-[#4b5563] text-sm leading-relaxed mb-6 flex-grow">
+        <p className="text-[#ffffff] text-sm leading-relaxed mb-6 flex-grow">
           {description}
         </p>
         <div>
-          <button className="border-2 border-[#0d9488] text-[#0d9488] font-bold py-2 px-6 rounded-lg hover:bg-[#0d9488] hover:text-white transition-all duration-200 text-sm">
-            Browse Scholarships
+          <button className="border-2 border-[#ffffff] text-[#ffffff] font-bold py-2 px-6 rounded-xl hover:bg-[#0d9488] hover:text-white transition-all duration-200 text-sm">
+            Ver mais
           </button>
         </div>
       </div>
@@ -35,7 +35,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ image, title, description }
   );
 };
 
-export const HowToWinSection: React.FC = () => {
+export const RecentSection = () => {
   const categories = [
     {
       image: "https://images.unsplash.com/photo-1523240715639-99a8080f970c?q=80&w=800&auto=format&fit=crop",
@@ -73,14 +73,14 @@ export const HowToWinSection: React.FC = () => {
     <section className="bg-white py-20 px-6 md:px-12">
       <div className="max-w-7xl mx-auto">
         <header className="mb-12">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-[#111827] mb-4">
-            How To Win <span className="font-light">Scholarships</span>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[#111827] mb-4 uppercase">
+            Bolsas de estudo <span className="font-light">mais recorente</span>
           </h2>
           <p className="text-[#4b5563] text-lg md:text-xl font-medium mb-8">
             We provide expert scholarship advice to help you pay for college.
           </p>
-          <button className="bg-[#f26533] hover:bg-[#e05626] text-white font-bold py-3 px-8 rounded-lg transition-all duration-200 shadow-md active:scale-95">
-            Get Started Now
+          <button className="bg-[#620fe7] hover:bg-[#5815c4] text-white font-bold py-3 px-8 rounded-xl transition-all duration-200 shadow-md active:scale-95">
+            Assinar
           </button>
         </header>
 

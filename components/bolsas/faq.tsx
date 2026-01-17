@@ -41,7 +41,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
   );
 };
 
-export const FAQSection: React.FC = () => {
+export const Faq = () => {
   const faqData = [
     {
       question: "What is Scholarships.com?",
@@ -76,8 +76,8 @@ export const FAQSection: React.FC = () => {
   return (
     <section className="bg-[#e0f7f6] py-20 px-6 md:px-12">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-black text-[#111827] mb-12">
-          Frequently Asked Questions
+        <h2 className="text-4xl md:text-5xl font-black text-[#111827] mb-12 uppercase">
+        Perguntas frequentes
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-0 items-start">

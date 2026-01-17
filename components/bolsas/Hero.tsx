@@ -1,13 +1,12 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
 import { Calculator, Book, Pencil, Beaker } from "lucide-react";
 
-// ✅ IMPORT DIRETO DA IMAGEM
+// IMPORT DIRETO DA IMAGEM
 import heroBg from "@/public/images/imgbol1.jpg";
 
-export const HeroSection = () => {
+export const Hero = () => {
   return (
     <section className="relative w-full min-h-screen overflow-hidden text-white font-sans">
       
@@ -39,14 +38,14 @@ export const HeroSection = () => {
           
           {/* Left Side */}
           <div className="md:pr-12 py-12 flex flex-col justify-center">
-            <h1 className="text-4xl lg:text-5xl font-bold leading-tight mb-8 max-w-md">
-              It’s Time for Your Hard Work to Pay Off
+            <h1 className="text-4xl lg:text-5xl font-bold leading-tight mb-8 max-w-md uppercase">
+              Confira as bolsas de estudo de 50% até 100% finaciada
             </h1>
             <p className="mb-10 text-lg lg:text-xl opacity-90 max-w-md">
               Your classmates have earned thousands on RaiseMe. Now it’s your turn.
             </p>
-            <button className="bg-white text-[#2b58e6] px-10 py-4 rounded-md font-bold text-lg shadow-xl hover:bg-gray-100 transition-all w-fit">
-              Check Eligibility
+            <button className="bg-white text-[#2b58e6] px-10 py-4 rounded-xl font-bold text-lg shadow-xl hover:bg-gray-100 transition-all w-fit">
+              Aassinar agora
             </button>
           </div>
 

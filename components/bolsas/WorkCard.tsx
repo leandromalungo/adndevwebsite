@@ -7,8 +7,6 @@ interface WorkCardProps {
   image: string;
   title: string;
   description: string;
-  metricValue: string;
-  metricLabel: string;
   link: string;
 }
 
@@ -16,8 +14,6 @@ export const WorkCard: React.FC<WorkCardProps> = ({
   image,
   title,
   description,
-  metricValue,
-  metricLabel,
   link
 }) => {
   return (
@@ -45,20 +41,12 @@ export const WorkCard: React.FC<WorkCardProps> = ({
         <div className="flex items-end justify-between mt-auto">
           <a 
             href={link}
-            className="inline-flex items-center bg-[#FFC107] hover:bg-[#e6ae00] text-[#333333] font-bold py-3 px-6 rounded-md transition-colors duration-200 text-sm md:text-base"
+            className="inline-flex items-center bg-[#0178f8] hover:bg-[#0f6dd2] text-[#ffffff] font-bold py-3 px-6 rounded-xl transition-colors duration-200 text-sm md:text-base"
           >
             Saiba mais
             <ChevronRight className="ml-1 w-5 h-5" />
           </a>
 
-          <div className="text-right">
-            <div className="text-[#FFC107] text-4xl md:text-5xl font-black leading-none">
-              {metricValue}
-            </div>
-            <div className="text-[#666666] text-sm md:text-base font-medium mt-1">
-              {metricLabel}
-            </div>
-          </div>
         </div>
       </div>
     </div>
