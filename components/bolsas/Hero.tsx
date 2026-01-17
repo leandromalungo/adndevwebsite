@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Calculator, Book, Pencil, Beaker } from "lucide-react";
 
 // IMPORT DIRETO DA IMAGEM
-import heroBg from "@/public/images/imgbol1.jpg";
+import heroBg from "@/public/images/imgbol1.jpeg";
 
 export const Hero = () => {
   return (
