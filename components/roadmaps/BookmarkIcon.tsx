@@ -1,3 +1,3 @@
 
-// This file can be safely deleted or left empty as it is no longer imported.
+// Este arquivo pode ser excluído com segurança ou deixado vazio, pois não é mais importado.
 export {};

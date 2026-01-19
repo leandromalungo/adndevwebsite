@@ -148,8 +148,8 @@ export const CarroselBo = () => {
     setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
   };
 
-  // Logic for dots (indicators)
-  // We want to show a dot for each "viewable" start position
+  // Lógica para pontos (indicadores)
+  // Queremos mostrar um ponto para cada posição inicial "visível"
   const dotsCount = maxIndex + 1;
 
   return (

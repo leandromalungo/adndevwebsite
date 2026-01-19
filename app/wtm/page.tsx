@@ -10,7 +10,7 @@ import { HeroCarousel } from "@/components/wtm/HeroCarousel";
 import { LeadershipSection } from "@/components/wtm/LeadershipSection";
 
 const App: React.FC = () => {
-  // --- VIDEO REF ---
+  // --- REFERÊNCIA DO VÍDEO ---
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -19,16 +19,16 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // --- STATE BOTÃO QUIZ ---
+  // --- ESTADO DO BOTÃO QUIZ ---
   const [loading, setLoading] = useState(false);
 
   return (
     <>
       <Navbar />
 
-      {/* HERO SECTION */}
+      {/* SEÇÃO HERÓI */}
       <section className="relative w-full overflow-hidden bg-zinc-900">
-        {/* VIDEO BACKGROUND */}
+        {/* FUNDO DE VÍDEO */}
         <video
           ref={videoRef}
           autoPlay

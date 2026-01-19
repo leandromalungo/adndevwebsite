@@ -13,10 +13,10 @@ export const RoadmapDetailView: React.FC<RoadmapDetailViewProps> = ({ title, onB
   const [activeLevel, setActiveLevel] = useState<Difficulty>('Junior');
   const [activeTab, setActiveTab] = useState<'Roadmap' | 'Projectos' | 'Apostila'>('Projectos');
 
-  // Find exact match or use default
+  // Encontrar correspondência exata ou usar padrão
   const projects = MOCK_PROJECTS[title] || MOCK_PROJECTS['default'];
   
-  // Filtering logic
+  // Lógica de filtragem
   const filteredProjects = projects.filter(p => p.difficulty === activeLevel);
 
   const getTopicDescription = (topic: string) => {

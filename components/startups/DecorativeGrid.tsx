@@ -3,8 +3,8 @@
 import React from 'react';
 
 const DecorativeGrid: React.FC = () => {
-  // We'll build the grid pattern seen in the bottom-right of the user's image
-  // It's a mix of white blocks and "X" icons in a grid layout
+  // Vamos construir o padrão de grade visto no canto inferior direito da imagem
+  // É uma mistura de blocos brancos e ícones "X" em um layout de grade
   
   const CrossBox = () => (
     <div className="w-16 h-16 border border-gray-400 flex items-center justify-center relative bg-white">

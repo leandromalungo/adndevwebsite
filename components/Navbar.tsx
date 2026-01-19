@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "@/public/images/logos/logo-cafe.png";
 
-/* -------------------- NAVBAR -------------------- */
+/* -------------------- BARRA DE NAVEGAÇÃO -------------------- */
 
 const Navbar: React.FC = () => {
   const [openMenu, setOpenMenu] = useState(false);

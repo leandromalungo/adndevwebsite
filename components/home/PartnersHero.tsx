@@ -47,7 +47,7 @@ const PartnersSection: React.FC = () => {
     
   ];
 
-  // Doubling the array to create a seamless infinite loop effect
+  // Duplicar o array para criar um efeito de loop infinito perfeito
   const carouselItems = [...partners, ...partners, ...partners];
 
   return (

@@ -6,7 +6,7 @@ import Hero from "@/components/home/hero";
 import Faq from "@/components/home/faqHero";
 import Footer from "@/components/Footer";
 
-/* Home sections */
+/* Seções da Home */
 import { CardHero } from "@/components/home/CardHero";
 import { ServicesSection } from "@/components/home/sectionHero";
 import { LogoCloud } from "@/components/home/logosHero";

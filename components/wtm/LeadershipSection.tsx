@@ -15,7 +15,7 @@ export const LeadershipSection: React.FC = () => {
           <div key={card.id} className="flex flex-col h-full">
             {/* Intro Card */}
             {card.type === 'intro' ? (
-              <div className="bg-white border border-gray-100 rounded-lg shadow-sm border-t-[6px] border-[#00CBA9] p-6 md:p-8 flex flex-col h-full">
+              <div className="bg-white border-b border-l border-r border-gray-100 rounded-lg shadow-sm border-t-[6px] border-t-[#00CBA9] p-6 md:p-8 flex flex-col h-full">
                 <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">
                   {card.subtitle}
                 </span>
@@ -27,7 +27,7 @@ export const LeadershipSection: React.FC = () => {
                 </p>
               </div>
             ) : (
-              /* Standard Leader Card */
+              /* Cartão de Líder Padrão */
               <div className="bg-white border border-gray-100 rounded-lg shadow-sm flex flex-col h-full overflow-hidden relative group">
                 
                 {/* Teal Corner */}

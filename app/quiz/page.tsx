@@ -5,12 +5,12 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-// FontAwesome Icons
+// Ícones FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 
 /* =======================
-   TYPES / INTERFACES
+   TIPOS / INTERFACES
 ======================= */
 
 interface CareerTip {
