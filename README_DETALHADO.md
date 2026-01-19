@@ -1,6 +1,6 @@
-# 📚 ADN Developer - Documentação Completa
+# ADN Developer - Documentação Completa
 
-## 🎯 Visão Geral do Projeto
+## Visão Geral do Projeto
 
 **ADN Developer** é uma plataforma web completa desenvolvida com **Next.js + React + TypeScript + Tailwind CSS**, dedicada a promover oportunidades de desenvolvimento técnico e crescimento profissional em países africanos de língua portuguesa (Angola, Brasil, Moçambique, Portugal, São Tomé e Príncipe, Guiné-Bissau e Cabo-Verde).
 
@@ -8,7 +8,7 @@ A plataforma oferece workshops, palestras, bolsas de estudo, hackathons, competi
 
 ---
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ### **Raiz do Projeto**
 ```
@@ -28,7 +28,7 @@ adndeveloper/
 
 ---
 
-## 🗂️ Detalhamento de Cada Pasta
+## Detalhamento de Cada Pasta
 
 ### **1. `/app` - Páginas e Layout Principal**
 
@@ -328,7 +328,7 @@ interface Media { ... }
 
 ---
 
-## 🔧 Configurações Importantes
+## Configurações Importantes
 
 ### **`next.config.mjs`** - Configuração Next.js
 - Configurações de build
@@ -350,7 +350,7 @@ interface Media { ... }
 
 ---
 
-## 📦 Dependências Principais
+## Dependências Principais
 
 ### **Framework e Ferramentas**
 - `next` - Framework React
@@ -387,7 +387,7 @@ interface Media { ... }
 
 ---
 
-## 🎨 Design System
+## esign System
 
 O projeto utiliza **Tailwind CSS** com um design system customizado:
 
@@ -406,7 +406,7 @@ O projeto utiliza **Tailwind CSS** com um design system customizado:
 
 ---
 
-## 🚀 Como Executar o Projeto
+## Como Executar o Projeto
 
 ### **Instalação**
 ```bash
@@ -437,7 +437,7 @@ npm run lint
 
 ---
 
-## 📋 Páginas do Projeto
+## Páginas do Projeto
 
 | Página | URL | Descrição |
 |--------|-----|-----------|
@@ -453,7 +453,7 @@ npm run lint
 
 ---
 
-## 💡 Funcionalidades Principais
+## Funcionalidades Principais
 
 ### **1. Navegação Responsiva**
 - Menu desktop completo
@@ -488,7 +488,7 @@ npm run lint
 
 ---
 
-## 🌐 Idiomas Suportados
+## Idiomas Suportados
 
 O projeto é totalmente em **português** com suporte a:
 - Angola
@@ -501,7 +501,7 @@ O projeto é totalmente em **português** com suporte a:
 
 ---
 
-## 📱 Responsividade
+## Responsividade
 
 O projeto é **100% responsivo** com breakpoints Tailwind:
 - `sm` - 640px
@@ -512,20 +512,20 @@ O projeto é **100% responsivo** com breakpoints Tailwind:
 
 ---
 
-## ✨ Pontos Destacados
+## Pontos Destacados
 
-✅ **Next.js App Router** - Roteamento moderno
-✅ **TypeScript** - Código tipado e seguro
-✅ **Tailwind CSS** - Styling eficiente
-✅ **Radix UI** - Componentes acessíveis
-✅ **Totalmente em Português** - Comentários e conteúdo
-✅ **Mobile-First** - Design responsivo
-✅ **Analytics** - Tracking de eventos
-✅ **Componentes Reutilizáveis** - DRY principle
+[✓] **Next.js App Router** - Roteamento moderno
+[✓] **TypeScript** - Código tipado e seguro
+[✓] **Tailwind CSS** - Styling eficiente
+[✓] **Radix UI** - Componentes acessíveis
+[✓] **Totalmente em Português** - Comentários e conteúdo
+[✓] **Mobile-First** - Design responsivo
+[✓] **Analytics** - Tracking de eventos
+[✓] **Componentes Reutilizáveis** - DRY principle
 
 ---
 
-## 🔐 Segurança
+## Segurança
 
 - TypeScript para validação de tipos
 - Sanitização de inputs
@@ -534,7 +534,7 @@ O projeto é **100% responsivo** com breakpoints Tailwind:
 
 ---
 
-## 📚 Recursos Adicionais
+## Recursos Adicionais
 
 - Documentação Next.js: https://nextjs.org/docs
 - Tailwind CSS: https://tailwindcss.com
@@ -544,7 +544,7 @@ O projeto é **100% responsivo** com breakpoints Tailwind:
 
 ---
 
-## 👨‍💻 Desenvolvimento
+## Desenvolvimento
 
 O código segue as melhores práticas:
 - **Componentes funcionais** com Hooks
@@ -556,7 +556,7 @@ O código segue as melhores práticas:
 
 ---
 
-## 📄 Licença
+## Licença
 
 Projeto ADN Developer - Todos os direitos reservados.
 
