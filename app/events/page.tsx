@@ -1,5 +1,20 @@
 'use client';
 
+/**
+ * PÁGINA DE EVENTOS
+ * ==================
+ * 
+ * Página que exibe eventos técnicos com sistema de filtros.
+ * 
+ * Funcionalidades:
+ * - Listagem de eventos
+ * - Filtro por busca (título/descrição)
+ * - Filtro por localização (7 países/regiões)
+ * - Filtro por eventos online
+ * - Filtro por abas (Angola/Brasil/etc)
+ * - Loading states
+ */
+
 import { useState, useMemo, useRef } from 'react';
 import { Loader2 } from 'lucide-react';
 
@@ -12,21 +27,39 @@ import { MOCK_EVENTS } from '@/components/events/constants';
 import { FilterTab } from '@/data/types';
 
 const Page = () => {
-  // --- REFERÊNCIA DO VÍDEO ---
+  /**
+   * REFERÊNCIA DO VÍDEO
+   * Usada para controlar reprodução de vídeo de fundo (se houver)
+   */
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // --- ESTADOS ---
+  /**
+   * ESTADOS DA PÁGINA
+   * ==================
+   */
+  // Termo de busca para filtrar eventos por nome/descrição
   const [searchQuery, setSearchQuery] = useState('');
+  
+  // Localização para filtrar eventos
   const [locationQuery, setLocationQuery] = useState('');
+  
+  // Flag para filtrar apenas eventos online
   const [isOnline, setIsOnline] = useState(false);
+  
+  // Aba ativa (país/região selecionada)
   const [activeTab, setActiveTab] = useState<FilterTab>('Angola');
+  
+  // Estado de carregamento para operações assincronas
   const [loading, setLoading] = useState(false);
 
-  // --- MANIPULADOR DE CLIQUE ---
+  /**
+   * MANIPULADOR DE CLIQUE
+   * Simula uma ação (ex: redirecionar para detalhes ou iniciar quiz)
+   */
   const handleClick = () => {
     setLoading(true);
 
-    // simulação de ação (ex: redirecionar ou iniciar quiz)
+    // Simulação de ação com delay
     setTimeout(() => {
       setLoading(false);
       console.log('Quiz iniciado');

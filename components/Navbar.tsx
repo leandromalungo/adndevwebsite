@@ -6,15 +6,25 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "@/public/images/logos/logo-cafe.png";
 
-/* -------------------- BARRA DE NAVEGAÇÃO -------------------- */
+/**
+ * COMPONENTE NAVBAR
+ * 
+ * Barra de navegação principal do aplicativo.
+ * Responsável por:
+ * - Exibir logo da empresa
+ * - Navegação entre páginas (desktop e mobile)
+ * - Botão CTA "Qual área é para mim?"
+ * - Menu responsivo com hamburger menu
+ */
 
 const Navbar: React.FC = () => {
+  // Estado para controlar abertura/fechamento do menu mobile
   const [openMenu, setOpenMenu] = useState(false);
 
+  // Função para fechar menu mobile
   const closeMobileMenu = () => {
     setOpenMenu(false);
   };
-
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-100">
@@ -24,7 +34,7 @@ const Navbar: React.FC = () => {
             <Image src={logo} alt="Logo" className="w-10 h-10 cursor-pointer" />
         </Link>
 
-        {/* Links Desktop */}
+        {/* Links Desktop - Visível apenas em telas médias ou maiores */}
         <div className="hidden lg:flex items-center gap-6 font-bold">
           <NavLink label="Road Maps" href="/roadmaps" />
           <NavLink label="Eventos" href="/events" />
@@ -35,15 +45,16 @@ const Navbar: React.FC = () => {
           <NavLink label="Guia Startup" href="/startups" />
         </div>
 
-        {/* Ações */}
+        {/* Ações - Botão CTA e Menu Mobile */}
         <div className="flex items-center gap-3">
+          {/* Botão CTA principal */}
           <Link href="/quiz">
             <button className="px-5 py-2 text-[13px] font-bold text-gray-50 bg-[#2e405c] rounded-xl hover:bg-[#243146] transition">
               Qual área é para mim?
             </button>
           </Link>
 
-          {/* Botão Mobile */}
+          {/* Botão Menu Mobile - Visível apenas em mobile */}
           <button onClick={() => setOpenMenu(!openMenu)} className="lg:hidden p-2 rounded-xl hover:bg-gray-100 transition" >
             {openMenu ? ( <X className="w-6 h-6" /> ) 
             : 
@@ -53,7 +64,7 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* -------------------- MENU MOBILE -------------------- */}
+      {/* MENU MOBILE - Aparece apenas em telas pequenas */}
       <div
         className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${ openMenu ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0" }`} >
         <div className="px-6 pb-6 space-y-2 font-bold">
@@ -72,8 +83,17 @@ const Navbar: React.FC = () => {
 
 export default Navbar;
 
-/* -------------------- COMPONENTES -------------------- */
+/**
+ * COMPONENTES AUXILIARES DA NAVBAR
+ * ================================
+ */
 
+/**
+ * NavLink - Link de navegação para desktop
+ * @param {string} label - Texto do link
+ * @param {string} href - URL de destino
+ * @param {function} onClick - Callback ao clicar
+ */
 const NavLink = ({
   label,
   href,

@@ -1,5 +1,19 @@
 import React from 'react';
-// Eventos
+
+/**
+ * TIPOS E INTERFACES DO PROJETO
+ * 
+ * Este arquivo centraliza todas as interfaces TypeScript usadas
+ * em toda a aplicação, garantindo tipagem consistente.
+ */
+
+// ============================================
+// EVENTOS
+// ============================================
+/**
+ * Interface Event
+ * Descreve a estrutura de um evento na plataforma
+ */
 export interface Event {
   id: string;
   title: string;
@@ -18,10 +32,22 @@ export interface Event {
   month: string;
 }
 
-// Filter Tabs
+// ============================================
+// FILTROS
+// ============================================
+/**
+ * Type FilterTab
+ * Define os países/regiões disponíveis para filtro
+ */
 export type FilterTab = 'Angola' | 'Brasil' | 'Moçambique' | 'Portugal'| 'São Tomé e Principe' | 'Guiné-Bissau' | 'Cabo-Verde';
 
-// Comentários e edições (para blog/social)
+// ============================================
+// COMENTÁRIOS E EDIÇÕES
+// ============================================
+/**
+ * Interface Comment
+ * Estrutura de comentários para blog/redes sociais
+ */
 export interface Comment {
   author: string;
   authorImage: string;

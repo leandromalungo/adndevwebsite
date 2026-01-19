@@ -1,3 +1,24 @@
+/**
+ * PÁGINA ROADMAPS - ROTEIROS DE APRENDIZADO
+ * ==========================================
+ * 
+ * Página que apresenta roteiros de aprendizado por especialidade.
+ * 
+ * Especializações disponíveis:
+ * - Frontend Development
+ * - Backend Development
+ * - DevOps e Infrastructure
+ * - Mobile Development
+ * - AI/Machine Learning
+ * - Full Stack
+ * 
+ * Cada roadmap contém:
+ * - Descrição da área
+ * - Projetos organizados por nível (Junior, Mid, Senior)
+ * - Tecnologias recomendadas
+ * - Recursos de aprendizado
+ */
+
 "use client"; // obrigatório no topo
 
 import { useState } from "react";

@@ -1,5 +1,19 @@
 "use client";
 
+/**
+ * PÁGINA QUIZ - "QUAL ÁREA É PARA MIM?"
+ * ======================================
+ * 
+ * Página interativa que ajuda desenvolvedores a identificar
+ * qual área de desenvolvimento mais se adequa ao seu perfil.
+ * 
+ * Funcionalidades:
+ * - Quiz com múltiplas questões
+ * - Dicas de carreira
+ * - Compartilhamento via WhatsApp
+ * - Animações e progressão visual
+ */
+
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
@@ -13,6 +27,10 @@ import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
    TIPOS / INTERFACES
 ======================= */
 
+/**
+ * Interface CareerTip
+ * Define a estrutura de cada dica de carreira do quiz
+ */
 interface CareerTip {
   id: string;
   date: string;

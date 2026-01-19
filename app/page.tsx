@@ -1,5 +1,25 @@
 "use client";
 
+/**
+ * PÁGINA INICIAL - HOME
+ * =====================
+ * 
+ * Página principal do projeto ADN Developer.
+ * 
+ * Seções da página:
+ * 1. Hero - Seção destaque principal
+ * 2. Cards de Serviços - Destaques de ofertas (Workshops, Palestras, Bolsas, etc)
+ * 3. LogoCloud - Nuvem de logos de parceiros
+ * 4. Visão e Missão
+ * 5. Carrossel de Partners
+ * 6. Depoimentos
+ * 7. Coleções Curadas
+ * 8. Equipe
+ * 9. FAQ
+ * 
+ * Esta é a porta de entrada para todas as funcionalidades da plataforma.
+ */
+
 /* Layout base */
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/home/hero";
