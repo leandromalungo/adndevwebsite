@@ -11,7 +11,6 @@ export const Hero = () => {
     'Workshops', 
     'Palestras',
     'Bolsas de Estudo',
-    'Cursos Online',
     'Newsletters',
   ];
 
