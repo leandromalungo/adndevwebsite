@@ -69,8 +69,8 @@ const Filters: React.FC<FiltersProps> = ({
       </div>
 
       {/* Tabs Filter - Scrollable on mobile */}
-      <div className="relative overflow-hidden">
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 px-0 scrollbar-hide no-scrollbar">
+      <div className="relative">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide no-scrollbar">
           {tabs.map((tab) => (
             <button
               key={tab}

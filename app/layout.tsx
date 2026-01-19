@@ -33,7 +33,7 @@ export default function RootLayout({ children,}: Readonly<
   { children: React.ReactNode }>) {
   return (
     <html lang="pt-br">
-      <body className={`${_geist.className} antialiased w-screen max-w-full overflow-x-hidden`}>
+      <body className={`${_geist.className} antialiased`}>
         {children}
         <Analytics />
       </body>
