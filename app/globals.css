@@ -30,9 +30,22 @@
 }
 
 /* Body */
+html,
 body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   font-family: 'Inter', sans-serif;
   background-color: var(--color-primary);
   color: var(--color-white);
   line-height: 1.6;
+}
+
+/* Previne overflow horizontal */
+main,
+section,
+article,
+div {
+  max-width: 100%;
+  overflow-x: hidden;
 }

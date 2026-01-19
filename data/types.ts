@@ -115,3 +115,39 @@ export interface CommunityItem {
   icon: React.ReactNode;
   href: string;
 }
+
+
+export interface SlideData {
+  id: number;
+  title: string;
+  description: string;
+  boldKeywords: string[];
+  buttonText: string;
+  imageSrc: string;
+  imageAlt: string;
+}
+
+export interface LeadershipCardData {
+  id: string;
+  type: 'intro' | 'person';
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  name?: string;
+  role?: string;
+  image?: string;
+  timeAgo?: string;
+  sessionTitle?: string;
+  status?: string;
+}
+export interface SheBuildsCardData {
+  id: string;
+  type: 'intro' | 'hackathon' | 'workshop';
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  image?: string;
+  timeAgo?: string;
+  status?: string;
+  label?: string;
+}

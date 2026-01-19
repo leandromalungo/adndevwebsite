@@ -4,6 +4,10 @@ import { useState, useRef, useEffect } from "react";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import OutrosRecursos from "@/components/wtm/outros-recursos";
+import RecursosOrganizador from "@/components/wtm/recursos-organizador";
+import { HeroCarousel } from "@/components/wtm/HeroCarousel";
+import { LeadershipSection } from "@/components/wtm/LeadershipSection";
 
 const App: React.FC = () => {
   // --- VIDEO REF ---
@@ -55,16 +59,20 @@ const App: React.FC = () => {
             </p>
 
             <button
-              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all duration-200 active:scale-95 ${
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all duration-200 active:scale-95 rounded-xl ${
                 loading
                   ? "bg-orange-300 cursor-not-allowed text-zinc-800"
-                  : "bg-orange-400 hover:bg-orange-500 text-white"
+                  : "bg-rose-400 hover:bg-rose-400 text-white"
               }`} >
               Comece agora!
             </button>
           </div>
         </div>
       </section>
+      <LeadershipSection />
+      <RecursosOrganizador />
+      <HeroCarousel />
+      <OutrosRecursos />
 
       <Footer />
     </>
