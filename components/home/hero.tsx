@@ -39,7 +39,7 @@ export const Hero = () => {
             Assinar agora
           </button>
           <p className="text-xs text-gray-500 mt-5 font-medium">
-           Não perca tempo! Junte-se a nós e esteja com profissionais de tecnologia que já estão a transformar suas carreiras com nossos recursos exclusivos.
+           Não perca tempo! Junte-se a nós e esteja com profissionais de tecnologia que já estão a transformar suas carreiras com nossos recursos exclusivos. Estamos a nos tornar o maior repositório de conteúdo tecnológico da lusofonia!
           </p>
         </div>
       </div>
