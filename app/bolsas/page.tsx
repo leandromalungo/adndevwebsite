@@ -7,7 +7,6 @@ import { BigTechBo } from '@/components/bolsas/BigTechBo';
 import { Preview } from '@/components/bolsas/Preview';
 import { CarroselBo } from '@/components/bolsas/CarroselBo';
 import { RecentSection } from '@/components/bolsas/RecentSection';
-import Faq from '@/components/bolsas/Faq';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -35,8 +34,6 @@ const App: React.FC = () => {
         <CarroselBo />
 
         <RecentSection />
-
-        <Faq />
 
         <Footer />
       </div>
