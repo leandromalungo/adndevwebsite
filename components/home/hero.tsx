@@ -9,6 +9,9 @@ export const Hero = () => {
     'Bootcamps',
     'E-books',
     'Workshops', 
+    'Palestras',
+    'Bolsas de Estudo',
+
   ];
 
   return (
