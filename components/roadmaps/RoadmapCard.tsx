@@ -81,7 +81,7 @@ const categoryStyles: Record<TechCategory, {
   },
 };
 
-export const RoadmapCard: React.FC<RoadmapCardProps> = ({ item }) => {
+export const RoadMapCard: React.FC<RoadmapCardProps> = ({ item }) => {
   const category = getCategory(item.title);
   const theme = categoryStyles[category];
 

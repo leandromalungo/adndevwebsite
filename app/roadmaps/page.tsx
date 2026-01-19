@@ -23,8 +23,8 @@
 
 import { useState } from "react";
 import { ROLE_ROADMAPS, SKILL_ROADMAPS, PROJECT_IDEAS, BEST_PRACTICES } from "@/components/roadmaps/constants";
-import { RoadmapCard } from "@/components/roadmaps/RoadmapCard";
-import { RoadmapDetailView } from "@/components/roadmaps/RoadmapDetailView";
+import { RoadMapCard } from "@/components/roadmaps/RoadMapCard";
+import { RoadmapDetailView } from "@/components/roadmaps/HeaderRoadMap";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { RoadmapItem } from "@/data/types";
@@ -81,7 +81,7 @@ const Page = () => {
               className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all
                 ${loading
                   ? "bg-blue-300 cursor-not-allowed text-zinc-800"
-                  : "bg-blue-400 hover:bg-blue-500 text-white rounded"
+                  : "bg-blue-400 hover:bg-blue-500 text-white rounded-xl"
                 }`}
             >
               {loading ? (
@@ -118,7 +118,7 @@ const Page = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {ROLE_ROADMAPS.map((item) => (
                 <div key={item.id} onClick={() => setSelectedRoadmap(item)}>
-                  <RoadmapCard item={item} />
+                  <RoadMapCard item={item} />
                 </div>
               ))}
             </div>
@@ -140,7 +140,7 @@ const Page = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {SKILL_ROADMAPS.map((item) => (
                 <div key={item.id} onClick={() => setSelectedRoadmap(item)}>
-                  <RoadmapCard item={item} />
+                  <RoadMapCard item={item} />
                 </div>
               ))}
             </div>
@@ -162,7 +162,7 @@ const Page = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {BEST_PRACTICES.map((item) => (
                 <div key={item.id} onClick={() => setSelectedRoadmap(item)}>
-                  <RoadmapCard item={item} />
+                  <RoadMapCard item={item} />
                 </div>
               ))}
             </div>
