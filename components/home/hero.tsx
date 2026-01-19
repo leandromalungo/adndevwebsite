@@ -4,14 +4,15 @@ import { Tag } from './Tag';
 
 export const Hero = () => {
   const tags = [
-    'Talks',
+    'Lives Talks',
     'Artigos',
     'Bootcamps',
     'E-books',
     'Workshops', 
     'Palestras',
     'Bolsas de Estudo',
-
+    'Cursos Online',
+    'Newsletters',
   ];
 
   return (
