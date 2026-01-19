@@ -18,12 +18,12 @@ const Footer = () => {
   return (
     <footer className="bg-gray-50 border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-4 py-12">
-        {/* Main Footer Grid */}
+        {/* Primeiro Grid Footer */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           {/* Browse by subject */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
-              Categorias
+            Áreas mais atingidas
             </h3>
             <ul className="space-y-2">
               <li>
@@ -31,7 +31,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-600 transition-colors text-sm"
                 >
-                  Tecnologia
+                  Agricultura
                 </a>
               </li>
               <li>
@@ -85,10 +85,10 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Browse by provider */}
+          {/* Certificações */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
-              Carreira
+              Certificações 
             </h3>
             <ul className="space-y-2">
               <li>
@@ -150,7 +150,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Browse by university */}
+          {/* Univerisidades */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
               Universidades
@@ -215,7 +215,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Browse by institution */}
+          {/* Comunidades */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
               COMUNIDADES
@@ -259,7 +259,7 @@ const Footer = () => {
           {/* Rankings */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
-              Recursos
+              Ranking
             </h3>
             <ul className="space-y-2">
               <li>
@@ -322,12 +322,12 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Secondary Footer Grid */}
+        {/* Segundo GRID Footer */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 pt-8 border-t border-gray-200">
           {/* The Report */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <span>Tenha informações sobre</span>
+              <span>Somos a voz do Dev</span>
               <Rss className="w-4 h-4 text-blue-400" />
             </h3>
             <ul className="space-y-2">
@@ -429,8 +429,7 @@ const Footer = () => {
               O que fazemos?
             </h3>
             <p className="text-gray-600 text-sm mb-4 leading-relaxed">
-              the news agrega o melhor conteúdo do mercado para ajudar você a
-              começar o seu dia bem informado, onde quer que você esteja.
+              Fornecemos as melhores informações sobre tecnologia, certificaçõe, sendo assim o maior repositorio de assuntos tecnologico para a lusofonia.
             </p>
             <div className="flex gap-4">
               <a
@@ -531,7 +530,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Footer */}
+        {/* Footer */}
         <div className="pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-4 text-xs font-medium text-gray-500">
             <div className="flex items-center gap-2">
@@ -539,7 +538,7 @@ const Footer = () => {
             </div>
             <span>© 2025 - 2026</span>
             <a href="#" className="hover:text-gray-900">
-              Política de Privacidade
+              Políticas de Privacidade
             </a>
           </div>
           <div className="flex flex-wrap justify-center gap-4 text-xs font-medium text-gray-500">
