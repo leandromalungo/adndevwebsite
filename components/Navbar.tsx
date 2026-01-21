@@ -36,6 +36,7 @@ const Navbar: React.FC = () => {
 
         {/* Links Desktop - Visível apenas em telas médias ou maiores */}
         <div className="hidden lg:flex items-center gap-6 font-bold">
+          <NavLink label="Notícias" href="/newsTech" />
           <NavLink label="Road Maps" href="/roadmaps" />
           <NavLink label="Eventos" href="/events" />
           <NavLink label="Competições" href="/comp" />
@@ -69,6 +70,7 @@ const Navbar: React.FC = () => {
       <div
         className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${ openMenu ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0" }`} >
         <div className="px-6 pb-6 space-y-2 font-bold">
+          <MobileLink label="Notícias" href="/newsTech" onClick={closeMobileMenu} />
           <MobileLink label="Road Maps" href="/roadmaps" onClick={closeMobileMenu} />
           <MobileLink label="Eventos" href="/events" onClick={closeMobileMenu} />
           <MobileLink label="Competições" href="/comp" onClick={closeMobileMenu} />
