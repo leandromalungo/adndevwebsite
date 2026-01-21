@@ -23,8 +23,8 @@
 
 import { useState } from "react";
 import { ROLE_ROADMAPS, SKILL_ROADMAPS, PROJECT_IDEAS, BEST_PRACTICES } from "@/components/roadmaps/constants";
-import { RoadMapCard } from "@/components/roadmaps/RoadMapCard";
-import { RoadmapDetailView } from "@/components/roadmaps/HeaderRoadMap";
+import { RoadMapCard }  from '@/components/roadmaps/RoadMapCard';
+import { RoadmapDetailView } from "@/components/roadmaps/HeaderroadMap";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { RoadmapItem } from "@/data/types";
@@ -40,7 +40,7 @@ const Page = () => {
     // Exemplo de ação ao clicar (pode trocar conforme necessidade)
     setTimeout(() => {
       setLoading(false);
-      alert("Ação executada!");
+      alert("Acessado!");
     }, 2000);
   };
 

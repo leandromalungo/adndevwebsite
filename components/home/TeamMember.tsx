@@ -75,7 +75,7 @@ const TeamMemberSection = () => {
         "/images/lm.jpg",
     },
     {
-      name: "Neusa Nasciemento",
+      name: "Neuza Nasciemento",
       role: "Desenvolvedora Front-end",
       location: "Portugal",
       imageUrl:

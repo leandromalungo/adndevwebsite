@@ -42,7 +42,8 @@ const Navbar: React.FC = () => {
           <NavLink label="Comunidades" href="/community" />
           <NavLink label="Mulheres na T.I" href="/wtm" />
           <NavLink label="Bolsas de estudo" href="/bolsas" />
-          <NavLink label="Guia Startup" href="/startups" />
+          <NavLink label="Mentes Brilhantes" href="/startups" />
+          <NavLink label="Store" href="/startups" />
         </div>
 
         {/* Ações - Botão CTA e Menu Mobile */}
@@ -75,6 +76,8 @@ const Navbar: React.FC = () => {
           <MobileLink label="Mulheres na T.I" href="/wtm" onClick={closeMobileMenu} />
           <MobileLink label="Bolsas de estudo" href="/bolsas" onClick={closeMobileMenu} />
           <MobileLink label="Guia Startup" href="/startups" onClick={closeMobileMenu} />
+          <MobileLink label="Mentes brilhantes" href="/startups" onClick={closeMobileMenu} />
+          <MobileLink label="Store" href="/startups" onClick={closeMobileMenu} />
         </div>
       </div>
     </nav>
