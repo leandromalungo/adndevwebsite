@@ -9,7 +9,7 @@ import RecursosOrganizador from "@/components/wtm/recursos-organizador";
 import { HeroCarousel } from "@/components/wtm/HeroCarousel";
 import { LeadershipSection } from "@/components/wtm/LeadershipSection";
 
-const App: React.FC = () => {
+const App = () => {
   // --- REFERÊNCIA DO VÍDEO ---
   const videoRef = useRef<HTMLVideoElement>(null);
 

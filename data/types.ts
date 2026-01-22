@@ -99,8 +99,6 @@ export interface Project {
   title: string;
   description: string;
   difficulty: Difficulty;
-  tag: string;
-  startedCount: string;
 }
 
 // Notícias e Hero

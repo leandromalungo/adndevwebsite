@@ -54,32 +54,6 @@ const EmailForm = () => {
   };
 
   return (
-  /*   <form onSubmit={handleSubmit} classNameName="space-y-4">
-      <Input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <Input
-        type="text"
-        placeholder="Assunto"
-        value={subject}
-        onChange={(e) => setSubject(e.target.value)}
-        required
-      />
-      <textarea
-        placeholder="Mensagem"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        required
-        classNameName="w-full p-2 border rounded"
-      />
-      <Button type="submit" disabled={loading}>
-        {loading ? 'Enviando...' : 'Enviar Email'}
-      </Button>
-    </form */
   <>
     <Navbar />
           {/* SEÇÃO HERÓI */}

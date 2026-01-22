@@ -36,13 +36,15 @@ const Navbar: React.FC = () => {
 
         {/* Links Desktop - Visível apenas em telas médias ou maiores */}
         <div className="hidden lg:flex items-center gap-6 font-bold">
+          <NavLink label="Notícias" href="/newsTech" />
           <NavLink label="Road Maps" href="/roadmaps" />
           <NavLink label="Eventos" href="/events" />
           <NavLink label="Competições" href="/comp" />
           <NavLink label="Comunidades" href="/community" />
           <NavLink label="Mulheres na T.I" href="/wtm" />
           <NavLink label="Bolsas de estudo" href="/bolsas" />
-          <NavLink label="Guia Startup" href="/startups" />
+          <NavLink label="Mentes Brilhantes" href="/startups" />
+          <NavLink label="Store" href="/startups" />
         </div>
 
         {/* Ações - Botão CTA e Menu Mobile */}
@@ -68,6 +70,7 @@ const Navbar: React.FC = () => {
       <div
         className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${ openMenu ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0" }`} >
         <div className="px-6 pb-6 space-y-2 font-bold">
+          <MobileLink label="Notícias" href="/newsTech" onClick={closeMobileMenu} />
           <MobileLink label="Road Maps" href="/roadmaps" onClick={closeMobileMenu} />
           <MobileLink label="Eventos" href="/events" onClick={closeMobileMenu} />
           <MobileLink label="Competições" href="/comp" onClick={closeMobileMenu} />
@@ -75,6 +78,8 @@ const Navbar: React.FC = () => {
           <MobileLink label="Mulheres na T.I" href="/wtm" onClick={closeMobileMenu} />
           <MobileLink label="Bolsas de estudo" href="/bolsas" onClick={closeMobileMenu} />
           <MobileLink label="Guia Startup" href="/startups" onClick={closeMobileMenu} />
+          <MobileLink label="Mentes brilhantes" href="/startups" onClick={closeMobileMenu} />
+          <MobileLink label="Store" href="/startups" onClick={closeMobileMenu} />
         </div>
       </div>
     </nav>
