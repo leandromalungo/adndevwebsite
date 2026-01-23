@@ -465,6 +465,14 @@ npm run lint
 - Filtro por localização (7 países/regiões)
 - Filtro por eventos online
 - Filtro por datas
+  
+  **Atualizações (Jan 2026):**
+  - Sistema avançado de filtros por **país**, **estado/província** e **cidade**
+  - Filtro por **categoria de evento** (Workshop, Conferência, Hackathon, Meetup, etc.)
+  - Suporte para buscas que combinam termos (ex.: país + estado + categoria)
+  - Base de dados mockada e parcial real com eventos por estado/província em países lusófonos
+  - Componente `AdvancedFilters` em `components/events/AdvancedFilters.tsx`
+  - Dados de localização em `data/locationsData.ts` e eventos em `data/eventsDatabase.ts`
 
 ### **3. Carrosséis**
 - Carrossel de partners infinito
@@ -553,6 +561,12 @@ O código segue as melhores práticas:
 - **Componentes reutilizáveis**
 - **Comentários em português**
 - **Naming conventions claras**
+ - **Novas implementações (Jan 2026):**
+   - `components/events/AdvancedFilters.tsx` — dropdowns para país, estado e categoria
+   - `data/locationsData.ts` — lista de países lusófonos e seus estados/províncias
+   - `data/eventsDatabase.ts` — eventos mockados (60+) organizados por estado/província
+   - `components/news` — correção de imports de tipos para `@/data/types`
+   - Páginas `app/events/page.tsx` atualizada para consumir o novo sistema de filtros
 
 ---
 

@@ -22,6 +22,8 @@ export interface Event {
   timeRange: string;
   location: string;
   country: string;
+  state?: string;
+  category?: string;
   organizer: string;
   organizerLogo: string;
   imageUrl: string;
@@ -174,4 +176,81 @@ export interface SheBuildsCardData {
   timeAgo?: string;
   status?: string;
   label?: string;
+}
+
+
+export interface BreadcrumbItem {
+  label: string;
+  href: string;
+}
+
+export interface FilterOption {
+  id: string;
+  label: string;
+  options: string[];
+}
+
+export interface Product {
+  id: number;
+  name: string;
+  price: number; // Base price in EUR
+  platform: string;
+  category: string;
+  condition: string;
+  rating: number;
+  image: string;
+  availableCountries: string[]; // List of country codes
+  isOwn?: boolean; // Se é produto próprio (true) ou recomendado (false)
+  externalStore?: 'aliexpress' | 'amazon' | 'mercadopago' | 'other'; // Loja externa se recomendado
+  externalUrl?: string; // URL para o produto na loja externa
+  description?: string;
+}
+
+export interface Service {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  price?: string;
+  duration?: string;
+  category: string;
+  tags: string[];
+  image: string;
+  availableCountries: string[];
+}
+
+export interface VideoHeroProps {
+  videoUrl: string;
+  fallbackImage?: string;
+  overlayOpacity?: number;
+  title?: string;
+  subtitle?: string;
+}
+
+export interface FilterState {
+  category: string | null;
+  rating: number | null;
+  condition: string | null;
+  platform: string | null;
+  maxPrice: number | null;
+  sort: string | null;
+}
+
+export interface CountryInfo {
+  code: string;
+  name: string;
+  currency: string;
+  symbol: string;
+  rate: number; // Exchange rate from 1 EUR
+}
+export interface Post {
+  id: string;
+  category: string;
+  categoryColor: string;
+  title: string;
+  author: string;
+  date: string;
+  commentsCount?: number;
+  imageUrl?: string;
+  videoUrl?: string;
 }

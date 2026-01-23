@@ -470,63 +470,6 @@ const Footer = () => {
               </a>
             </div>
             
-            <div className="mt-2 w-48 relative rounded-xl">
-              <label
-                htmlFor="language"
-                className="text-gray-600 text-sm block mb-1 rounded-xl"
-              >
-                Selecionar Idioma:
-              </label>
-              <div className="relative">
-                <select
-                  name="language"
-                  id="language"
-                  className="peer block w-full text-sm border border-gray-300 rounded-xl px-3 py-2 bg-white text-gray-900 focus:border-blue-500 focus:outline-none appearance-none"
-                >
-                  <option value="pt" className="bg-black text-white rounded-xl">
-                    Português
-                  </option>
-                  <option value="en" className="bg-black text-white rounded-xl">
-                    English
-                  </option>
-                  <option value="fr" className="bg-black text-white rounded-xl">
-                    Français
-                  </option>
-                  <option value="kb" className="bg-black text-white rounded-xl">
-                    Kinbundu
-                  </option>
-                  <option value="kk" className="bg-black text-white rounded-xl">
-                    Kikongo
-                  </option>
-                  <option value="lg" className="bg-black text-white rounded-xl">
-                    Lingala
-                  </option>
-                </select>
-                {/* Ícone de seta para baixo com animação */}
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                  <svg
-                    className="w-4 h-4 text-gray-400 transition-transform duration-300 ease-in-out peer-focus:rotate-180 rounded-xl"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <style jsx>{`
-                select option {
-                  background-color: black !important;
-                  color: white !important;
-                  border-radius: 0.5rem !important;
-                }
-              `}</style>
-            </div>
           </div>
         </div>
 
@@ -539,6 +482,9 @@ const Footer = () => {
             <span>© 2025 - 2026</span>
             <a href="#" className="hover:text-gray-900">
               Políticas de Privacidade
+            </a>
+            <a href="" className="hover:text-gray-900">
+              adn@developer.com
             </a>
           </div>
           <div className="flex flex-wrap justify-center gap-4 text-xs font-medium text-gray-500">

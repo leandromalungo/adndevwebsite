@@ -24,7 +24,7 @@ const faqItems: FAQItem[] = [
     id: "faq-3",
     question: 'Como faço para falar com vocês?',
     answer:
-      "Você pode entrar em contato conosco através do nosso e-mail oficial ou pelas redes sociais.",
+      "Você pode entrar em contato conosco através do nosso  e-mail: adn@developer.com ou pelas redes sociais.",
   },
   {
     id: "faq-4",
