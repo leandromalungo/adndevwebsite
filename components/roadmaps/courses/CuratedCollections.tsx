@@ -76,7 +76,7 @@ export const CuratedCollections = () => {
 
       <div className="flex justify-center">
         <button className="flex items-center gap-2 bg-[#B1DBDD] text-[#002D2D] font-bold py-3 px-10 rounded-xl hover:bg-[#9AD2D5] transition-colors shadow-sm group">
-          <Link  href="/app/roadmaps"> Escolha uma e faça um curso gratuito </Link>
+          <Link  href="/roadmaps"> Escolha uma e faça um curso gratuito </Link>
           <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /> 
         </button>
       </div>

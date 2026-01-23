@@ -4,102 +4,92 @@
  * PÁGINA DE EVENTOS
  * ==================
  * 
- * Página que exibe eventos técnicos com sistema de filtros.
+ * Página que exibe eventos técnicos com sistema avançado de filtros.
  * 
  * Funcionalidades:
  * - Listagem de eventos
  * - Filtro por busca (título/descrição)
- * - Filtro por localização (7 países/regiões)
+ * - Filtro por localização (país, estado, cidade)
+ * - Filtro por categoria do evento
  * - Filtro por eventos online
- * - Filtro por abas (Angola/Brasil/etc)
  * - Loading states
  */
 
 import { useState, useMemo, useRef } from 'react';
 import { Loader2 } from 'lucide-react';
 
-import Filters from '@/components/events/Filters';
+import AdvancedFilters from '@/components/events/AdvancedFilters';
 import EventCard from '@/components/events/EventCard';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 import { MOCK_EVENTS } from '@/components/events/constants';
-import { FilterTab } from '@/data/types';
 
 const Page = () => {
   /**
    * REFERÊNCIA DO VÍDEO
-   * Usada para controlar reprodução de vídeo de fundo (se houver)
    */
   const videoRef = useRef<HTMLVideoElement>(null);
 
   /**
    * ESTADOS DA PÁGINA
-   * ==================
    */
-  // Termo de busca para filtrar eventos por nome/descrição
   const [searchQuery, setSearchQuery] = useState('');
-  
-  // Localização para filtrar eventos
-  const [locationQuery, setLocationQuery] = useState('');
-  
-  // Flag para filtrar apenas eventos online
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [isOnline, setIsOnline] = useState(false);
-  
-  // Aba ativa (país/região selecionada)
-  const [activeTab, setActiveTab] = useState<FilterTab>('Angola');
-  
-  // Estado de carregamento para operações assincronas
   const [loading, setLoading] = useState(false);
 
   /**
-   * MANIPULADOR DE CLIQUE
-   * Simula uma ação (ex: redirecionar para detalhes ou iniciar quiz)
+   * FILTRAGEM DE EVENTOS
+   * Implementa lógica de filtro por:
+   * - Busca (título/descrição)
+   * - País
+   * - Estado/Província
+   * - Categoria
+   * - Tipo (online/presencial)
    */
-  const handleClick = () => {
-    setLoading(true);
-
-    // Simulação de ação com delay
-    setTimeout(() => {
-      setLoading(false);
-      console.log('Quiz iniciado');
-    }, 1500);
-  };
-
-  // --- FILTRAGEM DE EVENTOS ---
   const filteredEvents = useMemo(() => {
-    const now = new Date();
-
     return MOCK_EVENTS.filter(event => {
+      // Filtro por busca (título ou descrição)
       const title = event.title?.toLowerCase() ?? '';
       const description = event.description?.toLowerCase() ?? '';
-      const location = event.location?.toLowerCase() ?? '';
-
       const matchesSearch =
+        searchQuery === '' ||
         title.includes(searchQuery.toLowerCase()) ||
         description.includes(searchQuery.toLowerCase());
 
-      const matchesLocation = location.includes(locationQuery.toLowerCase());
+      // Filtro por país
+      const matchesCountry =
+        selectedCountry === '' || event.country === selectedCountry;
 
+      // Filtro por estado/província
+      const matchesState =
+        selectedState === '' || event.state === selectedState;
+
+      // Filtro por categoria
+      const matchesCategory =
+        selectedCategory === '' ||
+        event.category === selectedCategory ||
+        event.tags?.includes(selectedCategory);
+
+      // Filtro por tipo (online)
       const matchesOnline = !isOnline || event.isOnline === true;
 
-      const matchesTab =
-        activeTab === 'Angola'
-          ? new Date(event.date) >= now
-          : activeTab === 'Brasil'
-          ? new Date(event.date) < now
-          : true;
-
-      return matchesSearch && matchesLocation && matchesOnline && matchesTab;
+      return matchesSearch && matchesCountry && matchesState && matchesCategory && matchesOnline;
     });
-  }, [searchQuery, locationQuery, isOnline, activeTab]);
+  }, [searchQuery, selectedCountry, selectedState, selectedCategory, isOnline]);
 
-  // --- LIMPAR FILTROS ---
+  /**
+   * LIMPAR FILTROS
+   */
   const clearFilters = () => {
     setSearchQuery('');
-    setLocationQuery('');
+    setSelectedCountry('');
+    setSelectedState('');
+    setSelectedCategory('');
     setIsOnline(false);
-    setActiveTab('Angola');
   };
 
   return (
@@ -140,18 +130,36 @@ const Page = () => {
 
       {/* LISTAGEM DE EVENTOS */}
       <div className="min-h-screen bg-[#fcfcfc]">
-        <main className="max-w-7xl mx-auto px-6 py-10 rounded-lg">
-          <Filters
+        <main className="max-w-7xl mx-auto px-6 py-10">
+          {/* Filtros Avançados */}
+          <AdvancedFilters
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
-            locationQuery={locationQuery}
-            setLocationQuery={setLocationQuery}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
+            selectedCountry={selectedCountry}
+            setSelectedCountry={setSelectedCountry}
+            selectedState={selectedState}
+            setSelectedState={setSelectedState}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            isOnline={isOnline}
+            setIsOnline={setIsOnline}
           />
 
-          <h2 className="text-2xl font-bold my-6">
-            Events ({filteredEvents.length})
+          {/* Botão para limpar filtros */}
+          {(searchQuery || selectedCountry || selectedState || selectedCategory || isOnline) && (
+            <div className="mt-4 flex justify-end">
+              <button
+                onClick={clearFilters}
+                className="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                Limpar todos os filtros
+              </button>
+            </div>
+          )}
+
+          {/* Contagem e grid de eventos */}
+          <h2 className="text-2xl font-bold my-8">
+            Eventos encontrados ({filteredEvents.length})
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -160,9 +168,17 @@ const Page = () => {
             ))}
 
             {filteredEvents.length === 0 && (
-              <p className="col-span-full text-center text-gray-500">
-                Sem eventos listados de momento.
-              </p>
+              <div className="col-span-full text-center py-12">
+                <p className="text-gray-500 text-lg">
+                  Nenhum evento encontrado com os filtros selecionados.
+                </p>
+                <button
+                  onClick={clearFilters}
+                  className="mt-4 px-6 py-2 bg-[#004d79] text-white rounded-lg hover:bg-[#003d5f] transition-colors"
+                >
+                  Limpar filtros
+                </button>
+              </div>
             )}
           </div>
         </main>

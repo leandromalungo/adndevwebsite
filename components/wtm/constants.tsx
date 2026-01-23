@@ -150,7 +150,7 @@ export const LEADERSHIP_CARDS: LeadershipCardData[] = [
     status: 'On demand'
   },
   {
-    id: 'person-5',
+    id: 'person-6',
     type: 'person',
     name: 'Jaqueline Ngulo',
     role: 'Software Engineer at Google',
@@ -160,7 +160,7 @@ export const LEADERSHIP_CARDS: LeadershipCardData[] = [
     status: 'On demand'
   },
   {
-    id: 'person-5',
+    id: 'person-7',
     type: 'person',
     name: 'Jaqueline Ngulo',
     role: 'Software Engineer at Google',
