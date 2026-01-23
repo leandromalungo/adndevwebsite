@@ -25,11 +25,12 @@ const Navbar: React.FC = () => {
           <NavLink label="Eventos" href="/events" loading={loadingLink === "/events"} onClick={() => setLoadingLink("/events")} />
           <NavLink label="Competições" href="/comp" loading={loadingLink === "/comp"} onClick={() => setLoadingLink("/comp")} />
           <NavLink label="Comunidades" href="/community" loading={loadingLink === "/community"} onClick={() => setLoadingLink("/community")} />
+          <NavLink label="Mentes brilhantes" href="/mind" loading={loadingLink === "/mind"} onClick={() => setLoadingLink("/mind")} />
           <NavLink label="GameDev" href="/gamedev" loading={loadingLink === "/gamedev"} onClick={() => setLoadingLink("/gamedev")} />
           <NavLink label="Mulheres na T.I" href="/wtm" loading={loadingLink === "/wtm"} onClick={() => setLoadingLink("/wtm")} />
           <NavLink label="Road Maps" href="/roadmaps" loading={loadingLink === "/roadmaps"} onClick={() => setLoadingLink("/roadmaps")} />
           <NavLink label="Bolsas de estudo" href="/bolsas" loading={loadingLink === "/bolsas"} onClick={() => setLoadingLink("/bolsas")} />
-          <NavLink label="Mentes Brilhantes" href="/startups" loading={loadingLink === "/startups"} onClick={() => setLoadingLink("/startups")} />
+          <NavLink label="Startups" href="/startups" loading={loadingLink === "/startups"} onClick={() => setLoadingLink("/startups")} />
           <NavLink label="Store" href="/store" loading={loadingLink === "/store"} onClick={() => setLoadingLink("/store")} />
         </div>
 
@@ -58,11 +59,12 @@ const Navbar: React.FC = () => {
           <MobileLink label="Eventos" href="/events" loading={loadingLink === "/events"} onClick={() => { setLoadingLink("/events"); closeMobileMenu(); }} />
           <MobileLink label="Competições" href="/comp" loading={loadingLink === "/comp"} onClick={() => { setLoadingLink("/comp"); closeMobileMenu(); }} />
           <MobileLink label="Comunidades" href="/community" loading={loadingLink === "/community"} onClick={() => { setLoadingLink("/community"); closeMobileMenu(); }} />
+          <MobileLink label="Mentes brilhantes" href="/mind" loading={loadingLink === "/mind"} onClick={() => { setLoadingLink("/mind"); closeMobileMenu(); }} /> 
           <MobileLink label="GameDev" href="/gamedev" loading={loadingLink === "/gamedev"} onClick={() => { setLoadingLink("/gamedev"); closeMobileMenu(); }} />
           <MobileLink label="Mulheres na T.I" href="/wtm" loading={loadingLink === "/wtm"} onClick={() => { setLoadingLink("/wtm"); closeMobileMenu(); }} />
           <MobileLink label="Road Maps" href="/roadmaps" loading={loadingLink === "/roadmaps"} onClick={() => { setLoadingLink("/roadmaps"); closeMobileMenu(); }} />
           <MobileLink label="Bolsas de estudo" href="/bolsas" loading={loadingLink === "/bolsas"} onClick={() => { setLoadingLink("/bolsas"); closeMobileMenu(); }} />
-          <MobileLink label="Mentes brilhantes" href="/startups" loading={loadingLink === "/startups"} onClick={() => { setLoadingLink("/startups"); closeMobileMenu(); }} />
+          <MobileLink label="Startups" href="/startups" loading={loadingLink === "/startups"} onClick={() => { setLoadingLink("/startups"); closeMobileMenu(); }} /> 
           <MobileLink label="Store" href="/store" loading={loadingLink === "/store"} onClick={() => { setLoadingLink("/store"); closeMobileMenu(); }} />
         </div>
       </div>
