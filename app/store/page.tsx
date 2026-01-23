@@ -33,12 +33,6 @@ const Page = () => {
     sort: null,
   });
 
-  const breadcrumbItems: BreadcrumbItem[] = [
-    { label: 'Loja', href: '#' },
-    { label: 'Produtos & Serviços', href: '#' },
-    { label: 'Store', href: '#' },
-  ];
-
   const filterOptions: FilterOption[] = [
     { id: 'regiao', label: 'Região', options: COUNTRIES.map(c => c.name) },
     { id: 'categoria', label: 'Categoria', options: ['T-shirts', 'Chapéus', 'Stickers', 'Items', 'Setup', 'Outro'] },
@@ -135,25 +129,11 @@ const Page = () => {
     <div className="min-h-screen bg-white">
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 md:px-8 pb-20">
-        <div className="text-[11px] text-gray-400 mb-2 font-medium uppercase tracking-tighter">
-          Loja Exclusiva • {selectedCountry.name}
-        </div>
-
         <VideoHero 
           videoUrl={videoUrl}
           title={`Produtos & Serviços em ${selectedCountry.name}`}
-          subtitle="Merchandising exclusivo + Produtos recomendados + Serviços técnicos"
+          subtitle="Merchandising exclusivo + Produtos recomendados"
         />
-
-        <section className="mt-8">
-          <Breadcrumbs items={breadcrumbItems} />
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Loja</h2>
-              <p className="text-gray-500 text-sm mt-1">Explore nossos produtos e serviços</p>
-            </div>
-          </div>
-        </section>
 
         {/* Search Bar com Sugestões */}
         <section className="mt-6">
