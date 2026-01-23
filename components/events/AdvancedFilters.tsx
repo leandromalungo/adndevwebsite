@@ -60,10 +60,10 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
   };
 
   return (
-    <div className="space-y-6 bg-white p-6 rounded-lg border border-gray-200">
+    <div className="space-y-6 bg-white p-6 rounded-xl border border-gray-200">
       {/* Título */}
       <div>
-        <h3 className="text-xl font-bold text-gray-800 mb-4">Filtrar Eventos</h3>
+        <h3 className="text-xl font-bold text-gray-800 mb-4">Procure um evento mais proximo de ti </h3>
       </div>
 
       {/* Busca por título/descrição */}
@@ -74,7 +74,7 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
         <input 
           type="text" 
           placeholder="Ex: Workshop, Hackathon, Webinar..."
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004d79] focus:border-transparent outline-none text-sm"
+          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004d79] focus:border-transparent outline-none text-sm"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -89,7 +89,7 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
           </label>
           <button
             onClick={() => setOpenDropdown(openDropdown === 'country' ? null : 'country')}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-left flex items-center justify-between hover:border-gray-400 bg-white transition-colors"
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl text-left flex items-center justify-between hover:border-gray-400 bg-white transition-colors"
           >
             <span className={selectedCountry ? 'text-gray-900' : 'text-gray-500'}>
               {selectedCountry || 'Selecionar país'}
@@ -98,7 +98,7 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
           </button>
 
           {openDropdown === 'country' && (
-            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-300 rounded-xl shadow-lg z-10">
               <div className="max-h-48 overflow-y-auto">
                 <button
                   onClick={() => {
@@ -136,7 +136,7 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
           <button
             disabled={!selectedCountry}
             onClick={() => setOpenDropdown(openDropdown === 'state' ? null : 'state')}
-            className={`w-full px-4 py-3 border rounded-lg text-left flex items-center justify-between transition-colors ${
+            className={`w-full px-4 py-3 border rounded-xl text-left flex items-center justify-between transition-colors ${
               selectedCountry
                 ? 'border-gray-300 hover:border-gray-400 bg-white'
                 : 'border-gray-200 bg-gray-50 cursor-not-allowed'
@@ -149,7 +149,7 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
           </button>
 
           {openDropdown === 'state' && selectedCountry && (
-            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-300 rounded-xl shadow-lg z-10">
               <div className="max-h-48 overflow-y-auto">
                 <button
                   onClick={() => {
@@ -185,7 +185,7 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
           </label>
           <button
             onClick={() => setOpenDropdown(openDropdown === 'category' ? null : 'category')}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-left flex items-center justify-between hover:border-gray-400 bg-white transition-colors"
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl text-left flex items-center justify-between hover:border-gray-400 bg-white transition-colors"
           >
             <span className={selectedCategory ? 'text-gray-900' : 'text-gray-500'}>
               {selectedCategory || 'Selecionar categoria'}
@@ -194,7 +194,7 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
           </button>
 
           {openDropdown === 'category' && (
-            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-300 rounded-xl shadow-lg z-10">
               <div className="max-h-48 overflow-y-auto">
                 <button
                   onClick={() => {

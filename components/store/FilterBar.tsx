@@ -67,7 +67,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
             <div key={filter.id} className="relative">
               <button
                 onClick={() => setOpenDropdown(isOpen ? null : filter.id)}
-                className={`flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all focus:outline-none whitespace-nowrap border ${
+                className={`flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all focus:outline-none whitespace-nowrap border ${
                   (activeValue && !isRegiao) || (isRegiao && isOpen)
                     ? "bg-cyan-50 border-cyan-500 text-cyan-700"
                     : "bg-white border-gray-300 text-gray-700 hover:border-cyan-500 hover:text-cyan-600"
@@ -88,20 +88,13 @@ const FilterBar: React.FC<FilterBarProps> = ({
                     </div>
                   )}
                   {filter.options.map((option) => (
-                    <button
-                      key={option}
+                    <button key={option}
                       onClick={() => {
                         onFilterChange(filter.id, option);
-                        setOpenDropdown(null);
-                      }}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-cyan-50 hover:text-cyan-600 transition-colors flex justify-between items-center"
-                    >
+                        setOpenDropdown(null); }}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-cyan-50 hover:text-cyan-600 transition-colors flex justify-between items-center" >
                       <span>{option}</span>
-                      {isRegiao && (
-                        <span className="text-[10px] text-gray-400 font-mono">
-                          VAL
-                        </span>
-                      )}
+                      {isRegiao && ( <span className="text-[10px] text-gray-400 font-mono"> Moeda </span> )}
                     </button>
                   ))}
                   {!isRegiao && (
@@ -110,25 +103,13 @@ const FilterBar: React.FC<FilterBarProps> = ({
                         onFilterChange(filter.id, null);
                         setOpenDropdown(null);
                       }}
-                      className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50 border-t border-gray-50 mt-1 transition-colors"
-                    >
-                      Limpar
-                    </button>
-                  )}
-                </div>
-              )}
+                      className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50 border-t border-gray-50 mt-1 transition-colors" > Limpar </button> )}
+                </div> )}
             </div>
           );
         })}
-
         {Object.values(activeFilters).some((v) => v !== null) && (
-          <button
-            onClick={onClearFilters}
-            className="text-sm text-gray-400 hover:text-red-500 underline ml-2 transition-colors self-center"
-          >
-            Limpar filtros
-          </button>
-        )}
+          <button onClick={onClearFilters} className="text-sm text-gray-400 hover:text-red-500 underline ml-2 transition-colors self-center" > Limpar filtros </button> )}
       </div>
     </div>
   );

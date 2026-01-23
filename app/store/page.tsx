@@ -37,7 +37,7 @@ const Page = () => {
   const filterOptions: FilterOption[] = [
     { id: 'categoria', label: 'Categoria', options: ['T-shirts', 'Chapéus', 'Stickers', 'Items', 'Setup', 'Outro'] },
     { id: 'ordenar', label: 'Ordenar por', options: ['Preço: Baixo a Alto', 'Preço: Alto a Baixo'] },
-    { id: 'regiao', label: `🌐 ${selectedCountry.name} (${selectedCountry.currency})`, options: COUNTRIES.map(c => c.name) },
+    { id: 'regiao', label: `${selectedCountry.name} (${selectedCountry.currency})`, options: COUNTRIES.map(c => c.name) },
   ];
 
   const handleFilterChange = (filterId: string, value: any) => {
@@ -158,12 +158,12 @@ const Page = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setShowSuggestions(true)}
               onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-600 focus:border-transparent outline-none"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-600 focus:border-transparent outline-none"
             />
             
             {/* Dropdown de Sugestões */}
             {showSuggestions && suggestions.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg z-10 max-h-80 overflow-y-auto">
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-300 rounded-xl shadow-lg z-10 max-h-80 overflow-y-auto">
                 {suggestions.map((product) => (
                   <button
                     key={product.id}
@@ -206,10 +206,10 @@ const Page = () => {
             {/* Botões de Secção (Produtos/Ingressos) */}
             <button
               onClick={() => setActiveSection('products')}
-              className={`flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all focus:outline-none whitespace-nowrap border ${
+              className={`flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all focus:outline-none whitespace-nowrap border ${
                 activeSection === 'products'
                   ? 'bg-cyan-50 border-cyan-500 text-cyan-700'
-                  : 'bg-white border-gray-300 text-gray-700 hover:border-cyan-500 hover:text-cyan-600'
+                  : 'bg-white border-gray-300 text-gray-700 hover:border-cyan-500'
               }`}
             >
               <i className="fa-solid fa-shopping-bag mr-2"></i>
@@ -217,10 +217,10 @@ const Page = () => {
             </button>
             <button
               onClick={() => setActiveSection('tickets')}
-              className={`flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all focus:outline-none whitespace-nowrap border ${
+              className={`flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all focus:outline-none whitespace-nowrap border ${
                 activeSection === 'tickets'
-                  ? 'bg-cyan-50 border-cyan-500 text-cyan-700'
-                  : 'bg-white border-gray-300 text-gray-700 hover:border-cyan-500 hover:text-cyan-600'
+                   ? 'bg-cyan-50 border-cyan-500 text-cyan-700'
+                  : 'bg-white border-gray-300 text-gray-700 hover:border-cyan-500'
               }`}
             >
               <i className="fa-solid fa-ticket mr-2"></i>
@@ -293,9 +293,6 @@ const ProductCard = ({ product, selectedCountry, formatPrice, handleBuy }: any) 
   <div className="group cursor-pointer flex flex-col h-full bg-white rounded-2xl p-2 hover:shadow-xl transition-all duration-300 border border-green-100 hover:border-green-300">
     <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-gray-100 mb-4 shadow-sm">
       <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-      <div className="absolute top-3 left-3 bg-green-500 text-white px-2 py-1 rounded-lg text-xs font-bold">
-        Nosso Produto
-      </div>
       <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-xl text-sm font-black text-gray-900 shadow-sm">
         {formatPrice(product.price)}
       </div>
@@ -322,7 +319,7 @@ const RecommendedProductCard = ({ product, selectedCountry, formatPrice, handleB
     <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-gray-100 mb-4 shadow-sm">
       <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
       <div className="absolute top-3 left-3 flex gap-1">
-        <span className="bg-yellow-500 text-white px-2 py-1 rounded-lg text-xs font-bold">
+        <span className="bg-green-600 text-white px-2 py-1 rounded-lg text-xs font-bold">
           {product.externalStore?.toUpperCase()}
         </span>
       </div>
@@ -337,7 +334,7 @@ const RecommendedProductCard = ({ product, selectedCountry, formatPrice, handleB
     <div className="mt-4 px-2 pb-2">
       <button 
         onClick={e => { handleBuy(e, product.name, true); window.open(product.externalUrl, '_blank'); }}
-        className="w-full bg-yellow-500 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-yellow-600 active:scale-95 transition-all shadow-lg"
+        className="w-full bg-green-600 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-green-700 active:scale-95 transition-all shadow-lg"
       >
         <i className="fa-solid fa-external-link mr-2"></i>
         Ver em {product.externalStore}
