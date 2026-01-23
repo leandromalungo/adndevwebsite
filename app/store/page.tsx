@@ -37,7 +37,7 @@ const Page = () => {
   const filterOptions: FilterOption[] = [
     { id: 'categoria', label: 'Categoria', options: ['T-shirts', 'Chapéus', 'Stickers', 'Items', 'Setup', 'Outro'] },
     { id: 'ordenar', label: 'Ordenar por', options: ['Preço: Baixo a Alto', 'Preço: Alto a Baixo'] },
-    { id: 'regiao', label: 'Portugal (EUR)', options: COUNTRIES.map(c => c.name) },
+    { id: 'regiao', label: `🌐 ${selectedCountry.name} (${selectedCountry.currency})`, options: COUNTRIES.map(c => c.name) },
   ];
 
   const handleFilterChange = (filterId: string, value: any) => {
@@ -202,7 +202,7 @@ const Page = () => {
 
         {/* Filter Bar com Secção */}
         <div className="w-full mt-4 border-b border-gray-100">
-          <div className="flex gap-3 py-4 items-center overflow-x-auto">
+          <div className="flex flex-wrap gap-4 py-4 items-center">
             {/* Botões de Secção (Produtos/Ingressos) */}
             <button
               onClick={() => setActiveSection('products')}
@@ -228,7 +228,7 @@ const Page = () => {
             </button>
 
             {/* Filter Bar */}
-            <div className="flex-1 flex gap-3 items-center">
+            <div className="flex-1 flex flex-wrap gap-3 items-center min-w-[200px]">
               <FilterBar
                 filters={filterOptions}
                 activeFilters={filters}
