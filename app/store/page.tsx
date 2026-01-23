@@ -337,7 +337,7 @@ const RecommendedProductCard = ({ product, selectedCountry, formatPrice, handleB
         className="w-full bg-green-600 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-green-700 active:scale-95 transition-all shadow-lg"
       >
         <i className="fa-solid fa-external-link mr-2"></i>
-        Ver em {product.externalStore}
+        Comprar
       </button>
     </div>
   </div>
