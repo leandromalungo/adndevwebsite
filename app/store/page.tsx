@@ -143,7 +143,7 @@ const Page = () => {
       <main className="max-w-7xl mx-auto px-4 md:px-8 pb-20">
         <VideoHero 
           videoUrl={videoUrl}
-          title={`LOJA PARA DEVs SEJA BEM-VINDO À NOSSA LOJA`}
+          title={`BEM-VINDO À NOSSA LOJA`}
           subtitle="Tudo o que precisas para o teu setup de desenvolvimento e mais, com descontos exclusivos. Produtos próprios e recomendados do mundo inteiro"
         />
 
@@ -290,7 +290,7 @@ const Page = () => {
 
 // Componente para Produto Próprio
 const ProductCard = ({ product, selectedCountry, formatPrice, handleBuy }: any) => (
-  <div className="group cursor-pointer flex flex-col h-full bg-white rounded-2xl p-2 hover:shadow-xl transition-all duration-300 border border-green-100 hover:border-green-300">
+  <div className="group cursor-pointer flex flex-col h-full bg-white rounded-2xl p-2 hover:shadow-xl transition-all duration-300 border border-yellow-50 hover:border-yellow-100">
     <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-gray-100 mb-4 shadow-sm">
       <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
       <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-xl text-sm font-black text-gray-900 shadow-sm">
@@ -298,7 +298,7 @@ const ProductCard = ({ product, selectedCountry, formatPrice, handleBuy }: any) 
       </div>
     </div>
     <div className="px-2 flex-grow">
-      <h3 className="font-bold text-gray-900 leading-tight group-hover:text-green-600 transition-colors line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
+      <h3 className="font-bold text-gray-900 leading-tight transition-colors line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
       <p className="text-xs text-gray-500 mt-2">{product.description}</p>
     </div>
     <div className="mt-4 px-2 pb-2">
@@ -315,11 +315,11 @@ const ProductCard = ({ product, selectedCountry, formatPrice, handleBuy }: any) 
 
 // Componente para Produto Recomendado
 const RecommendedProductCard = ({ product, selectedCountry, formatPrice, handleBuy }: any) => (
-  <div className="group cursor-pointer flex flex-col h-full bg-white rounded-2xl p-2 hover:shadow-xl transition-all duration-300 border border-yellow-100 hover:border-yellow-300">
+  <div className="group cursor-pointer flex flex-col h-full bg-white rounded-2xl p-2 hover:shadow-xl transition-all duration-300 border border-yellow-50 hover:border-yellow-100">
     <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-gray-100 mb-4 shadow-sm">
       <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
       <div className="absolute top-3 left-3 flex gap-1">
-        <span className="bg-green-600 text-white px-2 py-1 rounded-lg text-xs font-bold">
+        <span className="bg-gray-50 text-gray-500 px-2 py-1 rounded-lg text-xs opacity-20 font-bold shadow-sm">
           {product.externalStore?.toUpperCase()}
         </span>
       </div>
@@ -328,7 +328,7 @@ const RecommendedProductCard = ({ product, selectedCountry, formatPrice, handleB
       </div>
     </div>
     <div className="px-2 flex-grow">
-      <h3 className="font-bold text-gray-900 leading-tight group-hover:text-yellow-600 transition-colors line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
+      <h3 className="font-bold text-gray-900 leading-tight transition-colors line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
       <p className="text-xs text-gray-500 mt-2">{product.description}</p>
     </div>
     <div className="mt-4 px-2 pb-2">

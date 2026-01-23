@@ -66,18 +66,13 @@ const FilterBar: React.FC<FilterBarProps> = ({
           return (
             <div key={filter.id} className="relative">
               <button
-                onClick={() => setOpenDropdown(isOpen ? null : filter.id)}
-                className={`flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all focus:outline-none whitespace-nowrap border ${
+                onClick={() => setOpenDropdown(isOpen ? null : filter.id)} className={`flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all focus:outline-none whitespace-nowrap border ${
                   (activeValue && !isRegiao) || (isRegiao && isOpen)
                     ? "bg-cyan-50 border-cyan-500 text-cyan-700"
-                    : "bg-white border-gray-300 text-gray-700 hover:border-cyan-500 hover:text-cyan-600"
-                }`}
-              >
-                {isRegiao && <span className="mr-2 text-base">🌐</span>}
+                    : "bg-white border-gray-300 text-gray-700 hover:border-cyan-500 hover:text-cyan-600" }`}>
+                {isRegiao && <span className="mr-2 text-base"></span>}
                 {activeValue || filter.label}
-                <i
-                  className={`fa-solid fa-chevron-down ml-2 text-[10px] transition-transform ${isOpen ? "rotate-180" : ""}`}
-                ></i>
+                <i className={`fa-solid fa-chevron-down ml-2 text-[10px] transition-transform ${isOpen ? "rotate-180" : ""}`}></i>
               </button>
 
               {isOpen && (
