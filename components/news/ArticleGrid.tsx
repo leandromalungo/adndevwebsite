@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Post } from '@/data/types';
-import ArticleCard from './ArticleCard';
+import ArticleCard from '@/components/news/ArticleCard';
 
 interface ArticleGridProps {
   posts: Post[];

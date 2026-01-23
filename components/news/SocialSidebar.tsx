@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-const SocialSidebar: React.FC = () => {
+const SocialSidebar = () => {
   const stats = [
     { icon: 'fa-facebook-f', color: '#3b5998', label: 'Like', count: '30 k+' },
     { icon: 'fa-youtube', color: '#ff0000', label: 'Subscrib', count: '25 k+' },

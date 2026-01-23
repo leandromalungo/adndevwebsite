@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Post } from '../types';
+import { Post } from '@/data/types';
 
 interface TrendingGridProps {
   posts: Post[];
