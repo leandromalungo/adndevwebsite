@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { VideoHeroProps } from '../types';
+import { VideoHeroProps } from '@/data/types';
 
 const VideoHero: React.FC<VideoHeroProps> = ({ 
   videoUrl, 

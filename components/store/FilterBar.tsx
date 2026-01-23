@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { FilterOption, FilterState, CountryInfo } from '../types';
+import { FilterOption, FilterState, CountryInfo } from '@/data/types';
 
 interface FilterBarProps {
   filters: FilterOption[];

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BreadcrumbItem } from '../types';
+import { BreadcrumbItem } from '@/data/types';
 
 interface BreadcrumbsProps {
   items: BreadcrumbItem[];
