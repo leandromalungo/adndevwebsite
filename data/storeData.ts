@@ -1,5 +1,21 @@
 import { Product, Service } from './types';
 
+export interface EventTicket {
+  id: number;
+  name: string;
+  event: string;
+  date: string;
+  location: string;
+  price: number;
+  currency?: string;
+  type: 'normal' | 'vip' | 'early-bird';
+  quantity: number;
+  availableCountries: string[];
+  image: string;
+  description: string;
+  eventLink?: string;
+}
+
 /**
  * Produtos próprios da comunidade - merchandise oficial
  * Todos os produtos são marcados com isOwn: true
@@ -267,4 +283,94 @@ export const EXTERNAL_MARKETPLACES = [
   { id: 'amazon', name: 'Amazon', icon: 'fa-amazon', color: 'bg-amber-500' },
   { id: 'mercadopago', name: 'Mercado Livre', icon: 'fa-shopping-bag', color: 'bg-yellow-500' },
   { id: 'other', name: 'Outro', icon: 'fa-link', color: 'bg-gray-500' }
+];
+
+/**
+ * Tickets de eventos disponíveis para compra
+ */
+export const EVENT_TICKETS: EventTicket[] = [
+  {
+    id: 101,
+    name: "Ingresso Normal - Python Brasil 2026",
+    event: "Python Brasil 2026",
+    date: "2026-06-15 a 2026-06-17",
+    location: "São Paulo, Brasil",
+    price: 199.99,
+    type: 'normal',
+    quantity: 150,
+    availableCountries: ['BR', 'PT', 'AO', 'MZ'],
+    image: "/images/store/ticket1.jpg",
+    description: "Acesso a todas as palestras, workshops e networking da maior conferência Python do Brasil",
+    eventLink: "https://www.python.org.br"
+  },
+  {
+    id: 102,
+    name: "Ingresso VIP - Python Brasil 2026",
+    event: "Python Brasil 2026",
+    date: "2026-06-15 a 2026-06-17",
+    location: "São Paulo, Brasil",
+    price: 349.99,
+    type: 'vip',
+    quantity: 50,
+    availableCountries: ['BR', 'PT', 'AO', 'MZ'],
+    image: "/images/store/ticket1.jpg",
+    description: "Acesso VIP com networking exclusivo, almoço cortesia e entrada prioritária",
+    eventLink: "https://www.python.org.br"
+  },
+  {
+    id: 103,
+    name: "Early-bird - TDC Tech Summit 2026",
+    event: "TDC Tech Summit 2026",
+    date: "2026-05-20 a 2026-05-22",
+    location: "São Paulo, Brasil",
+    price: 149.99,
+    type: 'early-bird',
+    quantity: 200,
+    availableCountries: ['BR', 'PT', 'AO'],
+    image: "/images/store/ticket2.jpg",
+    description: "Ingresso antecipado com 40% de desconto para maior conferência de tecnologia da América Latina",
+    eventLink: "https://www.tdc.com.br"
+  },
+  {
+    id: 104,
+    name: "Ingresso Normal - Web Summit 2026",
+    event: "Web Summit 2026",
+    date: "2026-11-02 a 2026-11-04",
+    location: "Lisboa, Portugal",
+    price: 289.99,
+    type: 'normal',
+    quantity: 500,
+    availableCountries: ['PT', 'AO', 'CV', 'GW'],
+    image: "/images/store/ticket3.jpg",
+    description: "Acesso completo ao maior evento tecnológico europeu em Lisboa",
+    eventLink: "https://www.websummit.com"
+  },
+  {
+    id: 105,
+    name: "Ingresso - RubyConf Brasil 2026",
+    event: "RubyConf Brasil 2026",
+    date: "2026-08-20 a 2026-08-21",
+    location: "Rio de Janeiro, Brasil",
+    price: 179.99,
+    type: 'normal',
+    quantity: 300,
+    availableCountries: ['BR', 'PT', 'AO', 'MZ'],
+    image: "/images/store/ticket4.jpg",
+    description: "Conferência dedicada à comunidade Ruby brasileira com palestras e workshops",
+    eventLink: "https://www.rubyconf.com.br"
+  },
+  {
+    id: 106,
+    name: "Ingresso VIP - Campus Party 2026",
+    event: "Campus Party 2026",
+    date: "2026-04-01 a 2026-04-05",
+    location: "São Paulo, Brasil",
+    price: 399.99,
+    type: 'vip',
+    quantity: 100,
+    availableCountries: ['BR', 'PT'],
+    image: "/images/store/ticket5.jpg",
+    description: "Acesso VIP ao maior festival de tecnologia, inovação e cultura digital do mundo",
+    eventLink: "https://www.campusparty.com.br"
+  }
 ];

@@ -7,7 +7,7 @@ import FilterBar from '@/components/store/FilterBar';
 import { BreadcrumbItem, FilterOption, Product, Service, FilterState, CountryInfo } from '@/data/types';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { OWN_PRODUCTS, RECOMMENDED_PRODUCTS } from '@/data/storeData';
+import { OWN_PRODUCTS, RECOMMENDED_PRODUCTS, EVENT_TICKETS, type EventTicket } from '@/data/storeData';
 
 const COUNTRIES: CountryInfo[] = [
   { code: 'PT', name: 'Portugal', currency: 'EUR', symbol: '€', rate: 1 },
@@ -123,6 +123,17 @@ const Page = () => {
     return filtered;
   }, [searchQuery, selectedCountry]);
 
+  // Filtrar tickets por país e pesquisa
+  const filteredTickets = useMemo(() => {
+    return EVENT_TICKETS.filter(ticket => {
+      const inCountry = ticket.availableCountries.includes(selectedCountry.code);
+      const matchesSearch = searchQuery === '' || 
+        ticket.event.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        ticket.name.toLowerCase().includes(searchQuery.toLowerCase());
+      return inCountry && matchesSearch;
+    });
+  }, [selectedCountry, searchQuery]);
+
   const videoUrl = 'https://assets.mixkit.co/videos/preview/mixkit-cyberpunk-city-street-at-night-4006-large.mp4';
 
   return (
@@ -220,6 +231,23 @@ const Page = () => {
             <p className="text-center text-gray-500 py-12">Nenhum produto encontrado</p>
           )}
         </section>
+
+        {/* TICKETS DE EVENTOS */}
+        <section className="mt-16">
+          <h3 className="text-xl font-bold mb-6 text-gray-900">
+            <i className="fa-solid fa-ticket mr-2 text-purple-600"></i>
+            Ingressos para Eventos
+          </h3>
+          {filteredTickets.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredTickets.map(ticket => (
+                <EventTicketCard key={ticket.id} ticket={ticket} selectedCountry={selectedCountry} formatPrice={formatPrice} handleBuy={handleBuy} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-gray-500 py-12">Nenhum ingresso disponível</p>
+          )}
+        </section>
       </main>
       <Footer />
     </div>
@@ -283,5 +311,65 @@ const RecommendedProductCard = ({ product, selectedCountry, formatPrice, handleB
     </div>
   </div>
 );
+
+// Componente para Ticket de Evento
+const EventTicketCard = ({ ticket, selectedCountry, formatPrice, handleBuy }: { ticket: EventTicket; selectedCountry: CountryInfo; formatPrice: (price: number) => string; handleBuy: (e: React.MouseEvent, name: string, isExternal?: boolean) => void }) => {
+  const typeColors: Record<string, string> = {
+    'normal': 'bg-blue-100 text-blue-700',
+    'vip': 'bg-purple-100 text-purple-700',
+    'early-bird': 'bg-orange-100 text-orange-700'
+  };
+
+  const typeIcons: Record<string, string> = {
+    'normal': 'fa-ticket',
+    'vip': 'fa-crown',
+    'early-bird': 'fa-zap'
+  };
+
+  const typeLabels: Record<string, string> = {
+    'normal': 'Normal',
+    'vip': 'VIP',
+    'early-bird': 'Early Bird'
+  };
+
+  return (
+    <div className="group cursor-pointer flex flex-col h-full bg-white rounded-2xl p-2 hover:shadow-xl transition-all duration-300 border border-purple-100 hover:border-purple-300">
+      <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gradient-to-br from-purple-100 to-purple-50 mb-4 shadow-sm flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-5xl mb-2">
+            <i className="fa-solid fa-calendar-days text-purple-600"></i>
+          </div>
+          <p className="text-sm font-bold text-purple-900">{ticket.date.split(' ')[0]}</p>
+          <p className="text-xs text-purple-600">{ticket.location}</p>
+        </div>
+        <div className={`absolute top-3 right-3 text-xs font-bold px-3 py-1 rounded-lg ${typeColors[ticket.type]}`}>
+          <i className={`fa-solid ${typeIcons[ticket.type]} mr-1`}></i>
+          {typeLabels[ticket.type]}
+        </div>
+      </div>
+      <div className="px-2 flex-grow">
+        <h3 className="font-bold text-gray-900 leading-tight group-hover:text-purple-600 transition-colors line-clamp-2 min-h-[2.5rem]">{ticket.event}</h3>
+        <p className="text-xs text-gray-500 mt-2 line-clamp-2">{ticket.description}</p>
+        <div className="mt-3 flex items-center text-xs text-gray-600">
+          <i className="fa-solid fa-map-pin mr-1 text-purple-600"></i>
+          {ticket.location}
+        </div>
+        <div className="mt-2 flex items-center justify-between">
+          <span className="text-xs text-gray-500">Ingressos: {ticket.quantity}</span>
+          <span className="text-lg font-black text-purple-600">{formatPrice(ticket.price)}</span>
+        </div>
+      </div>
+      <div className="mt-4 px-2 pb-2">
+        <button 
+          onClick={e => handleBuy(e, `Ingresso - ${ticket.event}`)}
+          className="w-full bg-purple-600 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-purple-700 active:scale-95 transition-all shadow-lg"
+        >
+          <i className="fa-solid fa-cart-shopping mr-2"></i>
+          Comprar Ingresso
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default Page;
