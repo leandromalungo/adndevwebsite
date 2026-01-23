@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Post } from '../types';
+import { Post } from '@/data/types';
 import ArticleCard from './ArticleCard';
 
 interface ArticleGridProps {
