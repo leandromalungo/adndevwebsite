@@ -21,16 +21,21 @@ const COUNTRIES: CountryInfo[] = [
 ];
 
 const MOCK_PRODUCTS: Product[] = [
-  { id: 1, name: "T-shirt Gamenex Classic", price: 19.99, platform: "Unisex", category: "T-shirts", condition: "Novo", rating: 5, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&q=80&w=400", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'BR', 'GW', 'GQ', 'ST'] },
-  { id: 2, name: "Boné Snapback 'Gamer'", price: 14.99, platform: "Acessórios", category: "Chapéus", condition: "Novo", rating: 4, image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&q=80&w=400", availableCountries: ['PT', 'AO', 'BR', 'MZ'] },
-  { id: 3, name: "Pack de Stickers Neon (10 unidades)", price: 5.00, platform: "Decoração", category: "Stickers", condition: "Novo", rating: 5, image: "https://images.unsplash.com/photo-1572375992501-4b0892d50c69?auto=format&fit=crop&q=80&w=400", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'GW', 'GQ', 'ST', 'BR'] },
-  { id: 4, name: "Cantil Térmico Alumínio 500ml", price: 12.50, platform: "Utilitários", category: "Items", condition: "Novo", rating: 5, image: "https://images.unsplash.com/photo-1602143301015-8120d0442654?auto=format&fit=crop&q=80&w=400", availableCountries: ['PT', 'MZ', 'ST', 'AO'] },
-  { id: 5, name: "Chávena Cerâmica 'Loading...'", price: 8.99, platform: "Cozinha", category: "Items", condition: "Novo", rating: 4, image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=400", availableCountries: ['PT', 'BR', 'AO'] },
-  { id: 6, name: "T-shirt Retro Console Edition", price: 21.99, platform: "Unisex", category: "T-shirts", condition: "Novo", rating: 5, image: "https://images.unsplash.com/photo-1562157873-818bc0726f68?auto=format&fit=crop&q=80&w=400", availableCountries: ['PT', 'CV', 'ST', 'BR'] },
-  { id: 7, name: "Gorro de Lã Black Edition", price: 12.00, platform: "Acessórios", category: "Chapéus", condition: "Novo", rating: 3, image: "https://images.unsplash.com/photo-1576871333020-2219bc2456bc?auto=format&fit=crop&q=80&w=400", availableCountries: ['PT', 'BR'] },
-  { id: 8, name: "Sticker Gigante 'GG Easy'", price: 3.50, platform: "Decoração", category: "Stickers", condition: "Novo", rating: 5, image: "https://images.unsplash.com/photo-1589384273441-c5bfc29384c4?auto=format&fit=crop&q=80&w=400", availableCountries: ['PT', 'AO', 'MZ', 'BR'] },
-  { id: 9, name: "Saco de Pano Eco-Game", price: 9.99, platform: "Lifestyle", category: "Outro", condition: "Novo", rating: 4, image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=400", availableCountries: ['PT', 'AO', 'CV', 'MZ', 'ST', 'BR'] },
-  { id: 10, name: "Tapete de Rato XL", price: 25.00, platform: "Setup", category: "Outro", condition: "Novo", rating: 5, image: "https://images.unsplash.com/photo-1616627561839-01417f761505?auto=format&fit=crop&q=80&w=400", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'GW', 'GQ', 'ST', 'BR'] },
+  { id: 1, name: "Pack de Stickers Neon (10 unidades)", price: 5.00, platform: "Decoração", category: "Stickers", condition: "Novo", rating: 5, image: "/images/store/1.jpg", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'GW', 'GQ', 'ST', 'BR'] },
+  { id: 2, name: "Cantil Térmico Alumínio 500ml", price: 12.50, platform: "Utilitários", category: "Items", condition: "Novo", rating: 5, image: "/images/store/2.jpg", availableCountries: ['PT', 'MZ', 'ST', 'AO'] },
+  { id: 3, name: "Chávena Cerâmica 'Loading...'", price: 8.99, platform: "Cozinha", category: "Items", condition: "Novo", rating: 4, image: "/images/store/3.jpg", availableCountries: ['PT', 'BR', 'AO'] },
+  { id: 4, name: "T-shirt Retro Console Edition", price: 21.99, platform: "Unisex", category: "T-shirts", condition: "Novo", rating: 5, image: "/images/store/4.jpg", availableCountries: ['PT', 'CV', 'ST', 'BR'] },
+  { id: 5, name: "Gorro de Lã Black Edition", price: 12.00, platform: "Acessórios", category: "Chapéus", condition: "Novo", rating: 3, image: "/images/store/5.jpg", availableCountries: ['PT', 'BR'] },
+  { id: 6, name: "Sticker Gigante 'GG Easy'", price: 3.50, platform: "Decoração", category: "Stickers", condition: "Novo", rating: 5, image: "/images/store/6.jpg", availableCountries: ['PT', 'AO', 'MZ', 'BR'] },
+  { id: 7, name: "Saco de Pano Eco-Game", price: 9.99, platform: "Lifestyle", category: "Outro", condition: "Novo", rating: 4, image: "/images/store/7.jpg", availableCountries: ['PT', 'AO', 'CV', 'MZ', 'ST', 'BR'] },
+  { id: 8, name: "Tapete de Rato XL Premium", price: 25.00, platform: "Setup", category: "Outro", condition: "Novo", rating: 5, image: "/images/store/8.jpg", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'GW', 'GQ', 'ST', 'BR'] },
+  { id: 9, name: "Tapete de Rato Médio Speed", price: 18.50, platform: "Setup", category: "Outro", condition: "Novo", rating: 5, image: "/images/store/9.jpg", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'GW', 'GQ', 'ST', 'BR'] },
+  { id: 10, name: "Tapete de Rato Mini RGB", price: 15.00, platform: "Setup", category: "Outro", condition: "Novo", rating: 5, image: "/images/store/10.jpg", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'GW', 'GQ', 'ST', 'BR'] },
+  { id: 11, name: "T-shirt Gamer Pro - Azul", price: 18.99, platform: "Unisex", category: "T-shirts", condition: "Novo", rating: 5, image: "/images/store/11.jpg", availableCountries: ['PT', 'AO', 'MZ', 'BR'] },
+  { id: 12, name: "Mochila Gaming Comfort", price: 34.99, platform: "Lifestyle", category: "Outro", condition: "Novo", rating: 4, image: "/images/store/12.jpg", availableCountries: ['PT', 'AO', 'CV', 'MZ', 'ST', 'BR'] },
+  { id: 13, name: "Boné Snapback Preto", price: 14.50, platform: "Acessórios", category: "Chapéus", condition: "Novo", rating: 4, image: "/images/store/13.jpg", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'GW', 'GQ', 'ST', 'BR'] },
+  { id: 14, name: "Hoodie Cinzento Oversized", price: 35.00, platform: "Unisex", category: "T-shirts", condition: "Novo", rating: 5, image: "/images/store/14.jpg", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'GW', 'GQ', 'ST', 'BR'] },
+  { id: 15, name: "Moeda Comemorativa Especial", price: 7.99, platform: "Colecionáveis", category: "Items", condition: "Novo", rating: 5, image: "/images/store/15.jpg", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'GW', 'GQ', 'ST', 'BR'] },
 ];
 
 const Page = () => {
