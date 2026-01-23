@@ -10,8 +10,8 @@ import Footer from '@/components/Footer';
 import { OWN_PRODUCTS, RECOMMENDED_PRODUCTS, EVENT_TICKETS, type EventTicket } from '@/data/storeData';
 
 const COUNTRIES: CountryInfo[] = [
-  { code: 'AO', name: 'Ao', currency: 'KZ', symbol: 'Kz', rate: 915.50 },
-  { code: 'BR', name: 'Br', currency: 'Real', symbol: 'R$', rate: 6.12 },
+  { code: 'AO', name: 'Ao', currency: 'AOA', symbol: 'Kz', rate: 915.50 },
+  { code: 'BR', name: 'Br', currency: 'BRL', symbol: 'R$', rate: 6.12 },
   { code: 'MZ', name: 'Mz', currency: 'MZN', symbol: 'MT', rate: 68.45 },
   { code: 'CV', name: 'Cv', currency: 'CVE', symbol: '$', rate: 110.26 },
   { code: 'GW', name: 'Gw', currency: 'XOF', symbol: 'CFA', rate: 655.95 },
