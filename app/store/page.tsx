@@ -7,7 +7,7 @@ import FilterBar from '@/components/store/FilterBar';
 import { BreadcrumbItem, FilterOption, Product, Service, FilterState, CountryInfo } from '@/data/types';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { OWN_PRODUCTS, RECOMMENDED_PRODUCTS, SERVICES } from '@/data/storeData';
+import { OWN_PRODUCTS, RECOMMENDED_PRODUCTS } from '@/data/storeData';
 
 const COUNTRIES: CountryInfo[] = [
   { code: 'PT', name: 'Portugal', currency: 'EUR', symbol: '€', rate: 1 },
@@ -22,7 +22,6 @@ const COUNTRIES: CountryInfo[] = [
 
 const Page = () => {
   const [selectedCountry, setSelectedCountry] = useState<CountryInfo>(COUNTRIES[0]);
-  const [activeTab, setActiveTab] = useState<'products' | 'recommended' | 'services'>('products');
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<FilterState>({
     category: null,
@@ -112,13 +111,7 @@ const Page = () => {
 
   const filteredOwnProducts = useMemo(() => filterAndSearch(OWN_PRODUCTS), [filters, selectedCountry, searchQuery]);
   const filteredRecommendedProducts = useMemo(() => filterAndSearch(RECOMMENDED_PRODUCTS), [filters, selectedCountry, searchQuery]);
-  const filteredServices = useMemo(() => {
-    return SERVICES.filter(s => s.availableCountries.includes(selectedCountry.code) &&
-      (searchQuery === '' || 
-       s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-       s.description.toLowerCase().includes(searchQuery.toLowerCase()))
-    );
-  }, [selectedCountry, searchQuery]);
+  const allProducts = useMemo(() => [...filteredOwnProducts, ...filteredRecommendedProducts], [filteredOwnProducts, filteredRecommendedProducts]);
 
   const videoUrl = 'https://assets.mixkit.co/videos/preview/mixkit-cyberpunk-city-street-at-night-4006-large.mp4';
 
@@ -146,50 +139,13 @@ const Page = () => {
           </div>
         </section>
 
-        {/* Abas de navegação */}
-        <section className="mt-8 flex gap-2 border-b border-gray-200 flex-wrap">
-          <button
-            onClick={() => setActiveTab('products')}
-            className={`px-4 py-3 font-semibold border-b-2 transition-colors whitespace-nowrap ${
-              activeTab === 'products'
-                ? 'border-cyan-600 text-cyan-600'
-                : 'border-transparent text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            <i className="fa-solid fa-shop mr-2"></i>
-            Produtos Próprios ({filteredOwnProducts.length})
-          </button>
-          <button
-            onClick={() => setActiveTab('recommended')}
-            className={`px-4 py-3 font-semibold border-b-2 transition-colors whitespace-nowrap ${
-              activeTab === 'recommended'
-                ? 'border-cyan-600 text-cyan-600'
-                : 'border-transparent text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            <i className="fa-solid fa-star mr-2"></i>
-            Recomendados ({filteredRecommendedProducts.length})
-          </button>
-          <button
-            onClick={() => setActiveTab('services')}
-            className={`px-4 py-3 font-semibold border-b-2 transition-colors whitespace-nowrap ${
-              activeTab === 'services'
-                ? 'border-cyan-600 text-cyan-600'
-                : 'border-transparent text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            <i className="fa-solid fa-briefcase mr-2"></i>
-            Serviços ({filteredServices.length})
-          </button>
-        </section>
-
         {/* Search Bar */}
         <section className="mt-6">
           <div className="relative">
             <i className="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
             <input
               type="text"
-              placeholder="Pesquisar produtos ou serviços..."
+              placeholder="Pesquisar produtos..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-600 focus:border-transparent outline-none"
@@ -208,60 +164,27 @@ const Page = () => {
           />
         </section>
 
-        {/* CONTEÚDO POR ABA */}
-        {activeTab === 'products' && (
-          <section className="mt-12">
-            <h3 className="text-xl font-bold mb-6 text-gray-900">
-              <i className="fa-solid fa-badge-check mr-2 text-green-600"></i>
-              Produtos Próprios Certificados
-            </h3>
-            {filteredOwnProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {filteredOwnProducts.map(product => (
+        {/* TODOS OS PRODUTOS */}
+        <section className="mt-12">
+          <h3 className="text-xl font-bold mb-6 text-gray-900">
+            <i className="fa-solid fa-shopping-bag mr-2 text-cyan-600"></i>
+            Todos os Produtos
+          </h3>
+          {allProducts.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {allProducts.map(product => {
+                const isOwn = product.isOwn;
+                return isOwn ? (
                   <ProductCard key={product.id} product={product} selectedCountry={selectedCountry} formatPrice={formatPrice} handleBuy={handleBuy} />
-                ))}
-              </div>
-            ) : (
-              <p className="text-center text-gray-500 py-12">Nenhum produto encontrado</p>
-            )}
-          </section>
-        )}
-
-        {activeTab === 'recommended' && (
-          <section className="mt-12">
-            <h3 className="text-xl font-bold mb-6 text-gray-900">
-              <i className="fa-solid fa-star mr-2 text-yellow-500"></i>
-              Produtos Recomendados de Parceiros
-            </h3>
-            {filteredRecommendedProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {filteredRecommendedProducts.map(product => (
+                ) : (
                   <RecommendedProductCard key={product.id} product={product} selectedCountry={selectedCountry} formatPrice={formatPrice} handleBuy={handleBuy} />
-                ))}
-              </div>
-            ) : (
-              <p className="text-center text-gray-500 py-12">Nenhum produto recomendado encontrado</p>
-            )}
-          </section>
-        )}
-
-        {activeTab === 'services' && (
-          <section className="mt-12">
-            <h3 className="text-xl font-bold mb-6 text-gray-900">
-              <i className="fa-solid fa-briefcase mr-2 text-blue-600"></i>
-              Nossos Serviços
-            </h3>
-            {filteredServices.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredServices.map(service => (
-                  <ServiceCard key={service.id} service={service} />
-                ))}
-              </div>
-            ) : (
-              <p className="text-center text-gray-500 py-12">Nenhum serviço disponível</p>
-            )}
-          </section>
-        )}
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-center text-gray-500 py-12">Nenhum produto encontrado</p>
+          )}
+        </section>
       </main>
       <Footer />
     </div>
@@ -323,30 +246,6 @@ const RecommendedProductCard = ({ product, selectedCountry, formatPrice, handleB
         Ver em {product.externalStore}
       </button>
     </div>
-  </div>
-);
-
-// Componente para Serviço
-const ServiceCard = ({ service }: any) => (
-  <div className="group cursor-pointer flex flex-col h-full bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 border border-blue-100 hover:border-blue-300">
-    <div className="mb-4 text-4xl text-blue-600">
-      <i className={`fa-solid ${service.icon}`}></i>
-    </div>
-    <h3 className="font-bold text-lg text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">{service.name}</h3>
-    <p className="text-sm text-gray-600 mb-4 flex-grow">{service.description}</p>
-    <div className="flex flex-wrap gap-2 mb-4">
-      {service.tags.map((tag: string) => (
-        <span key={tag} className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">{tag}</span>
-      ))}
-    </div>
-    <div className="flex justify-between items-center text-sm text-gray-600 mb-4 pt-4 border-t border-blue-100">
-      <span><i className="fa-solid fa-hourglass mr-2"></i>{service.duration}</span>
-      <span className="font-bold text-blue-600">{service.price}</span>
-    </div>
-    <button className="w-full bg-blue-600 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-blue-700 active:scale-95 transition-all shadow-lg">
-      <i className="fa-solid fa-calendar mr-2"></i>
-      Agendar
-    </button>
   </div>
 );
 
