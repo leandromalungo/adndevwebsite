@@ -200,6 +200,23 @@ export interface Product {
   rating: number;
   image: string;
   availableCountries: string[]; // List of country codes
+  isOwn?: boolean; // Se é produto próprio (true) ou recomendado (false)
+  externalStore?: 'aliexpress' | 'amazon' | 'mercadopago' | 'other'; // Loja externa se recomendado
+  externalUrl?: string; // URL para o produto na loja externa
+  description?: string;
+}
+
+export interface Service {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  price?: string;
+  duration?: string;
+  category: string;
+  tags: string[];
+  image: string;
+  availableCountries: string[];
 }
 
 export interface VideoHeroProps {

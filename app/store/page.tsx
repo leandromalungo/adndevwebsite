@@ -1,13 +1,13 @@
 "use client";
 
-// File: pages/store/Page.tsx
 import React, { useState, useMemo } from 'react';
 import VideoHero from '@/components/store/VideoHero';
 import Breadcrumbs from '@/components/store/Breadcrumbs';
 import FilterBar from '@/components/store/FilterBar';
-import { BreadcrumbItem, FilterOption, Product, FilterState, CountryInfo } from '@/data/types';
+import { BreadcrumbItem, FilterOption, Product, Service, FilterState, CountryInfo } from '@/data/types';
 import Navbar from '@/components/Navbar';
-import  Footer  from '@/components/Footer';
+import Footer from '@/components/Footer';
+import { OWN_PRODUCTS, RECOMMENDED_PRODUCTS, SERVICES } from '@/data/storeData';
 
 const COUNTRIES: CountryInfo[] = [
   { code: 'PT', name: 'Portugal', currency: 'EUR', symbol: '€', rate: 1 },
@@ -20,26 +20,10 @@ const COUNTRIES: CountryInfo[] = [
   { code: 'ST', name: 'São Tomé e Príncipe', currency: 'STN', symbol: 'Db', rate: 24.50 },
 ];
 
-const MOCK_PRODUCTS: Product[] = [
-  { id: 1, name: "Pack de Stickers Neon (10 unidades)", price: 5.00, platform: "Decoração", category: "Stickers", condition: "Novo", rating: 5, image: "/images/store/1.jpg", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'GW', 'GQ', 'ST', 'BR'] },
-  { id: 2, name: "Cantil Térmico Alumínio 500ml", price: 12.50, platform: "Utilitários", category: "Items", condition: "Novo", rating: 5, image: "/images/store/2.jpg", availableCountries: ['PT', 'MZ', 'ST', 'AO'] },
-  { id: 3, name: "Chávena Cerâmica 'Loading...'", price: 8.99, platform: "Cozinha", category: "Items", condition: "Novo", rating: 4, image: "/images/store/3.jpg", availableCountries: ['PT', 'BR', 'AO'] },
-  { id: 4, name: "T-shirt Retro Console Edition", price: 21.99, platform: "Unisex", category: "T-shirts", condition: "Novo", rating: 5, image: "/images/store/4.jpg", availableCountries: ['PT', 'CV', 'ST', 'BR'] },
-  { id: 5, name: "Gorro de Lã Black Edition", price: 12.00, platform: "Acessórios", category: "Chapéus", condition: "Novo", rating: 3, image: "/images/store/5.jpg", availableCountries: ['PT', 'BR'] },
-  { id: 6, name: "Sticker Gigante 'GG Easy'", price: 3.50, platform: "Decoração", category: "Stickers", condition: "Novo", rating: 5, image: "/images/store/6.jpg", availableCountries: ['PT', 'AO', 'MZ', 'BR'] },
-  { id: 7, name: "Saco de Pano Eco-Game", price: 9.99, platform: "Lifestyle", category: "Outro", condition: "Novo", rating: 4, image: "/images/store/7.jpg", availableCountries: ['PT', 'AO', 'CV', 'MZ', 'ST', 'BR'] },
-  { id: 8, name: "Tapete de Rato XL Premium", price: 25.00, platform: "Setup", category: "Outro", condition: "Novo", rating: 5, image: "/images/store/8.jpg", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'GW', 'GQ', 'ST', 'BR'] },
-  { id: 9, name: "Tapete de Rato Médio Speed", price: 18.50, platform: "Setup", category: "Outro", condition: "Novo", rating: 5, image: "/images/store/9.jpg", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'GW', 'GQ', 'ST', 'BR'] },
-  { id: 10, name: "Tapete de Rato Mini RGB", price: 15.00, platform: "Setup", category: "Outro", condition: "Novo", rating: 5, image: "/images/store/10.jpg", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'GW', 'GQ', 'ST', 'BR'] },
-  { id: 11, name: "T-shirt Gamer Pro - Azul", price: 18.99, platform: "Unisex", category: "T-shirts", condition: "Novo", rating: 5, image: "/images/store/11.jpg", availableCountries: ['PT', 'AO', 'MZ', 'BR'] },
-  { id: 12, name: "Mochila Gaming Comfort", price: 34.99, platform: "Lifestyle", category: "Outro", condition: "Novo", rating: 4, image: "/images/store/12.jpg", availableCountries: ['PT', 'AO', 'CV', 'MZ', 'ST', 'BR'] },
-  { id: 13, name: "Boné Snapback Preto", price: 14.50, platform: "Acessórios", category: "Chapéus", condition: "Novo", rating: 4, image: "/images/store/13.jpg", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'GW', 'GQ', 'ST', 'BR'] },
-  { id: 14, name: "Hoodie Cinzento Oversized", price: 35.00, platform: "Unisex", category: "T-shirts", condition: "Novo", rating: 5, image: "/images/store/14.jpg", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'GW', 'GQ', 'ST', 'BR'] },
-  { id: 15, name: "Moeda Comemorativa Especial", price: 7.99, platform: "Colecionáveis", category: "Items", condition: "Novo", rating: 5, image: "/images/store/15.jpg", availableCountries: ['PT', 'AO', 'MZ', 'CV', 'GW', 'GQ', 'ST', 'BR'] },
-];
-
 const Page = () => {
   const [selectedCountry, setSelectedCountry] = useState<CountryInfo>(COUNTRIES[0]);
+  const [activeTab, setActiveTab] = useState<'products' | 'recommended' | 'services'>('products');
+  const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<FilterState>({
     category: null,
     rating: null,
@@ -50,14 +34,14 @@ const Page = () => {
   });
 
   const breadcrumbItems: BreadcrumbItem[] = [
-    { label: 'Merchandising', href: '#' },
-    { label: 'Coleções', href: '#' },
-    { label: 'Gamenex Store', href: '#' },
+    { label: 'Loja', href: '#' },
+    { label: 'Produtos & Serviços', href: '#' },
+    { label: 'Store', href: '#' },
   ];
 
   const filterOptions: FilterOption[] = [
     { id: 'regiao', label: 'Região', options: COUNTRIES.map(c => c.name) },
-    { id: 'categoria', label: 'Categoria', options: ['T-shirts', 'Chapéus', 'Stickers', 'Items', 'Outro'] },
+    { id: 'categoria', label: 'Categoria', options: ['T-shirts', 'Chapéus', 'Stickers', 'Items', 'Setup', 'Outro'] },
     { id: 'ordenar', label: 'Ordenar por', options: ['Preço: Baixo a Alto', 'Preço: Alto a Baixo'] },
   ];
 
@@ -73,7 +57,6 @@ const Page = () => {
       switch (filterId) {
         case 'categoria': next.category = value; break;
         case 'ordenar': next.sort = value; break;
-        case 'category': next.category = value; break;
       }
       return next;
     });
@@ -88,6 +71,7 @@ const Page = () => {
       maxPrice: null,
       sort: null,
     });
+    setSearchQuery('');
   };
 
   const formatPrice = (eurPrice: number) => {
@@ -98,20 +82,43 @@ const Page = () => {
     }).format(converted);
   };
 
-  const handleBuy = (e: React.MouseEvent, productName: string) => {
+  const handleBuy = (e: React.MouseEvent, productName: string, isExternal: boolean = false) => {
     e.stopPropagation();
-    alert(`A iniciar processo de compra para: ${productName} em ${selectedCountry.name}`);
+    const message = isExternal 
+      ? `Redirecionando para compra de: ${productName}`
+      : `A iniciar processo de compra para: ${productName} em ${selectedCountry.name}`;
+    alert(message);
   };
 
-  const filteredProducts = useMemo(() => {
-    let result = MOCK_PRODUCTS.filter(p => p.availableCountries.includes(selectedCountry.code));
+  const filterAndSearch = (products: Product[]) => {
+    let result = products.filter(p => p.availableCountries.includes(selectedCountry.code));
+    
     if (filters.category) result = result.filter(p => p.category === filters.category);
+    
+    if (searchQuery) {
+      result = result.filter(p => 
+        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.description?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+    
     if (filters.sort) {
       if (filters.sort.includes('Baixo a Alto')) result.sort((a, b) => a.price - b.price);
       if (filters.sort.includes('Alto a Baixo')) result.sort((a, b) => b.price - a.price);
     }
+    
     return result;
-  }, [filters, selectedCountry]);
+  };
+
+  const filteredOwnProducts = useMemo(() => filterAndSearch(OWN_PRODUCTS), [filters, selectedCountry, searchQuery]);
+  const filteredRecommendedProducts = useMemo(() => filterAndSearch(RECOMMENDED_PRODUCTS), [filters, selectedCountry, searchQuery]);
+  const filteredServices = useMemo(() => {
+    return SERVICES.filter(s => s.availableCountries.includes(selectedCountry.code) &&
+      (searchQuery === '' || 
+       s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+       s.description.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  }, [selectedCountry, searchQuery]);
 
   const videoUrl = 'https://assets.mixkit.co/videos/preview/mixkit-cyberpunk-city-street-at-night-4006-large.mp4';
 
@@ -119,31 +126,79 @@ const Page = () => {
     <div className="min-h-screen bg-white">
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 md:px-8 pb-20">
-        {/* Coleção exclusiva */}
         <div className="text-[11px] text-gray-400 mb-2 font-medium uppercase tracking-tighter">
-          Coleção Exclusiva • {selectedCountry.name}
+          Loja Exclusiva • {selectedCountry.name}
         </div>
 
-        {/* Video Hero */}
         <VideoHero 
           videoUrl={videoUrl}
-          title={`Merchandising em ${selectedCountry.name}`}
-          subtitle="Produtos exclusivos para a comunidade CPLP"
+          title={`Produtos & Serviços em ${selectedCountry.name}`}
+          subtitle="Merchandising exclusivo + Produtos recomendados + Serviços técnicos"
         />
 
-        {/* Breadcrumbs e título */}
         <section className="mt-8">
           <Breadcrumbs items={breadcrumbItems} />
-          <div className="flex justify-between items-end">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Produtos</h2>
-              <p className="text-gray-500 text-sm mt-1">{filteredProducts.length} itens disponíveis em {selectedCountry.name}</p>
+              <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Loja</h2>
+              <p className="text-gray-500 text-sm mt-1">Explore nossos produtos e serviços</p>
             </div>
           </div>
         </section>
 
+        {/* Abas de navegação */}
+        <section className="mt-8 flex gap-2 border-b border-gray-200 flex-wrap">
+          <button
+            onClick={() => setActiveTab('products')}
+            className={`px-4 py-3 font-semibold border-b-2 transition-colors whitespace-nowrap ${
+              activeTab === 'products'
+                ? 'border-cyan-600 text-cyan-600'
+                : 'border-transparent text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <i className="fa-solid fa-shop mr-2"></i>
+            Produtos Próprios ({filteredOwnProducts.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('recommended')}
+            className={`px-4 py-3 font-semibold border-b-2 transition-colors whitespace-nowrap ${
+              activeTab === 'recommended'
+                ? 'border-cyan-600 text-cyan-600'
+                : 'border-transparent text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <i className="fa-solid fa-star mr-2"></i>
+            Recomendados ({filteredRecommendedProducts.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('services')}
+            className={`px-4 py-3 font-semibold border-b-2 transition-colors whitespace-nowrap ${
+              activeTab === 'services'
+                ? 'border-cyan-600 text-cyan-600'
+                : 'border-transparent text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <i className="fa-solid fa-briefcase mr-2"></i>
+            Serviços ({filteredServices.length})
+          </button>
+        </section>
+
+        {/* Search Bar */}
+        <section className="mt-6">
+          <div className="relative">
+            <i className="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            <input
+              type="text"
+              placeholder="Pesquisar produtos ou serviços..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-600 focus:border-transparent outline-none"
+            />
+          </div>
+        </section>
+
         {/* Filter Bar */}
-        <section className="mt-2">
+        <section className="mt-4">
           <FilterBar
             filters={filterOptions}
             activeFilters={filters}
@@ -153,71 +208,58 @@ const Page = () => {
           />
         </section>
 
-        {/* Produtos */}
-        {filteredProducts.length > 0 ? (
-          <section className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 animate-in fade-in duration-500">
-            {filteredProducts.map(product => (
-              <div key={product.id} className="group cursor-pointer flex flex-col h-full bg-white rounded-2xl p-2 hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100">
-                <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-gray-100 mb-4 shadow-sm">
-                  <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                  <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-xl text-sm font-black text-gray-900 shadow-sm">
-                    {formatPrice(product.price)}
-                  </div>
-                  <div className="absolute bottom-3 left-3 flex gap-1">
-                    <span className="bg-black/60 backdrop-blur-md text-[10px] text-white px-2 py-0.5 rounded-full uppercase font-bold tracking-wider">
-                      {product.category}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="px-2 flex-grow">
-                  <h3 className="font-bold text-gray-900 leading-tight group-hover:text-cyan-600 transition-colors line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
-                  <div className="flex items-center text-xs text-gray-500 space-x-2 mt-1">
-                    <span className="flex items-center">
-                      <i className="fa-solid fa-star text-yellow-400 mr-1"></i>
-                      {product.rating}.0
-                    </span>
-                    <span>•</span>
-                    <span className="font-bold text-cyan-600">{product.condition}</span>
-                  </div>
-                  <div className="mt-3 flex items-center justify-between">
-                    <div className="flex -space-x-1.5 overflow-hidden">
-                      {product.availableCountries.slice(0, 3).map(c => (
-                        <div key={c} className="inline-block h-5 w-5 rounded-full ring-2 ring-white bg-gray-100 text-[8px] flex items-center justify-center font-bold text-gray-600 shadow-sm">{c}</div>
-                      ))}
-                    </div>
-                    <span className="text-[10px] text-gray-400 font-medium">Entrega em {selectedCountry.name}</span>
-                  </div>
-                </div>
-
-                <div className="mt-4 px-2 pb-2">
-                  <button 
-                    onClick={e => handleBuy(e, product.name)}
-                    className="w-full bg-gray-900 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-cyan-600 active:scale-95 transition-all shadow-lg shadow-gray-200 hover:shadow-cyan-100 flex items-center justify-center gap-2"
-                  >
-                    <i className="fa-solid fa-cart-shopping text-xs"></i>
-                    Comprar
-                  </button>
-                </div>
+        {/* CONTEÚDO POR ABA */}
+        {activeTab === 'products' && (
+          <section className="mt-12">
+            <h3 className="text-xl font-bold mb-6 text-gray-900">
+              <i className="fa-solid fa-badge-check mr-2 text-green-600"></i>
+              Produtos Próprios Certificados
+            </h3>
+            {filteredOwnProducts.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                {filteredOwnProducts.map(product => (
+                  <ProductCard key={product.id} product={product} selectedCountry={selectedCountry} formatPrice={formatPrice} handleBuy={handleBuy} />
+                ))}
               </div>
-            ))}
+            ) : (
+              <p className="text-center text-gray-500 py-12">Nenhum produto encontrado</p>
+            )}
           </section>
-        ) : (
-          <section className="mt-24 text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-50 rounded-full mb-4">
-              <i className="fa-solid fa-box-open text-3xl text-gray-300"></i>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900">Sem stock em {selectedCountry.name}</h3>
-            <p className="text-gray-500 mt-2">Esta categoria pode estar disponível noutras regiões.</p>
-            <button 
-              onClick={() => {
-                handleClearFilters();
-                setSelectedCountry(COUNTRIES[0]);
-              }}
-              className="mt-6 px-6 py-2 bg-gray-900 text-white rounded-full text-sm font-semibold hover:bg-gray-800 transition-colors"
-            >
-              Ver mercado de Portugal
-            </button>
+        )}
+
+        {activeTab === 'recommended' && (
+          <section className="mt-12">
+            <h3 className="text-xl font-bold mb-6 text-gray-900">
+              <i className="fa-solid fa-star mr-2 text-yellow-500"></i>
+              Produtos Recomendados de Parceiros
+            </h3>
+            {filteredRecommendedProducts.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                {filteredRecommendedProducts.map(product => (
+                  <RecommendedProductCard key={product.id} product={product} selectedCountry={selectedCountry} formatPrice={formatPrice} handleBuy={handleBuy} />
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-gray-500 py-12">Nenhum produto recomendado encontrado</p>
+            )}
+          </section>
+        )}
+
+        {activeTab === 'services' && (
+          <section className="mt-12">
+            <h3 className="text-xl font-bold mb-6 text-gray-900">
+              <i className="fa-solid fa-briefcase mr-2 text-blue-600"></i>
+              Nossos Serviços
+            </h3>
+            {filteredServices.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredServices.map(service => (
+                  <ServiceCard key={service.id} service={service} />
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-gray-500 py-12">Nenhum serviço disponível</p>
+            )}
           </section>
         )}
       </main>
@@ -225,5 +267,87 @@ const Page = () => {
     </div>
   );
 };
+
+// Componente para Produto Próprio
+const ProductCard = ({ product, selectedCountry, formatPrice, handleBuy }: any) => (
+  <div className="group cursor-pointer flex flex-col h-full bg-white rounded-2xl p-2 hover:shadow-xl transition-all duration-300 border border-green-100 hover:border-green-300">
+    <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-gray-100 mb-4 shadow-sm">
+      <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+      <div className="absolute top-3 left-3 bg-green-500 text-white px-2 py-1 rounded-lg text-xs font-bold">
+        Nosso Produto
+      </div>
+      <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-xl text-sm font-black text-gray-900 shadow-sm">
+        {formatPrice(product.price)}
+      </div>
+    </div>
+    <div className="px-2 flex-grow">
+      <h3 className="font-bold text-gray-900 leading-tight group-hover:text-green-600 transition-colors line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
+      <p className="text-xs text-gray-500 mt-2">{product.description}</p>
+    </div>
+    <div className="mt-4 px-2 pb-2">
+      <button 
+        onClick={e => handleBuy(e, product.name, false)}
+        className="w-full bg-green-600 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-green-700 active:scale-95 transition-all shadow-lg"
+      >
+        <i className="fa-solid fa-cart-shopping mr-2"></i>
+        Comprar
+      </button>
+    </div>
+  </div>
+);
+
+// Componente para Produto Recomendado
+const RecommendedProductCard = ({ product, selectedCountry, formatPrice, handleBuy }: any) => (
+  <div className="group cursor-pointer flex flex-col h-full bg-white rounded-2xl p-2 hover:shadow-xl transition-all duration-300 border border-yellow-100 hover:border-yellow-300">
+    <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-gray-100 mb-4 shadow-sm">
+      <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+      <div className="absolute top-3 left-3 flex gap-1">
+        <span className="bg-yellow-500 text-white px-2 py-1 rounded-lg text-xs font-bold">
+          {product.externalStore?.toUpperCase()}
+        </span>
+      </div>
+      <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-xl text-sm font-black text-gray-900 shadow-sm">
+        {formatPrice(product.price)}
+      </div>
+    </div>
+    <div className="px-2 flex-grow">
+      <h3 className="font-bold text-gray-900 leading-tight group-hover:text-yellow-600 transition-colors line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
+      <p className="text-xs text-gray-500 mt-2">{product.description}</p>
+    </div>
+    <div className="mt-4 px-2 pb-2">
+      <button 
+        onClick={e => { handleBuy(e, product.name, true); window.open(product.externalUrl, '_blank'); }}
+        className="w-full bg-yellow-500 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-yellow-600 active:scale-95 transition-all shadow-lg"
+      >
+        <i className="fa-solid fa-external-link mr-2"></i>
+        Ver em {product.externalStore}
+      </button>
+    </div>
+  </div>
+);
+
+// Componente para Serviço
+const ServiceCard = ({ service }: any) => (
+  <div className="group cursor-pointer flex flex-col h-full bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 border border-blue-100 hover:border-blue-300">
+    <div className="mb-4 text-4xl text-blue-600">
+      <i className={`fa-solid ${service.icon}`}></i>
+    </div>
+    <h3 className="font-bold text-lg text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">{service.name}</h3>
+    <p className="text-sm text-gray-600 mb-4 flex-grow">{service.description}</p>
+    <div className="flex flex-wrap gap-2 mb-4">
+      {service.tags.map((tag: string) => (
+        <span key={tag} className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">{tag}</span>
+      ))}
+    </div>
+    <div className="flex justify-between items-center text-sm text-gray-600 mb-4 pt-4 border-t border-blue-100">
+      <span><i className="fa-solid fa-hourglass mr-2"></i>{service.duration}</span>
+      <span className="font-bold text-blue-600">{service.price}</span>
+    </div>
+    <button className="w-full bg-blue-600 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-blue-700 active:scale-95 transition-all shadow-lg">
+      <i className="fa-solid fa-calendar mr-2"></i>
+      Agendar
+    </button>
+  </div>
+);
 
 export default Page;
