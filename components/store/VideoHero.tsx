@@ -10,7 +10,7 @@ const VideoHero: React.FC<VideoHeroProps> = ({
   subtitle
 }) => {
   return (
-    <section className="relative w-full rounded-2xl overflow-hidden aspect-[21/9] md:aspect-[3/1] bg-gray-200">
+    <section className="relative w-full rounded-2xl overflow-hidden aspect-[21/9] md:aspect-[3/1] bg-gray-200 pt-40 pb-20">
       {/* Video Background */}
       <video
         autoPlay
