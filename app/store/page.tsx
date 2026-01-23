@@ -23,6 +23,7 @@ const COUNTRIES: CountryInfo[] = [
 const Page = () => {
   const [selectedCountry, setSelectedCountry] = useState<CountryInfo>(COUNTRIES[0]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     category: null,
     rating: null,
@@ -113,6 +114,21 @@ const Page = () => {
   const filteredRecommendedProducts = useMemo(() => filterAndSearch(RECOMMENDED_PRODUCTS), [filters, selectedCountry, searchQuery]);
   const allProducts = useMemo(() => [...filteredOwnProducts, ...filteredRecommendedProducts], [filteredOwnProducts, filteredRecommendedProducts]);
 
+  // Gerar sugestões de pesquisa
+  const suggestions = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    
+    const allProds = [...OWN_PRODUCTS, ...RECOMMENDED_PRODUCTS];
+    const filtered = allProds
+      .filter(p => p.availableCountries.includes(selectedCountry.code))
+      .filter(p => 
+        p.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+      .slice(0, 6); // Limitar a 6 sugestões
+    
+    return filtered;
+  }, [searchQuery, selectedCountry]);
+
   const videoUrl = 'https://assets.mixkit.co/videos/preview/mixkit-cyberpunk-city-street-at-night-4006-large.mp4';
 
   return (
@@ -139,17 +155,56 @@ const Page = () => {
           </div>
         </section>
 
-        {/* Search Bar */}
+        {/* Search Bar com Sugestões */}
         <section className="mt-6">
           <div className="relative">
-            <i className="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            <i className="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
             <input
               type="text"
               placeholder="Pesquisar produtos..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
               className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-600 focus:border-transparent outline-none"
             />
+            
+            {/* Dropdown de Sugestões */}
+            {showSuggestions && suggestions.length > 0 && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg z-10 max-h-80 overflow-y-auto">
+                {suggestions.map((product) => (
+                  <button
+                    key={product.id}
+                    onClick={() => {
+                      setSearchQuery(product.name);
+                      setShowSuggestions(false);
+                    }}
+                    className="w-full px-4 py-3 text-left hover:bg-cyan-50 transition-colors border-b border-gray-100 last:border-b-0 flex items-center gap-3"
+                  >
+                    <img src={product.image} alt={product.name} className="w-10 h-10 rounded object-cover" />
+                    <div className="flex-grow">
+                      <p className="font-semibold text-gray-900 text-sm">{product.name}</p>
+                      <p className="text-xs text-gray-500">{product.category}</p>
+                    </div>
+                    <span className={`text-xs font-bold px-2 py-1 rounded ${
+                      product.isOwn 
+                        ? 'bg-green-100 text-green-700' 
+                        : 'bg-yellow-100 text-yellow-700'
+                    }`}>
+                      {product.isOwn ? 'Nosso' : 'Recomendado'}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+            
+            {/* Mensagem quando não há sugestões */}
+            {showSuggestions && searchQuery.trim() && suggestions.length === 0 && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg z-10 p-4 text-center text-gray-500">
+                <i className="fa-solid fa-magnifying-glass mr-2"></i>
+                Nenhum produto encontrado com "{searchQuery}"
+              </div>
+            )}
           </div>
         </section>
 
