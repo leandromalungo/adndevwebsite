@@ -10,7 +10,6 @@ import Footer from '@/components/Footer';
 import { OWN_PRODUCTS, RECOMMENDED_PRODUCTS, EVENT_TICKETS, type EventTicket } from '@/data/storeData';
 
 const COUNTRIES: CountryInfo[] = [
-  { code: 'PT', name: 'Portugal', currency: 'EUR', symbol: '€', rate: 1 },
   { code: 'AO', name: 'Angola', currency: 'AOA', symbol: 'Kz', rate: 915.50 },
   { code: 'BR', name: 'Brasil', currency: 'BRL', symbol: 'R$', rate: 6.12 },
   { code: 'MZ', name: 'Moçambique', currency: 'MZN', symbol: 'MT', rate: 68.45 },
@@ -18,12 +17,14 @@ const COUNTRIES: CountryInfo[] = [
   { code: 'GW', name: 'Guiné-Bissau', currency: 'XOF', symbol: 'CFA', rate: 655.95 },
   { code: 'GQ', name: 'Guiné Equatorial', currency: 'XAF', symbol: 'FCFA', rate: 655.95 },
   { code: 'ST', name: 'São Tomé e Príncipe', currency: 'STN', symbol: 'Db', rate: 24.50 },
+  { code: 'PT', name: 'Portugal', currency: 'EUR', symbol: '€', rate: 1 },
 ];
 
 const Page = () => {
-  const [selectedCountry, setSelectedCountry] = useState<CountryInfo>(COUNTRIES[0]);
+  const [selectedCountry, setSelectedCountry] = useState<CountryInfo>(COUNTRIES[7]); // Portugal
   const [searchQuery, setSearchQuery] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [activeSection, setActiveSection] = useState<'products' | 'tickets'>('products');
   const [filters, setFilters] = useState<FilterState>({
     category: null,
     rating: null,
@@ -34,9 +35,9 @@ const Page = () => {
   });
 
   const filterOptions: FilterOption[] = [
-    { id: 'regiao', label: 'Região', options: COUNTRIES.map(c => c.name) },
     { id: 'categoria', label: 'Categoria', options: ['T-shirts', 'Chapéus', 'Stickers', 'Items', 'Setup', 'Outro'] },
     { id: 'ordenar', label: 'Ordenar por', options: ['Preço: Baixo a Alto', 'Preço: Alto a Baixo'] },
+    { id: 'regiao', label: 'Portugal (EUR)', options: COUNTRIES.map(c => c.name) },
   ];
 
   const handleFilterChange = (filterId: string, value: any) => {
@@ -142,8 +143,8 @@ const Page = () => {
       <main className="max-w-7xl mx-auto px-4 md:px-8 pb-20">
         <VideoHero 
           videoUrl={videoUrl}
-          title={`Produtos & Serviços em ${selectedCountry.name}`}
-          subtitle="Merchandising exclusivo + Produtos recomendados"
+          title={`LOJA PARA DEVs SEJA BEM-VINDO À NOSSA LOJA`}
+          subtitle="Tudo o que precisas para o teu setup de desenvolvimento e mais, com descontos exclusivos. Produtos próprios e recomendados do mundo inteiro"
         />
 
         {/* Search Bar com Sugestões */}
@@ -199,18 +200,48 @@ const Page = () => {
           </div>
         </section>
 
-        {/* Filter Bar */}
-        <section className="mt-4">
-          <FilterBar
-            filters={filterOptions}
-            activeFilters={filters}
-            selectedCountry={selectedCountry}
-            onFilterChange={handleFilterChange}
-            onClearFilters={handleClearFilters}
-          />
-        </section>
+        {/* Filter Bar com Secção */}
+        <div className="w-full mt-4 border-b border-gray-100">
+          <div className="flex gap-3 py-4 items-center overflow-x-auto">
+            {/* Botões de Secção (Produtos/Ingressos) */}
+            <button
+              onClick={() => setActiveSection('products')}
+              className={`flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all focus:outline-none whitespace-nowrap border ${
+                activeSection === 'products'
+                  ? 'bg-cyan-50 border-cyan-500 text-cyan-700'
+                  : 'bg-white border-gray-300 text-gray-700 hover:border-cyan-500 hover:text-cyan-600'
+              }`}
+            >
+              <i className="fa-solid fa-shopping-bag mr-2"></i>
+              Produtos
+            </button>
+            <button
+              onClick={() => setActiveSection('tickets')}
+              className={`flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all focus:outline-none whitespace-nowrap border ${
+                activeSection === 'tickets'
+                  ? 'bg-cyan-50 border-cyan-500 text-cyan-700'
+                  : 'bg-white border-gray-300 text-gray-700 hover:border-cyan-500 hover:text-cyan-600'
+              }`}
+            >
+              <i className="fa-solid fa-ticket mr-2"></i>
+              Ingressos
+            </button>
+
+            {/* Filter Bar */}
+            <div className="flex-1 flex gap-3 items-center">
+              <FilterBar
+                filters={filterOptions}
+                activeFilters={filters}
+                selectedCountry={selectedCountry}
+                onFilterChange={handleFilterChange}
+                onClearFilters={handleClearFilters}
+              />
+            </div>
+          </div>
+        </div>
 
         {/* TODOS OS PRODUTOS */}
+        {activeSection === 'products' && (
         <section className="mt-12">
           <h3 className="text-xl font-bold mb-6 text-gray-900">
             <i className="fa-solid fa-shopping-bag mr-2 text-cyan-600"></i>
@@ -231,9 +262,11 @@ const Page = () => {
             <p className="text-center text-gray-500 py-12">Nenhum produto encontrado</p>
           )}
         </section>
+        )}
 
         {/* TICKETS DE EVENTOS */}
-        <section className="mt-16">
+        {activeSection === 'tickets' && (
+        <section className="mt-12">
           <h3 className="text-xl font-bold mb-6 text-gray-900">
             <i className="fa-solid fa-ticket mr-2 text-purple-600"></i>
             Ingressos para Eventos
@@ -248,6 +281,7 @@ const Page = () => {
             <p className="text-center text-gray-500 py-12">Nenhum ingresso disponível</p>
           )}
         </section>
+        )}
       </main>
       <Footer />
     </div>

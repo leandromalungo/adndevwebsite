@@ -38,7 +38,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ filters, activeFilters, selectedC
 
   return (
     <div className="w-full" ref={dropdownRef}>
-      <div className="flex flex-wrap gap-3 py-4 border-b border-gray-100 overflow-visible relative">
+      <div className="flex gap-3 items-center overflow-x-auto">
         {filters.map((filter) => {
           const activeValue = getActiveValue(filter.id);
           const isOpen = openDropdown === filter.id;
@@ -100,24 +100,6 @@ const FilterBar: React.FC<FilterBarProps> = ({ filters, activeFilters, selectedC
             Limpar filtros
           </button>
         )}
-      </div>
-      
-      {/* Active Selection Tags (Excluding Region as it's a global setting) */}
-      <div className="flex flex-wrap gap-2 mt-4">
-        {Object.entries(activeFilters).map(([key, value]) => {
-          if (!value) return null;
-          return (
-            <div key={key} className="inline-flex items-center px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-700 font-medium">
-              {value}
-              <button 
-                onClick={() => onFilterChange(key === 'category' ? 'categoria' : key, null)}
-                className="ml-2 text-gray-400 hover:text-red-500 transition-colors"
-              >
-                <i className="fa-solid fa-xmark"></i>
-              </button>
-            </div>
-          );
-        })}
       </div>
     </div>
   );
