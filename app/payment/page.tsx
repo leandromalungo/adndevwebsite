@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import  {  PayPalScriptProvider ,  PayPalButtons, usePayPalScriptReducer  }  from  "@paypal/react-paypal-js" ;
@@ -16,11 +16,12 @@ const PaypalLoadingSpinner = () => {
     return null;
 };
 
-const Payment = () => {
-  const [loading, setLoading] = useState(false);
+const PaymentPaypal = () => {
+
   const [paymentMethod, setPaymentMethod] = useState('Paypal');
 
     // Função que chama a API para criar a ordem
+    //O valor do pagamento está fixo em 10.00
   const createOrder = async () => {
     const res = await fetch("/api/create-order", { method: "POST" ,
       body: JSON.stringify({ amount: 10.00 }),
@@ -50,15 +51,13 @@ const Payment = () => {
 
     <section className="relative w-full h-screen overflow-hidden bg-zinc-900">
     <div className="absolute inset-0 bg-gradient-to-r from-black via-black/90 to-black/50" />
-    
     <div className="relative h-full z-10 flex min-h-full flex-col justify-center items-center px-6 py-12 lg:px-8">
     <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-    <img src="icon-dark-32x32.png" alt="Your Company" className="mx-auto h-10 w-auto" />
-    <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">Fazer Pagamento</h2>
+    <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">Fazer Pagamento Via Paypal</h2>
     </div>
-      {/*   //Button Payment */}
+      {/*Button Payment */}
      { paymentMethod === "Paypal" && (
-    <div className="mt-6">
+      <div className="mt-6">
         <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID }}>
             <PaypalLoadingSpinner />
             <PayPalButtons 
@@ -66,8 +65,6 @@ const Payment = () => {
               onApprove={onApprove} 
             />
         </PayPalScriptProvider>
-        
-
     </div>
   )} 
     </div>
@@ -77,6 +74,6 @@ const Payment = () => {
   );
 };
 
-export default Payment;
+export default PaymentPaypal;
 
 
