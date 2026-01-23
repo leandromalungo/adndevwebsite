@@ -9,56 +9,52 @@ const VideoHero: React.FC<VideoHeroProps> = ({
   subtitle
 }) => {
   return (
-    <section
-      className="
-        relative w-full overflow-hidden rounded-2xl
-        aspect-[16/9] md:aspect-[3/1]
-        min-h-[280px] sm:min-h-[360px]
-        bg-gray-200
-      "
-    >
-      {/* Video Background */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        poster={fallbackImage}
-        className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source src={videoUrl} type="video/mp4" />
-        Seu navegador não suporta vídeos.
-      </video>
-
-      {/* Dark Overlay */}
-      <div
-        className="absolute inset-0 bg-black pointer-events-none"
-        style={{ opacity: overlayOpacity }}
-      />
-
-      {/* Content Overlay */}
-      {(title || subtitle) && (
-        <div
-          className="
-            absolute inset-0 z-10
-            flex flex-col items-center justify-center
-            text-center text-white
-            px-4
-          "
+    <section className="relative w-full overflow-hidden rounded-2xl bg-gray-200">
+      {/* Aspect Ratio Fallback (16:9 mobile, 3:1 desktop) */}
+      <div className="relative w-full pt-[56.25%] md:pt-[33.333%]">
+        
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster={fallbackImage}
+          className="absolute inset-0 w-full h-full object-cover"
         >
-          {title && (
-            <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-2 drop-shadow-lg">
-              {title}
-            </h1>
-          )}
+          <source src={videoUrl} type="video/mp4" />
+          Seu navegador não suporta vídeos.
+        </video>
 
-          {subtitle && (
-            <p className="text-base sm:text-lg md:text-xl font-light drop-shadow-md">
-              {subtitle}
-            </p>
-          )}
-        </div>
-      )}
+        {/* Dark Overlay */}
+        <div
+          className="absolute inset-0 bg-black pointer-events-none"
+          style={{ opacity: overlayOpacity }}
+        />
+
+        {/* Content Overlay */}
+        {(title || subtitle) && (
+          <div
+            className="
+              absolute inset-0 z-10
+              flex flex-col items-center justify-center
+              text-center text-white
+              px-4
+            "
+          >
+            {title && (
+              <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-2 drop-shadow-lg">
+                {title}
+              </h1>
+            )}
+            {subtitle && (
+              <p className="text-base sm:text-lg md:text-xl font-light drop-shadow-md">
+                {subtitle}
+              </p>
+            )}
+          </div>
+        )}
+      </div>
     </section>
   );
 };
