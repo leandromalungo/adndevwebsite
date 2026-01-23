@@ -178,13 +178,7 @@ const Page = () => {
                       <p className="font-semibold text-gray-900 text-sm">{product.name}</p>
                       <p className="text-xs text-gray-500">{product.category}</p>
                     </div>
-                    <span className={`text-xs font-bold px-2 py-1 rounded ${
-                      product.isOwn 
-                        ? 'bg-green-100 text-green-700' 
-                        : 'bg-yellow-100 text-yellow-700'
-                    }`}>
-                      {product.isOwn ? 'Nosso' : 'Recomendado'}
-                    </span>
+                   
                   </button>
                 ))}
               </div>
