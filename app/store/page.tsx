@@ -13,10 +13,10 @@ const COUNTRIES: CountryInfo[] = [
   { code: 'AO', name: 'Ao', currency: 'KZ', symbol: 'Kz', rate: 915.50 },
   { code: 'BR', name: 'Br', currency: 'Real', symbol: 'R$', rate: 6.12 },
   { code: 'MZ', name: 'Mz', currency: 'MZN', symbol: 'MT', rate: 68.45 },
-  { code: 'CV', name: 'CVE', currency: 'CVE', symbol: '$', rate: 110.26 },
-  { code: 'GW', name: 'Guiné-B', currency: 'XOF', symbol: 'CFA', rate: 655.95 },
-  { code: 'GQ', name: 'Guiné-E', currency: 'XAF', symbol: 'FCFA', rate: 655.95 },
-  { code: 'ST', name: 'S.T.P', currency: 'STN', symbol: 'Db', rate: 24.50 },
+  { code: 'CV', name: 'Cv', currency: 'CVE', symbol: '$', rate: 110.26 },
+  { code: 'GW', name: 'Gw', currency: 'XOF', symbol: 'CFA', rate: 655.95 },
+  { code: 'GQ', name: 'Gq', currency: 'XAF', symbol: 'FCFA', rate: 655.95 },
+  { code: 'ST', name: 'Sp', currency: 'STN', symbol: 'Db', rate: 24.50 },
   { code: 'PT', name: 'Pt', currency: 'EUR', symbol: '€', rate: 1 },
 ];
 
