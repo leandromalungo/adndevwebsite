@@ -9,7 +9,7 @@ const VideoHero: React.FC<VideoHeroProps> = ({
   subtitle
 }) => {
   return (
-    <section className="relative w-full overflow-hidden rounded-2xl bg-gray-200">
+    <section className="relative w-full overflow-hidden rounded-2xl bg-gray-200 mt-6">
       {/* Aspect Ratio Fallback (16:9 mobile, 3:1 desktop) */}
       <div className="relative w-full pt-[56.25%] md:pt-[33.333%]">
         
