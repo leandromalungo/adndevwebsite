@@ -22,7 +22,6 @@ const Navbar: React.FC = () => {
         </Link>
 
         <div className="hidden lg:flex items-center gap-6 font-bold">
-          <NavLink label="Notícias" href="/news" loading={loadingLink === "/news"} onClick={() => setLoadingLink("/news")} />
           <NavLink label="Eventos" href="/events" loading={loadingLink === "/events"} onClick={() => setLoadingLink("/events")} />
           <NavLink label="Competições" href="/comp" loading={loadingLink === "/comp"} onClick={() => setLoadingLink("/comp")} />
           <NavLink label="Comunidades" href="/community" loading={loadingLink === "/community"} onClick={() => setLoadingLink("/community")} />
@@ -56,7 +55,6 @@ const Navbar: React.FC = () => {
         }`}
       >
         <div className="px-6 pb-6 space-y-2 font-bold">
-          <MobileLink label="Notícias" href="/news" loading={loadingLink === "/news"} onClick={() => { setLoadingLink("/news"); closeMobileMenu(); }} />
           <MobileLink label="Eventos" href="/events" loading={loadingLink === "/events"} onClick={() => { setLoadingLink("/events"); closeMobileMenu(); }} />
           <MobileLink label="Competições" href="/comp" loading={loadingLink === "/comp"} onClick={() => { setLoadingLink("/comp"); closeMobileMenu(); }} />
           <MobileLink label="Comunidades" href="/community" loading={loadingLink === "/community"} onClick={() => { setLoadingLink("/community"); closeMobileMenu(); }} />
