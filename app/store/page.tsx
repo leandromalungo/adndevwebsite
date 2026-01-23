@@ -358,36 +358,33 @@ const EventTicketCard = ({ ticket, selectedCountry, formatPrice, handleBuy }: { 
   };
 
   return (
-    <div className="group cursor-pointer flex flex-col h-full bg-white rounded-2xl p-2 hover:shadow-xl transition-all duration-300 border border-purple-100 hover:border-purple-300">
+    <div className="group cursor-pointer flex flex-col h-full bg-white rounded-2xl p-2 hover:shadow-xl transition-all duration-300 border border-yellow-50 hover:border-yellow-100">
       <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gradient-to-br from-purple-100 to-purple-50 mb-4 shadow-sm flex items-center justify-center">
         <div className="text-center">
           <div className="text-5xl mb-2">
-            <i className="fa-solid fa-calendar-days text-purple-600"></i>
+            <i className="fa-solid fa-calendar-days text-gray-600"></i>
           </div>
-          <p className="text-sm font-bold text-purple-900">{ticket.date.split(' ')[0]}</p>
-          <p className="text-xs text-purple-600">{ticket.location}</p>
+          <p className="text-sm font-bold text-gray-900">{ticket.date.split(' ')[0]}</p>
+          <p className="text-xs text-gray-600">{ticket.location}</p>
         </div>
-        <div className={`absolute top-3 right-3 text-xs font-bold px-3 py-1 rounded-lg ${typeColors[ticket.type]}`}>
-          <i className={`fa-solid ${typeIcons[ticket.type]} mr-1`}></i>
-          {typeLabels[ticket.type]}
-        </div>
+        
       </div>
       <div className="px-2 flex-grow">
-        <h3 className="font-bold text-gray-900 leading-tight group-hover:text-purple-600 transition-colors line-clamp-2 min-h-[2.5rem]">{ticket.event}</h3>
+        <h3 className="font-bold text-gray-900 leading-tight group-hover:text-gray-600 transition-colors line-clamp-2 min-h-[2.5rem]">{ticket.event}</h3>
         <p className="text-xs text-gray-500 mt-2 line-clamp-2">{ticket.description}</p>
         <div className="mt-3 flex items-center text-xs text-gray-600">
-          <i className="fa-solid fa-map-pin mr-1 text-purple-600"></i>
+          <i className="fa-solid fa-map-pin mr-1 text-gray-600"></i>
           {ticket.location}
         </div>
         <div className="mt-2 flex items-center justify-between">
           <span className="text-xs text-gray-500">Ingressos: {ticket.quantity}</span>
-          <span className="text-lg font-black text-purple-600">{formatPrice(ticket.price)}</span>
+          <span className="text-lg font-black text-gray-600">{formatPrice(ticket.price)}</span>
         </div>
       </div>
       <div className="mt-4 px-2 pb-2">
         <button 
           onClick={e => handleBuy(e, `Ingresso - ${ticket.event}`)}
-          className="w-full bg-purple-600 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-purple-700 active:scale-95 transition-all shadow-lg"
+          className="w-full bg-green-600 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-green-700 active:scale-95 transition-all shadow-lg"
         >
           <i className="fa-solid fa-cart-shopping mr-2"></i>
           Comprar Ingresso
