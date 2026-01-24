@@ -54,7 +54,7 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
           </label>
           <input
             type="text"
-            placeholder="Workshop, Hackathon..."
+            placeholder="Workshop, Palestras, Hackathon..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004d79] outline-none"
@@ -110,7 +110,7 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
         {/* Estado */}
         <div className="relative min-w-[180px]">
           <label className="block text-xs font-semibold text-gray-600 mb-1">
-            Estado
+            Estado / Província
           </label>
           <button
             disabled={!selectedCountry}
