@@ -10,10 +10,9 @@ interface CardHero {
 
 export const CardHero: React.FC<CardHero> = ({ title, paragraphs }) => {
   return (
-    <section className="relative w-full overflow-hidden rounded-xl shadow-2xl aspect-[16/9] md:aspect-[21/9] min-h-[400px] box-border">
-      
+    <section className="relative w-full max-w-full overflow-hidden rounded-xl shadow-2xl" style={{ paddingBottom: "calc(100% / 2.33)" }}>
       {/* Background Image */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 w-full h-full">
         <Image
           src="/images/img1.jpg"
           alt="heroimg"
