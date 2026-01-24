@@ -174,7 +174,7 @@ const Page = () => {
                 </p>
                 <button
                   onClick={clearFilters}
-                  className="mt-4 px-6 py-2 bg-[#004d79] text-white rounded-lg hover:bg-[#003d5f] transition-colors"
+                  className="mt-4 px-6 py-2 bg-[#004d79] text-white rounded-xl hover:bg-[#003d5f] transition-colors"
                 >
                   Limpar filtros
                 </button>
