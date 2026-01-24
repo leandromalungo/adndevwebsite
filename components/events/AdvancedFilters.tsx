@@ -62,9 +62,6 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
   return (
     <div className="space-y-6 bg-white p-6 rounded-xl border border-gray-200">
       {/* Título */}
-      <div>
-        <h3 className="text-xl font-bold text-gray-800 mb-4">Procure um evento mais proximo de ti </h3>
-      </div>
 
       {/* Busca por título/descrição */}
       <div>

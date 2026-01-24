@@ -149,7 +149,7 @@ export default function CareerQuiz() {
       <section className="w-full bg-white py-12 md:py-16 lg:py-20">
         <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8">
           <div className="mb-12 text-center md:text-left">
-            <h2 className="text-4xl font-semibold tracking-tight md:text-5xl">
+            <h2 className=" font-semibold tracking-tight md:text-5xl">
               Leia dicas de quem já está no mercado e impulsione sua carreira
             </h2>
             <p className="mt-4 text-gray-600">

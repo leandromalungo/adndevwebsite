@@ -17,7 +17,7 @@ interface ServicesSectionProps {
 export const ServicesSection: React.FC<ServicesSectionProps> = ({ services,}) => {
   return (
     <section className="w-full py-2 pt-6">
-      <h2 className="text-3xl font-bold text-[#444] mb-8 uppercase">
+      <h2 className="text-2xl font-bold text-[#444] mb-8 uppercase">
         Nós somos o caminho para o teu fututo
         <p className="text-xs text-gray-400 font-medium">
           Explora nossos serviços e descubra como podemos ajudar você a alcançar seus objetivos na área de tecnologia.

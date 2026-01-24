@@ -113,14 +113,14 @@ const Page = () => {
 
         <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
 
-        <div className="relative z-10 flex items-center px-8 py-20 md:px-12 md:py-24">
+        <div className="relative z-10 flex items-center px-8 py-15 md:px-12 md:py-10">
           <div className="max-w-md">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 leading-tight">
+            <h2 className="text-3xl md:text-5xl mt-4 font-bold text-white mb-8 leading-tight">
               O maior repositório de eventos de tecnologia da lusofonia.
             </h2>
 
-            <p className="text-gray-100 mb-6">
-              Descubra eventos imperdíveis, conecte-se com profissionais e
+            <p className="text-gray-100 mb-4">
+              Descubra os melhores e imperdíveis eventos mais proximos de ti, conecte-se com profissionais e
               impulsione sua carreira tech.
             </p>
 

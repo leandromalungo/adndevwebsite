@@ -5,8 +5,8 @@ export const LeadershipSection: React.FC = () => {
   return (
     <section className="container mx-auto py-16 px-4">
       {/* Section Title */}
-      <h2 className="text-4xl md:text-5xl font-medium text-gray-700 mb-10 uppercase">
-        Mulheres africanas na tecnologia
+      <h2 className="text-2xl md:text-3xl font-medium text-gray-700 mb-10 uppercase">
+        Mulheres na tecnologia
       </h2>
 
       {/* Cards Grid */}

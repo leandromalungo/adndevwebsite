@@ -1,21 +1,20 @@
 "use client";
 
+import Link from 'next/link';
 import { Tag } from './Tag';
 
 export const Hero = () => {
   const tags = [
-    'Lives Talks',
-    'Artigos',
-    'Bootcamps',
     'E-books',
-    'Workshops', 
-    'Palestras',
+    'Newsletters', 
     'Bolsas de Estudo',
-    'Newsletters',
+    'E muito mais',
   ];
 
   return (
     <section className="relative z-10 pt-10 px-6 max-w-7xl mx-auto flex flex-col justify-center min-h-[85vh]">
+
+
       <div className="max-w-2xl">
         <h1 className="text-3xl md:text-5xl font-extrabold leading-[1.1] mb-6 tracking-tight text-gray-50"> Ecossistema
           de conteúdo, impulsionado por Tecnologia.
@@ -35,9 +34,16 @@ export const Hero = () => {
 
         {/* CTA Container */}
         <div className="flex flex-col items-start gap-4">
-          <button className="border border-violet-600 bg-violet-550 hover:bg-violet-600 text-white px-10 py-4 rounded-xl text-lg font-bold transition-all transform hover:scale-105 shadow-xl shadow-violet-500/20 active:scale-95">
-            Assinar agora
-          </button>
+          <div className="flex gap-3 items-center flex-wrap">
+            <button className="border border-violet-600 bg-violet-550 hover:bg-violet-600 text-white px-10 py-4 rounded-xl text-lg font-bold transition-all transform shadow-xl shadow-violet-500/20 active:scale-95">
+              Assinar agora
+            </button>
+            <Link href="/quiz">
+              <button className="border bg-violet-600 hover:border-violet-600 text-white px-10 py-4 rounded-xl text-lg font-bold transition-all transform shadow-xl shadow-violet-500/20 active:scale-95">
+                Qual área é para mim?
+              </button>
+            </Link>
+          </div>
           <p className="text-xs text-gray-500 mt-5 font-medium">
            Não perca tempo! Junte-se a nós e esteja com profissionais de tecnologia que já estão a transformar suas carreiras com nossos recursos exclusivos. Estamos a nos tornar o maior repositório de conteúdo tecnológico da lusofonia!
           </p>

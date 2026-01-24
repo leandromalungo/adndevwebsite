@@ -22,7 +22,6 @@ import Footer from "@/components/Footer";
 
 import { CardHero } from "@/components/home/CardHero";
 import { ServicesSection } from "@/components/home/sectionHero";
-import { LogoCloud } from "@/components/home/logosHero";
 import Vision from "@/components/home/VisionHero";
 import Testimonials from "@/components/home/TestimonialsHero";
 import CuratedCollections from "@/components/roadmaps/courses/CuratedCollections";
@@ -88,7 +87,6 @@ const Page = () => {
       <section className="relative min-h-screen w-full bg-black overflow-hidden">
         <main className="relative z-10">
           <Hero />
-          <LogoCloud />
         </main>
 
         {/* Video Background */}

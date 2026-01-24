@@ -378,7 +378,7 @@ const EventTicketCard = ({ ticket, selectedCountry, formatPrice, handleBuy }: { 
         </div>
         <div className="mt-2 flex items-center justify-between">
           <span className="text-xs text-gray-500">Ingressos: {ticket.quantity}</span>
-          <span className="text-lg font-black text-gray-600">{formatPrice(ticket.price)}</span>
+          <span className="text-lg font-black text-grayyyyyyy-600">{formatPrice(ticket.price)}</span>
         </div>
       </div>
       <div className="mt-4 px-2 pb-2">

@@ -22,7 +22,7 @@
 "use client"; // obrigatório no topo
 
 import { useState } from "react";
-import { ROLE_ROADMAPS, SKILL_ROADMAPS, PROJECT_IDEAS, BEST_PRACTICES } from "@/components/roadmaps/constants";
+import { ROLE_ROADMAPS, SKILL_ROADMAPS, BEST_PRACTICES } from "@/components/roadmaps/constants";
 import { RoadMapCard }  from '@/components/roadmaps/RoadMapCard';
 import { RoadmapDetailView } from "@/components/roadmaps/HeaderroadMap";
 import Navbar from "@/components/Navbar";
