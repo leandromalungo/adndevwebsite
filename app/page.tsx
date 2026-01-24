@@ -19,8 +19,6 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/home/hero";
 import Faq from "@/components/home/faqHero";
 import Footer from "@/components/Footer";
-
-import { CardHero } from "@/components/home/CardHero";
 import { ServicesSection } from "@/components/home/sectionHero";
 import Vision from "@/components/home/VisionHero";
 import Testimonials from "@/components/home/TestimonialsHero";
@@ -115,16 +113,6 @@ const Page = () => {
 
         <CuratedCollections />
         <Vision />
-
-        <div className="w-full max-w-7xl">
-          <CardHero
-            title="SOBRE A ADN Developer"
-            paragraphs={[
-              "A ADN Developer é um ecossistema dinâmico no setor de tecnologia, atuando desde educação até inovação empresarial.",
-              "Nosso propósito é conectar talentos, instituições e empresas para fomentar a transformação digital.",
-            ]}
-          />
-        </div>
       </section>
 
       <Testimonials />
