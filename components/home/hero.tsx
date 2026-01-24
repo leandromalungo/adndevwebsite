@@ -13,14 +13,14 @@ export const Hero = () => {
           Ecossistema de conteúdo, impulsionado por Tecnologia.
         </h1>
 
-        <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed max-w-lg">
+        <p className="text-lg md:text-xl text-gray-300 mb-2 leading-relaxed max-w-lg">
           O que precisas para entrar na área de tecnologia, desde cursos,
           bootcamps e muito mais. Um espaço feito para ti crescer na tua
           carreira tech, com a nossa ajuda.
         </p>
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-3 mb-10">
+        <div className="flex flex-wrap gap-3 mb-5">
           {tags.map((tag) => (
             <Tag key={tag} label={tag} />
           ))}
@@ -66,7 +66,7 @@ export const Hero = () => {
             </Link>
           </div>
 
-          <p className="text-xs text-gray-500 mt-7 font-medium max-w-lg">
+          <p className="text-xs text-gray-500 font-medium max-w-lg">
             Não perca tempo! Junte-se a nós e esteja com profissionais de
             tecnologia que já estão a transformar suas carreiras com nossos
             recursos exclusivos. Estamos a nos tornar o maior repositório de
