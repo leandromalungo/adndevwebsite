@@ -35,7 +35,7 @@ export const Hero = () => {
                 text-white
                 px-4 sm:px-10
                 py-2 sm:py-4
-                rounded-lg sm:rounded-xl
+                rounded-xl sm:rounded-xl
                 text-xs sm:text-lg
                 font-bold
                 transition-all transform
@@ -53,7 +53,7 @@ export const Hero = () => {
                   text-white
                   px-4 sm:px-10
                   py-2 sm:py-4
-                  rounded-lg sm:rounded-xl
+                  rounded-xl sm:rounded-xl
                   text-xs sm:text-lg
                   font-bold
                   transition-all transform
@@ -66,7 +66,7 @@ export const Hero = () => {
             </Link>
           </div>
 
-          <p className="text-xs text-gray-500 mt-5 font-medium max-w-lg">
+          <p className="text-xs text-gray-500 mt-7 font-medium max-w-lg">
             Não perca tempo! Junte-se a nós e esteja com profissionais de
             tecnologia que já estão a transformar suas carreiras com nossos
             recursos exclusivos. Estamos a nos tornar o maior repositório de
