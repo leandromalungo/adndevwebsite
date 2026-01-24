@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import VideoHero from '@/components/store/VideoHero';
-import Breadcrumbs from '@/components/store/Breadcrumbs';
 import FilterBar from '@/components/store/FilterBar';
 import { BreadcrumbItem, FilterOption, Product, Service, FilterState, CountryInfo } from '@/data/types';
 import Navbar from '@/components/Navbar';
@@ -140,12 +138,10 @@ const Page = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
+
+      
+
       <main className="max-w-7xl mx-auto px-4 md:px-8 pb-20">
-        <VideoHero 
-          videoUrl={videoUrl}
-          title={`BEM-VINDO À NOSSA LOJA`}
-          subtitle="Tudo o que precisas para o teu setup de desenvolvimento e mais, com descontos exclusivos. Produtos próprios e recomendados do mundo inteiro"
-        />
 
         {/* Search Bar com Sugestões */}
         <section className="mt-6">

@@ -7,35 +7,37 @@ export const Hero = () => {
   const tags = ["E-books", "Newsletters", "Bolsas de Estudo", "E muito mais"];
 
   return (
-    <section className="relative z-10 pt-10 px-6 max-w-7xl mx-auto flex flex-col justify-center min-h-[85vh]">
+    <section className="relative z-10 px-6 max-w-7xl mx-auto flex flex-col justify-center h-[50vh]">
       <div className="max-w-2xl">
-        <h1 className="text-3xl md:text-5xl font-extrabold leading-[1.1] mb-6 tracking-tight text-gray-50">
+        {/* Título */}
+        <h1 className="text-2xl md:text-4xl font-extrabold leading-[1.1] mb-4 md:mb-6 tracking-tight text-gray-50">
           Ecossistema de conteúdo, impulsionado por Tecnologia.
         </h1>
 
-        <p className="text-lg md:text-xl text-gray-300 mb-2 leading-relaxed max-w-lg">
+        {/* Descrição */}
+        <p className="text-sm md:text-lg text-gray-300 mb-3 md:mb-5 leading-relaxed max-w-lg">
           O que precisas para entrar na área de tecnologia, desde cursos,
           bootcamps e muito mais. Um espaço feito para ti crescer na tua
           carreira tech, com a nossa ajuda.
         </p>
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-3 mb-5">
+        <div className="flex flex-wrap gap-2 md:gap-3 mb-4 md:mb-5">
           {tags.map((tag) => (
             <Tag key={tag} label={tag} />
           ))}
         </div>
 
         {/* CTA */}
-        <div className="flex flex-col items-start gap-4">
-          <div className="flex flex-row gap-3 items-center w-full sm:w-auto">
+        <div className="flex flex-col items-start gap-3 md:gap-4">
+          <div className="flex flex-row gap-2 md:gap-3 items-center w-full sm:w-auto">
             <button
               className="
                 border border-violet-600 bg-violet-550 hover:bg-violet-600
                 text-white
                 px-4 sm:px-10
                 py-2 sm:py-4
-                rounded-xl sm:rounded-xl
+                rounded-xl
                 text-xs sm:text-lg
                 font-bold
                 transition-all transform
@@ -53,7 +55,7 @@ export const Hero = () => {
                   text-white
                   px-4 sm:px-10
                   py-2 sm:py-4
-                  rounded-xl sm:rounded-xl
+                  rounded-xl
                   text-xs sm:text-lg
                   font-bold
                   transition-all transform
@@ -66,7 +68,7 @@ export const Hero = () => {
             </Link>
           </div>
 
-          <p className="text-xs text-gray-500 font-medium max-w-lg">
+          <p className="text-xs md:text-sm text-gray-500 font-medium max-w-lg mt-2">
             Não perca tempo! Junte-se a nós e esteja com profissionais de
             tecnologia que já estão a transformar suas carreiras com nossos
             recursos exclusivos. Estamos a nos tornar o maior repositório de

@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
 /**
  * PÁGINA DE EVENTOS
  * ==================
- * 
+ *
  * Página que exibe eventos técnicos com sistema avançado de filtros.
- * 
+ *
  * Funcionalidades:
  * - Listagem de eventos
  * - Filtro por busca (título/descrição)
@@ -15,15 +15,15 @@
  * - Loading states
  */
 
-import { useState, useMemo, useRef } from 'react';
-import { Loader2 } from 'lucide-react';
+import { useState, useMemo, useRef } from "react";
+import { Loader2 } from "lucide-react";
 
-import AdvancedFilters from '@/components/events/AdvancedFilters';
-import EventCard from '@/components/events/EventCard';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import AdvancedFilters from "@/components/events/AdvancedFilters";
+import EventCard from "@/components/events/EventCard";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
-import { MOCK_EVENTS } from '@/components/events/constants';
+import { MOCK_EVENTS } from "@/components/events/constants";
 
 const Page = () => {
   /**
@@ -34,10 +34,10 @@ const Page = () => {
   /**
    * ESTADOS DA PÁGINA
    */
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [selectedState, setSelectedState] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [isOnline, setIsOnline] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -51,33 +51,39 @@ const Page = () => {
    * - Tipo (online/presencial)
    */
   const filteredEvents = useMemo(() => {
-    return MOCK_EVENTS.filter(event => {
+    return MOCK_EVENTS.filter((event) => {
       // Filtro por busca (título ou descrição)
-      const title = event.title?.toLowerCase() ?? '';
-      const description = event.description?.toLowerCase() ?? '';
+      const title = event.title?.toLowerCase() ?? "";
+      const description = event.description?.toLowerCase() ?? "";
       const matchesSearch =
-        searchQuery === '' ||
+        searchQuery === "" ||
         title.includes(searchQuery.toLowerCase()) ||
         description.includes(searchQuery.toLowerCase());
 
       // Filtro por país
       const matchesCountry =
-        selectedCountry === '' || event.country === selectedCountry;
+        selectedCountry === "" || event.country === selectedCountry;
 
       // Filtro por estado/província
       const matchesState =
-        selectedState === '' || event.state === selectedState;
+        selectedState === "" || event.state === selectedState;
 
       // Filtro por categoria
       const matchesCategory =
-        selectedCategory === '' ||
+        selectedCategory === "" ||
         event.category === selectedCategory ||
         event.tags?.includes(selectedCategory);
 
       // Filtro por tipo (online)
       const matchesOnline = !isOnline || event.isOnline === true;
 
-      return matchesSearch && matchesCountry && matchesState && matchesCategory && matchesOnline;
+      return (
+        matchesSearch &&
+        matchesCountry &&
+        matchesState &&
+        matchesCategory &&
+        matchesOnline
+      );
     });
   }, [searchQuery, selectedCountry, selectedState, selectedCategory, isOnline]);
 
@@ -85,10 +91,10 @@ const Page = () => {
    * LIMPAR FILTROS
    */
   const clearFilters = () => {
-    setSearchQuery('');
-    setSelectedCountry('');
-    setSelectedState('');
-    setSelectedCategory('');
+    setSearchQuery("");
+    setSelectedCountry("");
+    setSelectedState("");
+    setSelectedCategory("");
     setIsOnline(false);
   };
 
@@ -97,7 +103,8 @@ const Page = () => {
       <Navbar />
 
       {/* SEÇÃO DO VÍDEO HERO */}
-      <section className="relative w-full overflow-hidden bg-zinc-900">
+      <section className="relative w-full h-[50vh] overflow-hidden bg-zinc-900">
+        {/* VÍDEO DE FUNDO */}
         <video
           ref={videoRef}
           autoPlay
@@ -111,19 +118,20 @@ const Page = () => {
           Seu navegador não suporta vídeo em HTML5.
         </video>
 
+        {/* OVERLAY / GRADIENT */}
         <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
 
-        <div className="relative z-10 flex items-center px-8 py-15 md:px-12 md:py-10">
+        {/* CONTEÚDO */}
+        <div className="relative z-10 flex items-center h-full px-8 md:px-12">
           <div className="max-w-md">
-            <h2 className="text-3xl md:text-5xl mt-4 font-bold text-white mb-8 leading-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
               O maior repositório de eventos de tecnologia da lusofonia.
             </h2>
 
-            <p className="text-gray-100 mb-4">
-              Descubra os melhores e imperdíveis eventos mais proximos de ti, conecte-se com profissionais e
-              impulsione sua carreira tech.
+            <p className="text-gray-100 text-sm md:text-base">
+              Descubra os melhores e imperdíveis eventos mais próximos de ti,
+              conecte-se com profissionais e impulsione sua carreira tech.
             </p>
-
           </div>
         </div>
       </section>
@@ -146,7 +154,11 @@ const Page = () => {
           />
 
           {/* Botão para limpar filtros */}
-          {(searchQuery || selectedCountry || selectedState || selectedCategory || isOnline) && (
+          {(searchQuery ||
+            selectedCountry ||
+            selectedState ||
+            selectedCategory ||
+            isOnline) && (
             <div className="mt-4 flex justify-end">
               <button
                 onClick={clearFilters}
@@ -163,7 +175,7 @@ const Page = () => {
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filteredEvents.map(event => (
+            {filteredEvents.map((event) => (
               <EventCard key={event.id} event={event} />
             ))}
 

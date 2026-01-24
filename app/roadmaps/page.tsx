@@ -1,9 +1,9 @@
 /**
  * PÁGINA ROADMAPS - ROTEIROS DE APRENDIZADO
  * ==========================================
- * 
+ *
  * Página que apresenta roteiros de aprendizado por especialidade.
- * 
+ *
  * Especializações disponíveis:
  * - Frontend Development
  * - Backend Development
@@ -11,7 +11,7 @@
  * - Mobile Development
  * - AI/Machine Learning
  * - Full Stack
- * 
+ *
  * Cada roadmap contém:
  * - Descrição da área
  * - Projetos organizados por nível (Junior, Mid, Senior)
@@ -22,8 +22,12 @@
 "use client"; // obrigatório no topo
 
 import { useState } from "react";
-import { ROLE_ROADMAPS, SKILL_ROADMAPS, BEST_PRACTICES } from "@/components/roadmaps/constants";
-import { RoadMapCard }  from '@/components/roadmaps/RoadMapCard';
+import {
+  ROLE_ROADMAPS,
+  SKILL_ROADMAPS,
+  BEST_PRACTICES,
+} from "@/components/roadmaps/constants";
+import { RoadMapCard } from "@/components/roadmaps/RoadMapCard";
 import { RoadmapDetailView } from "@/components/roadmaps/HeaderroadMap";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -31,7 +35,9 @@ import { RoadmapItem } from "@/data/types";
 import { Loader2, ArrowRight } from "lucide-react"; // import correto dos ícones
 
 const Page = () => {
-  const [selectedRoadmap, setSelectedRoadmap] = useState<RoadmapItem | null>(null);
+  const [selectedRoadmap, setSelectedRoadmap] = useState<RoadmapItem | null>(
+    null,
+  );
   const [loading, setLoading] = useState(false);
 
   const handleClick = () => {
@@ -57,32 +63,37 @@ const Page = () => {
     <>
       <Navbar />
 
-      <section className="relative w-full overflow-hidden bg-zinc-900">
+      <section className="relative w-full h-[50vh] overflow-hidden bg-zinc-900">
+        {/* FUNDO COM IMAGEM */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url('/fundo_1.jpg')` }}
         >
+          {/* OVERLAY / GRADIENT */}
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
         </div>
 
-        <div className="relative flex items-center px-8 py-20 md:px-12 md:py-24">
+        {/* CONTEÚDO */}
+        <div className="relative flex items-center h-full px-8 md:px-12">
           <div className="max-w-md">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
               Descubra seu Roadmap Ideal e impulsione sua carreira.
             </h2>
 
-            <p className="text-gray-100 mb-6">
-            Faça um simples teste com a nossa assistente virtual pelo whatsapp e descubra o roadmap ideal para você. E acesse o roadmap correspodente as suas habilidades e objetivos profissionais.
+            <p className="text-gray-100 mb-5 text-sm md:text-base">
+              Faça um simples teste com a nossa assistente virtual pelo WhatsApp
+              e descubra o roadmap ideal para você. E acesse o roadmap
+              correspondente às suas habilidades e objetivos profissionais.
             </p>
 
             <button
               onClick={handleClick}
               disabled={loading}
-              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all
-                ${loading
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded-xl ${
+                loading
                   ? "bg-blue-300 cursor-not-allowed text-zinc-800"
-                  : "bg-blue-400 hover:bg-blue-500 text-white rounded-xl"
-                }`}
+                  : "bg-blue-400 hover:bg-blue-500 text-white"
+              }`}
             >
               {loading ? (
                 <>
@@ -110,7 +121,9 @@ const Page = () => {
                   Acesse agora os Roadmaps
                 </h1>
                 <p className="text-slate-500 text-lg">
-                  Explore nossos roadmaps detalhados para guiar sua jornada de aprendizado e crescimento profissional, seja você um iniciante ou um profissional experiente.
+                  Explore nossos roadmaps detalhados para guiar sua jornada de
+                  aprendizado e crescimento profissional, seja você um iniciante
+                  ou um profissional experiente.
                 </p>
               </div>
             </div>
@@ -132,7 +145,9 @@ const Page = () => {
                   Ferramentas e tecnologias de desenvolvimento
                 </h2>
                 <p className="text-slate-500 text-lg">
-                  Domine as principais ferramentas e tecnologias essenciais para desenvolvedores modernos, aprimorando suas habilidades técnicas. 
+                  Domine as principais ferramentas e tecnologias essenciais para
+                  desenvolvedores modernos, aprimorando suas habilidades
+                  técnicas.
                 </p>
               </div>
             </div>
@@ -154,7 +169,10 @@ const Page = () => {
                   Melhores práticas de desenvolvimento
                 </h2>
                 <p className="text-slate-500 text-lg">
-                  Aprenda as melhores práticas de desenvolvimento para escrever código limpo, eficiente e sustentável, garantindo a qualidade dos seus projetos, independentemente da linguagem ou framework utilizado.
+                  Aprenda as melhores práticas de desenvolvimento para escrever
+                  código limpo, eficiente e sustentável, garantindo a qualidade
+                  dos seus projetos, independentemente da linguagem ou framework
+                  utilizado.
                 </p>
               </div>
             </div>

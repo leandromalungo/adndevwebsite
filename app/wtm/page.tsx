@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState, useRef, useEffect } from "react";
 
@@ -15,7 +15,9 @@ const App = () => {
 
   useEffect(() => {
     if (videoRef.current) {
-      videoRef.current.play().catch(err => console.log("Erro ao rodar vídeo:", err));
+      videoRef.current
+        .play()
+        .catch((err) => console.log("Erro ao rodar vídeo:", err));
     }
   }, []);
 
@@ -27,7 +29,7 @@ const App = () => {
       <Navbar />
 
       {/* SEÇÃO HERÓI */}
-      <section className="relative w-full overflow-hidden bg-zinc-900">
+      <section className="relative w-full h-[50vh] overflow-hidden bg-zinc-900">
         {/* FUNDO DE VÍDEO */}
         <video
           ref={videoRef}
@@ -38,33 +40,37 @@ const App = () => {
           preload="auto"
           className="absolute inset-0 w-full h-full object-cover"
         >
-          {/* Caminho correto do vídeo na pasta public/videos */}
           <source src="/videos/video.mp4" type="video/mp4" />
           Seu navegador não suporta vídeo em HTML5.
         </video>
 
-        {/* OVERLAY / GRADIENT */}
+        {/* OVERLAY */}
         <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
 
-        {/* CONTENT */}
-        <div className="relative z-10 flex items-center px-8 py-15 md:px-12 md:py-10">
+        {/* CONTEÚDO */}
+        <div className="relative z-10 flex items-center h-full px-8 md:px-12">
           <div className="max-w-md">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 leading-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
               Iniciativas para inclusão de mulheres na tecnologia
             </h2>
 
-            <p className="text-gray-100 mb-6">
-              Descubra quais programas e recursos estão disponíveis para apoiar e incentivar a participação feminina no setor de tecnologia, 
-              promovendo diversidade e igualdade de oportunidades, através de um quiz rápido e informativo.
+            <p className="text-gray-100 mb-5 text-sm md:text-base">
+              Descubra quais programas e recursos estão disponíveis para apoiar
+              e incentivar a participação feminina no setor de tecnologia,
+              promovendo diversidade e igualdade de oportunidades, através de um
+              quiz rápido e informativo.
             </p>
 
             <button
+              disabled={loading}
+              onClick={() => setLoading(true)}
               className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all duration-200 active:scale-95 rounded-xl ${
                 loading
                   ? "bg-orange-300 cursor-not-allowed text-zinc-800"
-                  : "bg-rose-400 hover:bg-rose-400 text-white"
-              }`} >
-              Comece agora!
+                  : "bg-rose-400 hover:bg-rose-500 text-white"
+              }`}
+            >
+              {loading ? "Carregando..." : "Comece agora!"}
             </button>
           </div>
         </div>
