@@ -156,7 +156,7 @@ const Page = () => {
               onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
               className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cyan-600 focus:border-transparent outline-none"
             />
-            yy
+                 
             {/* Dropdown de Sugestões */}
             {showSuggestions && suggestions.length > 0 && (
               <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-300 rounded-xl shadow-lg z-10 max-h-80 overflow-y-auto">
