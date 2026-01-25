@@ -7,7 +7,18 @@ export const Hero = () => {
   const tags = ["E-books", "Newsletters", "Bolsas de Estudo", "E muito mais"];
 
   return (
-    <section className="relative z-10 px-6 max-w-7xl mx-auto flex flex-col justify-center h-[50vh]">
+    <section
+      className="
+        relative z-10
+        px-6
+        max-w-7xl mx-auto
+        flex flex-col
+        min-h-[70vh]
+        pt-24 md:pt-32
+        pb-10 md:pb-16
+        md:justify-center
+      "
+    >
       <div className="max-w-2xl">
         {/* Título */}
         <h1 className="text-2xl md:text-4xl font-extrabold leading-[1.1] mb-4 md:mb-6 tracking-tight text-gray-50">
