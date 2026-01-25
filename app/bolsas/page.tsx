@@ -34,7 +34,7 @@ const App: React.FC = () => {
         {/* FUNDO COM IMAGEM */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/fundo_1.jpg')` }}
+          style={{ backgroundImage: `url('/images/bolsasImg.png')` }}
         >
           {/* OVERLAY / GRADIENT */}
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
@@ -50,8 +50,8 @@ const App: React.FC = () => {
 
             <p className="text-gray-100 mb-2 text-sm md:text-base">
               Bolsas 100% gratuitas para você estudar nas melhores universidades
-              do mundo. Aproveite essas oportunidades para impulsionar sua carreira
-              acadêmica e profissional.
+              do mundo. Aproveite essas oportunidades para impulsionar sua
+              carreira acadêmica e profissional.
             </p>
 
             <button
@@ -79,6 +79,8 @@ const App: React.FC = () => {
         </div>
       </section>
 
+      <CarroselBo />
+
       {/* FILTRO POR PAÍS */}
       <CountryFilter
         selectedCountry={selectedCountry}
@@ -89,9 +91,7 @@ const App: React.FC = () => {
       <main className="min-h-screen bg-white">
         <Preview />
         <div className="space-y-0">
-          <div className="py-12 px-4 md:px-8">
-            <AboutUsSection />
-          </div>
+          <RecentSection selectedCountry={selectedCountry} />
 
           <BigTechBo />
 
@@ -99,10 +99,9 @@ const App: React.FC = () => {
             <LeaderBo />
           </div>
 
-          <CarroselBo />
-
-          <RecentSection selectedCountry={selectedCountry} />
-
+          <div className="py-12 px-4 md:px-8">
+            <AboutUsSection />
+          </div>
           <Footer />
         </div>
       </main>
