@@ -16,7 +16,7 @@
  */
 
 import { useState, useMemo, useRef } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, ArrowRight } from "lucide-react";
 
 import AdvancedFilters from "@/components/events/AdvancedFilters";
 import EventCard from "@/components/events/EventCard";
@@ -40,6 +40,14 @@ const Page = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isOnline, setIsOnline] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  /**
+   * MANIPULADOR DE CLIQUE
+   */
+  const handleClick = () => {
+    setLoading(true);
+    setTimeout(() => setLoading(false), 2000);
+  };
 
   /**
    * FILTRAGEM DE EVENTOS
@@ -128,10 +136,31 @@ const Page = () => {
               O maior repositório de eventos de tecnologia da lusofonia.
             </h2>
 
-            <p className="text-gray-100 text-sm md:text-base">
+            <p className="text-gray-100 text-sm md:text-base mb-3">
               Descubra os melhores e imperdíveis eventos mais próximos de ti,
               conecte-se com profissionais e impulsione sua carreira tech.
             </p>
+            <button
+              onClick={handleClick}
+              disabled={loading}
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded-xl ${
+                loading
+                  ? "bg-blue-300 cursor-not-allowed text-zinc-800"
+                  : "bg-blue-400 hover:bg-blue-500 text-white"
+              }`}
+            >
+              {loading ? (
+                <>
+                  <Loader2 size={20} className="animate-spin" />
+                  Processando...
+                </>
+              ) : (
+                <>
+                  Assinar agora!
+                  <ArrowRight size={20} />
+                </>
+              )}
+            </button>
           </div>
         </div>
       </section>

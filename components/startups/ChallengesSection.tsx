@@ -1,6 +1,11 @@
 "use client";
 
 import React from 'react';
+import type { FilterTab } from '@/components/CountryFilter';
+
+interface ChallengesSectionProps {
+  selectedCountry?: FilterTab;
+}
 
 interface CourseCardProps {
   thumbnailUrl: string;
@@ -48,7 +53,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ thumbnailUrl, thumbnailBg, titl
   </div>
 );
 
-const ChallengesSection: React.FC = () => {
+const ChallengesSection: React.FC<ChallengesSectionProps> = ({ selectedCountry }) => {
   return (
     <section className="bg-white py-20 px-6 md:px-12 lg:px-24">
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">

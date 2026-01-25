@@ -1,8 +1,13 @@
 "use client";
 
 import React from 'react';
+import type { FilterTab } from '@/components/CountryFilter';
 
-const NewsletterSection = () => {
+interface NewsletterSectionProps {
+  selectedCountry?: FilterTab;
+}
+
+const NewsletterSection: React.FC<NewsletterSectionProps> = ({ selectedCountry }) => {
   return (
     <section className="bg-white py-12 px-6 md:px-12 lg:px-24">
       <div className="container mx-auto">

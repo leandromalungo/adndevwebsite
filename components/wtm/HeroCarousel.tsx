@@ -1,8 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { SLIDES, WTMLogo } from '@/components/wtm/constants';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import type { FilterTab } from '@/components/CountryFilter';
 
-export const HeroCarousel: React.FC = () => {
+interface HeroCarouselProps {
+  selectedCountry?: FilterTab;
+}
+
+export const HeroCarousel: React.FC<HeroCarouselProps> = ({ selectedCountry }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 

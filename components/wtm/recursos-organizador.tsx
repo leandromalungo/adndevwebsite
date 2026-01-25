@@ -2,6 +2,7 @@
 
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import type { FilterTab } from '@/components/CountryFilter';
 
 interface ResourceCard {
   id: string;
@@ -17,12 +18,14 @@ interface RecursosOrganizadorProps {
   title?: string;
   description?: string;
   cards?: ResourceCard[];
+  selectedCountry?: FilterTab;
 }
 
 export default function RecursosOrganizador({
   title = "Recursos do organizador",
   description = "Você é ativo na comunidade de desenvolvedores e gosta de compartilhar o que sabe, de tecnologia da Microsoft a códigos abertos e jogos? Tem paixão por reunir pessoas para se divertir? A Microsoft tem recursos para ajudar você.",
   cards,
+  selectedCountry,
 }: RecursosOrganizadorProps) {
   const defaultCards: ResourceCard[] = [
     {

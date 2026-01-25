@@ -9,12 +9,14 @@ import ChallengesSection from '@/components/startups/ChallengesSection';
 import NewsletterSection from '@/components/startups/NewsletterSection';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
 
 // ícones do lucide-react
 import { Loader2, ArrowRight } from "lucide-react";
 
 const App = () => {
   const [loading, setLoading] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
 
   const handleClick = () => {
     setLoading(true);
@@ -74,14 +76,21 @@ const App = () => {
         </div>
       </section>
 
+      {/* FILTRO POR PAÍS */}
+      <CountryFilter
+        selectedCountry={selectedCountry}
+        onCountryChange={setSelectedCountry}
+        className="bg-white border-b border-gray-200"
+      />
+
       <div className="min-h-screen bg-black">
         <main>
-          <Features />
-          <AccessSection />
-          <Matchmaking />
-          <HubShowcase />
-          <ChallengesSection />
-          <NewsletterSection />
+          <Features selectedCountry={selectedCountry} />
+          <AccessSection selectedCountry={selectedCountry} />
+          <Matchmaking selectedCountry={selectedCountry} />
+          <HubShowcase selectedCountry={selectedCountry} />
+          <ChallengesSection selectedCountry={selectedCountry} />
+          <NewsletterSection selectedCountry={selectedCountry} />
           <Footer />
         </main>
       </div>

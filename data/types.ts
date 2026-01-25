@@ -80,6 +80,7 @@ export interface Community {
   id: string;
   name: string;
   location: string;
+  country: FilterTab;
   description: string;
   logoUrl: string;
   members: number;

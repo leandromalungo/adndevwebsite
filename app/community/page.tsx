@@ -5,10 +5,12 @@ import { useRef, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CommunityGrid } from "@/components/community/CommunityGrid";
+import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
 
 export default function Page() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [loading, setLoading] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
 
   return (
     <>
@@ -73,8 +75,15 @@ export default function Page() {
           </div>
         </header>
 
+        {/* FILTRO POR PAÍS */}
+        <CountryFilter
+          selectedCountry={selectedCountry}
+          onCountryChange={setSelectedCountry}
+          className="bg-white border-b border-gray-200"
+        />
+
         <main className="max-w-7xl mx-auto px-4">
-          <CommunityGrid />
+          <CommunityGrid selectedCountry={selectedCountry} />
         </main>
 
         <Footer />

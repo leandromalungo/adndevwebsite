@@ -8,10 +8,12 @@ import OutrosRecursos from "@/components/wtm/outros-recursos";
 import RecursosOrganizador from "@/components/wtm/recursos-organizador";
 import { HeroCarousel } from "@/components/wtm/HeroCarousel";
 import { LeadershipSection } from "@/components/wtm/LeadershipSection";
+import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
 
 const App = () => {
   // --- REFERÊNCIA DO VÍDEO ---
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
 
   useEffect(() => {
     if (videoRef.current) {
@@ -75,10 +77,18 @@ const App = () => {
           </div>
         </div>
       </section>
-      <LeadershipSection />
-      <RecursosOrganizador />
-      <HeroCarousel />
-      <OutrosRecursos />
+
+      {/* FILTRO POR PAÍS */}
+      <CountryFilter
+        selectedCountry={selectedCountry}
+        onCountryChange={setSelectedCountry}
+        className="bg-white border-b border-gray-200"
+      />
+
+      <LeadershipSection selectedCountry={selectedCountry} />
+      <RecursosOrganizador selectedCountry={selectedCountry} />
+      <HeroCarousel selectedCountry={selectedCountry} />
+      <OutrosRecursos selectedCountry={selectedCountry} />
 
       <Footer />
     </>

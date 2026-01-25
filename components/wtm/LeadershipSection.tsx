@@ -1,12 +1,17 @@
 import React from 'react';
 import { LEADERSHIP_CARDS, WTMLogoColored } from '@/components/wtm/constants';
+import type { FilterTab } from '@/components/CountryFilter';
 
-export const LeadershipSection: React.FC = () => {
+interface LeadershipSectionProps {
+  selectedCountry?: FilterTab;
+}
+
+export const LeadershipSection: React.FC<LeadershipSectionProps> = ({ selectedCountry }) => {
   return (
     <section className="container mx-auto py-16 px-4">
       {/* Section Title */}
       <h2 className="text-2xl md:text-3xl font-medium text-gray-700 mb-10 uppercase">
-        Mulheres na tecnologia
+        Mulheres na tecnologia {selectedCountry && <span className="text-sm">em {selectedCountry}</span>}
       </h2>
 
       {/* Cards Grid */}

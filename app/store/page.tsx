@@ -19,7 +19,7 @@ const COUNTRIES: CountryInfo[] = [
 ];
 
 const Page = () => {
-  const [selectedCountry, setSelectedCountry] = useState<CountryInfo>(COUNTRIES[7]); // Portugal
+  const [selectedCountry, setSelectedCountry] = useState<CountryInfo>(COUNTRIES[0]); // Angola
   const [searchQuery, setSearchQuery] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [activeSection, setActiveSection] = useState<'products' | 'tickets'>('products');

@@ -14,6 +14,7 @@ import {
   PhoneIcon,
   HelpCircleIcon,
 } from "lucide-react"
+import type { FilterTab } from '@/components/CountryFilter'
 
 interface ResourceCard {
   id: string
@@ -39,6 +40,7 @@ interface OutrosRecursosProps {
   tabContents?: TabContent[]
   documentationImages?: Record<string, string>
   documentationLink?: string
+  selectedCountry?: FilterTab
 }
 
 const defaultTabs: TabOption[] = [
@@ -199,6 +201,7 @@ export default function OutrosRecursos({
     support: "/images/1768288533539.jpg",
   },
   documentationLink = "#",
+  selectedCountry,
 }: OutrosRecursosProps) {
   const [activeTab, setActiveTab] = useState(tabs[0]?.id || "learn")
 

@@ -1,6 +1,11 @@
 "use client";
 
 import React, { useState } from 'react';
+import type { FilterTab } from '@/components/CountryFilter';
+
+interface AccessSectionProps {
+  selectedCountry?: FilterTab;
+}
 
 interface AccessItem {
   id: string;
@@ -85,7 +90,7 @@ const accessData: AccessItem[] = [
   }
 ];
 
-const AccessSection: React.FC = () => {
+const AccessSection: React.FC<AccessSectionProps> = ({ selectedCountry }) => {
   const [activeId, setActiveId] = useState<string>('startups');
 
   return (

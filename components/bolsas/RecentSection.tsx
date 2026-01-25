@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import type { FilterTab } from '@/components/CountryFilter';
 
 interface CategoryCardProps {
   image: string;
@@ -35,7 +36,11 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ image, title, description }
   );
 };
 
-export const RecentSection = () => {
+interface RecentSectionProps {
+  selectedCountry?: FilterTab;
+}
+
+export const RecentSection: React.FC<RecentSectionProps> = ({ selectedCountry }) => {
   const categories = [
     {
       image: "https://images.unsplash.com/photo-1523240715639-99a8080f970c?q=80&w=800&auto=format&fit=crop",
@@ -77,7 +82,8 @@ export const RecentSection = () => {
             Bolsas de estudo <span className="font-light">mais recorente</span>
           </h2>
           <p className="text-[#4b5563] text-lg md:text-xl font-medium mb-8">
-            We provide expert scholarship advice to help you pay for college.
+            {selectedCountry && <span>Bolsas disponíveis em <strong>{selectedCountry}</strong></span>}
+            {!selectedCountry && "We provide expert scholarship advice to help you pay for college."}
           </p>
           <button className="bg-[#620fe7] hover:bg-[#5815c4] text-white font-bold py-3 px-8 rounded-xl transition-all duration-200 shadow-md active:scale-95">
             Assinar

@@ -10,12 +10,14 @@ import { CarroselBo } from "@/components/bolsas/CarroselBo";
 import { RecentSection } from "@/components/bolsas/RecentSection";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
 
 // ícones
 import { Loader2, ArrowRight } from "lucide-react";
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
 
   const handleClick = () => {
     setLoading(true);
@@ -77,6 +79,13 @@ const App: React.FC = () => {
         </div>
       </section>
 
+      {/* FILTRO POR PAÍS */}
+      <CountryFilter
+        selectedCountry={selectedCountry}
+        onCountryChange={setSelectedCountry}
+        className="bg-white border-b border-gray-200"
+      />
+
       <main className="min-h-screen bg-white">
         <Preview />
         <div className="space-y-0">
@@ -92,7 +101,7 @@ const App: React.FC = () => {
 
           <CarroselBo />
 
-          <RecentSection />
+          <RecentSection selectedCountry={selectedCountry} />
 
           <Footer />
         </div>

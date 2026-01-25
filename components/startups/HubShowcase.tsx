@@ -1,6 +1,11 @@
 "use client";
 
 import React, { useState } from 'react';
+import type { FilterTab } from '@/components/CountryFilter';
+
+interface HubShowcaseProps {
+  selectedCountry?: FilterTab;
+}
 
 interface AccordionItem {
   title: string;
@@ -34,7 +39,7 @@ const accordionData: AccordionItem[] = [
   }
 ];
 
-const HubShowcase: React.FC = () => {
+const HubShowcase: React.FC<HubShowcaseProps> = ({ selectedCountry }) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
   return (
