@@ -110,36 +110,29 @@ const Page = () => {
     <>
       <Navbar />
 
-      {/* SEÇÃO DO VÍDEO HERO */}
+      {/* SEÇÃO COM FUNDO E CTA */}
       <section className="relative w-full h-[50vh] overflow-hidden bg-zinc-900">
-        {/* VÍDEO DE FUNDO */}
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover"
+        {/* FUNDO COM IMAGEM */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url('/images/events.png')` }}
         >
-          <source src="/videos/video.mp4" type="video/mp4" />
-          Seu navegador não suporta vídeo em HTML5.
-        </video>
-
-        {/* OVERLAY / GRADIENT */}
-        <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
+          {/* OVERLAY / GRADIENT */}
+          <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
+        </div>
 
         {/* CONTEÚDO */}
-        <div className="relative z-10 flex items-center h-full px-8 md:px-12">
+        <div className="relative flex items-center h-full px-8 md:px-12">
           <div className="max-w-md">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
-              O maior repositório de eventos de tecnologia da lusofonia.
+            <h2 className="text-2xl md:text-4xl font-bold text-white mt-6 mb-3 leading-tight">
+               O maior repositório de eventos de tecnologia da lusofonia.
             </h2>
 
-            <p className="text-gray-100 text-sm md:text-base mb-3">
+            <p className="text-gray-100 mb-2 md:mb-5 text-sm md:text-base">
               Descubra os melhores e imperdíveis eventos mais próximos de ti,
               conecte-se com profissionais e impulsione sua carreira tech.
             </p>
+
             <button
               onClick={handleClick}
               disabled={loading}
