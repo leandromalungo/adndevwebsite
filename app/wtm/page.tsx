@@ -50,11 +50,11 @@ const App = () => {
         {/* CONTEÚDO */}
         <div className="relative z-10 flex items-center h-full px-8 md:px-12">
           <div className="max-w-md">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+            <h2 className="text-2xl md:text-4xl font-bold text-white mt-6 mb-3 leading-tight">
               Iniciativas para inclusão de mulheres na tecnologia
             </h2>
 
-            <p className="text-gray-100 mb-5 text-sm md:text-base">
+            <p className="text-gray-100 mb-3 text-sm md:text-base">
               Descubra quais programas e recursos estão disponíveis para apoiar
               e incentivar a participação feminina no setor de tecnologia,
               promovendo diversidade e igualdade de oportunidades, através de um
@@ -70,7 +70,7 @@ const App = () => {
                   : "bg-rose-400 hover:bg-rose-500 text-white"
               }`}
             >
-              {loading ? "Carregando..." : "Comece agora!"}
+              {loading ? "Carregando..." : "Assinar agora!"}
             </button>
           </div>
         </div>

@@ -19,13 +19,13 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, iconBg, text }) => (
   </div>
 );
 
-const Features: React.FC = () => {
+const Features = () => {
   return (
     <section className="bg-white py-20 px-6 md:px-12 lg:px-24">
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         {/* Left Side: Copy */}
         <div className="lg:col-span-5 flex flex-col justify-center">
-          <h2 className="text-4xl md:text-5xl font-semibold text-gray-900 leading-tight mb-8">
+          <h2 className="text-2xl md:text-5xl font-semibold text-gray-900 leading-tight mb-8">
             Inovação é nosso compromisso, conexões que fazem a diferença são nosso resultado
           </h2>
           <p className="text-lg text-gray-700 max-w-md leading-relaxed">

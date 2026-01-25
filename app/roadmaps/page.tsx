@@ -76,14 +76,14 @@ const Page = () => {
         {/* CONTEÚDO */}
         <div className="relative flex items-center h-full px-8 md:px-12">
           <div className="max-w-md">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+            <h2 className="text-2xl md:text-4xl font-bold text-white mt-6 mb-3 leading-tight">
               Descubra seu Roadmap Ideal e impulsione sua carreira.
             </h2>
 
             <p className="text-gray-100 mb-5 text-sm md:text-base">
-              Faça um simples teste com a nossa assistente virtual pelo WhatsApp
-              e descubra o roadmap ideal para você. E acesse o roadmap
-              correspondente às suas habilidades e objetivos profissionais.
+              Faça cursos introdutorios gratuitos e descubra o roadmap ideal para
+              você. E acesse o roadmap correspondente às suas habilidades e
+              objetivos profissionais.
             </p>
 
             <button
@@ -102,7 +102,7 @@ const Page = () => {
                 </>
               ) : (
                 <>
-                  Acessar agora!
+                  Assinar agora!
                   <ArrowRight size={20} />
                 </>
               )}

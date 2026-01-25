@@ -1,7 +1,6 @@
 "use client"; // importante se estiver usando Next.js app directory
 
 import React, { useState } from 'react';
-import Hero from '@/components/startups/Hero';
 import Features from '@/components/startups/Features';
 import AccessSection from '@/components/startups/AccessSection';
 import Matchmaking from '@/components/startups/Matchmaking';
@@ -41,14 +40,13 @@ const App = () => {
         {/* CONTEÚDO */}
         <div className="relative flex items-center h-full px-8 md:px-12">
           <div className="max-w-md">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
-              Descubra seu Roadmap Ideal e impulsione sua carreira.
+            <h2 className="text-2xl md:text-4xl font-bold text-white mt-6 mb-3 leading-tight">
+              Aprenda como criar e escalar sua startup com tecnologia
             </h2>
 
-            <p className="text-gray-100 mb-5 text-sm md:text-base">
-              Faça um simples teste com a nossa assistente virtual pelo WhatsApp
-              e descubra o roadmap ideal para você. E acesse o roadmap
-              correspondente às suas habilidades e objetivos profissionais.
+            <p className="text-gray-100 mb-2 md:mb-5 text-sm md:text-base">
+             Descubra as melhores ecubadoras, aceleradoras e recursos para startups de tecnologia na 
+             lusofonia e impulsione o crescimento do seu negócio inovador.
             </p>
 
             <button
@@ -67,7 +65,7 @@ const App = () => {
                 </>
               ) : (
                 <>
-                  Acessar agora!
+                  Assinar agora!
                   <ArrowRight size={20} />
                 </>
               )}

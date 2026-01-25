@@ -36,15 +36,14 @@ export default function Page() {
         {/* CONTEÚDO */}
         <div className="relative z-10 flex items-center h-full px-8 md:px-12">
           <div className="max-w-md">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
-              Iniciativas para inclusão de mulheres na tecnologia
+            <h2 className="text-2xl md:text-4xl font-bold text-white mt-2 mb-3 leading-tight">
+             As melhores comunidades de tecnologia na lusofonia
             </h2>
 
-            <p className="text-gray-100 mb-5 text-sm md:text-base">
-              Descubra quais programas e recursos estão disponíveis para apoiar
-              e incentivar a participação feminina no setor de tecnologia,
-              promovendo diversidade e igualdade de oportunidades, através de um
-              quiz rápido e informativo.
+            <p className="text-gray-100 mb-2 text-sm md:text-base">
+              Descubra grupos e comunidades de tecnologia na lusofonia e
+              participe delas para expandir seu networking, aprender novas
+              habilidades e colaborar em projetos inovadores.
             </p>
 
             <button
@@ -52,11 +51,11 @@ export default function Page() {
               onClick={() => setLoading(true)}
               className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all duration-200 active:scale-95 rounded-xl ${
                 loading
-                  ? "bg-orange-300 cursor-not-allowed text-zinc-800"
-                  : "bg-rose-400 hover:bg-rose-500 text-white"
+                  ? "bg-blue-300 cursor-not-allowed text-zinc-800"
+                  : "bg-blue-400 hover:bg-blue-500 text-white"
               }`}
             >
-              {loading ? "Carregando..." : "Comece agora!"}
+              {loading ? "Carregando..." : "Assinar agora!"}
             </button>
           </div>
         </div>
