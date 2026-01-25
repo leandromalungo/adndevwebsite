@@ -22,6 +22,7 @@ import Footer from "@/components/Footer";
 import { ServicesSection } from "@/components/home/sectionHero";
 import Vision from "@/components/home/VisionHero";
 import Testimonials from "@/components/home/TestimonialsHero";
+import Partners from '@/components/home/partners';
 import CuratedCollections from "@/components/roadmaps/courses/CuratedCollections";
 import TeamMemberSection from "@/components/home/TeamMember";
 
@@ -114,7 +115,7 @@ const Page = () => {
         <CuratedCollections />
         <Vision />
       </section>
-
+      <Partners />
       <Testimonials />
       <TeamMemberSection />
       <Faq />
