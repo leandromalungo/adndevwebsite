@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -25,6 +28,12 @@ const App = () => {
 
   // --- ESTADO DO BOTÃO QUIZ ---
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const handleSubscribe = () => {
+    setLoading(true);
+    setTimeout(() => router.push("/assinatura"), 900);
+  };
 
   return (
     <>
@@ -64,15 +73,22 @@ const App = () => {
             </p>
 
             <button
+              onClick={handleSubscribe}
               disabled={loading}
-              onClick={() => setLoading(true)}
               className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all duration-200 active:scale-95 rounded-xl ${
                 loading
                   ? "bg-orange-300 cursor-not-allowed text-zinc-800"
                   : "bg-rose-400 hover:bg-rose-500 text-white"
               }`}
             >
-              {loading ? "Carregando..." : "Assinar agora!"}
+              {loading ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  Carregando...
+                </>
+              ) : (
+                "Assinar agora!"
+              )}
             </button>
           </div>
         </div>

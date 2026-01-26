@@ -1,0 +1,232 @@
+"use client";
+
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+
+type PaymentMethod = "paypal" | "transfer" | "reference";
+
+const SubscriptionForm: React.FC = () => {
+  const router = useRouter();
+  const [name, setName] = useState("");
+  const [telegram, setTelegram] = useState("");
+  const [email, setEmail] = useState("");
+  const [country, setCountry] = useState("Angola");
+  const [alerts, setAlerts] = useState<string[]>([]);
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("paypal");
+  const [bankReceipt, setBankReceipt] = useState<File | null>(null);
+  const [referenceId, setReferenceId] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const toggleAlert = (value: string) => {
+    setAlerts((prev) =>
+      prev.includes(value) ? prev.filter((a) => a !== value) : [...prev, value],
+    );
+  };
+
+  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0] ?? null;
+    setBankReceipt(f);
+  };
+
+  const validate = () => {
+    if (!name.trim() || !email.trim()) return false;
+    if (paymentMethod === "transfer" && !bankReceipt) return false;
+    if (paymentMethod === "reference" && !referenceId.trim()) return false;
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return alert("Por favor preencha os campos necessários.");
+    setLoading(true);
+
+    // Simulação de envio: aqui podes integrar com API/serviços reais
+    await new Promise((r) => setTimeout(r, 1200));
+
+    // Opcional: montar FormData para enviar para backend
+    // const form = new FormData();
+    // form.append("name", name);
+
+    setLoading(false);
+    router.push("/assinatura/sucesso");
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <label className="flex flex-col">
+          <span className="text-sm font-medium mb-1">Nome completo</span>
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="px-3 py-2 border rounded"
+            placeholder="Seu nome"
+          />
+        </label>
+
+        <label className="flex flex-col">
+          <span className="text-sm font-medium mb-1">Contacto (Telegram)</span>
+          <input
+            value={telegram}
+            onChange={(e) => setTelegram(e.target.value)}
+            className="px-3 py-2 border rounded"
+            placeholder="@seuusuario"
+          />
+        </label>
+
+        <label className="flex flex-col">
+          <span className="text-sm font-medium mb-1">País</span>
+          <select
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            className="px-3 py-2 border rounded"
+          >
+            <option>Angola</option>
+            <option>Portugal</option>
+            <option>Brasil</option>
+            <option>Mozambique</option>
+            <option>Cabo Verde</option>
+            <option>Guiné-Bissau</option>
+            <option>São Tomé e Príncipe</option>
+          </select>
+        </label>
+
+        <label className="flex flex-col">
+          <span className="text-sm font-medium mb-1">E-mail</span>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="px-3 py-2 border rounded"
+            placeholder="seu@exemplo.com"
+          />
+        </label>
+      </div>
+
+      <section className="mt-4">
+        <h4 className="font-semibold mb-2">
+          Que tipos de alertas deseja receber?
+        </h4>
+        <div className="flex flex-wrap gap-3">
+          {[
+            { id: "events", label: "Eventos" },
+            { id: "community", label: "Comunidade" },
+            { id: "gamedev", label: "Game Development" },
+            { id: "wtm", label: "Mulheres na T.I" },
+            { id: "roadmaps", label: "Cursos" },
+            { id: "bolsas", label: "Bolsas de estudo" },
+            { id: "startups", label: "Startups" },
+            { id: "mind", label: "Mentes Brilhantes" },
+          ].map((t) => (
+            <label key={t.id} className="inline-flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={alerts.includes(t.id)}
+                onChange={() => toggleAlert(t.id)}
+                className="h-4 w-4"
+              />
+              <span className="text-sm">{t.label}</span>
+            </label>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-6">
+        <h4 className="font-semibold mb-2">Método de pagamento</h4>
+        <div className="space-y-3">
+          <label className="flex items-center gap-3">
+            <input
+              type="radio"
+              name="payment"
+              checked={paymentMethod === "paypal"}
+              onChange={() => setPaymentMethod("paypal")}
+            />
+            <img src="/images/payments/paypol.jpg" alt="PayPal" className="h-6 w-6 object-contain" />
+            <span>PayPal</span>
+          </label>
+
+          <label className="flex items-center gap-3">
+            <input
+              type="radio"
+              name="payment"
+              checked={paymentMethod === "transfer"}
+              onChange={() => setPaymentMethod("transfer")}
+            />
+            <img src="/images/payments/express.png" alt="Transferência bancária" className="h-6 w-6 object-contain" />
+            <div>Transferência bancária (envie o comprovante abaixo)</div>
+          </label>
+
+          <label className="flex items-center gap-3">
+            <input
+              type="radio"
+              name="payment"
+              checked={paymentMethod === "reference"}
+              onChange={() => setPaymentMethod("reference")}
+            />
+            <img src="/images/payments/reference.jpg" alt="Pagamento por referência" className="h-6 w-6 object-contain" />
+            <div>Pagamento por referência</div>
+          </label>
+        </div>
+
+        {paymentMethod === "transfer" && (
+          <div className="mt-3">
+            <label className="flex flex-col">
+              <span className="text-sm mb-1">Carregar comprovante</span>
+              <input
+                type="file"
+                accept="image/*,application/pdf"
+                onChange={handleFile}
+              />
+              {bankReceipt && (
+                <span className="text-xs text-gray-600 mt-1">
+                  Arquivo: {bankReceipt.name}
+                </span>
+              )}
+            </label>
+          </div>
+        )}
+
+        {paymentMethod === "reference" && (
+          <div className="mt-3">
+            <label className="flex flex-col">
+              <span className="text-sm mb-1">Código de referência</span>
+              <input
+                value={referenceId}
+                onChange={(e) => setReferenceId(e.target.value)}
+                className="px-3 py-2 border rounded"
+                placeholder="Ex: REF-12345"
+              />
+            </label>
+          </div>
+        )}
+      </section>
+
+      <div className="mt-6 flex items-center gap-3">
+        <button
+          type="submit"
+          disabled={loading}
+          className={`px-4 py-2 rounded bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition ${
+            loading ? "opacity-60 cursor-not-allowed" : ""
+          }`}
+        >
+          {loading ? "Processando..." : "Confirmar Assinatura"}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="px-4 py-2 rounded border"
+        >
+          Voltar
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default SubscriptionForm;

@@ -19,6 +19,8 @@ import { useState, useMemo, useRef } from "react";
 import { Loader2, ArrowRight } from "lucide-react";
 
 import AdvancedFilters from "@/components/events/AdvancedFilters";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import EventCard from "@/components/events/EventCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -44,9 +46,10 @@ const Page = () => {
   /**
    * MANIPULADOR DE CLIQUE
    */
+  const router = useRouter();
   const handleClick = () => {
     setLoading(true);
-    setTimeout(() => setLoading(false), 2000);
+    setTimeout(() => router.push("/assinatura"), 1000);
   };
 
   /**
@@ -144,7 +147,7 @@ const Page = () => {
             >
               {loading ? (
                 <>
-                  <Loader2 size={20} className="animate-spin" />
+                  <Loader2 size={18} className="animate-spin" />
                   Processando...
                 </>
               ) : (

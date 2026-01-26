@@ -22,6 +22,7 @@
 "use client"; // obrigatório no topo
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   ROLE_ROADMAPS,
   SKILL_ROADMAPS,
@@ -30,6 +31,7 @@ import {
 import { RoadMapCard } from "@/components/roadmaps/RoadMapCard";
 import { RoadmapDetailView } from "@/components/roadmaps/HeaderroadMap";
 import Navbar from "@/components/Navbar";
+import Link from "next/link";
 import Footer from "@/components/Footer";
 import { RoadmapItem } from "@/data/types";
 import { Loader2, ArrowRight } from "lucide-react"; // import correto dos ícones
@@ -40,14 +42,10 @@ const Page = () => {
   );
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
   const handleClick = () => {
     setLoading(true);
-
-    // Exemplo de ação ao clicar (pode trocar conforme necessidade)
-    setTimeout(() => {
-      setLoading(false);
-      alert("Acessado!");
-    }, 2000);
+    setTimeout(() => router.push("/assinatura"), 1000);
   };
 
   if (selectedRoadmap) {
@@ -97,7 +95,7 @@ const Page = () => {
             >
               {loading ? (
                 <>
-                  <Loader2 size={20} className="animate-spin" />
+                  <Loader2 size={18} className="animate-spin" />
                   Processando...
                 </>
               ) : (

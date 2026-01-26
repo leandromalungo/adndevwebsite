@@ -10,18 +10,16 @@ import { CarroselBo } from "@/components/bolsas/CarroselBo";
 import { RecentSection } from "@/components/bolsas/RecentSection";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
-
-// ícones
+import { useRouter } from "next/navigation";
 import { Loader2, ArrowRight } from "lucide-react";
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleClick = () => {
     setLoading(true);
-    // Aqui você pode adicionar qualquer ação, ex: abrir WhatsApp ou redirecionar
-    setTimeout(() => setLoading(false), 2000); // simulação de carregamento
+    setTimeout(() => router.push("/assinatura"), 1000);
   };
 
   return (

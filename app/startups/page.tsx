@@ -1,6 +1,7 @@
 "use client"; // importante se estiver usando Next.js app directory
 
 import React, { useState } from 'react';
+import { useRouter } from "next/navigation";
 import Features from '@/components/startups/Features';
 import AccessSection from '@/components/startups/AccessSection';
 import Matchmaking from '@/components/startups/Matchmaking';
@@ -8,6 +9,7 @@ import HubShowcase from '@/components/startups/HubShowcase';
 import ChallengesSection from '@/components/startups/ChallengesSection';
 import NewsletterSection from '@/components/startups/NewsletterSection';
 import Navbar from '@/components/Navbar';
+import Link from "next/link";
 import Footer from '@/components/Footer';
 import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
 
@@ -18,10 +20,10 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
 
+  const router = useRouter();
   const handleClick = () => {
     setLoading(true);
-    // Aqui você pode adicionar qualquer ação, ex: redirecionar para WhatsApp
-    setTimeout(() => setLoading(false), 2000); // simulação de loading
+    setTimeout(() => router.push("/assinatura"), 1000);
   };
 
   return (
@@ -62,7 +64,7 @@ const App = () => {
             >
               {loading ? (
                 <>
-                  <Loader2 size={20} className="animate-spin" />
+                  <Loader2 size={18} className="animate-spin" />
                   Processando...
                 </>
               ) : (

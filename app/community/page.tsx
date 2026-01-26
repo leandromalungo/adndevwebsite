@@ -3,6 +3,8 @@
 import { useRef, useState } from "react";
 
 import Navbar from "@/components/Navbar";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 import Footer from "@/components/Footer";
 import { CommunityGrid } from "@/components/community/CommunityGrid";
 import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
@@ -11,6 +13,12 @@ export default function Page() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [loading, setLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
+
+  const router = useRouter();
+  const handleSubscribe = () => {
+    setLoading(true);
+    setTimeout(() => router.push("/assinatura"), 900);
+  };
 
   return (
     <>
@@ -49,15 +57,22 @@ export default function Page() {
             </p>
 
             <button
+              onClick={handleSubscribe}
               disabled={loading}
-              onClick={() => setLoading(true)}
               className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all duration-200 active:scale-95 rounded-xl ${
                 loading
                   ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                   : "bg-blue-400 hover:bg-blue-500 text-white"
               }`}
             >
-              {loading ? "Carregando..." : "Assinar agora!"}
+              {loading ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  Carregando...
+                </>
+              ) : (
+                "Assinar agora!"
+              )}
             </button>
           </div>
         </div>

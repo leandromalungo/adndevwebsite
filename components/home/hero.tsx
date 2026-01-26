@@ -1,10 +1,24 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Tag } from "./Tag";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
+
+type LoadingButton = "assinar" | "area" | null;
 
 export const Hero = () => {
   const tags = ["E-books", "Newsletters", "Bolsas de Estudo", "E muito mais"];
+  const [loadingButton, setLoadingButton] = useState<LoadingButton>(null);
+  const router = useRouter();
+
+  const handleClick = (button: LoadingButton) => {
+    setLoadingButton(button);
+
+    setTimeout(() => {
+      router.push("/assinatura");
+    }, 900);
+  };
 
   return (
     <section
@@ -21,7 +35,7 @@ export const Hero = () => {
     >
       <div className="max-w-2xl">
         {/* Título */}
-        <h1 className="text-4xl md:text-6xl  leading-[1.1] mb-4 md:mb-6 tracking-tight text-gray-50">
+        <h1 className="text-4xl md:text-6xl leading-[1.1] mb-4 md:mb-6 tracking-tight text-gray-50">
           Ecossistema de conteúdo, impulsionado por Tecnologia.
         </h1>
 
@@ -39,12 +53,17 @@ export const Hero = () => {
           ))}
         </div>
 
-        {/* CTA */}
+        {/* CTAs */}
         <div className="flex flex-col items-start gap-3 md:gap-4">
           <div className="flex flex-row gap-2 md:gap-3 items-center w-full sm:w-auto">
+            {/* Botão Assinar */}
             <button
+              onClick={() => handleClick("assinar")}
+              disabled={loadingButton !== null}
               className="
-                border border-violet-600 bg-violet-550 hover:bg-violet-600
+                inline-flex items-center justify-center
+                border border-violet-600
+                bg-violet-550 hover:bg-violet-600
                 text-white
                 px-4 sm:px-10
                 py-2 sm:py-4
@@ -54,29 +73,47 @@ export const Hero = () => {
                 transition-all transform
                 shadow-xl shadow-violet-500/20
                 active:scale-95
+                disabled:opacity-70 disabled:cursor-not-allowed
               "
             >
-              Assinar agora
+              {loadingButton === "assinar" ? (
+                <span className="inline-flex items-center gap-2">
+                  <Loader2 size={18} className="animate-spin" />
+                  Carregando...
+                </span>
+              ) : (
+                "Assinar agora"
+              )}
             </button>
 
-            <Link href="/quiz">
-              <button
-                className="
-                  border bg-violet-600 hover:border-violet-600
-                  text-white
-                  px-4 sm:px-10
-                  py-2 sm:py-4
-                  rounded-xl
-                  text-xs sm:text-lg
-                  font-bold
-                  transition-all transform
-                  shadow-xl shadow-violet-500/20
-                  active:scale-95
-                "
-              >
-                Qual área é para mim?
-              </button>
-            </Link>
+            {/* Botão Área */}
+            <button
+              onClick={() => handleClick("area")}
+              disabled={loadingButton !== null}
+              className="
+                inline-flex items-center justify-center
+                border bg-violet-600 hover:border-violet-600
+                text-white
+                px-4 sm:px-10
+                py-2 sm:py-4
+                rounded-xl
+                text-xs sm:text-lg
+                font-bold
+                transition-all transform
+                shadow-xl shadow-violet-500/20
+                active:scale-95
+                disabled:opacity-70 disabled:cursor-not-allowed
+              "
+            >
+              {loadingButton === "area" ? (
+                <span className="inline-flex items-center gap-2">
+                  <Loader2 size={18} className="animate-spin" />
+                  Processando...
+                </span>
+              ) : (
+                "Qual área é para mim?"
+              )}
+            </button>
           </div>
 
           <p className="text-xs md:text-sm text-gray-500 font-medium max-w-lg mt-2">
