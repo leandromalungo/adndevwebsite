@@ -55,7 +55,7 @@ const Page = () => {
         {/* FUNDO */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/images/events.png')` }}
+          style={{ backgroundImage: `url('/images/gamedev.png')` }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
         </div>
