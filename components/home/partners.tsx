@@ -4,46 +4,18 @@ import React from "react";
 
 const PartnersSection: React.FC = () => {
   const partners = [
-    {
-      name: "AWS",
-      logo: "/images/logos/aws.png",
-    },
-    {
-      name: "GitHub",
-      logo: "/images/logos/github.png",
-    },
-    {
-      name: "Docker",
-      logo: "/images/logos/docker.png",
-    },
-    {
-      name: "Java",
-      logo: "/images/logos/java.png",
-    },
-    {
-      name: "Python",
-      logo: "/images/logos/python.png",
-    },
-    {
-      name: "Linux",
-      logo: "/images/logos/linux.png",
-    },
-    {
-      name: "JavaScript",
-      logo: "/images/logos/js.png",
-    },
-    {
-      name: "PHP",
-      logo: "/images/logos/php.png",
-    },
-    {
-      name: "C#",
-      logo: "/images/logos/csharp.png",
-    },
-    {
-      name: "GDG Luanda",
-      logo: "/images/logos/gdgluanda.png",
-    },
+    { name: "Anetai", logo: "/images/logos/anetai.png" },
+    { name: "CDH", logo: "/images/logos/cdh.png" },
+    { name: "CFTIC", logo: "/images/logos/cftic.png" },
+    { name: "Coding AO", logo: "/images/logos/codingao.png" },
+    { name: "Elas no Code", logo: "/images/logos/elasnocode.png" },
+    { name: "GDG Luanda", logo: "/images/logos/gdgluanda.png" },
+    { name: "Café", logo: "/images/logos/logo-cafe.png" },
+    { name: "Hero", logo: "/images/logos/logo-hero.png" },
+    { name: "Open Source Angola", logo: "/images/logos/opensourceangola.png" },
+    { name: "PodNerd", logo: "/images/logos/podnerd.png" },
+    { name: "Women In Tech", logo: "/images/logos/womenintech.png" },
+    { name: "WTM", logo: "/images/logos/wtm.png" },
   ];
 
   // Doubling the array to create a seamless infinite loop effect

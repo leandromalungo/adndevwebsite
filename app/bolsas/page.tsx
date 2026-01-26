@@ -56,7 +56,7 @@ const App: React.FC = () => {
             <button
               onClick={handleClick}
               disabled={loading}
-              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded-xl ${
+              className={`inline-flex items-center gap-2 px-3 py-3 font-semibold transition-all active:scale-95 rounded-xl ${
                 loading
                   ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                   : "bg-blue-400 hover:bg-blue-500 text-white"
