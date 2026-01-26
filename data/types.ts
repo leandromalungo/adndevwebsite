@@ -255,3 +255,18 @@ export interface Post {
   imageUrl?: string;
   videoUrl?: string;
 }
+
+export interface GameItem {
+  id: string;
+  title: string;
+  subtitle?: string;
+  description?: string;
+  price?: string;
+  releaseDate?: string;
+  promoText?: string;
+  imageUrl: string;
+  logoUrl?: string;
+  secondaryLogoUrl?: string;
+  heroImageUrl: string;
+}
+ 

@@ -1,0 +1,60 @@
+
+import React from 'react';
+import { POPULAR_NEWS } from '@/components/gamedev/constants';
+import { MessageSquare } from 'lucide-react';
+
+const NewsSection = () => {
+  return (
+    <div className="w-full mt-16 mb-24 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      {/* Featured News Column */}
+      <div className="lg:col-span-8 flex flex-col space-y-4">
+        <h2 className="text-3xl font-black text-[#a11d21] tracking-tight uppercase">
+          Notícias
+        </h2>
+        <div className="relative aspect-[16/9] rounded-[40px] overflow-hidden shadow-2xl border border-gray-100 group cursor-pointer">
+          <img 
+            src="https://images.unsplash.com/photo-1560419015-7c427e8ae5ba?q=80&w=1200&auto=format&fit=crop" 
+            alt="Mario and Yoshi"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+        </div>
+      </div>
+
+      {/* Popular Sidebar Column */}
+      <div className="lg:col-span-4 flex flex-col space-y-4">
+        <h2 className="text-xl font-black text-[#a11d21] tracking-tight uppercase border-b border-gray-200 pb-2">
+          Popular
+        </h2>
+        <div className="flex flex-col space-y-6 pt-2">
+          {POPULAR_NEWS.map((news, index) => (
+            <div key={news.id} className="flex gap-4 group cursor-pointer items-start">
+              {/* Rank Badge */}
+              <div className="flex items-center justify-center w-6 h-6 rounded-full border border-gray-900 shrink-0 mt-1">
+                <span className="text-[10px] font-black text-gray-900">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+              </div>
+              
+              {/* Content */}
+              <div className="flex flex-col space-y-1 min-w-0">
+                <p className="text-xs font-bold text-[#a11d21] leading-none uppercase">
+                  {news.time}
+                </p>
+                <h3 className="text-sm font-black text-gray-900 leading-snug group-hover:text-[#a11d21] transition-colors line-clamp-2">
+                  {news.title}
+                </h3>
+                <div className="flex items-center gap-1.5 text-[9px] font-black text-[#a11d21] uppercase mt-1">
+                  <MessageSquare className="w-3 h-3 fill-[#a11d21]" />
+                  {news.comments > 0 ? `${news.comments} COMENTÁRIO${news.comments > 1 ? 'S' : ''}` : ''}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default NewsSection;
