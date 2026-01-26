@@ -17,14 +17,14 @@
 
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/home/hero";
-import Faq from "@/components/home/faqHero";
+import FAQSection from "@/components/home/FAQSection";
 import Footer from "@/components/Footer";
 import { ServicesSection } from "@/components/home/sectionHero";
-import Vision from "@/components/home/VisionHero";
-import Testimonials from "@/components/home/TestimonialsHero";
-import Partners from '@/components/home/partners';
+import Vision from "@/components/home/VisionSection";
+import Testimonials from "@/components/home/estimonialsSection";
+import Partners from '@/components/home/PartnersSection';
 import CuratedCollections from "@/components/roadmaps/courses/CuratedCollections";
-import TeamMemberSection from "@/components/home/TeamMember";
+import TeamMemberSection from "@/components/home/TeamMemberSection";
 
 const Page = () => {
   const servicesData = [
@@ -118,7 +118,7 @@ const Page = () => {
       <Partners />
       <Testimonials />
       <TeamMemberSection />
-      <Faq />
+      <FAQSection />
       <Footer />
     </div>
   );

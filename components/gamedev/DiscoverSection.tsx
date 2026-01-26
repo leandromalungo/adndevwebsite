@@ -1,8 +1,10 @@
-import React, { useRef } from 'react';
+"use client";
+
+import { useRef } from 'react';
 import { DISCOVER_GAMES } from '@/components/gamedev/constants';
 import { ChevronLeft, ChevronRight, ChevronRight as ChevronRightIcon } from 'lucide-react';
 
-const DiscoverSection: React.FC = () => {
+const DiscoverSection = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: 'left' | 'right') => {
@@ -26,7 +28,7 @@ const DiscoverSection: React.FC = () => {
       <div className="flex items-center justify-between">
         <button className="flex items-center gap-2 group">
           <h2 className="text-xl font-bold text-gray-900 hover:text-gray-700 transition-colors">
-            Descubra algo novo
+            Destaques
           </h2>
           <ChevronRightIcon className="w-5 h-5 text-gray-600 group-hover:translate-x-1 transition-transform" />
         </button>
@@ -95,7 +97,7 @@ const DiscoverSection: React.FC = () => {
               )}
               
               <p className="text-sm font-medium text-gray-900 pt-1">
-                {game.price}
+                Acessar
               </p>
             </div>
           </div>

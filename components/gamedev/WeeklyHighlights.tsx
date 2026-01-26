@@ -1,4 +1,5 @@
-import React from 'react';
+"use client";
+
 import { WEEKLY_HIGHLIGHTS } from '@/components/gamedev/constants';
 
 const WeeklyHighlights = () => {
@@ -6,8 +7,8 @@ const WeeklyHighlights = () => {
     <div className="w-full mt-16 space-y-8">
       {/* Header */}
       <div className="space-y-2">
-        <h2 className="text-3xl font-black text-gray-900 tracking-tight">
-          As principais notícias desta semana
+        <h2 className="text-3xl text-gray-900 tracking-tight">
+          As principais notícias
         </h2>
         <p className="text-gray-500 text-sm">
           Confira algumas das notícias mais importantes desta semana no mundo dos videogames.
@@ -29,10 +30,10 @@ const WeeklyHighlights = () => {
 
             {/* Content */}
             <div className="flex flex-col space-y-2">
-              <div className="bg-[#4a69e2] text-white text-[10px] font-black px-2 py-0.5 w-fit rounded uppercase tracking-wider">
+              <div className="bg-[#4a69e2] text-white text-[10px] px-2 py-0.5 w-fit rounded uppercase tracking-wider">
                 {item.category}
               </div>
-              <h3 className="text-lg font-black text-gray-900 leading-tight group-hover:text-[#4a69e2] transition-colors line-clamp-4">
+              <h3 className="text-lg text-gray-900 leading-tight group-hover:text-[#4a69e2] transition-colors line-clamp-4">
                 {item.title}
               </h3>
               <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">

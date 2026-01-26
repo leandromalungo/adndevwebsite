@@ -10,7 +10,7 @@ interface Testimonial {
   avatar: string;
 }
 
-const TestimonialsSection: React.FC = () => {
+const TestimonialsSection = () => {
   const testimonials: Testimonial[] = [
     {
       text: "Eu nunca pensei que aprender programação pudesse ser tão acessível. Graças à ADN Developers, consegui adquirir habilidades valiosas sem gastares muito tempo e esforço!",

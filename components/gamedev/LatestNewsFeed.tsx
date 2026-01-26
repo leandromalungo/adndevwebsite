@@ -1,5 +1,6 @@
+"use client";
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { LATEST_NEWS_FEED } from '@/components/gamedev/constants';
 import { MessageSquare, Target, User } from 'lucide-react';
 

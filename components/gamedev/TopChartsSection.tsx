@@ -14,17 +14,10 @@ const ChartColumn: React.FC<{ title: string; items: ChartItem[] }> = ({ title, i
 
       <div className="flex flex-col">
         {items.map((item) => (
-          <div 
-            key={item.id} 
-            className="flex items-center gap-4 p-2 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer group"
-          >
+          <div key={item.id} className="flex items-center gap-4 p-2 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer group" >
             {/* Poster */}
             <div className="relative w-12 h-16 rounded-lg overflow-hidden shrink-0 shadow-sm border border-gray-100">
-              <img 
-                src={item.imageUrl} 
-                alt={item.title} 
-                className="w-full h-full object-cover transition-transform group-hover:scale-110"
-              />
+              <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
             </div>
 
             {/* Info */}
@@ -34,19 +27,6 @@ const ChartColumn: React.FC<{ title: string; items: ChartItem[] }> = ({ title, i
               </h3>
               
               <div className="flex flex-wrap items-center gap-2">
-                {item.discount && (
-                  <span className="text-[10px] font-bold bg-[#0078f2] text-white px-1.5 py-0.5 rounded">
-                    {item.discount}
-                  </span>
-                )}
-                
-                {item.tag && (
-                  <span className="flex items-center gap-1 text-[10px] font-bold bg-gray-200 text-gray-700 px-1.5 py-0.5 rounded uppercase tracking-tighter">
-                    {item.hasCrown && <Crown className="w-2.5 h-2.5 text-yellow-600 fill-yellow-600" />}
-                    {item.tag}
-                  </span>
-                )}
-
                 <div className="flex items-center gap-1">
                   {item.oldPrice && (
                     <span className="text-xs text-gray-400 line-through">
@@ -66,15 +46,13 @@ const ChartColumn: React.FC<{ title: string; items: ChartItem[] }> = ({ title, i
   );
 };
 
-const TopChartsSection: React.FC = () => {
+const TopChartsSection = () => {
   return (
     <div className="w-full mt-12 py-8 border-t border-gray-100">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <ChartColumn title="Mais vendidos" items={TOP_CHARTS.maisVendidos} />
-        <ChartColumn title="Mais tocados" items={TOP_CHARTS.maisTocados} />
-        <ChartColumn 
-          title="Principais itens da lista de desejos para os próximos lançamentos" 
-          items={TOP_CHARTS.listaDesejos} 
+        <ChartColumn title="Studios indie" items={TOP_CHARTS.maisVendidos} />
+        <ChartColumn title="GameJams" items={TOP_CHARTS.maisTocados} />
+        <ChartColumn title="Comunidades" items={TOP_CHARTS.listaDesejos} 
         />
       </div>
     </div>

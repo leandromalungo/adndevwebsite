@@ -2,7 +2,7 @@
 
 import React from "react";
 
-const PartnersSection: React.FC = () => {
+const PartnersSection = () => {
   const partners = [
     { name: "Anetai", logo: "/images/logos/anetai.png" },
     { name: "CDH", logo: "/images/logos/cdh.png" },

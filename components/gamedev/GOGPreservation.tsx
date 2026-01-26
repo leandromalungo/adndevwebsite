@@ -1,9 +1,10 @@
+"use client";
 
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { GOG_PRESERVATION_GAMES } from '@/components/gamedev/constants';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const GOGPreservation: React.FC = () => {
+const GOGPreservation = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(1);
@@ -49,16 +50,13 @@ const GOGPreservation: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full bg-[#1a1c20] py-12 px-6 md:px-12 rounded-[2rem] mt-16 overflow-hidden">
+    <div className="w-full bg-[#1a1c20] py-12 px-6 md:px-12 rounded-xl mt-16 overflow-hidden">
       <div className="max-w-[1300px] mx-auto space-y-8">
         
         {/* Header */}
         <div className="flex flex-col space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <h2 className="text-2xl font-black text-white tracking-tight">
-                Programa de Preservação GOG
-              </h2>
               {/* Numeric Indicator */}
               <span className="bg-white/10 text-white/60 text-[10px] font-black px-2 py-0.5 rounded-full border border-white/5">
                 {currentIndex} / {GOG_PRESERVATION_GAMES.length}

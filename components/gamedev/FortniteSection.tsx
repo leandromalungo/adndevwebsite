@@ -1,8 +1,9 @@
-import React from 'react';
+"use client";
+
 import { FORTNITE_FEATURES } from '@/components/gamedev/constants';
 import { ExternalLink } from 'lucide-react';
 
-const FortniteSection: React.FC = () => {
+const FortniteSection = () => {
   return (
     <div className="w-full mt-12 mb-20">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -28,7 +29,7 @@ const FortniteSection: React.FC = () => {
               </p>
               
               <div className="pt-2">
-                <button className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-900 text-xs font-bold py-3 px-6 rounded-lg transition-colors uppercase tracking-wider">
+                <button className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-900 text-xs font-bold py-3 px-6 rounded transition-colors uppercase tracking-wider">
                   {feature.buttonText}
                   {feature.external && <ExternalLink className="w-3.5 h-3.5" />}
                 </button>

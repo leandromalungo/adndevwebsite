@@ -14,7 +14,7 @@ const CardHero = () => {
       />
 
       {/* Overlays (escurecer para legibilidade) */}
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-black/10" />
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
 
       {/* Content */}

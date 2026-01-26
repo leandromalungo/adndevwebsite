@@ -25,11 +25,12 @@ const Navbar: React.FC = () => {
           <NavLink label="Eventos" href="/events" loading={loadingLink === "/events"} onClick={() => setLoadingLink("/events")} />
           <NavLink label="Comunidades" href="/community" loading={loadingLink === "/community"} onClick={() => setLoadingLink("/community")} />
           <NavLink label="GameDev" href="/gamedev" loading={loadingLink === "/gamedev"} onClick={() => setLoadingLink("/gamedev")} />
+          <NavLink label="Robotica" href="/robotic" loading={loadingLink === "/robotic"} onClick={() => setLoadingLink("/robotic")} />  
           <NavLink label="Mulheres na T.I" href="/wtm" loading={loadingLink === "/wtm"} onClick={() => setLoadingLink("/wtm")} />
           <NavLink label="Cursos" href="/roadmaps" loading={loadingLink === "/roadmaps"} onClick={() => setLoadingLink("/roadmaps")} />
           <NavLink label="Bolsas de estudo" href="/bolsas" loading={loadingLink === "/bolsas"} onClick={() => setLoadingLink("/bolsas")} />
           <NavLink label="Startups" href="/startups" loading={loadingLink === "/startups"} onClick={() => setLoadingLink("/startups")} />
-          <NavLink label="Store" href="/store" loading={loadingLink === "/store"} onClick={() => setLoadingLink("/store")} />
+          <NavLink label="Mentes Brilhantes" href="/mind" loading={loadingLink === "/mind"} onClick={() => setLoadingLink("/mind")} />
         </div>
 
         <div className="flex items-center gap-3">
@@ -57,7 +58,7 @@ const Navbar: React.FC = () => {
           <MobileLink label="Cursos" href="/roadmaps" loading={loadingLink === "/roadmaps"} onClick={() => { setLoadingLink("/roadmaps"); closeMobileMenu(); }} />
           <MobileLink label="Bolsas de estudo" href="/bolsas" loading={loadingLink === "/bolsas"} onClick={() => { setLoadingLink("/bolsas"); closeMobileMenu(); }} />
           <MobileLink label="Startups" href="/startups" loading={loadingLink === "/startups"} onClick={() => { setLoadingLink("/startups"); closeMobileMenu(); }} /> 
-          <MobileLink label="Store" href="/store" loading={loadingLink === "/store"} onClick={() => { setLoadingLink("/store"); closeMobileMenu(); }} />
+          <MobileLink label="Mentes Brilhantes" href="/mind" loading={loadingLink === "/mind"} onClick={() => { setLoadingLink("/mind"); closeMobileMenu(); }} />
         </div>
       </div>
     </nav>

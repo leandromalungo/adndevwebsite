@@ -7,7 +7,7 @@ interface TeamMemberProps {
   imageUrl: string;
 }
 
-const SocialIcons: React.FC = () => (
+const SocialIcons = () => (
   <div className="flex gap-2.5 mt-2">
     {/* Instagram */}
     <a

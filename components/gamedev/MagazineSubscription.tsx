@@ -1,5 +1,5 @@
+"use client";
 
-import React from 'react';
 import { MAGAZINE_FEATURES } from '@/components/gamedev/constants';
 import { Check } from 'lucide-react';
 
@@ -32,7 +32,7 @@ const MagazineSubscription = () => {
 
         {/* Center: Content */}
         <div className="lg:col-span-6 flex flex-col items-center space-y-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white drop-shadow-lg">
+          <h2 className="text-4xl md:text-5xl tracking-tight text-white drop-shadow-lg">
             Adquira a revista
           </h2>
 
@@ -48,7 +48,7 @@ const MagazineSubscription = () => {
           </div>
 
           <div className="pt-4">
-            <button className="bg-[#e52d27] hover:bg-[#c42520] text-white font-black py-4 px-12 rounded-sm shadow-xl transition-all active:scale-95 text-sm uppercase tracking-widest">
+            <button className="bg-[#e52d27] hover:bg-[#c42520] text-white font-black py-4 px-12 rounded shadow-xl transition-all active:scale-95 text-sm uppercase tracking-widest">
               VEJA OS PLANOS
             </button>
           </div>
