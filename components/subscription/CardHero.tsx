@@ -18,8 +18,8 @@ const CardHero = () => {
 
       {/* Content CENTRALIZADO */}
       <div className="relative z-10 max-w-3xl text-center space-y-3 px-4">
-        <h2 className="text-3xl md:text-4xl text-white tracking-tight leading-tight">
-          Assinatura ADN Developer
+        <h2 className="text-3xl md:text-4xl text-white tracking-tight leading-tight uppercase">
+          Com uma assinatura 
         </h2>
 
         <p className="text-gray-300 text-base md:text-lg leading-relaxed font-medium">

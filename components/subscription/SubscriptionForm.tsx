@@ -64,7 +64,7 @@ const SubscriptionForm: React.FC = () => {
             onChange={(e) => setName(e.target.value)}
             required
             className="px-3 py-2 border rounded"
-            placeholder="Seu nome"
+            placeholder="Digite seu nome"
           />
         </label>
 
@@ -74,12 +74,12 @@ const SubscriptionForm: React.FC = () => {
             value={telegram}
             onChange={(e) => setTelegram(e.target.value)}
             className="px-3 py-2 border rounded"
-            placeholder="@seuusuario"
+            placeholder="Digite o @seuusuario"
           />
         </label>
 
         <label className="flex flex-col">
-          <span className="text-sm font-medium mb-1">País</span>
+          <span className="text-sm font-medium mb-1">Escolha o seu país</span>
           <select
             value={country}
             onChange={(e) => setCountry(e.target.value)}
