@@ -63,13 +63,12 @@ const Page = () => {
         {/* CONTEÚDO */}
         <div className="relative flex items-center h-full px-8 md:px-12">
           <div className="max-w-md">
-            <h2 className="text-2xl md:text-4xl font-bold text-white mt-6 mb-3 leading-tight">
-              O maior repositório de eventos de tecnologia da lusofonia.
+            <h2 className="text-2xl md:text-4xl font-bold text-white mt-4 mb-3 leading-tight">
+              Um mundo de jogos e entretenimento ao seu alcance, um espaço para Game developers
             </h2>
 
             <p className="text-gray-100 mb-5 text-sm md:text-base">
-              Descubra os melhores e imperdíveis eventos mais próximos de ti,
-              conecte-se com profissionais e impulsione sua carreira tech.
+                Descubra, partilhe e conecte-se com uma comunidade vibrante de desenvolvedores de jogos. Conheça os maiores densevolvedores nesta área na lusofonia.
             </p>
 
             <button
