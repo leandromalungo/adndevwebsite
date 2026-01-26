@@ -63,7 +63,7 @@ const Page = () => {
         {/* CONTEÚDO */}
         <div className="relative flex items-center h-full px-8 md:px-12">
           <div className="max-w-md">
-            <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 leading-tight">
+            <h2 className="text-2xl mt-3 md:text-4xl font-bold text-white mb-3 leading-tight">
               Um mundo de jogos e entretenimento ao seu alcance, um espaço para Game developers.
             </h2>
 
@@ -74,7 +74,7 @@ const Page = () => {
             <button
               onClick={handleClick}
               disabled={loading}
-              className={`inline-flex items-center gap-2 px-3 py-3 font-semibold transition-all active:scale-95 rounded-xl ${
+              className={`inline-flex items-center gap-2 px-3 py-3 mb-4 font-semibold transition-all active:scale-95 rounded-xl ${
                 loading
                   ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                   : "bg-blue-400 hover:bg-blue-500 text-white"
