@@ -23,7 +23,7 @@ const Footer = () => {
           {/* Browse by subject */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
-            Áreas mais atingidas
+            Cursos gratuitos
             </h3>
             <ul className="space-y-2">
               <li>
@@ -31,7 +31,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-600 transition-colors text-sm"
                 >
-                  Agricultura
+                  Cursera
                 </a>
               </li>
               <li>
@@ -39,7 +39,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Negócios
+                  Class Center
                 </a>
               </li>
               <li>
@@ -47,7 +47,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Saúde
+                  edX
                 </a>
               </li>
               <li>
@@ -55,7 +55,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Educação
+                  Khan Academy
                 </a>
               </li>
               <li>
@@ -63,7 +63,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Cultura
+                  Alura
                 </a>
               </li>
               <li>
@@ -71,7 +71,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Mundo
+                  freeCodeCamp
                 </a>
               </li>
               <li>
@@ -79,7 +79,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Economia
+                  Codecademy
                 </a>
               </li>
             </ul>
@@ -88,7 +88,7 @@ const Footer = () => {
           {/* Certificações */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
-              Certificações 
+              Certificações gratuitas
             </h3>
             <ul className="space-y-2">
               <li>
@@ -153,7 +153,7 @@ const Footer = () => {
           {/* Univerisidades */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
-              Universidades
+              Bolsas de estudo
             </h3>
             <ul className="space-y-2">
               <li>
