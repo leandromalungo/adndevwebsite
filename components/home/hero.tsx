@@ -16,7 +16,11 @@ export const Hero = () => {
     setLoadingButton(button);
 
     setTimeout(() => {
-      router.push("/assinatura");
+      if (button === "area") {
+        router.push("/quiz");
+      } else {
+        router.push("/assinatura");
+      }
     }, 900);
   };
 
