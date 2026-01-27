@@ -17,7 +17,7 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 /* =======================
-   COMPONENTE QUIZ GAME
+   COMPONENTE QUIZ 
    ======================= */
 export function QuizGame() {
   const [step, setStep] = useState<"intro" | "loading" | "playing" | "result">("intro");
