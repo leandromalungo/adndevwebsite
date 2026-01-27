@@ -29,7 +29,6 @@ const Navbar: React.FC = () => {
           <NavLink label="Cursos" href="/roadmaps" loading={loadingLink === "/roadmaps"} onClick={() => setLoadingLink("/roadmaps")} />
           <NavLink label="Bolsas de estudo" href="/bolsas" loading={loadingLink === "/bolsas"} onClick={() => setLoadingLink("/bolsas")} />
           <NavLink label="Startups" href="/startups" loading={loadingLink === "/startups"} onClick={() => setLoadingLink("/startups")} />  
-          <NavLink label="Startup" href="/startups" loading={loadingLink === "/startups"} onClick={() => setLoadingLink("/startups")} />
         </div>
 
         <div className="flex items-center gap-3">

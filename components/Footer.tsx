@@ -159,9 +159,9 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Harvard University
+                  Angola
                 </a>
               </li>
               <li>
@@ -169,7 +169,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Universidade Catolica
+                   Brasil
                 </a>
               </li>
               <li>
@@ -177,7 +177,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  ISPTEC
+                  Cabo Verde
                 </a>
               </li>
               <li>
@@ -185,7 +185,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  UAN
+                  Moçambique
                 </a>
               </li>
               <li>
@@ -193,7 +193,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  UTANGA
+                  Portugal
                 </a>
               </li>
               <li>
@@ -201,7 +201,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  ISPAS
+                  são Tomé e príncipe
                 </a>
               </li>
               <li>
@@ -209,7 +209,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  UNIVERSIDADE CALANDULA
+                  Guiné bissau
                 </a>
               </li>
             </ul>

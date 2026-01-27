@@ -12,7 +12,7 @@ interface AccordionItemProps {
 
 const AccordionItem: React.FC<AccordionItemProps> = ({ title, content, isOpen, onClick }) => {
   return (
-    <div className="bg-[#efefef] rounded-2xl overflow-hidden mb-4 border border-transparent transition-all duration-300">
+    <div className="bg-[#efefef] rounded overflow-hidden mb-4 border border-transparent transition-all duration-300">
       <button 
         onClick={onClick}
         className="w-full px-6 py-6 flex items-center justify-between text-left focus:outline-none"
@@ -59,11 +59,12 @@ const VisionSection = () => {
         {/* Text Content */}
         <div className="flex flex-col">
           <span className="text-base font-bold text-[#1e293b] mb-4 uppercase">Nossa visão</span>
-          <h2 className="text-4xl sm:text-3xl font-extrabold text-[#1e293b] leading-[1.1] mb-8">
+          <h2 className="text-4xl sm:text-3xl text-[#1e293b] leading-[1.1] mb-8">
             Tecnologia por meio da criatividade, da confiança e da programação.
           </h2>
-          <p className="text-[#475569] text-base text-lg mb-10 leading-relaxed">
-            Somos a voz que impulsiona a inovação tecnológica, promovendo a criatividade e a confiança através da programação. Nosso compromisso é capacitar indivíduos e organizações a alcançarem seu potencial máximo, transformando ideias em soluções tecnológicas impactantes. 
+          <p className="text-[#475569] text-base mb-10 leading-relaxed">
+            Somos a voz que impulsiona a inovação tecnológica, promovendo a criatividade e a confiança através da programação. 
+            Nosso compromisso é capacitar indivíduos e organizações a alcançarem seu potencial máximo, transformando ideias em soluções tecnológicas impactantes. 
           </p>
         </div>
 
