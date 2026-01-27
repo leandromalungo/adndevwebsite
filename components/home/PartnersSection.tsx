@@ -10,8 +10,6 @@ const PartnersSection = () => {
     { name: "Coding AO", logo: "/images/logos/codingao.png" },
     { name: "Elas no Code", logo: "/images/logos/elasnocode.png" },
     { name: "GDG Luanda", logo: "/images/logos/gdgluanda.png" },
-    { name: "Café", logo: "/images/logos/logo-cafe.png" },
-    { name: "Hero", logo: "/images/logos/logo-hero.png" },
     { name: "Open Source Angola", logo: "/images/logos/opensourceangola.png" },
     { name: "PodNerd", logo: "/images/logos/podnerd.png" },
     { name: "Women In Tech", logo: "/images/logos/womenintech.png" },
@@ -39,7 +37,7 @@ const PartnersSection = () => {
       `}</style>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-20 text-center mb-16">
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-[#1e293b] mb-8">
+        <h2 className="text-4xl sm:text-5xl text-[#1e293b] mb-8">
           Nossos parceiros
         </h2>
 

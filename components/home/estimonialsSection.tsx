@@ -37,7 +37,7 @@ const TestimonialsSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-20 text-center">
         <div className="mb-12">
           <h3 className="text-lg font-bold text-[#1e293b] mb-2">Testemunhos</h3>
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-[#1e293b] uppercase opacity-40">
+          <h2 className="text-4xl sm:text-5xl text-[#1e293b] uppercase opacity-40">
             Somos a voz dos estudantes de T.I.
           </h2>
         </div>

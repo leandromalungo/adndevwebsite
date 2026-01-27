@@ -22,9 +22,11 @@ import Footer from "@/components/Footer";
 import { ServicesSection } from "@/components/home/sectionHero";
 import Vision from "@/components/home/VisionSection";
 import Testimonials from "@/components/home/estimonialsSection";
-import Partners from '@/components/home/PartnersSection';
+import Partners from "@/components/home/PartnersSection";
 import CuratedCollections from "@/components/roadmaps/courses/CuratedCollections";
 import TeamMemberSection from "@/components/home/TeamMemberSection";
+import { Destaque } from "@/components/home/Destaque";
+import CardHero from "@/components/home/CardHero";
 
 const Page = () => {
   const servicesData = [
@@ -105,6 +107,7 @@ const Page = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent hidden md:block" />
         </div>
       </section>
+      <Destaque />
 
       {/* CONTEÚDO */}
       <section className="relative z-10 bg-[#f7f8f9] flex flex-col items-center py-5 px-4 md:px-10 space-y-24">
@@ -112,8 +115,17 @@ const Page = () => {
           <ServicesSection services={servicesData} />
         </div>
 
-        <CuratedCollections />
-        <Vision />
+        <div className="w-full max-w-7xl">
+          <CuratedCollections />
+        </div>
+
+        <div className="w-full max-w-7xl">
+          <CardHero />
+        </div>
+
+        <div className="w-full max-w-7xl">
+          <Vision />
+        </div>
       </section>
       <Partners />
       <Testimonials />

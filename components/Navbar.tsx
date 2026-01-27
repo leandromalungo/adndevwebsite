@@ -30,7 +30,6 @@ const Navbar: React.FC = () => {
           <NavLink label="Bolsas de estudo" href="/bolsas" loading={loadingLink === "/bolsas"} onClick={() => setLoadingLink("/bolsas")} />
           <NavLink label="Startups" href="/startups" loading={loadingLink === "/startups"} onClick={() => setLoadingLink("/startups")} />  
           <NavLink label="Startup" href="/startups" loading={loadingLink === "/startups"} onClick={() => setLoadingLink("/startups")} />
-          <NavLink label="Mentes Brilhantes" href="/mind" loading={loadingLink === "/mind"} onClick={() => setLoadingLink("/mind")} />
         </div>
 
         <div className="flex items-center gap-3">
@@ -58,7 +57,6 @@ const Navbar: React.FC = () => {
           <MobileLink label="Cursos" href="/roadmaps" loading={loadingLink === "/roadmaps"} onClick={() => { setLoadingLink("/roadmaps"); closeMobileMenu(); }} />
           <MobileLink label="Bolsas de estudo" href="/bolsas" loading={loadingLink === "/bolsas"} onClick={() => { setLoadingLink("/bolsas"); closeMobileMenu(); }} />
           <MobileLink label="Startups" href="/startups" loading={loadingLink === "/startups"} onClick={() => { setLoadingLink("/startups"); closeMobileMenu(); }} /> 
-          <MobileLink label="Mentes Brilhantes" href="/mind" loading={loadingLink === "/mind"} onClick={() => { setLoadingLink("/mind"); closeMobileMenu(); }} />
         </div>
       </div>
     </nav>

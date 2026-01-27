@@ -93,7 +93,7 @@ const TeamMemberSection = () => {
           </h3>
 
           <p className="text-gray-600 text-lg leading-relaxed mb-12">
-            Nossa equipe é composta por desenvolvedores dedicados e apaixonados que trabalham incansavelmente para trazer inovação e excelência à plataforma ADN Developer. Estamos comprometidos em apoiar a comunidade de código aberto, mostrando soluções que capacitam desenvolvedores em todo o mundo.
+            Nossa equipe é composta por desenvolvedores dedicados e apaixonados que trabalham incansavelmente para trazer inovação e excelência à plataforma ADN Developer.
           </p>
         </div>
 
