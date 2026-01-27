@@ -441,8 +441,7 @@ export const FULL_QUESTION_BANK: Question[] = [
         id: 35,
         text: "Estás num labirinto. O que fazes?",
         options: [
-            { label: "Marco as paredes por onde passo para não repetir.", weights: { backend: 2, qa: 1, qa: 2 } }, // qa double? let's fix to just qa:3 or split. Actually likely 'qa' and something else. Let's assume qa:3 for now or qa:2, cybersecurity:1. The original was backend:2, car:1, qa:2. So maybe backend:2, mobile:1, qa:2? Car -> Mobile? Or Car -> Security? Let's use qa:3.
-            // Wait, I should just fix 'car'.
+
             { label: "Marco as paredes por onde passo para não repetir.", weights: { backend: 2, qa: 3 } },
             { label: "Tento subir a uma parede para ver o caminho de cima.", weights: { management: 3, datascience: 2 } },
             { label: "Corro e confio no instinto.", weights: { mobile: 2, frontend: 1 } },
