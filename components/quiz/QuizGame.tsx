@@ -7,6 +7,7 @@ import {
   RefreshCcw,
   ChevronRight,
   Loader2,
+  Reply,
 } from "lucide-react";
 import {
   AreaKey,
@@ -15,6 +16,7 @@ import {
   TechArea,
   Question,
 } from "@/app/quiz/data";
+import { REPL_MODE_STRICT } from "repl";
 
 /* =======================
    HELPER: SHUFFLE ARRAY
@@ -37,6 +39,7 @@ export function QuizGame() {
   );
   const [name, setName] = useState("");
   const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
+  const [unusedQuestions, setUnusedQuestions] = useState<Question[]>([]);
   const [currentQIndex, setCurrentQIndex] = useState(0);
   const [scores, setScores] = useState<Record<string, number>>({});
 
@@ -52,7 +55,10 @@ export function QuizGame() {
       setTimeout(() => {
         const shuffled = shuffleArray(FULL_QUESTION_BANK);
         const selected = shuffled.slice(0, QUESTIONS_PER_SESSION);
+        const remaining = shuffled.slice(QUESTIONS_PER_SESSION);
+        
         setSessionQuestions(selected);
+        setUnusedQuestions(remaining);
         setScores({});
         setCurrentQIndex(0);
         setStep("playing");
@@ -76,6 +82,22 @@ export function QuizGame() {
       setCurrentQIndex(currentQIndex + 1);
     } else {
       setStep("result");
+    }
+  };
+
+  // JOGO: Pular Pergunta
+  const handleSkip = () => {
+    if (unusedQuestions.length === 0) return;
+
+    const newUnused = [...unusedQuestions];
+    const newQuestion = newUnused.pop(); // Remove um das não usadas
+    
+    if (newQuestion) {
+      const newSession = [...sessionQuestions];
+      newSession[currentQIndex] = newQuestion; // Substitui a atual
+      
+      setSessionQuestions(newSession);
+      setUnusedQuestions(newUnused);
     }
   };
 
@@ -121,6 +143,7 @@ export function QuizGame() {
     setScores({});
     setCurrentQIndex(0);
     setSessionQuestions([]);
+    setUnusedQuestions([]);
   };
 
   // --- RENDERIZADORES --- //
@@ -208,9 +231,12 @@ export function QuizGame() {
         </div>
 
         {/* Question */}
-        <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 leading-tight min-h-[80px]">
-          {question.text}
-        </h3>
+        <div className="relative">
+          <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 leading-tight min-h-[80px]">
+            {question.text}
+          </h3>
+        
+        </div>
 
         {/* Options */}
         <div className="space-y-3">
@@ -229,6 +255,18 @@ export function QuizGame() {
             </button>
           ))}
         </div>
+        
+        <div className="mt-8 text-center">
+            {unusedQuestions.length > 0 && (
+                <button 
+                  onClick={handleSkip}
+                  className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors py-2 px-4 rounded hover:bg-zinc-800/50 border border-violet-500/30 rounded"
+                >
+                    <Reply size={16} />
+                    Não entendi a pergunta, pular.
+                </button>
+            )}
+        </div>
       </div>
     );
   }
@@ -245,7 +283,7 @@ export function QuizGame() {
             className={`w-16 h-16 ${result.area.color.replace("bg-", "text-")}`}
           />
         </div>
-b        <p className="text-lg text-zinc-400 mb-2">
+        <p className="text-lg text-zinc-400 mb-2">
           Olá <span className="text-white font-bold">{name}</span>, a tua área
           ideal é:
         </p>

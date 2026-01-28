@@ -796,5 +796,306 @@ export const FULL_QUESTION_BANK: Question[] = [
             { label: "A criar a minha própria empresa/produto.", weights: { ui_ux: 2, mobile: 2, frontend: 1 } },
             { label: "A investigar novas tecnologias que ainda nem existem.", weights: { datascience: 3, cybersecurity: 2 } },
         ],
+    },
+    // --- NOVAS QUESTÕES (Fase 2) ---
+    {
+        id: 71,
+        text: "Como lidas com a documentação do teu código?",
+        options: [
+            { label: "O código é a documentação. Se for limpo, lê-se sozinho.", weights: { backend: 3, devops: 2 } },
+            { label: "Escrevo READMEs detalhados com screenshots e exemplos.", weights: { frontend: 2, ui_ux: 2, mobile: 1 } },
+            { label: "Documento APIs com Swagger/OpenAPI rigorosamente.", weights: { backend: 3, qa: 2 } },
+            { label: "Crio diagramas de arquitetura para explicar o fluxo.", weights: { management: 2, devops: 2 } },
+        ],
+    },
+    {
+        id: 72,
+        text: "Qual é a tua mascote de eleição para programar?",
+        options: [
+            { label: "Um pato de borracha (Rubber Duck Debugging).", weights: { backend: 2, qa: 2 } },
+            { label: "O meu gato, que dorme no teclado.", weights: { frontend: 2, mobile: 2 } },
+            { label: "O meu cão, que me obriga a sair de casa.", weights: { management: 3, devops: 1 } },
+            { label: "Nenhuma, preciso de espaço livre.", weights: { datascience: 2, cybersecurity: 1 } },
+        ],
+    },
+    {
+        id: 73,
+        text: "Preferes trabalhar com dados estruturados ou caóticos?",
+        options: [
+            { label: "Estruturados e normalizados (3NF).", weights: { backend: 4, datascience: 1 } },
+            { label: "Caóticos e não-estruturados (Raw Data lak).", weights: { datascience: 4, cybersecurity: 2 } },
+            { label: "JSONs aninhados com chaves dinâmicas.", weights: { frontend: 3, mobile: 2 } },
+            { label: "Logs de servidor intermináveis.", weights: { devops: 4, cybersecurity: 2 } },
+        ],
+    },
+    {
+        id: 74,
+        text: "O que achas de CSS?",
+        options: [
+            { label: "Adoro! É arte e lógica juntas.", weights: { frontend: 5, ui_ux: 4 } },
+            { label: "Uso Tailwind para não ter de escrever CSS puro.", weights: { frontend: 3, mobile: 2 } },
+            { label: "O meu pior pesadelo. Centralizar div é magia negra.", weights: { backend: 4, devops: 3, datascience: 2 } },
+            { label: "Importante para a acessibilidade, mas dou a outros.", weights: { management: 2, qa: 2 } },
+        ],
+    },
+    {
+        id: 75,
+        text: "Qual destas ferramentas não dispensas?",
+        options: [
+            { label: "Figma/Adobe XD.", weights: { ui_ux: 5, frontend: 2 } },
+            { label: "Docker/Kubernetes.", weights: { devops: 5, backend: 2 } },
+            { label: "Postman/Insomnia.", weights: { backend: 4, qa: 3 } },
+            { label: "Jupyter Notebooks.", weights: { datascience: 5 } },
+        ],
+    },
+    {
+        id: 76,
+        text: "Fim de semana ideal?",
+        options: [
+            { label: "Ir a uma conferência ou meetup de tech.", weights: { management: 3, frontend: 2 } },
+            { label: "Jogar online com amigos até de manhã.", weights: { cybersecurity: 2, devops: 1 } },
+            { label: "Desconectar totalmente na natureza.", weights: { devops: 2, backend: 2 } },
+            { label: "Trabalhar no meu side-project sem interrupções.", weights: { mobile: 3, datascience: 2 } },
+        ],
+    },
+    {
+        id: 77,
+        text: "Como reages a 'Spaghetti Code'?",
+        options: [
+            { label: "Sinto uma vontade incontrolável de o organizar.", weights: { qa: 4, backend: 3 } },
+            { label: "Se funciona, não mexo. O perigo é real.", weights: { management: 3, devops: 2 } },
+            { label: "Tento isolar os componentes visuais primeiro.", weights: { frontend: 3, ui_ux: 2 } },
+            { label: "Reescrevo tudo do zero na nova framework da moda.", weights: { mobile: 3, frontend: 2 } },
+        ],
+    },
+    {
+        id: 78,
+        text: "Qual a melhor forma de validar uma ideia?",
+        options: [
+            { label: "Criar um MVP rápido e pôr nas mãos dos users.", weights: { mobile: 4, frontend: 3, ui_ux: 2 } },
+            { label: "Fazer uma análise de mercado e dados existentes.", weights: { datascience: 4, management: 3 } },
+            { label: "Verificar a viabilidade técnica e custos.", weights: { backend: 3, devops: 3 } },
+            { label: "Garantir que cumpre os requisitos de segurança legais.", weights: { cybersecurity: 4, qa: 2 } },
+        ],
+    },
+    {
+        id: 79,
+        text: "Programação Funcional ou Orientada a Objetos?",
+        options: [
+            { label: "OOP. Classes, Herança, Polimorfismo. Clássico.", weights: { backend: 4, mobile: 2 } },
+            { label: "Funcional. Imutabilidade e pureza.", weights: { frontend: 3, datascience: 3, backend: 2 } },
+            { label: "Misturo os dois conforme dá jeito.", weights: { devops: 2, management: 1 } },
+            { label: "Só quero scripts que corram de cima para baixo.", weights: { cybersecurity: 2, operations: 2 } },
+        ],
+    },
+    {
+        id: 80,
+        text: "O que te faz sentir 'Hacker'?",
+        options: [
+            { label: "Escrever comandos no terminal verde sobre preto.", weights: { cybersecurity: 5, devops: 3 } },
+            { label: "Inspecionar elemento e mudar o texto de um site.", weights: { frontend: 3, ui_ux: 1 } },
+            { label: "Automatizar uma tarefa que demorava 2 horas.", weights: { devops: 4, backend: 2 } },
+            { label: "Treinar uma IA para escrever por mim.", weights: { datascience: 4 } },
+        ],
+    },
+    {
+        id: 81,
+        text: "Qual é o teu browser de eleição?",
+        options: [
+            { label: "Chrome. Tem as melhores dev tools e extensões.", weights: { frontend: 4, mobile: 2 } },
+            { label: "Firefox. Privacidade e open source.", weights: { cybersecurity: 3, devops: 2 } },
+            { label: "Safari. Porque funciona bem no ecosistema Apple.", weights: { ui_ux: 3, mobile: 3 } },
+            { label: "Arc / Brave / Outros. Gosto de inovar.", weights: { ui_ux: 3, cybersecurity: 2 } },
+        ],
+    },
+    {
+        id: 82,
+        text: "Estilo de teclado mecânico?",
+        options: [
+            { label: "Barulhento (Clicky/Blue). Todos têm de ouvir o meu código.", weights: { backend: 2, devops: 1 } },
+            { label: "Linear e silencioso (Red). Para ser stealth.", weights: { cybersecurity: 3, qa: 2, management: 1 } },
+            { label: "Tátil (Brown). O equilíbrio perfeito.", weights: { frontend: 2, mobile: 2 } },
+            { label: "Uso o do portátil, não ligo a isso.", weights: { management: 3, datascience: 2 } },
+        ],
+    },
+    {
+        id: 83,
+        text: "Metodologias Ágeis (Scrum/Kanban)...",
+        options: [
+            { label: "Adoro os quadros e ver os tickets a mexer.", weights: { management: 5, qa: 2 } },
+            { label: "Útil, mas as Dailies são chatas.", weights: { backend: 3, mobile: 2 } },
+            { label: "Só quero saber o que tenho de fazer hoje.", weights: { devops: 2, frontend: 2 } },
+            { label: "Prefiro trabalhar por sprints focados em dados.", weights: { datascience: 3 } },
+        ],
+    },
+    {
+        id: 84,
+        text: "Tens de explicar a um leigo o que fazes. O que dizes?",
+        options: [
+            { label: "Eu faço a parte da internet que tu vês.", weights: { frontend: 4, ui_ux: 3 } },
+            { label: "Eu trato dos servidores onde os dados vivem.", weights: { backend: 4, devops: 3 } },
+            { label: "Eu garanto que ninguém te rouba a password.", weights: { cybersecurity: 5 } },
+            { label: "Eu resolvo problemas com computadores.", weights: { management: 2, qa: 1 } },
+        ],
+    },
+    {
+        id: 85,
+        text: "Blockchain e cripto?",
+        options: [
+            { label: "A tecnologia é revolucionária (Smart Contracts).", weights: { backend: 3, cybersecurity: 3 } },
+            { label: "Muita especulação, pouco uso real.", weights: { management: 3, qa: 2 } },
+            { label: "Interessante para descentralizar a web (Web3).", weights: { frontend: 2, devops: 2 } },
+            { label: "Boa fonte de datasets financeiros.", weights: { datascience: 4 } },
+        ],
+    },
+    {
+        id: 86,
+        text: "Gostas de trabalhar remotamente?",
+        options: [
+            { label: "Sim, 100%. Sou mais produtivo em casa.", weights: { devops: 3, backend: 3 } },
+            { label: "Híbrido. Gosto de ver pessoas de vez em quando.", weights: { management: 4, ui_ux: 2 } },
+            { label: "Prefiro escritório para separar águas.", weights: { qa: 2, mobile: 1 } },
+            { label: "Viajo e trabalho (Nómada Digital).", weights: { frontend: 3, mobile: 3 } },
+        ],
+    },
+    {
+        id: 87,
+        text: "Qual é a tua opinião sobre 'Low-Code' / 'No-Code'?",
+        options: [
+            { label: "Ótimo para clientes pequenos e MVPs.", weights: { management: 4, ui_ux: 2, mobile: 2 } },
+            { label: "Vai tirar-nos o emprego? Duvido.", weights: { backend: 3, devops: 2 } },
+            { label: "Gera código horrível e inseguro.", weights: { cybersecurity: 4, qa: 3 } },
+            { label: "Se me poupar fazer CRUDs, aceito.", weights: { frontend: 2, backend: 2 } },
+        ],
+    },
+    {
+        id: 88,
+        text: "Como lidas com a pressão de prazos?",
+        options: [
+            { label: "Foco no essencial e corto funcionalidades (scope).", weights: { management: 4, product_owner: 2 } },
+            { label: "Trabalho mais horas (Crunch), infelizmente.", weights: { mobile: 2, frontend: 2 } },
+            { label: "Não cedo. A qualidade/segurança não se negocia.", weights: { qa: 4, cybersecurity: 3 } },
+            { label: "Automatizo o que conseguir para ganhar tempo.", weights: { devops: 4 } },
+        ],
+    },
+    {
+        id: 89,
+        text: "Vim (editor de texto)...",
+        options: [
+            { label: ":wq! (Sei usar e adoro a velocidade).", weights: { devops: 5, backend: 3 } },
+            { label: "Fico preso e tenho de reiniciar o terminal.", weights: { frontend: 3, ui_ux: 3, mobile: 2 } },
+            { label: "Uso o modo Vim no VS Code.", weights: { backend: 3, cybersecurity: 2 } },
+            { label: "O que é isso?", weights: { management: 3, datascience: 1 } },
+        ],
+    },
+    {
+        id: 90,
+        text: "Qual a melhor maneira de começar um projeto?",
+        options: [
+            { label: "Sketching e Wireframes no papel.", weights: { ui_ux: 5, frontend: 2 } },
+            { label: "Definir o Schema da Base de Dados.", weights: { backend: 4, datascience: 2 } },
+            { label: "Configurar o repositório e CI/CD.", weights: { devops: 5 } },
+            { label: "Escrever as User Stories.", weights: { management: 4, qa: 2 } },
+        ],
+    },
+    {
+        id: 91,
+        text: "GraphQL ou REST API?",
+        options: [
+            { label: "GraphQL. Peço só o que preciso, nada de overfetching.", weights: { frontend: 4, mobile: 4, backend: 2 } },
+            { label: "REST. Simples, standard e cacheable.", weights: { backend: 3, devops: 2 } },
+            { label: "gRPC. Preciso de performance brutal entre serviços.", weights: { backend: 4, devops: 3 } },
+            { label: "Não sei, só consumo o que me dão.", weights: { ui_ux: 2, management: 2 } },
+        ],
+    },
+    {
+        id: 92,
+        text: "O que te faz sentir produtivo?",
+        options: [
+            { label: "Ver a lista de tickets toda no 'Done'.", weights: { management: 4, qa: 3 } },
+            { label: "Escrever código complexo que funciona à primeira.", weights: { backend: 4, datascience: 3 } },
+            { label: "Terminar uma interface pixel-perfect.", weights: { frontend: 4, ui_ux: 4 } },
+            { label: "Quando o pipeline fica verde após o deploy.", weights: { devops: 5, cybersecurity: 2 } },
+        ],
+    },
+    {
+        id: 93,
+        text: "Nuvens privadas / On-premise...",
+        options: [
+            { label: "Necessário para dados sensíveis e soberania.", weights: { cybersecurity: 5, devops: 3 } },
+            { label: "Dor de cabeça de manter. Cloud all the way.", weights: { frontend: 3, mobile: 2 } },
+            { label: "Apenas se o cliente exigir.", weights: { management: 3 } },
+            { label: "Gosto de mexer no hardware físico.", weights: { devops: 4, operations: 3 } },
+        ],
+    },
+    {
+        id: 94,
+        text: "Preferes trabalhar em...",
+        options: [
+            { label: "B2B (Empresas). Problemas complexos, menos 'eye-candy'.", weights: { backend: 3, datascience: 3 } },
+            { label: "B2C (Consumidor). Impacto visual e milhões de users.", weights: { mobile: 4, frontend: 3, ui_ux: 3 } },
+            { label: "Fintech / Banca. Segurança e precisão máxima.", weights: { cybersecurity: 4, qa: 3 } },
+            { label: "Healthtech. Sentir que ajudo a salvar vidas.", weights: { management: 3, datascience: 2 } },
+        ],
+    },
+    {
+        id: 95,
+        text: "Como geres passwords?",
+        options: [
+            { label: "Gestor de Passwords (1Password, Bitwarden).", weights: { cybersecurity: 5, devops: 2 } },
+            { label: "Uso a mesma com variações (não contem a ninguém).", weights: { frontend: -1, mobile: -1 } },
+            { label: "O browser guarda tudo por mim.", weights: { frontend: 2, management: 2 } },
+            { label: "Tenho tudo na cabeça (algoritmo mental).", weights: { datascience: 3 } },
+        ],
+    },
+    {
+        id: 96,
+        text: "Realidade Virtual / Aumentada (VR/AR)?",
+        options: [
+            { label: "O futuro das interfaces. Quero desenvolver para Vision Pro.", weights: { mobile: 5, ui_ux: 4, frontend: 3 } },
+            { label: "Gimmick engraçado, mas prefiro ecrãs 2D.", weights: { backend: 2, management: 2 } },
+            { label: "Preocupado com a privacidade dos dados biométricos.", weights: { cybersecurity: 4 } },
+            { label: "Precisa de muito poder de processamento e dados.", weights: { datascience: 2, devops: 2 } },
+        ],
+    },
+    {
+        id: 97,
+        text: "Git: Merge ou Rebase?",
+        options: [
+            { label: "Rebase. Quero um histórico linear e limpo.", weights: { devops: 4, backend: 3 } },
+            { label: "Merge. Prefiro ver a verdade do que aconteceu.", weights: { qa: 3, management: 2 } },
+            { label: "Squash and Merge. Um commit por feature basta.", weights: { frontend: 3, mobile: 2 } },
+            { label: "Uso GUI, não sei o comando.", weights: { ui_ux: 3, management: 2 } },
+        ],
+    },
+    {
+        id: 98,
+        text: "Ouvem 'White Noise' / Ruído de Fundo?",
+        options: [
+            { label: "Sim, chuva ou café para concentrar.", weights: { ui_ux: 3, frontend: 2 } },
+            { label: "Não, silêncio ou música.", weights: { backend: 2 } },
+            { label: "O barulho das ventoinhas do servidor chega.", weights: { devops: 4, operations: 2 } },
+            { label: "Prefiro ouvir as conversas do escritório.", weights: { management: 4 } },
+        ],
+    },
+    {
+        id: 99,
+        text: "Ratos Verticais / Ergonómicos?",
+        options: [
+            { label: "Tenho um para evitar LER/Tendinite.", weights: { backend: 2, qa: 2, management: 2 } },
+            { label: "Prefiro trackpad (Mac).", weights: { ui_ux: 4, frontend: 3, mobile: 2 } },
+            { label: "Rato gaming com mil botões macro.", weights: { devops: 3, cybersecurity: 2 } },
+            { label: "Não uso rato, só teclado.", weights: { devops: 4, cybersecurity: 3 } },
+        ],
+    },
+    {
+        id: 100,
+        text: "Se a internet acabar amanhã...",
+        options: [
+            { label: "Crio uma rede local mesh com rádios.", weights: { devops: 5, cybersecurity: 4 } },
+            { label: "Vou plantar batatas e viver no campo.", weights: { management: 3, backend: 2 } },
+            { label: "Desenho interfaces em papel.", weights: { ui_ux: 4, frontend: 2 } },
+            { label: "Analiso os dados históricos do colapso.", weights: { datascience: 4 } },
+        ],
     }
 ];
