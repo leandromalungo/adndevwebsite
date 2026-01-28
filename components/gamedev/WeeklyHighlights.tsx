@@ -7,7 +7,7 @@ const WeeklyHighlights = () => {
     <div className="w-full mt-16 space-y-8">
       {/* Header */}
       <div className="space-y-2">
-        <h2 className="text-3xl text-gray-900 tracking-tight">
+        <h2 className="text-3xl text-gray-900 tracking-tight uppercase">
           As principais notícias
         </h2>
         <p className="text-gray-500 text-sm">
@@ -20,7 +20,7 @@ const WeeklyHighlights = () => {
         {WEEKLY_HIGHLIGHTS.map((item) => (
           <div key={item.id} className="flex flex-col space-y-4 group cursor-pointer">
             {/* Image */}
-            <div className="aspect-video rounded-xl overflow-hidden shadow-sm border border-gray-100 bg-gray-50">
+            <div className="aspect-video rounded overflow-hidden shadow-sm border border-gray-100 bg-gray-50">
               <img 
                 src={item.imageUrl} 
                 alt={item.title}

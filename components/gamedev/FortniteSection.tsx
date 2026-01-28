@@ -10,7 +10,7 @@ const FortniteSection = () => {
         {FORTNITE_FEATURES.map((feature) => (
           <div key={feature.id} className="group flex flex-col space-y-4">
             {/* Image Container */}
-            <div className="relative aspect-video rounded-xl overflow-hidden shadow-sm border border-gray-100 cursor-pointer">
+            <div className="relative aspect-video rounded overflow-hidden shadow-sm border border-gray-100 cursor-pointer">
               <img 
                 src={feature.imageUrl} 
                 alt={feature.title}
