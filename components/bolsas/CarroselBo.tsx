@@ -4,7 +4,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, Heart, Trophy, DollarSign, Calendar } from 'lucide-react';
 
 interface ScholarshipCardProps {
-  logo: string;
   title: string;
   amount: string;
   deadline: string;
@@ -13,7 +12,6 @@ interface ScholarshipCardProps {
 }
 
 const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
-  logo,
   title,
   amount,
   deadline,
@@ -21,11 +19,8 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
   tags
 }) => {
   return (
-    <div className="bg-[#2e405c] rounded-2xl p-6 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow duration-300 border border-teal-50/50 min-w-full md:min-w-0">
+    <div className="bg-[#2e405c] rounded p-6 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow duration-300 border border-teal-50/50 min-w-full md:min-w-0">
       <div className="flex items-start gap-4 mb-6">
-        <div className="w-14 h-14 rounded-xl overflow-hidden flex-shrink-0 bg-white flex items-center justify-center shadow-sm border border-gray-100">
-          <img src={logo} alt={title} className="w-10 h-10 object-contain" />
-        </div>
         <h3 className="text-lg font-bold text-[#ffffff] leading-tight pt-1">
           {title}
         </h3>
@@ -33,16 +28,16 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
 
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>
-          <div className="flex items-center gap-1 text-[#d4d5d5] text-xs font-bold uppercase tracking-wider mb-1">
+          <div className="flex items-center gap-1 text-[#d4d5d5] text-xs uppercase tracking-wider mb-1">
             <DollarSign className="w-3.5 h-3.5" /> Mensalidade:
           </div>
-          <div className="text-xl font-extrabold text-[#ffffff]">{amount}</div>
+          <div className="text-xl text-[#ffffff]">{amount}</div>
         </div>
         <div>
-          <div className="flex items-center gap-1 text-[#d4d5d5] text-xs font-bold uppercase tracking-wider mb-1">
+          <div className="flex items-center gap-1 text-[#d4d5d5] text-xs uppercase tracking-wider mb-1">
             <Calendar className="w-3.5 h-3.5" /> Data do edital:
           </div>
-          <div className="text-base font-extrabold text-[#ffffff]">{deadline}</div>
+          <div className="text-base text-[#ffffff]">{deadline}</div>
         </div>
       </div>
 
@@ -52,14 +47,14 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
 
       <div className="flex flex-wrap gap-2 mb-8">
         {tags.map((tag, idx) => (
-          <span key={idx} className="bg-white px-3 py-1.5 rounded-xl text-[11px] font-bold text-[#374151] border border-gray-100 shadow-sm">
+          <span key={idx} className="bg-white px-3 py-1.5 rounded text-[11px] font-bold text-[#374151] border border-gray-100 shadow-sm">
             {tag}
           </span>
         ))}
       </div>
 
       <div className="mt-auto pt-4 border-t border-gray-200/50 flex items-center justify-between">
-        <button className="bg-[#0080ff] hover:bg-[#0a77e3] text-white font-black py-2.5 px-8 rounded-xl transition-all duration-200 text-sm shadow-md active:scale-95">
+        <button className="bg-[#0080ff] hover:bg-[#0a77e3] text-white py-2.5 px-8 rounded transition-all duration-200 text-sm shadow-md active:scale-95">
           Inscrever
         </button>
       </div>
@@ -70,7 +65,6 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
 export const CarroselBo = () => {
   const scholarships = [
     {
-      logo: "https://upload.wikimedia.org/wikipedia/commons/e/e3/Dolly_Parton_logo.png",
       title: "Dolly Parton Songwriters Award",
       amount: "$20,000",
       deadline: "January 15, 2026",
@@ -78,7 +72,6 @@ export const CarroselBo = () => {
       tags: ["Artistic Ability", "Current Year in School"]
     },
     {
-      logo: "https://upload.wikimedia.org/wikipedia/en/thumb/8/8a/National_FFA_Organization_logo.svg/1200px-National_FFA_Organization_logo.svg.png",
       title: "National FFA Scholarship Program",
       amount: "$10,000",
       deadline: "January 15, 2026",
@@ -86,7 +79,6 @@ export const CarroselBo = () => {
       tags: ["Organization Selections", "Current Year in School"]
     },
     {
-      logo: "https://upload.wikimedia.org/wikipedia/commons/3/32/Red_cross_icon.svg",
       title: "American Red Cross - Leaders Save Lives Scholarship",
       amount: "$2,500",
       deadline: "January 15, 2026",
@@ -94,7 +86,6 @@ export const CarroselBo = () => {
       tags: ["Current Year in School", "Personal Interest/Attribute"]
     },
     {
-      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/NASA_logo.svg/1200px-NASA_logo.svg.png",
       title: "NASA Space Grant Consortium",
       amount: "$15,000",
       deadline: "March 01, 2026",
@@ -102,7 +93,6 @@ export const CarroselBo = () => {
       tags: ["STEM", "Undergraduate"]
     },
     {
-      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png",
       title: "Google Generation Scholarship",
       amount: "$10,000",
       deadline: "December 10, 2025",
@@ -110,7 +100,181 @@ export const CarroselBo = () => {
       tags: ["Computer Science", "Diversity"]
     },
     {
-      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png",
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+     {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
+      title: "Microsoft Disability Scholarship",
+      amount: "$5,000",
+      deadline: "March 15, 2026",
+      description: "A scholarship for high school seniors with disabilities who plan to attend a vocational or academic college and target a career in the technology industry.",
+      tags: ["Technology", "Disability Support"]
+    },
+    {
       title: "Microsoft Disability Scholarship",
       amount: "$5,000",
       deadline: "March 15, 2026",
@@ -156,22 +320,22 @@ export const CarroselBo = () => {
     <section className="bg-white py-16 px-6 md:px-12 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-start mb-10">
-          <button className="border-2 border-[#0d9488] text-[#0d9488] font-black py-2 px-6 rounded-xl hover:bg-teal-50 transition-colors text-sm uppercase tracking-tight">
-            Bolsas de estudos 
+          <button className="border-2 border-[#0a081d] text-[#0a081d] py-2 px-6 rounded text-sm uppercase tracking-tight">
+            Bolsas de estudos
           </button>
         </div>
 
         <div className="relative group">
           {/* Navigation Arrows */}
-          <button 
+          <button
             onClick={handlePrev}
             disabled={currentIndex === 0}
             className={`absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 bg-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg border border-gray-100 z-10 transition-all ${currentIndex === 0 ? 'opacity-30 cursor-not-allowed' : 'opacity-100 hover:bg-gray-50'}`}
           >
             <ChevronLeft className="w-6 h-6 text-gray-800" />
           </button>
-          
-          <button 
+
+          <button
             onClick={handleNext}
             disabled={currentIndex === maxIndex}
             className={`absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 bg-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg border border-gray-100 z-10 transition-all ${currentIndex === maxIndex ? 'opacity-30 cursor-not-allowed' : 'opacity-100 hover:bg-gray-50'}`}
@@ -181,18 +345,18 @@ export const CarroselBo = () => {
 
           {/* Carousel Viewport */}
           <div className="overflow-hidden">
-            <div 
+            <div
               className="flex transition-transform duration-500 ease-out"
-              style={{ 
+              style={{
                 transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)`,
                 gap: '1.5rem' // Standard tailwind gap-6 is 1.5rem
               }}
             >
               {scholarships.map((s, idx) => (
-                <div 
-                  key={idx} 
-                  style={{ 
-                    flex: `0 0 calc(${(100 / itemsPerView)}% - ${(itemsPerView - 1) * 1.5 / itemsPerView}rem)` 
+                <div
+                  key={idx}
+                  style={{
+                    flex: `0 0 calc(${(100 / itemsPerView)}% - ${(itemsPerView - 1) * 1.5 / itemsPerView}rem)`
                   }}
                 >
                   <ScholarshipCard {...s} />
@@ -208,11 +372,10 @@ export const CarroselBo = () => {
             <button
               key={i}
               onClick={() => setCurrentIndex(i)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                currentIndex === i 
-                  ? 'w-8 bg-[#404040]' 
+              className={`h-2 rounded-full transition-all duration-300 ${currentIndex === i
+                  ? 'w-8 bg-[#404040]'
                   : 'w-2 bg-gray-200 hover:bg-gray-300'
-              }`}
+                }`}
               aria-label={`Go to slide ${i + 1}`}
             />
           ))}

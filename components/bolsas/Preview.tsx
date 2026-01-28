@@ -19,7 +19,7 @@ export const Preview = () => {
                 <DollarSign className="w-5 h-5 text-gray-700" />
               </div>
               <p className="text-xl text-[#374151]">
-                Estude no exterior e seja <span className="font-bold">pago</span> 
+                Estude no exterior e seja <span className="font-bold">pago;</span> 
               </p>
             </div>
 
@@ -28,7 +28,7 @@ export const Preview = () => {
                 <Check className="w-5 h-5 text-gray-700" />
               </div>
               <p className="text-xl text-[#374151]">As 
-                <span className="font-bold"> 100%</span> financidas
+                <span className="font-bold"> 100%</span> financidas e parciais;
               </p>
             </div>
 
@@ -37,7 +37,7 @@ export const Preview = () => {
                 <ShieldCheck className="w-5 h-5 text-gray-700" />
               </div>
               <p className="text-xl text-[#374151]">
-                <span className="font-bold">bolsas de estudo</span> comprovadas
+                <span className="font-bold">Bolsas de estudo</span> comprovadas;
               </p>
             </div>
           </div>
@@ -52,26 +52,7 @@ export const Preview = () => {
             {/* Background Confetti/Graphics (Simplified with CSS) */}
             <div className="absolute -top-10 -right-10 w-32 h-32 bg-yellow-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
             <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-teal-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-            
-           
 
-            {/* Testimonial Card */}
-            <div className="absolute -bottom-8 right-0 md:-right-8 bg-white p-6 rounded-2xl shadow-2xl z-20 max-w-[320px] border border-gray-100">
-              <p className="text-gray-700 text-sm md:text-base mb-4 leading-relaxed italic">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat, vel? Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, animi.
-              </p>
-              <div className="flex items-center gap-3">
-                <img 
-                  src="https://i.pravatar.cc/150?u=leslie" 
-                  alt="Leslie N."
-                  className="w-10 h-10 rounded-full object-cover border-2 border-teal-100"
-                />
-                <div className="flex flex-col">
-                  <span className="font-bold text-teal-900 text-sm">Universidade</span>
-                  <span className="text-xs text-teal-700 font-medium leading-none">UNILA - $25,000</span>
-                </div>
-              </div>
-            </div>
           </div>
           
           {/* Decorative Squiggles */}

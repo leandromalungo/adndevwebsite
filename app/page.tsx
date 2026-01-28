@@ -85,20 +85,17 @@ const Page = () => {
       <Navbar />
 
       {/* HERO */}
-      <section className="relative min-h-screen w-full bg-black overflow-hidden">
+      <section className="relative min-h-screen w-full bg-black/90 overflow-hidden">
         <main className="relative z-10">
           <Hero />
         </main>
 
         {/* Video Background */}
         <div className="absolute inset-0 z-0 pointer-events-none">
-          <video
+          <img
+            src="/images/index.jpg"
+            alt="Background"
             className="absolute inset-0 w-full h-full object-cover opacity-60 grayscale-[0.2]"
-            src="/videos/video1.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
           />
 
           {/* Overlays */}
