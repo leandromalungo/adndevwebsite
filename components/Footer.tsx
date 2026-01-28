@@ -23,7 +23,7 @@ const Footer = () => {
           {/* Browse by subject */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
-            Áreas mais atingidas
+            Cursos gratuitos
             </h3>
             <ul className="space-y-2">
               <li>
@@ -31,7 +31,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-600 transition-colors text-sm"
                 >
-                  Agricultura
+                  Cursera
                 </a>
               </li>
               <li>
@@ -39,7 +39,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Negócios
+                  Class Center
                 </a>
               </li>
               <li>
@@ -47,7 +47,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Saúde
+                  edX
                 </a>
               </li>
               <li>
@@ -55,7 +55,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Educação
+                  Khan Academy
                 </a>
               </li>
               <li>
@@ -63,7 +63,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Cultura
+                  Alura
                 </a>
               </li>
               <li>
@@ -71,7 +71,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Mundo
+                  freeCodeCamp
                 </a>
               </li>
               <li>
@@ -79,7 +79,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Economia
+                  Codecademy
                 </a>
               </li>
             </ul>
@@ -88,7 +88,7 @@ const Footer = () => {
           {/* Certificações */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
-              Certificações 
+              Certificações gratuitas
             </h3>
             <ul className="space-y-2">
               <li>
@@ -153,15 +153,15 @@ const Footer = () => {
           {/* Univerisidades */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
-              Universidades
+              Bolsas de estudo
             </h3>
             <ul className="space-y-2">
               <li>
                 <a
                   href="#"
-                  className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Harvard University
+                  Angola
                 </a>
               </li>
               <li>
@@ -169,7 +169,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  Universidade Catolica
+                   Brasil
                 </a>
               </li>
               <li>
@@ -177,7 +177,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  ISPTEC
+                  Cabo Verde
                 </a>
               </li>
               <li>
@@ -185,7 +185,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  UAN
+                  Moçambique
                 </a>
               </li>
               <li>
@@ -193,7 +193,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  UTANGA
+                  Portugal
                 </a>
               </li>
               <li>
@@ -201,7 +201,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  ISPAS
+                  são Tomé e príncipe
                 </a>
               </li>
               <li>
@@ -209,7 +209,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  UNIVERSIDADE CALANDULA
+                  Guiné bissau
                 </a>
               </li>
             </ul>
@@ -251,173 +251,6 @@ const Footer = () => {
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
                   Comunidade de Devs de Angola
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Rankings */}
-          <div>
-            <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
-              Ranking
-            </h3>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
-                >
-                  Melhores do Ano
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
-                >
-                  Mais Lidos de Sempre
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
-                >
-                  Cursos Gratuitos Populares
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
-                >
-                  Edições de Colecionador
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
-                >
-                  Top 100 Artigos
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
-                >
-                  Guias de Carreira
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
-                >
-                  Anuário the news
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Segundo GRID Footer */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 pt-8 border-t border-gray-200">
-          {/* The Report */}
-          <div>
-            <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <span>Somos a voz do Dev</span>
-              <Rss className="w-4 h-4 text-blue-400" />
-            </h3>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
-                >
-                  Tecnologia
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
-                >
-                  Inovação
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
-                >
-                  Insghts
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
-                >
-                  Guia de certificações gratuitas
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
-                >
-                  Como o mercado se adaptou
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Free Certificates & Courses */}
-          <div>
-            <h3 className="font-bold text-gray-900 mb-4">
-              Certificados Gratuitos
-            </h3>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
-                >
-                  450+ Certificados Google
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
-                >
-                  10000+ Cursos das Big Techs
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
-                >
-                  Cursos Gratuitos Ivy League
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
-                >
-                  Formação em Escrita Online
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-600 hover:text-gray-300 text-sm transition-colors"
-                >
-                  Especialização em IA
                 </a>
               </li>
             </ul>
@@ -469,7 +302,6 @@ const Footer = () => {
                 </svg>
               </a>
             </div>
-            
           </div>
         </div>
 

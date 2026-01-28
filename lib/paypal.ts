@@ -1,5 +1,5 @@
 import { create } from "domain";
-import { PAYPAL_API_BASE_URL } from "./utils";
+import { PAYPAL_API_BASE_URL } from "./constants";
 
 const base = PAYPAL_API_BASE_URL || "https://api-m.sandbox.paypal.com";
 

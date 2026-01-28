@@ -1,11 +1,83 @@
+"use client";
 
-import { CollectionCard } from '@/components/roadmaps/courses/CollectionCard';
 import Link from 'next/link';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { useRef } from 'react';
 
 export const CuratedCollections = () => {
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (carouselRef.current) {
+      const scrollAmount = 400;
+      carouselRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  const courses = [
+    {
+      id: 1,
+      image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=400&h=300',
+      title: 'Desenvolvimento Web Completo',
+      description: 'Aprenda HTML, CSS, JavaScript e frameworks modernos para criar websites responsivos',
+      provider: 'Udemy',
+      link: '#',
+    },
+    {
+      id: 2,
+      image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=400&h=300',
+      title: 'Python para Data Science',
+      description: 'Domine Python, NumPy, Pandas e Machine Learning com projetos práticos',
+      provider: 'Coursera',
+      link: '#',
+    },
+    {
+      id: 3,
+      image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=400&h=300',
+      title: 'React.js Avançado',
+      description: 'Desenvolva aplicações profissionais com React, Redux e ferramentas modernas',
+      provider: 'LinkedIn Learning',
+      link: '#',
+    },
+    {
+      id: 4,
+      image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=400&h=300',
+      title: 'UI/UX Design Fundamentals',
+      description: 'Design principles, Figma e prototypagem para criar interfaces incríveis',
+      provider: 'Skillshare',
+      link: '#',
+    },
+    {
+      id: 5,
+      image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=400&h=300',
+      title: 'DevOps & Docker',
+      description: 'Containerização, CI/CD e orquestração com Docker e Kubernetes',
+      provider: 'Pluralsight',
+      link: '#',
+    },
+    {
+      id: 6,
+      image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=400&h=300',
+      title: 'Mobile App com Flutter',
+      description: 'Crie aplicativos nativos para iOS e Android com Flutter e Dart',
+      provider: 'edX',
+      link: '#',
+    },
+    {
+      id: 7,
+      image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=400&h=300',
+      title: 'Cloud Computing AWS',
+      description: 'Domine serviços AWS, arquitetura em nuvem e certificação profissional',
+      provider: 'A Cloud Guru',
+      link: '#',
+    },
+  ];
+
   return (
-    <section className="max-w-7xl mx-auto relative">
+    <section className="max-w-7xl mx-auto relative px-4 md:px-0">
       {/* Background Decorative Lines (SVG) */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <svg className="w-full h-full opacity-10" viewBox="0 0 1200 600" fill="none">
@@ -15,69 +87,84 @@ export const CuratedCollections = () => {
       </div>
 
       <div className="relative z-10 text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-[#002D2D]">
+        <h2 className="text-3xl md:text-4xl text-[#002D2D]">
           Navegue pela diversidade de áreas dentro do sector <span className="text-[#007E7E]">tecnologico.</span>
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-        
-        {/* Card 1: 10,000+ Free Courses */}
-        <CollectionCard className="bg-[#EDF2F7] flex flex-col p-6">
-          <div className="z-10">
-            <h3 className="text-4xl font-extrabold text-[#1a202c] leading-tight">10,000+</h3>
-            <p className="inline-block bg-[#2D3748] text-white px-2 py-1 text-xl font-bold rounded-md ">CURSOS GRATUITOS</p>
-          </div>
-          {/* Logo cloud simulation */}
-          <div className="absolute inset-0 flex items-center justify-end p-4 pointer-events-none">
-            <div className="relative w-40 h-40">
-              <div className="absolute top-0 right-2 bg-white p-2 shadow rounded-lg transform rotate-2"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" className="h-6" alt="Meta" /></div>
-              <div className="absolute top-12 right-20 bg-white p-2 shadow rounded-lg transform -rotate-6"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" className="h-4" alt="IBM" /></div>
-              <div className="absolute bottom-8 right-12 bg-white p-2 shadow rounded-lg transform rotate-6 border border-gray-100"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" className="h-5" alt="Google" /></div>
-              <div className="absolute bottom-0 right-0 bg-white p-2 shadow rounded-lg transform -rotate-3"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" className="h-4" alt="Amazon" /></div>
-              <div className="absolute bottom-4 left-0 bg-white p-2 shadow rounded-lg transform rotate-2"><img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" className="h-5" alt="Microsoft" /></div>
+      {/* Carousel Container */}
+      <div className="relative z-10 group">
+        {/* Carousel */}
+        <div
+          ref={carouselRef}
+          className="flex gap-6 overflow-x-auto scroll-smooth pb-4"
+          style={{ scrollBehavior: 'smooth', scrollbarWidth: 'none' }}
+        >
+          {courses.map((course) => (
+            <div
+              key={course.id}
+              className="flex-none w-full md:w-96 min-w-80 bg-white rounded-lg shadow-lg overflow-hidden"
+            >
+              {/* Course Image */}
+              <div className="relative w-full h-48 overflow-hidden bg-gray-100">
+                <img
+                  src={course.image}
+                  alt={course.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Course Content */}
+              <div className="p-5 flex flex-col h-64">
+                {/* Title */}
+                <h3 className="text-lg font-bold text-[#002D2D] mb-2 line-clamp-2">
+                  {course.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-sm text-gray-600 mb-4 line-clamp-3 flex-grow">
+                  {course.description}
+                </p>
+
+                {/* Provider */}
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-semibold text-[#007E7E] bg-[#E8F4F4] px-3 py-1 rounded-full">
+                    {course.provider}
+                  </span>
+                </div>
+
+                {/* Access Button */}
+                <Link href={course.link}>
+                  <button className="w-full bg-[#007E7E] hover:bg-[#005f5f] text-white font-bold py-2 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 mt-auto">
+                    Acessar Curso
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </Link>
+              </div>
             </div>
-          </div>
-        </CollectionCard>
+          ))}
+        </div>
 
-        {/* Card 2: 2000+ Online Degrees India */}
-        <CollectionCard className="bg-[#1DB954] flex flex-col p-6 text-white overflow-hidden">
-          <div className="z-10">
-            <h3 className="text-4xl font-extrabold leading-tight">2000+</h3>
-            <p className="text-sm font-semibold opacity-90 mb-1 italic">todos aprovados</p>
-            <p className="text-3xl font-extrabold leading-tight">Online</p>
-            <p className="text-3xl font-extrabold leading-tight">e ao teu ritmo</p>
-          </div>
-          {/* India Map Graphic Simulation */}
-          <div className="absolute top-0 right-0 h-full w-1/2 bg-[#0A5D00] clip-path-india opacity-50 z-0"></div>
-          <div className="mt-auto z-10 flex flex-col">
-            <p className="text-sm">AO <span className="font-bold text-xl block">REDOR DO MUNDO.</span></p>
-          </div>
-          <style dangerouslySetInnerHTML={{ __html: `.clip-path-india { clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%); }` }} />
-        </CollectionCard>
-
-        {/* Card 3: Earn a Master's Degree Online */}
-        <CollectionCard className="bg-[#0B1228] flex flex-col items-center justify-center text-center p-6 text-white">
-          <div className="mb-2">
-            <span className="text-[10px] tracking-[0.2em] font-medium opacity-80">Acesseos cursos</span>
-            <h3 className="text-3xl font-extrabold text-[#D4AF37] leading-none my-1">Faculdade de tecnologia</h3>
-            <h3 className="text-4xl font-extrabold leading-none mb-1">COM CERTIFICADO</h3>
-            <span className="text-[10px] tracking-[0.2em] font-medium opacity-80">ONLINE</span>
-          </div>
-          {/* Partner logos */}
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-6 opacity-80 scale-90">
-             <span className="text-[10px] font-bold">HARDVERD</span>
-             <span className="text-sm font-black italic">M.I.T</span>
-             <span className="text-xs font-bold border px-1">CABRIDG</span>
-          </div>
-        </CollectionCard>
-
+        {/* Navigation Buttons */}
+        <button
+          onClick={() => scroll('left')}
+          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 md:-translate-x-12 bg-[#007E7E] hover:bg-[#005f5f] text-white p-2 md:p-3 rounded-full shadow-lg transition-all opacity-0 group-hover:opacity-100 z-20"
+        >
+          <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+        </button>
+        <button
+          onClick={() => scroll('right')}
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 md:translate-x-12 bg-[#007E7E] hover:bg-[#005f5f] text-white p-2 md:p-3 rounded-full shadow-lg transition-all opacity-0 group-hover:opacity-100 z-20"
+        >
+          <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+        </button>
       </div>
 
-      <div className="flex justify-center">
+      {/* CTA Button */}
+      <div className="flex justify-center mt-12 relative z-10">
         <button className="flex items-center gap-2 bg-[#B1DBDD] text-[#002D2D] font-bold py-3 px-10 rounded-xl hover:bg-[#9AD2D5] transition-colors shadow-sm group">
-          <Link  href="/roadmaps"> Escolha uma e faça um curso gratuito </Link>
-          <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /> 
+          <Link href="/roadmaps">Ver mais cursos disponíveis</Link>
+          <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </button>
       </div>
     </section>

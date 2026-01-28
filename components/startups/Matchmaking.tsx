@@ -1,6 +1,11 @@
 "use client";
 
 import React from 'react';
+import type { FilterTab } from '@/components/CountryFilter';
+
+interface MatchmakingProps {
+  selectedCountry?: FilterTab;
+}
 
 interface MatchmakingCardProps {
   title: string;
@@ -67,7 +72,7 @@ const MatchmakingCard: React.FC<MatchmakingCardProps> = ({ title, description, i
   </div>
 );
 
-const Matchmaking: React.FC = () => {
+const Matchmaking: React.FC<MatchmakingProps> = ({ selectedCountry }) => {
   const cards = [
     {
       title: "Comunidade",

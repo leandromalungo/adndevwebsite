@@ -1,49 +1,40 @@
 "use client";
 
-import React from "react";
-import Image from "next/image";
-
-interface CardHero {
-  title: string;
-  paragraphs: string[];
-}
-
-export const CardHero: React.FC<CardHero> = ({ title, paragraphs }) => {
+const CardHero = () => {
   return (
-    <section className="relative w-full overflow-hidden rounded-xl shadow-2xl aspect-[16/9] md:aspect-[21/9] min-h-[400px]">
+    <div className="relative w-full min-h-[450px] rounded-xl overflow-hidden flex items-center px-8 md:px-20 py-16">
       
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <Image
-          src="/images/img1.jpg"
-          alt="heroimg"
-          fill
-          priority
-          className="object-cover object-center opacity-80 grayscale-[30%]"
-        />
-      </div>
+      {/* Background image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage:
+            "url('/images/86843ada19050958a1aecf7de9c7403876f74d53230a5a96d7e615c1348ba6a9_explore_catalog_2560x570_2x.webp')",
+        }}
+      />
 
-      {/* Blue Tint Overlay */}
-      <div className="absolute inset-0 bg-gray-700/80 mix-blend-multiply" />
+      {/* Overlays (escurecer para legibilidade) */}
+      <div className="absolute inset-0 bg-black/10" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent" />
 
       {/* Content */}
-      <div className="relative z-10 h-full w-full flex flex-col justify-center px-8 md:px-16 lg:px-24">
-        <div className="max-w-2xl text-white space-y-6">
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight">
-            {title}
-          </h1>
-          <div className="space-y-4">
-            {paragraphs.map((text, idx) => (
-              <p
-                key={idx}
-                className="text-sm md:text-base lg:text-lg font-medium leading-relaxed opacity-95"
-              >
-                {text}
-              </p>
-            ))}
-          </div>
+      <div className="relative z-10 max-w-xl space-y-6 animate-in fade-in slide-in-from-left-4 duration-1000">
+        <h2 className="text-4xl md:text-5xl text-white tracking-tight leading-tight">
+          Nós somos a voz de quem desenvolve na lusofonia
+        </h2>
+
+        <p className="text-gray-300 text-lg leading-relaxed font-medium">
+          Fale conosco e descubra como podemos ajudar a impulsionar sua carreira, usando nossos recursos, conexões e expertise no setor de tecnologico para levar você ao próximo nível.
+        </p>
+
+        <div className="pt-4">
+          <button className="bg-[#356ae6] hover:bg-[#4071e5] text-white py-4 px-10 rounded-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-[#a3e635]/20 text-sm uppercase tracking-wide">
+            Acessar agora
+          </button>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
+
+export default CardHero;

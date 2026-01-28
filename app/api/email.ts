@@ -1,4 +1,4 @@
-import { API_RESEND } from '@/lib/utils';
+import { API_RESEND } from '@/lib/constants';
 import { Resend } from 'resend';
 
 const resend = new Resend(API_RESEND);
