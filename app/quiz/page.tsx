@@ -77,10 +77,6 @@ export default function CareerQuizPage() {
           </div>
         </div>
       </section>
-
- 
-
-      <Footer />
     </>
   );
 }

@@ -1,8 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowRight, CheckCircle2, RefreshCcw, ChevronRight, Loader2 } from "lucide-react";
-import { AreaKey, FULL_QUESTION_BANK, TECH_AREAS, TechArea, Question } from "@/app/quiz/data";
+import {
+  ArrowRight,
+  CheckCircle2,
+  RefreshCcw,
+  ChevronRight,
+  Loader2,
+} from "lucide-react";
+import {
+  AreaKey,
+  FULL_QUESTION_BANK,
+  TECH_AREAS,
+  TechArea,
+  Question,
+} from "@/app/quiz/data";
 
 /* =======================
    HELPER: SHUFFLE ARRAY
@@ -20,7 +32,9 @@ function shuffleArray<T>(array: T[]): T[] {
    COMPONENTE QUIZ 
    ======================= */
 export function QuizGame() {
-  const [step, setStep] = useState<"intro" | "loading" | "playing" | "result">("intro");
+  const [step, setStep] = useState<"intro" | "loading" | "playing" | "result">(
+    "intro",
+  );
   const [name, setName] = useState("");
   const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
   const [currentQIndex, setCurrentQIndex] = useState(0);
@@ -33,7 +47,7 @@ export function QuizGame() {
   const handleStart = () => {
     if (name.trim().length > 0) {
       setStep("loading");
-      
+
       // Simular um pequeno tempo de "carregar perguntas do servidor"
       setTimeout(() => {
         const shuffled = shuffleArray(FULL_QUESTION_BANK);
@@ -66,7 +80,11 @@ export function QuizGame() {
   };
 
   // RESULTADO: Calcular vencedor
-  const getResult = (): { area: TechArea; percent: number; breakdown: any[] } => {
+  const getResult = (): {
+    area: TechArea;
+    percent: number;
+    breakdown: any[];
+  } => {
     let maxScore = -1;
     let winnerKey: AreaKey = "frontend"; // fallback
     let totalScore = 0;
@@ -81,17 +99,19 @@ export function QuizGame() {
     });
 
     // 2. Criar breakdown ordenado
-    const breakdown = Object.entries(TECH_AREAS).map(([key, area]) => {
-      const score = scores[key] || 0;
-      // Percentagem relativa ao total de pontos distribuídos
-      const rawPercent = totalScore > 0 ? (score / totalScore) * 100 : 0;
-      return { ...area, score, percent: Math.round(rawPercent) };
-    }).sort((a, b) => b.score - a.score);
+    const breakdown = Object.entries(TECH_AREAS)
+      .map(([key, area]) => {
+        const score = scores[key] || 0;
+        // Percentagem relativa ao total de pontos distribuídos
+        const rawPercent = totalScore > 0 ? (score / totalScore) * 100 : 0;
+        return { ...area, score, percent: Math.round(rawPercent) };
+      })
+      .sort((a, b) => b.score - a.score);
 
     return {
       area: TECH_AREAS[winnerKey],
-      percent: breakdown.find(b => b.id === winnerKey)?.percent || 0,
-      breakdown: breakdown.slice(0, 5) // Top 5
+      percent: breakdown.find((b) => b.id === winnerKey)?.percent || 0,
+      breakdown: breakdown.slice(0, 5), // Top 5
     };
   };
 
@@ -115,12 +135,20 @@ export function QuizGame() {
           Descobre o teu perfil Tech!
         </h2>
         <p className="text-zinc-400 max-w-lg text-lg">
-          Vamos fazer <span className="text-violet-400">{QUESTIONS_PER_SESSION} perguntas</span> rápidas e aleatórias para analisar o teu perfil em áreas como Frontend, Backend, AI, Segurança, Gestão e mais.
+          Vamos fazer{" "}
+          <span className="text-violet-400">
+            {QUESTIONS_PER_SESSION} perguntas
+          </span>{" "}
+          rápidas e aleatórias para analisar o teu perfil em áreas como
+          Frontend, Backend, AI, Segurança, Gestão e mais.
         </p>
-        
+
         <div className="w-full max-w-sm space-y-4 pt-4">
           <div className="text-left w-full">
-            <label htmlFor="name" className="block text-sm font-medium text-zinc-300 mb-2 ml-1">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-zinc-300 mb-2 ml-1"
+            >
               Como te chamas?
             </label>
             <input
@@ -164,13 +192,17 @@ export function QuizGame() {
         {/* Header/Progress */}
         <div className="mb-8">
           <div className="flex justify-between text-sm text-zinc-400 mb-2 font-medium">
-            <span>Questão <span className="text-violet-400">{currentQIndex + 1}</span> de {QUESTIONS_PER_SESSION}</span>
+            <span>
+              Questão{" "}
+              <span className="text-violet-400">{currentQIndex + 1}</span> de{" "}
+              {QUESTIONS_PER_SESSION}
+            </span>
             <span>{Math.round(progress)}%</span>
           </div>
           <div className="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-violet-600 transition-all duration-500 ease-out shadow-[0_0_10px_rgba(124,58,237,0.5)]" 
-              style={{ width: `${progress}%` }} 
+            <div
+              className="h-full bg-violet-600 transition-all duration-500 ease-out shadow-[0_0_10px_rgba(124,58,237,0.5)]"
+              style={{ width: `${progress}%` }}
             />
           </div>
         </div>
@@ -206,16 +238,22 @@ export function QuizGame() {
 
     return (
       <div className="text-center animate-in zoom-in duration-500">
-        <p className="text-lg text-zinc-400 mb-2">Olá <span className="text-white font-bold">{name}</span>, a tua área ideal é:</p>
-        
-        <div className={`inline-flex p-6 rounded-full ${result.area.color} bg-opacity-20 mb-6 ring-4 ring-white/5`}>
-           <CheckCircle2 className={`w-16 h-16 ${result.area.color.replace('bg-', 'text-')}`} />
+        <div
+          className={`inline-flex p-6 rounded-full ${result.area.color} bg-opacity-20 mb-6 ring-4 ring-white/5`}
+        >
+          <CheckCircle2
+            className={`w-16 h-16 ${result.area.color.replace("bg-", "text-")}`}
+          />
         </div>
+b        <p className="text-lg text-zinc-400 mb-2">
+          Olá <span className="text-white font-bold">{name}</span>, a tua área
+          ideal é:
+        </p>
 
         <h2 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
           {result.area.label}
         </h2>
-        
+
         <p className="text-xl text-zinc-300 max-w-2xl mx-auto mb-10 leading-relaxed">
           {result.area.description}
         </p>
@@ -233,8 +271,8 @@ export function QuizGame() {
                   <span>{item.percent}%</span>
                 </div>
                 <div className="h-2.5 w-full bg-zinc-800 rounded-full overflow-hidden">
-                  <div 
-                    className={`h-full ${item.color} transition-all duration-1000 ease-out`} 
+                  <div
+                    className={`h-full ${item.color} transition-all duration-1000 ease-out`}
                     style={{ width: `${item.percent}%` }}
                   />
                 </div>
@@ -253,6 +291,6 @@ export function QuizGame() {
       </div>
     );
   }
-  
+
   return null;
 }
