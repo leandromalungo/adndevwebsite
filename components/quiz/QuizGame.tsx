@@ -41,7 +41,7 @@ export function QuizGame() {
   const [scores, setScores] = useState<Record<string, number>>({});
 
   // Configuração
-  const QUESTIONS_PER_SESSION = 20;
+  const QUESTIONS_PER_SESSION = 40;
 
   // INICIALIZAR PERGUNTAS
   const handleStart = () => {
