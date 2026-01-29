@@ -37,29 +37,29 @@ export const Hero = () => {
         md:justify-center
       "
     >
-      <div className="max-w-3xl">
+      <div className="max-w-4xl">
         {/* Título */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] mb-5 sm:mb-6 md:mb-8 tracking-tight text-gray-50">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl leading-[1.1] mb-5 sm:mb-6 md:mb-8 lg:mb-10 tracking-tight text-gray-50">
           Ecossistema de conteúdo, impulsionado por Tecnologia.
         </h1>
 
         {/* Descrição */}
-        <p className="text-base sm:text-lg md:text-lg text-gray-300 mb-4 sm:mb-5 md:mb-6 leading-relaxed max-w-2xl">
+        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-4 sm:mb-5 md:mb-6 lg:mb-8 leading-relaxed max-w-3xl">
           O que precisas para entrar na área de tecnologia, desde cursos,
           bootcamps e muito mais. Um espaço feito para ti crescer na tua
           carreira tech, com a nossa ajuda.
         </p>
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-2 sm:gap-3 mb-5 sm:mb-6 md:mb-7">
+        <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4 lg:gap-5 mb-5 sm:mb-6 md:mb-7 lg:mb-10">
           {tags.map((tag) => (
             <Tag key={tag} label={tag} />
           ))}
         </div>
 
         {/* CTAs */}
-        <div className="flex flex-col items-start gap-4 sm:gap-5 md:gap-6">
-          <div className="flex flex-row gap-2 md:gap-3 items-center w-full sm:w-auto">
+        <div className="flex flex-col items-start gap-4 sm:gap-5 md:gap-6 lg:gap-8">
+          <div className="flex flex-row gap-2 md:gap-3 lg:gap-4 items-center w-full sm:w-auto">
             {/* Botão Assinar */}
             <button
               onClick={() => handleClick("assinar")}
@@ -69,10 +69,10 @@ export const Hero = () => {
                 border border-violet-600
                 bg-violet-550 hover:bg-violet-600
                 text-white
-                px-4 sm:px-10
-                py-2 sm:py-4
+                px-4 sm:px-10 lg:px-12
+                py-2 sm:py-4 lg:py-5
                 rounded-xl
-                text-xs sm:text-lg
+                text-xs sm:text-lg lg:text-xl
                 font-bold
                 transition-all transform
                 shadow-xl shadow-violet-500/20
@@ -98,10 +98,10 @@ export const Hero = () => {
                 inline-flex items-center justify-center
                 border bg-violet-600 hover:border-violet-600
                 text-white
-                px-4 sm:px-10
-                py-2 sm:py-4
+                px-4 sm:px-10 lg:px-12
+                py-2 sm:py-4 lg:py-5
                 rounded-xl
-                text-xs sm:text-lg
+                text-xs sm:text-lg lg:text-xl
                 font-bold
                 transition-all transform
                 shadow-xl shadow-violet-500/20
@@ -120,7 +120,7 @@ export const Hero = () => {
             </button>
           </div>
 
-          <p className="text-xs md:text-sm text-gray-500 font-medium max-w-lg mt-2">
+          <p className="text-xs md:text-sm lg:text-base text-gray-500 font-medium max-w-2xl lg:max-w-3xl mt-2 lg:mt-4">
             Não perca tempo! Junte-se a nós e esteja com profissionais de
             tecnologia que já estão a transformar suas carreiras com nossos
             recursos exclusivos. Estamos a nos tornar o maior repositório de
