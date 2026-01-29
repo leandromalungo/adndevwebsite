@@ -28,37 +28,37 @@ export const Hero = () => {
     <section
       className="
         relative z-10
-        px-6
+        px-4 sm:px-6 lg:px-8
         max-w-7xl mx-auto
         flex flex-col
         min-h-[70vh]
-        pt-24 md:pt-32
+        pt-20 sm:pt-24 md:pt-32
         pb-10 md:pb-16
         md:justify-center
       "
     >
-      <div className="max-w-2xl">
+      <div className="max-w-3xl">
         {/* Título */}
-        <h1 className="text-4xl md:text-6xl leading-[1.1] mb-4 md:mb-6 tracking-tight text-gray-50">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] mb-5 sm:mb-6 md:mb-8 tracking-tight text-gray-50">
           Ecossistema de conteúdo, impulsionado por Tecnologia.
         </h1>
 
         {/* Descrição */}
-        <p className="text-sm md:text-lg text-gray-300 mb-3 md:mb-5 leading-relaxed max-w-lg">
+        <p className="text-base sm:text-lg md:text-lg text-gray-300 mb-4 sm:mb-5 md:mb-6 leading-relaxed max-w-2xl">
           O que precisas para entrar na área de tecnologia, desde cursos,
           bootcamps e muito mais. Um espaço feito para ti crescer na tua
           carreira tech, com a nossa ajuda.
         </p>
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-2 md:gap-3 mb-4 md:mb-5">
+        <div className="flex flex-wrap gap-2 sm:gap-3 mb-5 sm:mb-6 md:mb-7">
           {tags.map((tag) => (
             <Tag key={tag} label={tag} />
           ))}
         </div>
 
         {/* CTAs */}
-        <div className="flex flex-col items-start gap-3 md:gap-4">
+        <div className="flex flex-col items-start gap-4 sm:gap-5 md:gap-6">
           <div className="flex flex-row gap-2 md:gap-3 items-center w-full sm:w-auto">
             {/* Botão Assinar */}
             <button

@@ -1002,7 +1002,7 @@ export const FULL_QUESTION_BANK: Question[] = [
         id: 91,
         text: "GraphQL ou REST API?",
         options: [
-            { label: "GraphQL. Peço só o que preciso, nada de overfetching.", weights: { frontend: 4, mobile: 4, backend: 2 } },
+            { label: "GraphQL.  Peço só o que preciso, nada de overfetching.", weights: { frontend: 4, mobile: 4, backend: 2 } },
             { label: "REST. Simples, standard e cacheable.", weights: { backend: 3, devops: 2 } },
             { label: "gRPC. Preciso de performance brutal entre serviços.", weights: { backend: 4, devops: 3 } },
             { label: "Não sei, só consumo o que me dão.", weights: { ui_ux: 2, management: 2 } },
