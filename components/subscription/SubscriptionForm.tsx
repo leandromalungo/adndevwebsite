@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useClientStore } from "@/app/database/ClientRepository";
 
 type PaymentMethod = "paypal" | "transfer" | "reference";
 
@@ -16,7 +17,9 @@ const SubscriptionForm: React.FC = () => {
   const [bankReceipt, setBankReceipt] = useState<File | null>(null);
   const [referenceId, setReferenceId] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const createClient = useClientStore((state) => state.createNewClient);
+  const getAllClients = useClientStore((state) => state.fetchAllClients);
+  
   const toggleAlert = (value: string) => {
     setAlerts((prev) =>
       prev.includes(value) ? prev.filter((a) => a !== value) : [...prev, value],
@@ -39,6 +42,7 @@ const SubscriptionForm: React.FC = () => {
     e.preventDefault();
     if (!validate()) return alert("Por favor preencha os campos necessários.");
     setLoading(true);
+    
 
     // Simulação de envio: aqui podes integrar com API/serviços reais
     await new Promise((r) => setTimeout(r, 1200));

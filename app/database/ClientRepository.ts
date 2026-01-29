@@ -1,10 +1,10 @@
 // store/ClientStore.ts
 import { create } from "zustand";
 import { ClientType } from "@/lib/clientType";
-import { ClientDao } from "@/app/database/ClientDAO";
+import { ClientDao } from "./ClientDAO";
 
 
-const ClientDao = ClientDao.shared;
+const ClientDAO = ClientDao.shared;
 
 type ClientState = {
   Clients: ClientType[];
@@ -29,7 +29,7 @@ export const useClientStore = create<ClientState>((set, get) => ({
   fetchAllClients: async () => {
     set({ loading: true, error: null });
     try {
-      const Clients = await ClientDao.getAllClients();
+      const Clients = await ClientDAO.getAllClients();
       set({ Clients, loading: false });
     } catch (error: any) {
       set({ error: error.message, loading: false });
@@ -40,7 +40,7 @@ export const useClientStore = create<ClientState>((set, get) => ({
   fetchClientById: async (id) => {
     set({ loading: true, error: null });
     try {
-      const Client = await ClientDao.getClientById(id);
+      const Client = await ClientDAO.getClientById(id);
       set({ Client, loading: false });
     } catch (error: any) {
       set({ error: error.message, loading: false });
@@ -52,7 +52,7 @@ export const useClientStore = create<ClientState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       console.log("[ClientRepository] createNewClient called", { data, file });
-      await ClientDao.createClient(data, file as File);
+      await ClientDAO.createClient(data, file as File);
       await get().fetchAllClients(); // Atualiza a lista
       set({ loading: false });
     } catch (error: any) {
@@ -64,7 +64,7 @@ export const useClientStore = create<ClientState>((set, get) => ({
   updateExistingClient: async (id, data, file) => {
     set({ loading: true, error: null });
     try {
-      await ClientDao.updateClient(id, data, file);
+      await ClientDAO.updateClient(id, data, file);
       await get().fetchAllClients(); // Atualiza a lista
       set({ loading: false });
     } catch (error: any) {
@@ -76,7 +76,7 @@ export const useClientStore = create<ClientState>((set, get) => ({
   deleteClientById: async (id) => {
     set({ loading: true, error: null });
     try {
-      await ClientDao.deleteClient(id);
+      await ClientDAO.deleteClient(id);
       await get().fetchAllClients(); // Atualiza a lista
       set({ loading: false });
     } catch (error: any) {

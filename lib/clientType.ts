@@ -1,9 +1,12 @@
 export type ClientType = {
-    id?: string;
+    id: string;
     name: string;
     email: string;
-    phone?: string;
-    address?: string;
+    country: string;
+    alerts: string [];
+    subscriptionON: boolean;
+    paymentForm: string;
+    comprovative: File;
     createdAt?: Date;
     updatedAt?: Date;
 }
