@@ -84,11 +84,11 @@ const Page = () => {
               objetivos profissionais.
             </p>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-nowrap gap-2 sm:gap-4">
               <button
                 onClick={handleClick}
                 disabled={loading}
-                className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded-xl hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
+                className={`inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold transition-all active:scale-95 rounded-xl hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
                   loading
                     ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                     : "bg-blue-400 hover:bg-blue-500 text-white"
@@ -96,13 +96,14 @@ const Page = () => {
               >
                 {loading ? (
                   <>
-                    <Loader2 size={18} className="animate-spin" />
-                    Processando...
+                    <Loader2 size={16} className="animate-spin sm:size-auto" />
+                    <span className="hidden sm:inline">Processando...</span>
                   </>
                 ) : (
                   <>
-                    Assinar agora!
-                    <ArrowRight size={20} />
+                    <span className="hidden sm:inline">Assinar agora!</span>
+                    <span className="sm:hidden">Assinar</span>
+                    <ArrowRight size={18} className="sm:size-auto" />
                   </>
                 )}
               </button>
@@ -110,7 +111,7 @@ const Page = () => {
               <button
                 onClick={handleClick}
                 disabled={loading}
-                className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded-xl hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
+                className={`inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold transition-all active:scale-95 rounded-xl hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
                   loading
                     ? "cursor-not-allowed text-zinc-800"
                     : "border border-blue-400 hover:bg-blue-500 text-white"
@@ -118,12 +119,13 @@ const Page = () => {
               >
                 {loading ? (
                   <>
-                    <Loader2 size={18} className="animate-spin" />
-                    Processando...
+                    <Loader2 size={16} className="animate-spin sm:size-auto" />
+                    <span className="hidden sm:inline">Processando...</span>
                   </>
                 ) : (
                   <>
-                    Criar um plano de estudo
+                    <span className="hidden sm:inline">Criar um plano de estudo</span>
+                    <span className="sm:hidden">Plano</span>
                   </>
                 )}
               </button>
