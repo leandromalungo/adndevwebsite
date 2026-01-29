@@ -39,7 +39,7 @@ export const Hero = () => {
     >
       <div className="max-w-4xl">
         {/* Título */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl leading-[1.1] mb-5 sm:mb-6 md:mb-8 lg:mb-10 tracking-tight text-gray-50">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl leading-[1.1] mb-5 sm:mb-6 md:mb-8 lg:mb-10 tracking-tight text-gray-50">
           Ecossistema de conteúdo, impulsionado por Tecnologia.
         </h1>
 
