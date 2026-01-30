@@ -83,7 +83,7 @@ const TeamMemberSection = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-6 md:px-12 py-10">
-      {/* Main Card Container */}
+      {/* Contentor principal */}
       <div className="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-8 md:p-10">
         <div className="max-w-3xl mx-auto text-center">
           <h3 className="text-2xl font-bold text-[#334155] mb-8 uppercase">
@@ -97,7 +97,7 @@ const TeamMemberSection = () => {
           </p>
         </div>
 
-        {/* Team Members Grid */}
+        {/* Grelha de membros */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 mt-4 place-items-center">
           {team.map((member, index) => (
             <TeamMember key={index} {...member} />

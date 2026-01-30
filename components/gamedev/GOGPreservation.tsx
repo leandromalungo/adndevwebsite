@@ -53,11 +53,11 @@ const GOGPreservation = () => {
     <div className="w-full bg-[#d4d5d8] py-12 px-6 md:px-12 rounded mt-16 overflow-hidden">
       <div className="max-w-[1300px] mx-auto space-y-8">
         
-        {/* Header */}
+        {/* Cabeçalho */}
         <div className="flex flex-col space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              {/* Numeric Indicator */}
+              {/* Indicador numérico */}
               <span className="bg-black/10 text-black/60 text-[10px] font-black px-2 py-0.5 rounded-full border border-white/5">
                 {currentIndex} / {GOG_PRESERVATION_GAMES.length}
               </span>
@@ -71,9 +71,9 @@ const GOGPreservation = () => {
           </p>
         </div>
 
-        {/* Carousel Wrapper */}
+        {/* Contentor do carrossel */}
         <div className="relative group">
-          {/* Controls */}
+          {/* Controlos */}
           <button 
             onClick={() => scroll('left')}
             className="absolute left-[-20px] top-1/2 -translate-y-1/2 z-20 p-3 bg-gray-400/80 hover:bg-gray-700 text-white rounded-full transition-all opacity-0 group-hover:opacity-100 disabled:opacity-30 active:scale-90"
@@ -90,7 +90,7 @@ const GOGPreservation = () => {
             <ChevronRight className="w-6 h-6" />
           </button>
 
-          {/* Cards Container */}
+          {/* Contentor de cartões */}
           <div 
             ref={scrollRef}
             className="flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory"
@@ -101,7 +101,7 @@ const GOGPreservation = () => {
                 key={game.id}
                 className="min-w-[280px] md:min-w-[320px] bg-[#2b2d31] rounded overflow-hidden shadow-xl flex flex-col group/card cursor-pointer snap-start"
               >
-                {/* Image Section */}
+                {/* Secção de imagem */}
                 <div className="relative aspect-[16/9] overflow-hidden">
                   <img 
                     src={game.imageUrl} 
@@ -111,13 +111,12 @@ const GOGPreservation = () => {
                   <div className="absolute inset-0 bg-black/0 group-hover/card:bg-black/10 transition-colors" />
                 </div>
 
-                {/* Content Section */}
+                {/* Secção de conteúdo */}
                 <div className="p-4 flex flex-col justify-between flex-1 space-y-4">
                   <h3 className="text-white font-bold text-sm line-clamp-2 leading-tight">
                     {game.title}
                   </h3>
 
-                 
                 </div>
 
               </div>
@@ -125,7 +124,7 @@ const GOGPreservation = () => {
           </div>
         </div>
 
-        {/* Progress Indicator */}
+        {/* Indicador de progresso */}
         <div className="flex justify-center pt-4">
           <div className="w-32 h-[3px] bg-gray-800 rounded-full overflow-hidden">
             <div 

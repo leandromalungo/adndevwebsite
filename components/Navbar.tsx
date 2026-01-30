@@ -26,7 +26,7 @@ const Navbar = () => {
           <NavLink label="Comunidades" href="/community" loading={loadingLink === "/community"} onClick={() => setLoadingLink("/community")} />
           <NavLink label="GameDev" href="/gamedev" loading={loadingLink === "/gamedev"} onClick={() => setLoadingLink("/gamedev")} /> 
           <NavLink label="Mulheres na T.I" href="/wtm" loading={loadingLink === "/wtm"} onClick={() => setLoadingLink("/wtm")} />
-          <NavLink label="Cursos" href="/roadmaps" loading={loadingLink === "/roadmaps"} onClick={() => setLoadingLink("/roadmaps")} />
+          <NavLink label="Cursos" href="/cursos" loading={loadingLink === "/cursos"} onClick={() => setLoadingLink("/cursos")} />
           <NavLink label="Bolsas de estudo" href="/bolsas" loading={loadingLink === "/bolsas"} onClick={() => setLoadingLink("/bolsas")} />
           <NavLink label="Startups" href="/startups" loading={loadingLink === "/startups"} onClick={() => setLoadingLink("/startups")} />  
         </div>
@@ -53,7 +53,7 @@ const Navbar = () => {
           <MobileLink label="Comunidades" href="/community" loading={loadingLink === "/community"} onClick={() => { setLoadingLink("/community"); closeMobileMenu(); }} />
           <MobileLink label="GameDev" href="/gamedev" loading={loadingLink === "/gamedev"} onClick={() => { setLoadingLink("/gamedev"); closeMobileMenu(); }} />
           <MobileLink label="Mulheres na T.I" href="/wtm" loading={loadingLink === "/wtm"} onClick={() => { setLoadingLink("/wtm"); closeMobileMenu(); }} />
-          <MobileLink label="Cursos" href="/roadmaps" loading={loadingLink === "/roadmaps"} onClick={() => { setLoadingLink("/roadmaps"); closeMobileMenu(); }} />
+          <MobileLink label="Cursos" href="/cursos" loading={loadingLink === "/cursos"} onClick={() => { setLoadingLink("/cursos"); closeMobileMenu(); }} />
           <MobileLink label="Bolsas de estudo" href="/bolsas" loading={loadingLink === "/bolsas"} onClick={() => { setLoadingLink("/bolsas"); closeMobileMenu(); }} />
           <MobileLink label="Startups" href="/startups" loading={loadingLink === "/startups"} onClick={() => { setLoadingLink("/startups"); closeMobileMenu(); }} /> 
         </div>

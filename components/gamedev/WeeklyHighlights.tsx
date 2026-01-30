@@ -5,7 +5,7 @@ import { WEEKLY_HIGHLIGHTS } from '@/components/gamedev/constants';
 const WeeklyHighlights = () => {
   return (
     <div className="w-full mt-16 space-y-8">
-      {/* Header */}
+      {/* Cabeçalho */}
       <div className="space-y-2">
         <h2 className="text-3xl text-gray-900 tracking-tight uppercase">
           As principais notícias
@@ -15,11 +15,11 @@ const WeeklyHighlights = () => {
         </p>
       </div>
 
-      {/* Grid */}
+      {/* Grelha */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
         {WEEKLY_HIGHLIGHTS.map((item) => (
           <div key={item.id} className="flex flex-col space-y-4 group cursor-pointer">
-            {/* Image */}
+            {/* Imagem */}
             <div className="aspect-video rounded overflow-hidden shadow-sm border border-gray-100 bg-gray-50">
               <img 
                 src={item.imageUrl} 
@@ -28,7 +28,7 @@ const WeeklyHighlights = () => {
               />
             </div>
 
-            {/* Content */}
+            {/* Conteúdo */}
             <div className="flex flex-col space-y-2">
               <div className="bg-[#4a69e2] text-white text-[10px] px-2 py-0.5 w-fit rounded uppercase tracking-wider">
                 {item.category}
@@ -40,7 +40,7 @@ const WeeklyHighlights = () => {
                 {item.description}
               </p>
               
-              {/* Footer metadata */}
+              {/* Metadados do rodapé */}
               <div className="pt-1">
                 <p className="text-[11px] text-gray-400 font-medium">
                   Por <span className="text-[#4a69e2]">{item.author}</span> em {item.date} às {item.time}

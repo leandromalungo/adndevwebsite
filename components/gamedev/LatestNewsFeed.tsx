@@ -11,13 +11,13 @@ const LatestNewsFeed = () => {
 
   return (
     <div className="w-full mt-12 mb-20 space-y-8">
-      {/* Header */}
+      {/* Cabeçalho */}
       <div className="flex flex-col space-y-6">
         <h2 className="text-4xl text-gray-900 tracking-tight">
           Mais recente <span className="text-[#a11d21]">Notícias</span>
         </h2>
 
-        {/* Categories Pills */}
+        {/* Pílulas de categorias */}
         <div className="flex flex-wrap gap-2">
           {CATEGORIES.map((cat) => (
             <button
@@ -35,11 +35,11 @@ const LatestNewsFeed = () => {
         </div>
       </div>
 
-      {/* News List */}
+      {/* Lista de notícias */}
       <div className="flex flex-col space-y-10">
         {LATEST_NEWS_FEED.map((news) => (
           <div key={news.id} className="grid grid-cols-1 md:grid-cols-12 gap-6 group cursor-pointer">
-            {/* Image Wrapper */}
+            {/* Contentor de imagem */}
             <div className="md:col-span-3 aspect-[16/9] md:aspect-auto md:h-48 rounded overflow-hidden shadow-sm border border-gray-100 shrink-0">
               <img 
                 src={news.imageUrl} 
@@ -48,7 +48,7 @@ const LatestNewsFeed = () => {
               />
             </div>
 
-            {/* Content Wrapper */}
+            {/* Contentor de conteúdo */}
             <div className="md:col-span-9 flex flex-col justify-center space-y-2">
               <h3 className="text-xl text-gray-900 leading-tight group-hover:text-[#a11d21] transition-colors">
                 {news.title}
@@ -56,8 +56,8 @@ const LatestNewsFeed = () => {
               <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
                 {news.description}
               </p>
-              
-              {/* Meta Tags */}
+
+              {/* Etiquetas meta */}
               <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-1">
                 <div className="flex items-center gap-1.5 text-[11px] text-[#a11d21] uppercase tracking-wider">
                   <Target className="w-3.5 h-3.5" />

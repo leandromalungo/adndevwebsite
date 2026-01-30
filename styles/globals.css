@@ -132,8 +132,22 @@
     @apply border-border;
   }
 
-  /* estilo de foco acessível, usando a variável --ring */
+  /* Removemos o contorno de foco global (pedido do utilizador). */
   *:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  /* Classe utilitária para ativar contorno quando for necessário */
+  .focus-ring:focus,
+  .focus-ring:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  /* Reativar o estilo de foco apenas para elementos dentro do CountryFilter */
+  .country-filter :is(button, a, [role="button"], input, textarea):focus,
+  .country-filter :is(button, a, [role="button"], input, textarea):focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
   }

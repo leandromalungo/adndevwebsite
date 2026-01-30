@@ -33,11 +33,11 @@ const DecorativeGrid: React.FC = () => {
   return (
     <div className="flex justify-end items-end select-none pointer-events-none opacity-90">
       <div className="flex flex-col items-end">
-        {/* Floating single white dot seen in the image */}
+        {/* Ponto branco flutuante visível na imagem */}
         <div className="w-2 h-2 bg-white mb-8 mr-12"></div>
         
         <div className="flex">
-          {/* Row 1 */}
+          {/* Linha 1 */}
           <CheckerBox />
           <div className="w-16 h-16 bg-transparent"></div>
           <div className="flex">
@@ -53,7 +53,7 @@ const DecorativeGrid: React.FC = () => {
         </div>
         
         <div className="flex">
-          {/* Row 2 */}
+          {/* Linha 2 */}
           <CheckerBox />
           <div className="w-16 h-16 bg-transparent"></div>
           <div className="flex">

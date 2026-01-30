@@ -78,7 +78,7 @@ export const CuratedCollections = () => {
 
   return (
     <section className="max-w-7xl mx-auto relative px-4 md:px-0">
-      {/* Background Decorative Lines (SVG) */}
+      {/* Linhas decorativas de fundo (SVG) */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <svg className="w-full h-full opacity-10" viewBox="0 0 1200 600" fill="none">
           <path d="M-100 600L1300 -100" stroke="#007E7E" strokeWidth="2" strokeDasharray="8 8" />
@@ -92,9 +92,9 @@ export const CuratedCollections = () => {
         </h2>
       </div>
 
-      {/* Carousel Container */}
+      {/* Contentor do carrossel */}
       <div className="relative z-10 group">
-        {/* Carousel */}
+        {/* Carrossel */}
         <div
           ref={carouselRef}
           className="flex gap-6 overflow-x-auto scroll-smooth pb-4"
@@ -105,7 +105,7 @@ export const CuratedCollections = () => {
               key={course.id}
               className="flex-none w-full md:w-96 min-w-80 bg-white rounded-lg shadow-lg overflow-hidden"
             >
-              {/* Course Image */}
+              {/* Imagem do curso */}
               <div className="relative w-full h-48 overflow-hidden bg-gray-100">
                 <img
                   src={course.image}
@@ -114,26 +114,26 @@ export const CuratedCollections = () => {
                 />
               </div>
 
-              {/* Course Content */}
+              {/* Conteúdo do curso */}
               <div className="p-5 flex flex-col h-64">
-                {/* Title */}
+                {/* Título */}
                 <h3 className="text-lg font-bold text-[#002D2D] mb-2 line-clamp-2">
                   {course.title}
                 </h3>
 
-                {/* Description */}
+                {/* Descrição */}
                 <p className="text-sm text-gray-600 mb-4 line-clamp-3 flex-grow">
                   {course.description}
                 </p>
 
-                {/* Provider */}
+                {/* Fornecedor */}
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-xs font-semibold text-[#007E7E] bg-[#E8F4F4] px-3 py-1 rounded-full">
                     {course.provider}
                   </span>
                 </div>
 
-                {/* Access Button */}
+                {/* Botão de acesso */}
                 <Link href={course.link}>
                   <button className="w-full bg-[#007E7E] hover:bg-[#005f5f] text-white font-bold py-2 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 mt-auto">
                     Acessar Curso
@@ -145,7 +145,7 @@ export const CuratedCollections = () => {
           ))}
         </div>
 
-        {/* Navigation Buttons */}
+        {/* Botões de navegação */}
         <button
           onClick={() => scroll('left')}
           className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 md:-translate-x-12 bg-[#007E7E] hover:bg-[#005f5f] text-white p-2 md:p-3 rounded-full shadow-lg transition-all opacity-0 group-hover:opacity-100 z-20"
@@ -160,7 +160,7 @@ export const CuratedCollections = () => {
         </button>
       </div>
 
-      {/* CTA Button */}
+      {/* Botão de chamada à ação */}
       <div className="flex justify-center mt-12 relative z-10">
         <button className="flex items-center gap-2 bg-[#B1DBDD] text-[#002D2D] font-bold py-3 px-10 rounded-xl hover:bg-[#9AD2D5] transition-colors shadow-sm group">
           <Link href="/roadmaps">Ver mais cursos disponíveis</Link>

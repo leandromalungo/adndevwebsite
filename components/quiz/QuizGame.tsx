@@ -198,7 +198,7 @@ export function QuizGame() {
 
     return (
       <div className="w-full max-w-2xl mx-auto animate-in slide-in-from-right duration-300">
-        {/* Header/Progress */}
+        {/* Cabeçalho/Progresso */}
         <div className="mb-8">
           <div className="flex justify-between text-sm text-zinc-400 mb-2 font-medium">
             <span>
@@ -216,7 +216,7 @@ export function QuizGame() {
           </div>
         </div>
 
-        {/* Question */}
+        {/* Pergunta */}
         <div className="relative">
           <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 leading-tight min-h-[80px]">
             {question.text}
@@ -224,7 +224,7 @@ export function QuizGame() {
         
         </div>
 
-        {/* Options */}
+        {/* Opções */}
         <div className="space-y-3">
           {question.options.map((opt, idx) => (
             <button
@@ -282,7 +282,7 @@ export function QuizGame() {
           {result.area.description}
         </p>
 
-        {/* Breakdown Chart */}
+        {/* Gráfico de distribuição */}
         <div className="max-w-md mx-auto bg-zinc-900/80 p-6 rounded-2xl border border-zinc-800 mb-10 shadow-2xl">
           <h4 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-4 text-left border-b border-zinc-800 pb-2">
             Top 5 Compatibilidades

@@ -71,20 +71,20 @@ export default function RecursosOrganizador({
   return (
     <section className="w-full bg-white py-16 px-6 md:px-12 lg:px-16">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
+        {/* Cabeçalho */}
         <div className="mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-blue-950 mb-6">{title}</h2>
           <p className="text-gray-700 text-lg leading-relaxed max-w-3xl">{description}</p>
         </div>
 
-        {/* Cards Grid */}
+        {/* Grelha de cartões */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {displayCards.map((card) => (
             <div
               key={card.id}
               className="group relative overflow-hidden rounded-2xl bg-white border border-gray-200 hover:border-blue-400 hover:shadow-lg transition-all duration-300"
             >
-              {/* Background Image */}
+              {/* Imagem de fundo */}
               <div className="relative h-64 md:h-80 overflow-hidden">
                 <Image
                   src={card.image || "/placeholder.svg"}
@@ -96,20 +96,20 @@ export default function RecursosOrganizador({
                 
               </div>
 
-              {/* Content */}
+              {/* Conteúdo */}
               <div className="p-6 md:p-8">
-                {/* Badge */}
+                {/* Distintivo */}
                 <div className="inline-block mb-4 px-3 py-1 bg-gray-100 rounded-full">
                   <span className="text-sm font-medium text-gray-700">{card.badge}</span>
                 </div>
 
-                {/* Title */}
+                {/* Título */}
                 <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">{card.title}</h3>
 
-                {/* Description */}
+                {/* Descrição */}
                 <p className="text-gray-600 mb-6 leading-relaxed">{card.description}</p>
 
-                {/* Button */}
+                {/* Botão */}
                 <a
                   href={card.href}
                   className="inline-flex items-center gap-2 px-4 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors duration-200 group/btn"

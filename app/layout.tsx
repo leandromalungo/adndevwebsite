@@ -17,7 +17,7 @@ const _geist = Geist({ subsets: ["latin"] })
 // Metadados globais da aplicação
 export const metadata: Metadata = {
   title: "ADN Developer",
-  description: "seja bem-vindo",
+  description: "Maior repósitorio de informações sobre tecnologia na lusofinia, saiba de tudo que se passa sobre tecnologia na C.P.L.P.",
   generator: "www.adndeveloper.com",
   icons: {
     icon: [

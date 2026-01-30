@@ -3,7 +3,7 @@
 const CardHero = () => {
   return (
     <div className="relative w-full min-h-[100px] rounded-xl overflow-hidden flex items-center px-8 md:px-20 py-8">
-      {/* Background image */}
+      {/* Imagem de fundo */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
@@ -12,7 +12,7 @@ const CardHero = () => {
         }}
       />
 
-      {/* Overlays */}
+      {/* Sobreposições */}
       <div className="absolute inset-0 bg-black/10" />
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
 

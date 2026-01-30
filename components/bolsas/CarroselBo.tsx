@@ -326,7 +326,7 @@ export const CarroselBo = () => {
         </div>
 
         <div className="relative group">
-          {/* Navigation Arrows */}
+          {/* Setas de navegação */}
           <button
             onClick={handlePrev}
             disabled={currentIndex === 0}
@@ -343,7 +343,7 @@ export const CarroselBo = () => {
             <ChevronRight className="w-6 h-6 text-gray-800" />
           </button>
 
-          {/* Carousel Viewport */}
+          {/* Janela do carrossel */}
           <div className="overflow-hidden">
             <div
               className="flex transition-transform duration-500 ease-out"
@@ -366,7 +366,7 @@ export const CarroselBo = () => {
           </div>
         </div>
 
-        {/* Indicators */}
+        {/* Indicadores */}
         <div className="flex justify-center gap-2 mt-12">
           {Array.from({ length: dotsCount }).map((_, i) => (
             <button

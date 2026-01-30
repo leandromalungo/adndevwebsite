@@ -4,7 +4,7 @@ const CardHero = () => {
   return (
     <div className="relative w-full min-h-[450px] rounded-xl overflow-hidden flex items-center px-8 md:px-20 py-16">
       
-      {/* Background image */}
+      {/* Imagem de fundo */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
@@ -17,7 +17,7 @@ const CardHero = () => {
       <div className="absolute inset-0 bg-black/10" />
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
 
-      {/* Content */}
+      {/* Conteúdo */}
       <div className="relative z-10 max-w-xl space-y-6 animate-in fade-in slide-in-from-left-4 duration-1000">
         <h2 className="text-4xl md:text-5xl text-white tracking-tight leading-tight">
           Explore o nosso catálogo

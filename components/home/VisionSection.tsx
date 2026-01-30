@@ -70,7 +70,7 @@ const VisionSection = () => {
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-        {/* Text Content */}
+        {/* Conteúdo de texto */}
         <div className="flex flex-col">
           <span className="text-base font-bold text-[#1e293b] mb-4 uppercase">
             Nossa visão
@@ -86,7 +86,7 @@ const VisionSection = () => {
           </p>
         </div>
 
-        {/* Accordion */}
+        {/* Acordeão */}
         <div className="flex flex-col">
           {items.map((item, index) => (
             <AccordionItem

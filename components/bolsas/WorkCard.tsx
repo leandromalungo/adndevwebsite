@@ -15,7 +15,7 @@ export const WorkCard: React.FC<WorkCardProps> = ({
 }) => {
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      {/* Image Container */}
+      {/* Contentor de imagem */}
       <div className="rounded overflow-hidden aspect-[4/3] md:aspect-[5/3] mb-6 shadow-sm">
         <img 
           src={image} 
@@ -24,7 +24,7 @@ export const WorkCard: React.FC<WorkCardProps> = ({
         />
       </div>
 
-      {/* Content Container */}
+      {/* Contentor de conteúdo */}
       <div className="flex flex-col flex-grow">
         <h3 className="title-font text-2xl md:text-3xl text-[#333333] mb-4 leading-tight">
           {title}

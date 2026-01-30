@@ -48,19 +48,19 @@ export const Destaque = () => {
   return (
     <section className="w-full bg-white">
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-16">
-        {/* Header */}
+        {/* Cabeçalho */}
         <div className="border-b-2 border-zinc-900 mb-8 pb-3 flex justify-between items-end">
           <h2 className="text-2xl md:text-3xl font-thin text-zinc-900 tracking-tighter uppercase">
             Tecnologia
           </h2>
         </div>
 
-        {/* Grid Layout */}
+        {/* Layout de grelha */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
           
-          {/* Main Column (Left) */}
+          {/* Coluna principal (esquerda) */}
           <div className="lg:col-span-2 flex flex-col">
-            {/* Main Featured Article */}
+            {/* Artigo principal em destaque */}
             <div className="flex flex-col group cursor-pointer">
               <div className="relative overflow-hidden rounded-sm">
                 <div className="relative aspect-[16/9] w-full overflow-hidden bg-gray-100">
@@ -86,7 +86,7 @@ export const Destaque = () => {
             </div>
           </div>
 
-          {/* Sidebar News (Right) */}
+          {/* Barra lateral: últimas notícias */}
           <div className="flex flex-col">
             <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-4 border-b border-zinc-300 pb-3">Últimas Notícias</h4>
             

@@ -95,7 +95,7 @@ const AccessSection: React.FC<AccessSectionProps> = ({ selectedCountry }) => {
 
   return (
     <section className="relative bg-white pt-16 md:pt-24 pb-4 md:pb-24 overflow-hidden">
-      {/* Background Decorative Pattern */}
+      {/* Padrão decorativo de fundo */}
       <div className="absolute top-0 right-0 w-64 md:w-96 h-64 md:h-96 opacity-5 md:opacity-10 pointer-events-none select-none">
         <div className="grid grid-cols-6 gap-0">
           {[...Array(36)].map((_, i) => (
@@ -134,7 +134,7 @@ const AccessSection: React.FC<AccessSectionProps> = ({ selectedCountry }) => {
                     : 'flex-[1] lg:flex-[1]'
                 }`}
               >
-                {/* Image Background */}
+                {/* Imagem de fundo */}
                 <div className="absolute inset-0 z-0">
                   <img 
                     src={item.image} 
@@ -144,16 +144,16 @@ const AccessSection: React.FC<AccessSectionProps> = ({ selectedCountry }) => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                 </div>
 
-                {/* Dividers */}
+                {/* Separadores */}
                 <div className="hidden lg:block absolute left-0 top-0 w-[1px] h-full bg-white/10 z-20" />
                 <div className="lg:hidden absolute top-0 left-0 w-full h-[1px] bg-white/10 z-20" />
 
-                {/* Content Container */}
+                {/* Contentor de conteúdo */}
                 <div className={`relative z-10 h-full w-full flex flex-col p-6 md:p-8 text-white transition-all duration-500 ${
                   isActive ? 'justify-end pb-8' : 'justify-center lg:justify-end'
                 }`}>
                   
-                  {/* Category Label */}
+                  {/* Etiqueta de categoria */}
                   <div className={`transition-all duration-500 ${
                     !isActive ? 'lg:-rotate-90 lg:whitespace-nowrap lg:mb-20 lg:transform lg:origin-bottom-left' : 'mb-3'
                   }`}>
@@ -164,7 +164,7 @@ const AccessSection: React.FC<AccessSectionProps> = ({ selectedCountry }) => {
                     </h3>
                   </div>
                   
-                  {/* Expanding Content */}
+                  {/* Conteúdo expansível */}
                   <div className={`transition-all duration-700 ease-in-out ${
                     isActive ? 'opacity-100 max-h-[400px] translate-y-0' : 'opacity-0 max-h-0 translate-y-10 invisible pointer-events-none'
                   }`}>

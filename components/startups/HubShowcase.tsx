@@ -45,7 +45,7 @@ const HubShowcase: React.FC<HubShowcaseProps> = ({ selectedCountry }) => {
   return (
     <section className="bg-white py-24 px-6 md:px-12 lg:px-24 border-t border-gray-100">
       <div className="container mx-auto">
-        {/* Header */}
+        {/* Cabeçalho */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Conheça o Cubo Hub
@@ -56,7 +56,7 @@ const HubShowcase: React.FC<HubShowcaseProps> = ({ selectedCountry }) => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Left: Accordion */}
+          {/* Esquerda: Acordeão */}
           <div className="space-y-0 border-t border-gray-200">
             {accordionData.map((item, index) => {
               const isOpen = activeIndex === index;
@@ -91,10 +91,10 @@ const HubShowcase: React.FC<HubShowcaseProps> = ({ selectedCountry }) => {
             })}
           </div>
 
-          {/* Right: Interface Mockup */}
+          {/* Direita: Simulação de interface */}
           <div className="relative">
             <div className="bg-[#1e1e1e] rounded-xl shadow-2xl overflow-hidden border border-gray-800 transform lg:translate-y-4">
-              {/* Fake Window Bar */}
+              {/* Barra de janela falsa */}
               <div className="bg-[#2d2d2d] px-4 py-3 flex items-center justify-between">
                 <div className="flex space-x-2">
                   <div className="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
@@ -105,16 +105,16 @@ const HubShowcase: React.FC<HubShowcaseProps> = ({ selectedCountry }) => {
                 <div className="w-12"></div>
               </div>
               
-              {/* Fake UI Content */}
+              {/* Conteúdo de UI (simulado) */}
               <div className="flex h-[400px] md:h-[500px]">
-                {/* Sidebar */}
+                {/* Barra lateral */}
                 <div className="w-40 bg-[#252525] p-4 flex flex-col space-y-4 border-r border-gray-800">
                   <div className="h-4 w-full bg-blue-600/30 rounded"></div>
                   <div className="h-4 w-3/4 bg-gray-700 rounded"></div>
                   <div className="h-4 w-5/6 bg-gray-700 rounded"></div>
                   <div className="h-4 w-2/3 bg-gray-700 rounded"></div>
                 </div>
-                {/* Main View */}
+                {/* Vista principal */}
                 <div className="flex-grow p-6 bg-[#1a1a1a] overflow-hidden">
                   <div className="flex items-center justify-between mb-8">
                     <div className="h-6 w-32 bg-gray-700 rounded"></div>
@@ -130,7 +130,7 @@ const HubShowcase: React.FC<HubShowcaseProps> = ({ selectedCountry }) => {
                     ))}
                   </div>
                 </div>
-                {/* Detail Panel */}
+                {/* Painel de detalhes */}
                 <div className="w-64 bg-[#212121] p-6 border-l border-gray-800 hidden md:block">
                   <div className="aspect-video bg-gray-800 rounded mb-4 overflow-hidden relative">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20"></div>
@@ -149,7 +149,7 @@ const HubShowcase: React.FC<HubShowcaseProps> = ({ selectedCountry }) => {
               </div>
             </div>
             
-            {/* Background Accent */}
+            {/* Acento de fundo */}
             <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-blue-50 opacity-30 rounded-full blur-3xl pointer-events-none"></div>
           </div>
         </div>

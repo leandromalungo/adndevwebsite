@@ -11,12 +11,12 @@ const NewsletterSection: React.FC<NewsletterSectionProps> = ({ selectedCountry }
   return (
     <section className="bg-white py-12 px-6 md:px-12 lg:px-24">
       <div className="container mx-auto">
-        {/* Boxed Container */}
+        {/* Contentor em caixa */}
         <div className="relative overflow-hidden bg-[#001b3d] rounded-2xl shadow-2xl min-h-[450px] flex items-center">
           
-          {/* Decorative Background Elements */}
+          {/* Elementos decorativos de fundo */}
           <div className="absolute inset-0 z-0 pointer-events-none">
-            {/* Swirly Waves Pattern */}
+            {/* Padrão de ondas */}
             <svg className="absolute top-0 left-0 w-full h-full opacity-30" viewBox="0 0 1000 400" preserveAspectRatio="none">
               <path d="M0,100 C150,200 350,0 500,100 C650,200 850,0 1000,100 L1000,400 L0,400 Z" fill="none" stroke="#007dfc" strokeWidth="0.5" />
               <path d="M0,120 C150,220 350,20 500,120 C650,220 850,20 1000,120" fill="none" stroke="#007dfc" strokeWidth="0.5" />
@@ -44,9 +44,9 @@ const NewsletterSection: React.FC<NewsletterSectionProps> = ({ selectedCountry }
           <div className="relative z-10 w-full px-8 md:px-16 py-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               
-              {/* Left Content */}
+              {/* Conteúdo à esquerda */}
               <div className="text-white text-center lg:text-left">
-                {/* Branding Logo Area */}
+                {/* Área do logótipo */}
                 <div className="flex items-center justify-center lg:justify-start mb-6">
                   <span className="text-4xl md:text-5xl font-bold tracking-tighter">.StartSe</span>
                   <div className="ml-4 flex flex-col gap-1">

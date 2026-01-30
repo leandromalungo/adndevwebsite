@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, ArrowRight } from "lucide-react";
 
@@ -41,7 +41,7 @@ const Page = () => {
     <>
       <Navbar />
 
-      {/* HERO / CTA */}
+      {/* HERO */}
       <section className="relative w-full h-[50vh] overflow-hidden bg-zinc-900">
         {/* FUNDO */}
         <div

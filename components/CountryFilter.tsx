@@ -72,7 +72,7 @@ export const CountryFilter: React.FC<CountryFilterProps> = ({
   };
 
   return (
-    <div className={`w-full py-6 ${className}`}>
+    <div className={`w-full py-6 country-filter ${className}`}>
       <div className="max-w-7xl mx-auto px-4">
         {/* Título */}
         <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">

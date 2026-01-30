@@ -39,14 +39,13 @@ export default function Page() {
         <div className="relative flex items-center h-full px-8 md:px-12">
           <div className="max-w-md">
             <h2 className="text-2xl mt-3 md:text-4xl font-bold text-white mb-3 leading-tight">
-              Um mundo de jogos e entretenimento ao seu alcance, um espaço para
-              Game developers.
+              As melhores comunidades da area da T.I da lusofonia num só lugar!
             </h2>
 
             <p className="text-gray-100 mb-3 text-sm md:text-base">
-              Descubra, partilhe e conecte-se com uma comunidade vibrante de
-              desenvolvedores de jogos. Conheça os maiores densevolvedores nesta
-              área na lusofonia.
+              Junta-te a milhares de entusiastas, desenvolvedores e criativos
+              que partilham conhecimento, colaboram em projetos e impulsionam a
+              inovação. Escolha a sua comunidade e comece a explorar hoje mesmo!
             </p>
 
             <button

@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 import { DISCOVER_GAMES } from '@/components/gamedev/constants';
-import { ChevronLeft, ChevronRight, ChevronRight as ChevronRightIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const DiscoverSection = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -24,13 +24,13 @@ const DiscoverSection = () => {
 
   return (
     <div className="w-full mt-16 space-y-6">
-      {/* Header */}
+      {/* Cabeçalho */}
       <div className="flex items-center justify-between">
         <button className="flex items-center gap-2 group">
           <h2 className="text-xl font-bold text-gray-900 hover:text-gray-700 transition-colors">
             Destaques
           </h2>
-          <ChevronRightIcon className="w-5 h-5 text-gray-600 group-hover:translate-x-1 transition-transform" />
+          <ChevronRight className="w-5 h-5 text-gray-600 group-hover:translate-x-1 transition-transform" />
         </button>
         
         <div className="flex gap-2">
@@ -51,7 +51,7 @@ const DiscoverSection = () => {
         </div>
       </div>
 
-      {/* Slide Container */}
+      {/* Contentor de slides */}
       <div 
         ref={scrollContainerRef}
         className="flex gap-5 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
@@ -68,7 +68,7 @@ const DiscoverSection = () => {
             key={game.id} 
             className="min-w-[calc(50%-10px)] md:min-w-[calc(33.333%-14px)] lg:min-w-[calc(16.666%-17px)] group cursor-pointer space-y-3 transition-transform duration-300 snap-start"
           >
-            {/* Image Wrapper */}
+            {/* Contentor da imagem */}
             <div className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-sm border border-gray-100">
               <img 
                 src={game.imageUrl} 
@@ -79,7 +79,7 @@ const DiscoverSection = () => {
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors" />
             </div>
 
-            {/* Info */}
+            {/* Informação */}
             <div className="space-y-1">
               <p className="text-[10px] uppercase font-bold text-gray-500 tracking-wider">
                 {game.subtitle || 'Jogo Base'}

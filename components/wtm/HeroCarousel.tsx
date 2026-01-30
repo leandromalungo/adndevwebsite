@@ -47,7 +47,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ selectedCountry }) =
     <div className="relative w-full overflow-hidden bg-white py-12 px-4 md:px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
-        {/* TEXT */}
+        {/* TEXTO */}
         <div className={`transition-all duration-500 transform ${isTransitioning ? 'opacity-0 -translate-x-4' : 'opacity-100 translate-x-0'} flex flex-col items-start gap-6`}>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
             {currentSlide.title}
@@ -62,7 +62,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ selectedCountry }) =
           </button>
         </div>
 
-        {/* IMAGE */}
+        {/* IMAGEM */}
         <div className={`relative transition-all duration-500 transform ${isTransitioning ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'}`}>
           <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden shadow-lg">
             <img src={currentSlide.imageSrc} alt={currentSlide.imageAlt} className="w-full h-full object-cover" />
@@ -70,7 +70,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ selectedCountry }) =
         </div>
       </div>
 
-      {/* CONTROLS */}
+      {/* CONTROLOS */}
       <div className="mt-10 flex items-center justify-center gap-6">
         <button onClick={prevSlide} className="p-2 text-gray-400 hover:text-gray-900 transition" aria-label="Previous slide">
           <ChevronLeft className="w-6 h-6" />

@@ -43,7 +43,7 @@ export const BigTechBo = () => {
   return (
     <section className="bg-[#f3f4f6] py-20 px-4 md:px-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Left Side */}
+        {/* Lado esquerdo */}
         <div className="lg:col-span-5 flex flex-col space-y-6">
           <span className="text-[#0ea5e9] font-bold text-xs md:text-sm tracking-wider uppercase">
             Tenha acesso
@@ -67,7 +67,7 @@ export const BigTechBo = () => {
           </div>
         </div>
 
-        {/* Right Side: Logos */}
+        {/* Lado direito: logos */}
         <div className="lg:col-span-7">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {supporters.map((item, index) => (
@@ -75,14 +75,14 @@ export const BigTechBo = () => {
                 key={index}
                 className="group relative bg-white rounded-lg h-28 md:h-32 shadow-sm overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-md cursor-pointer"
               >
-                {/* Image */}
+                {/* Imagem */}
                 <img
                   src={item.logo}
                   alt={item.name}
                   className="w-full h-full object-cover"
                 />
 
-                {/* Overlay */}
+                {/* Sobreposição */}
                 <div className="absolute inset-0 bg-black/70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <p className="text-white text-sm md:text-base font-semibold text-center px-3">
                     {item.name}

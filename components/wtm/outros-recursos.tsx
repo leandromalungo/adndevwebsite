@@ -213,10 +213,10 @@ export default function OutrosRecursos({
   return (
     <section className="w-full bg-white py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Title */}
+        {/* Título */}
         <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-12">Outros recursos</h2>
 
-        {/* Tabs */}
+        {/* Abas */}
         <div className="flex flex-wrap gap-3 mb-12">
           {tabs.map((tab) => (
             <button
@@ -233,9 +233,9 @@ export default function OutrosRecursos({
           ))}
         </div>
 
-        {/* Content Grid */}
+        {/* Grelha de conteúdo */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Documentation Card - Large */}
+          {/* Cartão de documentação - grande */}
           <div className="lg:col-span-1 lg:row-span-2">
             <a
               href={documentationLink}
@@ -264,7 +264,7 @@ export default function OutrosRecursos({
             </a>
           </div>
 
-          {/* Resource Cards - Grid */}
+          {/* Grelha de cartões de recursos */}
           <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {cardsToDisplay.map((card) => (
               <a
