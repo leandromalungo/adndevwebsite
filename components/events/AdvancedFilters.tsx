@@ -2,11 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { 
-  getCountries, 
-  getStatesByCountry, 
-  EVENT_CATEGORIES
-} from '@/data/locationsData';
+import { getCountries, getStatesByCountry, EVENT_CATEGORIES } from '@/data/locationsData';
 
 interface AdvancedFiltersProps {
   searchQuery: string;

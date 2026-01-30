@@ -1,50 +1,33 @@
-/**
- * PÁGINA ROADMAPS - ROTEIROS DE APRENDIZADO
- * ==========================================
- *
- * Página que apresenta roteiros de aprendizado por especialidade.
- *
- * Especializações disponíveis:
- * - Frontend Development
- * - Backend Development
- * - DevOps e Infrastructure
- * - Mobile Development
- * - AI/Machine Learning
- * - Full Stack
- *
- * Cada roadmap contém:
- * - Descrição da área
- * - Projetos organizados por nível (Junior, Mid, Senior)
- * - Tecnologias recomendadas
- * - Recursos de aprendizado
+/*
+ * PÁGINA CURSOS
  */
 
 "use client"; // obrigatório no topo
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  ROLE_ROADMAPS,
-  SKILL_ROADMAPS,
-  BEST_PRACTICES,
-} from "@/components/roadmaps/constants";
+import { ROLE_ROADMAPS,SKILL_ROADMAPS, BEST_PRACTICES, } from "@/components/roadmaps/constants";
 import { RoadMapCard } from "@/components/roadmaps/RoadMapCard";
 import { RoadmapDetailView } from "@/components/roadmaps/HeaderroadMap";
 import Navbar from "@/components/Navbar";
-import Link from "next/link";
 import Footer from "@/components/Footer";
 import { RoadmapItem } from "@/data/types";
-import { Loader2, ArrowRight } from "lucide-react"; // import correto dos ícones
+import { Loader2, ArrowRight } from "lucide-react"; 
 
 const Page = () => {
-  const [selectedRoadmap, setSelectedRoadmap] = useState<RoadmapItem | null>(
-    null,
-  );
-  const [loading, setLoading] = useState(false);
+  const [selectedRoadmap, setSelectedRoadmap] = useState<RoadmapItem | null> (null,);
+  const [loadingAssinar, setLoadingAssinar] = useState(false);
+  const [loadingPlano, setLoadingPlano] = useState(false);
 
   const router = useRouter();
-  const handleClick = () => {
-    setLoading(true);
+  
+  const handleClickAssinar = () => {
+    setLoadingAssinar(true);
+    setTimeout(() => router.push("/assinatura"), 1000);
+  };
+
+  const handleClickPlano = () => {
+    setLoadingPlano(true);
     setTimeout(() => router.push("/assinatura"), 1000);
   };
 
@@ -86,46 +69,44 @@ const Page = () => {
 
             <div className="flex flex-nowrap gap-2 sm:gap-4">
               <button
-                onClick={handleClick}
-                disabled={loading}
+                onClick={handleClickAssinar}
+                disabled={loadingAssinar}
                 className={`inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold transition-all active:scale-95 rounded-xl hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
-                  loading
+                  loadingAssinar
                     ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                     : "bg-blue-400 hover:bg-blue-500 text-white"
                 }`}
               >
-                {loading ? (
+                {loadingAssinar ? (
                   <>
                     <Loader2 size={16} className="animate-spin sm:size-auto" />
-                    <span className="hidden sm:inline">Processando...</span>
+                    <span>Processando...</span>
                   </>
                 ) : (
                   <>
-                    <span className="hidden sm:inline">Assinar agora!</span>
-                    <span className="sm:hidden">Assinar</span>
+                    Assinar agora!
                     <ArrowRight size={18} className="sm:size-auto" />
                   </>
                 )}
               </button>
 
               <button
-                onClick={handleClick}
-                disabled={loading}
+                onClick={handleClickPlano}
+                disabled={loadingPlano}
                 className={`inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold transition-all active:scale-95 rounded-xl hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
-                  loading
+                  loadingPlano
                     ? "cursor-not-allowed text-zinc-800"
                     : "border border-blue-400 hover:bg-blue-500 text-white"
                 }`}
               >
-                {loading ? (
+                {loadingPlano ? (
                   <>
                     <Loader2 size={16} className="animate-spin sm:size-auto" />
-                    <span className="hidden sm:inline">Processando...</span>
+                    <span>Processando...</span>
                   </>
                 ) : (
                   <>
-                    <span className="hidden sm:inline">Criar um plano de estudo</span>
-                    <span className="sm:hidden">Plano</span>
+                    Criar um plano de estudo
                   </>
                 )}
               </button>

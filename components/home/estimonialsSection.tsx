@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { Quote } from "lucide-react";
 
 interface Testimonial {

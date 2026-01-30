@@ -31,8 +31,6 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
           <span className="text-lg font-bold text-gray-800 leading-none">{event.day}</span>
           <span className="text-[10px] text-[#004d79] uppercase font-bold">{event.month}</span>
         </div>
-
-    
       </div>
 
       {/* Content Section */}

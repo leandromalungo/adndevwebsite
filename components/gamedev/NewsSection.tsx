@@ -1,7 +1,6 @@
 "use client";
 
 import { POPULAR_NEWS } from '@/components/gamedev/constants';
-import { MessageSquare } from 'lucide-react';
 
 const NewsSection = () => {
   return (

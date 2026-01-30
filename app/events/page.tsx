@@ -128,7 +128,7 @@ const Page = () => {
         <div className="relative flex items-center h-full px-8 md:px-12">
           <div className="max-w-md">
             <h2 className="text-2xl md:text-4xl font-bold text-white mt-6 mb-3 leading-tight">
-               O maior repositório de eventos de tecnologia da lusofonia.
+              O maior repositório de eventos de tecnologia da lusofonia.
             </h2>
 
             <p className="text-gray-100 mb-2 md:mb-5 text-sm md:text-base">

@@ -1,7 +1,6 @@
-"use client"; // importante se estiver usando Next.js app directory
+"use client"; 
 
-import React, { useState } from "react";
-import { Hero } from "@/components/bolsas/Hero";
+import { useState } from "react";
 import { LeaderBo } from "@/components/bolsas/LeaderBo";
 import { AboutUsSection } from "@/components/bolsas/AboutUsSection";
 import { BigTechBo } from "@/components/bolsas/BigTechBo";
@@ -13,7 +12,7 @@ import Footer from "@/components/Footer";
 import { useRouter } from "next/navigation";
 import { Loader2, ArrowRight } from "lucide-react";
 
-const App: React.FC = () => {
+const Page = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -31,7 +30,7 @@ const App: React.FC = () => {
         {/* FUNDO COM IMAGEM */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/images/bolsasImg.png')` }}
+          style={{ backgroundImage: `url('/images/bolsas.jpg')` }}
         >
           {/* OVERLAY / GRADIENT */}
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
@@ -99,4 +98,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Page;

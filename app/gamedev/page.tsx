@@ -19,7 +19,6 @@ import GOGPreservation from "@/components/gamedev/GOGPreservation";
 
 const Page = () => {
   // --- REFERÊNCIA DO VÍDEO ---
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   // --- FILTRO ---
   const [selectedCountry, setSelectedCountry] =
@@ -38,14 +37,6 @@ const Page = () => {
     }, 1200);
   };
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current
-        .play()
-        .catch((err) => console.log("Erro ao rodar vídeo:", err));
-    }
-  }, []);
-
   return (
     <>
       <Navbar />
@@ -55,7 +46,7 @@ const Page = () => {
         {/* FUNDO */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/images/gamedev.png')` }}
+          style={{ backgroundImage: `url('/images/games.jpg')` }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
         </div>

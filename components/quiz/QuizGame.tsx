@@ -1,22 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  ArrowRight,
-  CheckCircle2,
-  RefreshCcw,
-  ChevronRight,
-  Loader2,
-  Reply,
-} from "lucide-react";
-import {
-  AreaKey,
-  FULL_QUESTION_BANK,
-  TECH_AREAS,
-  TechArea,
-  Question,
-} from "@/app/quiz/data";
-import { REPL_MODE_STRICT } from "repl";
+import {ArrowRight, CheckCircle2, RefreshCcw, ChevronRight, Loader2, Reply,} from "lucide-react";
+import { AreaKey, FULL_QUESTION_BANK, TECH_AREAS, TechArea, Question,} from "@/app/quiz/data";
 
 /* =======================
    HELPER: SHUFFLE ARRAY
@@ -260,7 +246,7 @@ export function QuizGame() {
             {unusedQuestions.length > 0 && (
                 <button 
                   onClick={handleSkip}
-                  className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors py-2 px-4 rounded hover:bg-zinc-800/50 border border-violet-500/30 rounded"
+                  className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors py-2 px-4 rounded hover:bg-zinc-800/50 border border-violet-500/30"
                 >
                     <Reply size={16} />
                     Não entendi a pergunta, pular.

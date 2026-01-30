@@ -1,18 +1,7 @@
 /**
  * HOME PAGE — ADN Developer
- * =========================
  *
  * Página inicial da plataforma.
- *
- * Seções:
- * 1. Hero
- * 2. Serviços
- * 3. LogoCloud
- * 4. Visão & Missão
- * 5. Coleções Curadas
- * 6. Depoimentos
- * 7. Equipe
- * 8. FAQ
  */
 
 import Navbar from "@/components/Navbar";
@@ -22,7 +11,6 @@ import Footer from "@/components/Footer";
 import { ServicesSection } from "@/components/home/sectionHero";
 import Vision from "@/components/home/VisionSection";
 import Testimonials from "@/components/home/estimonialsSection";
-import Partners from "@/components/home/PartnersSection";
 import CuratedCollections from "@/components/roadmaps/courses/CuratedCollections";
 import TeamMemberSection from "@/components/home/TeamMemberSection";
 import { Destaque } from "@/components/home/Destaque";
@@ -124,7 +112,6 @@ const Page = () => {
           <Vision />
         </div>
       </section>
-      <Partners />
       <Testimonials />
       <TeamMemberSection />
       <FAQSection />

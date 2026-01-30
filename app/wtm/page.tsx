@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { Loader2, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import Navbar from "@/components/Navbar";
@@ -39,29 +39,20 @@ const App = () => {
     <>
       <Navbar />
 
-      {/* SEÇÃO HERÓI */}
+      {/* HERO / CTA */}
       <section className="relative w-full h-[50vh] overflow-hidden bg-zinc-900">
-        {/* FUNDO DE VÍDEO */}
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover"
+        {/* FUNDO */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url('/images/wtm.jpg')` }}
         >
-          <source src="/videos/video.mp4" type="video/mp4" />
-          Seu navegador não suporta vídeo em HTML5.
-        </video>
-
-        {/* OVERLAY */}
-        <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
+        </div>
 
         {/* CONTEÚDO */}
-        <div className="relative z-10 flex items-center h-full px-8 md:px-12">
+        <div className="relative flex items-center h-full px-8 md:px-12">
           <div className="max-w-md">
-            <h2 className="text-2xl md:text-4xl font-bold text-white mt-6 mb-3 leading-tight">
+            <h2 className="text-2xl mt-3 md:text-4xl font-bold text-white mb-3 leading-tight">
               Iniciativas para inclusão de mulheres na tecnologia
             </h2>
 
@@ -75,19 +66,22 @@ const App = () => {
             <button
               onClick={handleSubscribe}
               disabled={loading}
-              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all duration-200 active:scale-95 rounded-xl ${
+              className={`inline-flex items-center gap-2 px-3 py-3 mb-4 font-semibold transition-all active:scale-95 rounded-xl ${
                 loading
-                  ? "bg-orange-300 cursor-not-allowed text-zinc-800"
-                  : "bg-rose-400 hover:bg-rose-500 text-white"
+                  ? "bg-blue-300 cursor-not-allowed text-zinc-800"
+                  : "bg-blue-400 hover:bg-blue-500 text-white"
               }`}
             >
               {loading ? (
                 <>
-                  <Loader2 size={18} className="animate-spin" />
-                  Carregando...
+                  <Loader2 size={20} className="animate-spin" />
+                  Processando...
                 </>
               ) : (
-                "Assinar agora!"
+                <>
+                  Assinar agora!
+                  <ArrowRight size={20} />
+                </>
               )}
             </button>
           </div>

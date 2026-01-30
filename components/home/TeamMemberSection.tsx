@@ -71,15 +71,13 @@ const TeamMemberSection = () => {
       name: "Leandro Malungo",
       role: "Desenvolvedor Front-end",
       location: "Angola",
-      imageUrl:
-        "/images/lm.jpg",
+      imageUrl: "/images/lm.jpg",
     },
     {
       name: "Neuza Nasciemento",
       role: "Desenvolvedora Front-end",
       location: "Portugal",
-      imageUrl:
-        "/images/nn.jpg",
+      imageUrl: "/images/nn.jpg",
     },
   ];
 
@@ -93,7 +91,9 @@ const TeamMemberSection = () => {
           </h3>
 
           <p className="text-gray-600 text-lg leading-relaxed mb-12">
-            Nossa equipe é composta por desenvolvedores dedicados e apaixonados que trabalham incansavelmente para trazer inovação e excelência à plataforma ADN Developer.
+            Nossa equipe é composta por desenvolvedores dedicados e apaixonados
+            que trabalham incansavelmente para trazer inovação e excelência à
+            plataforma ADN Developer.
           </p>
         </div>
 

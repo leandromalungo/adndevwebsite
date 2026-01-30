@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, Heart, Trophy, DollarSign, Calendar } from 'lucide-react';
+import { ChevronLeft, ChevronRight, DollarSign, Calendar } from 'lucide-react';
 
 interface ScholarshipCardProps {
   title: string;

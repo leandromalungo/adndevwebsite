@@ -1,12 +1,12 @@
 "use client";
 
-import { ChevronDown, Menu, X } from "lucide-react";
-import React, { useState } from "react";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "@/public/images/logos/logo-cafe.png";
+import logo from "@/public/logo.png";
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const [loadingLink, setLoadingLink] = useState<string | null>(null);
 
@@ -17,8 +17,8 @@ const Navbar: React.FC = () => {
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-100">
       <div className="flex items-center justify-between px-6 py-4">
-        <Link href="/">
-          <Image src={logo} alt="Logo" className="w-10 h-10 cursor-pointer" />
+        <Link href="/" className="focus:outline-none focus:ring-0 focus-visible:outline-none">
+          <Image src={logo} alt="Logo" width={60} height={60} className="cursor-pointer object-contain" priority />
         </Link>
 
         <div className="hidden lg:flex items-center gap-6 font-bold">
@@ -68,12 +68,7 @@ export default Navbar;
  * COMPONENTES AUXILIARES
  */
 
-const NavLink = ({
-  label,
-  href,
-  loading,
-  onClick,
-}: {
+const NavLink = ({ label, href, loading, onClick }: {
   label: string;
   href: string;
   loading?: boolean;
@@ -82,19 +77,14 @@ const NavLink = ({
   <Link
     href={href}
     onClick={onClick}
-    className="flex items-center gap-2 text-[13px] font-medium text-gray-600 hover:text-gray-900 transition"
+    className="flex items-center gap-2 text-[13px] font-medium text-gray-600 hover:text-gray-900 transition focus:outline-none focus:ring-0 focus-visible:outline-none"
   >
     {label}
     {loading && <Loader />}
   </Link>
 );
 
-const MobileLink = ({
-  label,
-  href,
-  loading,
-  onClick,
-}: {
+const MobileLink = ({ label, href, loading, onClick }: {
   label: string;
   href: string;
   loading?: boolean;
@@ -103,7 +93,7 @@ const MobileLink = ({
   <Link
     href={href}
     onClick={onClick}
-    className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50"
+    className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-0 focus-visible:outline-none"
   >
     {label}
     {loading && <Loader />}

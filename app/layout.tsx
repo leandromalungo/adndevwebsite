@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Geist } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
-import "./globals.css"
+import "@/styles/globals.css"
 
 // Importar a fonte Geist do Google Fonts
 const _geist = Geist({ subsets: ["latin"] })

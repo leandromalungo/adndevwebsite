@@ -1,6 +1,6 @@
 import React from 'react';
 import { TOP_CHARTS, ChartItem } from '@/components/gamedev/constants';
-import { ChevronRight, Crown } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 const ChartColumn: React.FC<{ title: string; items: ChartItem[] }> = ({ title, items }) => {
   return (

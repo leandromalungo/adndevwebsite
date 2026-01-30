@@ -2,16 +2,8 @@
 
 /**
  * COMPONENTE FOOTER
- * 
- * Rodapé principal do aplicativo.
- * Exibe:
- * - Informações da empresa
- * - Links rápidos
- * - Redes sociais
- * - Contato
- */
+*/
 
-import React from "react";
 import { Facebook, Twitter, Linkedin, Youtube, Rss, Instagram } from "lucide-react";
 
 const Footer = () => {

@@ -1,65 +1,58 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import Navbar from "@/components/Navbar";
-import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
 import Footer from "@/components/Footer";
 import { CommunityGrid } from "@/components/community/CommunityGrid";
 import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
+import { Loader2, ArrowRight } from "lucide-react";
 
 export default function Page() {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
   const [loading, setLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
 
-  const router = useRouter();
-  const handleSubscribe = () => {
+  const handleClick = async () => {
     setLoading(true);
-    setTimeout(() => router.push("/assinatura"), 900);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 800));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
       <Navbar />
 
-      {/* SEÇÃO HERÓI */}
+      {/* HERO / CTA */}
       <section className="relative w-full h-[50vh] overflow-hidden bg-zinc-900">
-        {/* FUNDO DE VÍDEO */}
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover"
+        {/* FUNDO */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url('/images/community.jpg')` }}
         >
-          <source src="/videos/video.mp4" type="video/mp4" />
-          Seu navegador não suporta vídeo em HTML5.
-        </video>
-
-        {/* OVERLAY */}
-        <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
+        </div>
 
         {/* CONTEÚDO */}
-        <div className="relative z-10 flex items-center h-full px-8 md:px-12">
+        <div className="relative flex items-center h-full px-8 md:px-12">
           <div className="max-w-md">
-            <h2 className="text-2xl md:text-4xl font-bold text-white mt-2 mb-3 leading-tight">
-             As melhores comunidades de tecnologia na lusofonia
+            <h2 className="text-2xl mt-3 md:text-4xl font-bold text-white mb-3 leading-tight">
+              Um mundo de jogos e entretenimento ao seu alcance, um espaço para
+              Game developers.
             </h2>
 
-            <p className="text-gray-100 mb-2 text-sm md:text-base">
-              Descubra grupos e comunidades de tecnologia na lusofonia e
-              participe delas para expandir seu networking, aprender novas
-              habilidades e colaborar em projetos inovadores.
+            <p className="text-gray-100 mb-3 text-sm md:text-base">
+              Descubra, partilhe e conecte-se com uma comunidade vibrante de
+              desenvolvedores de jogos. Conheça os maiores densevolvedores nesta
+              área na lusofonia.
             </p>
 
             <button
-              onClick={handleSubscribe}
+              onClick={handleClick}
               disabled={loading}
-              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all duration-200 active:scale-95 rounded-xl ${
+              className={`inline-flex items-center gap-2 px-3 py-3 mb-4 font-semibold transition-all active:scale-95 rounded-xl ${
                 loading
                   ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                   : "bg-blue-400 hover:bg-blue-500 text-white"
@@ -67,11 +60,14 @@ export default function Page() {
             >
               {loading ? (
                 <>
-                  <Loader2 size={18} className="animate-spin" />
-                  Carregando...
+                  <Loader2 size={20} className="animate-spin" />
+                  Processando...
                 </>
               ) : (
-                "Assinar agora!"
+                <>
+                  Assinar agora!
+                  <ArrowRight size={20} />
+                </>
               )}
             </button>
           </div>

@@ -1,7 +1,19 @@
-/* @import 'tailwindcss'; */
-@import 'tw-animate-css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@custom-variant dark (&:is(.dark *));
+/* Merged globals (origem: styles/globals.css + app/globals.css)
+   Mantém as variáveis de tema necessárias ao Tailwind e o reset básico
+*/
+
+/* Reset básico */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 :root {
   --background: oklch(1 0 0);
@@ -117,9 +129,19 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
+
+  /* estilo de foco acessível, usando a variável --ring */
+  *:focus {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  html,
   body {
+    font-family: 'Inter', sans-serif;
     @apply bg-background text-foreground;
+    line-height: 1.6;
   }
 }
