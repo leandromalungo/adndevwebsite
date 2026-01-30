@@ -45,7 +45,8 @@ export const Hero = () => {
 
         {/* Descrição */}
         <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-4 sm:mb-5 md:mb-6 lg:mb-8 leading-relaxed max-w-3xl">
-          O que precisas para entrar na área de tecnologia, desde cursos,
+          O maior repositorio de conteúdo tecnológico da lusofonia, com tudo o
+          que precisas para entrar na área de tecnologia, desde cursos,
           bootcamps e muito mais. Um espaço feito para ti crescer na tua
           carreira tech, com a nossa ajuda.
         </p>
