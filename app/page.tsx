@@ -47,7 +47,7 @@ const Page = () => {
       title: "Hackathon",
       description:
         "Desafios colaborativos para criar soluções inovadoras e acelerar aprendizado prático.",
-      imageUrl: "/images/1768288539585.jpg",
+      imageUrl: "/images/1768288533539.jpg",
       link: "#",
     },
     {
@@ -55,7 +55,7 @@ const Page = () => {
       title: "Desafios nacionais",
       description:
         "Competições para testar habilidades e conquistar reconhecimento no cenário tecnológico.",
-      imageUrl: "/images/1765482668812.jpg",
+      imageUrl: "/images/1768288533539.jpg",
       link: "#",
     },
     {
