@@ -39,7 +39,7 @@ export default function Page() {
         <div className="relative flex items-center h-full px-8 md:px-12">
           <div className="max-w-md">
             <h2 className="text-2xl mt-3 md:text-4xl font-bold text-white mb-3 leading-tight">
-              As melhores comunidades da area da T.I da lusofonia num só lugar!
+              As melhores comunidades da area da tecnologia da lusofonia num só lugar!
             </h2>
 
             <p className="text-gray-100 mb-3 text-sm md:text-base">
