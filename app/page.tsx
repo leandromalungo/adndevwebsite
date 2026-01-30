@@ -5,7 +5,7 @@
  */
 
 import Navbar from "@/components/Navbar";
-import Hero from "@/components/home/hero";
+import Hero from "@/components/home/Hero";
 import FAQSection from "@/components/home/FAQSection";
 import Footer from "@/components/Footer";
 import { SectionHero as ServiceSection } from "@/components/home/ServiceSection";
