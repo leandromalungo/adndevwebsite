@@ -1,6 +1,6 @@
-"use client"; // importante se estiver usando Next.js app directory
+"use client"; 
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from "next/navigation";
 import Features from '@/components/startups/Features';
 import AccessSection from '@/components/startups/AccessSection';
@@ -9,16 +9,11 @@ import HubShowcase from '@/components/startups/HubShowcase';
 import ChallengesSection from '@/components/startups/ChallengesSection';
 import NewsletterSection from '@/components/startups/NewsletterSection';
 import Navbar from '@/components/Navbar';
-import Link from "next/link";
 import Footer from '@/components/Footer';
-import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
-
-// ícones do lucide-react
 import { Loader2, ArrowRight } from "lucide-react";
 
 const App = () => {
   const [loading, setLoading] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
 
   const router = useRouter();
   const handleClick = () => {
@@ -78,21 +73,14 @@ const App = () => {
         </div>
       </section>
 
-      {/* FILTRO POR PAÍS */}
-      <CountryFilter
-        selectedCountry={selectedCountry}
-        onCountryChange={setSelectedCountry}
-        className="bg-white border-b border-gray-200"
-      />
-
       <div className="min-h-screen bg-black">
         <main>
-          <Features selectedCountry={selectedCountry} />
-          <AccessSection selectedCountry={selectedCountry} />
-          <Matchmaking selectedCountry={selectedCountry} />
-          <HubShowcase selectedCountry={selectedCountry} />
-          <ChallengesSection selectedCountry={selectedCountry} />
-          <NewsletterSection selectedCountry={selectedCountry} />
+          <Features />
+          <AccessSection />
+          <Matchmaking />
+          <HubShowcase />
+          <ChallengesSection />
+          <NewsletterSection />
           <Footer />
         </main>
       </div>
