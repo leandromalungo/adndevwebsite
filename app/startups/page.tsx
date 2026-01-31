@@ -1,15 +1,15 @@
-"use client"; 
+"use client"; // importante se estiver usando Next.js app directory
 
-import { useState } from 'react';
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Features from '@/components/startups/Features';
-import AccessSection from '@/components/startups/AccessSection';
-import Matchmaking from '@/components/startups/Matchmaking';
-import HubShowcase from '@/components/startups/HubShowcase';
-import ChallengesSection from '@/components/startups/ChallengesSection';
-import NewsletterSection from '@/components/startups/NewsletterSection';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Features from "@/components/startups/Features";
+import AccessSection from "@/components/startups/AccessSection";
+import Matchmaking from "@/components/startups/Matchmaking";
+import HubShowcase from "@/components/startups/HubShowcase";
+import ChallengesSection from "@/components/startups/ChallengesSection";
+import NewsletterSection from "@/components/startups/NewsletterSection";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Loader2, ArrowRight } from "lucide-react";
 
 const App = () => {
@@ -44,8 +44,9 @@ const App = () => {
             </h2>
 
             <p className="text-gray-100 mb-2 md:mb-5 text-sm md:text-base">
-             Descubra as melhores ecubadoras, aceleradoras e recursos para startups de tecnologia na 
-             lusofonia e impulsione o crescimento do seu negócio inovador.
+              Descubra as melhores ecubadoras, aceleradoras e recursos para
+              startups de tecnologia na lusofonia e impulsione o crescimento do
+              seu negócio inovador.
             </p>
 
             <button
@@ -76,9 +77,9 @@ const App = () => {
       <div className="min-h-screen bg-black">
         <main>
           <Features />
+          <HubShowcase />
           <AccessSection />
           <Matchmaking />
-          <HubShowcase />
           <ChallengesSection />
           <NewsletterSection />
           <Footer />

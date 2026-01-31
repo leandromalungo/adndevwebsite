@@ -47,8 +47,8 @@ const HubShowcase: React.FC<HubShowcaseProps> = ({ selectedCountry }) => {
       <div className="container mx-auto">
         {/* Cabeçalho */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Conheça o Cubo Hub
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 uppercase">
+            Como criar uma startup?
           </h2>
           <p className="text-gray-500 text-lg md:text-xl font-light max-w-2xl mx-auto">
             Simplifique a sua jornada de inovação, gerenciamento de projetos e conexões estratégicas em um só lugar.
