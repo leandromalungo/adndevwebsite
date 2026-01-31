@@ -39,6 +39,31 @@ export const LeadershipSection: React.FC<LeadershipSectionProps> = ({ selectedCo
                 <div className="absolute top-0 right-0 w-16 h-10 bg-[#00CBA9] rounded-bl-3xl" />
 
                 <div className="p-4 md:p-6 flex flex-col h-full">
+                  <div className="flex gap-4 mb-4">
+                    
+                    {/* Nome + informação */}
+                    <div className="flex-1 flex flex-col justify-between">
+                      <div>
+                        <h4 className="font-bold text-gray-900 text-lg md:text-xl leading-tight mb-1">
+                          {card.name}
+                        </h4>
+                        <p className="text-[10px] md:text-sm text-gray-500 font-medium leading-tight mb-2 md:mb-3">
+                          {card.role}
+                        </p>
+                        <span className="bg-[#ff6d6d] text-white text-[9px] md:text-[10px] font-bold px-2 py-1 rounded-sm uppercase inline-block">
+                          Líderes em ascensão
+                        </span>
+                      </div>
+
+                      <div className="mt-4 flex items-center gap-1">
+                        <WTMLogoColored />
+                        <span className="text-[9px] md:text-[10px] font-medium text-gray-400">
+                          Rostos femeninos em T.I
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Título da sessão */}
                   <h5 className="text-lg md:text-xl font-bold text-gray-800 leading-tight mt-auto">
                     {card.sessionTitle}
