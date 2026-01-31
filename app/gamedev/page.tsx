@@ -3,10 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, ArrowRight } from "lucide-react";
-
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
 import DiscoverSection from "@/components/gamedev/DiscoverSection";
 import FortniteSection from "@/components/gamedev/FortniteSection";
 import TopChartsSection from "@/components/gamedev/TopChartsSection";
@@ -18,11 +16,6 @@ import CardHero from "@/components/gamedev/CardHero";
 import GOGPreservation from "@/components/gamedev/GOGPreservation";
 
 const Page = () => {
-  // --- REFERÊNCIA DO VÍDEO ---
-
-  // --- FILTRO ---
-  const [selectedCountry, setSelectedCountry] =
-    useState<FilterTab>("Angola");
 
   // --- BOTÃO CTA ---
   const [loading, setLoading] = useState(false);
@@ -86,13 +79,6 @@ const Page = () => {
           </div>
         </div>
       </section>
-
-      {/* FILTRO POR PAÍS */}
-      <CountryFilter
-        selectedCountry={selectedCountry}
-        onCountryChange={setSelectedCountry}
-        className="bg-white border-b border-gray-200"
-      />
 
       {/* CONTEÚDO */}
       <div className="min-h-screen bg-white flex flex-col items-center py-12 px-4 md:px-8 overflow-x-hidden">
