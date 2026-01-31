@@ -3,28 +3,16 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, ArrowRight } from "lucide-react";
-import Link from "next/link";
-
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import OutrosRecursos from "@/components/wtm/outros-recursos";
-import RecursosOrganizador from "@/components/wtm/recursos-organizador";
 import { HeroCarousel } from "@/components/wtm/HeroCarousel";
 import { LeadershipSection } from "@/components/wtm/LeadershipSection";
 import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
 
 const App = () => {
   // --- REFERÊNCIA DO VÍDEO ---
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current
-        .play()
-        .catch((err) => console.log("Erro ao rodar vídeo:", err));
-    }
-  }, []);
+  const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
 
   // --- ESTADO DO BOTÃO QUIZ ---
   const [loading, setLoading] = useState(false);
@@ -94,12 +82,8 @@ const App = () => {
         onCountryChange={setSelectedCountry}
         className="bg-white border-b border-gray-200"
       />
-
       <LeadershipSection selectedCountry={selectedCountry} />
-      <RecursosOrganizador selectedCountry={selectedCountry} />
       <HeroCarousel selectedCountry={selectedCountry} />
-      <OutrosRecursos selectedCountry={selectedCountry} />
-
       <Footer />
     </>
   );
