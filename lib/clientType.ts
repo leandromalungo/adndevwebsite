@@ -5,8 +5,11 @@ export type ClientType = {
     country: string;
     alerts: string [];
     subscriptionON: boolean;
-    paymentForm: string;
+    paymentForm: PaymentMethod;
+    telegram: string;
     comprovative: File;
     createdAt?: Date;
     updatedAt?: Date;
 }
+
+export type PaymentMethod = "paypal" | "transfer" | "reference";

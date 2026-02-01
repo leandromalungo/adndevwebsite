@@ -3,8 +3,9 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useClientStore } from "@/app/database/ClientRepository";
+import { ClientType } from "@/lib/clientType";
+import { PaymentMethod } from "@/lib/clientType";
 
-type PaymentMethod = "paypal" | "transfer" | "reference";
 
 const SubscriptionForm: React.FC = () => {
   const router = useRouter();
@@ -19,7 +20,19 @@ const SubscriptionForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const createClient = useClientStore((state) => state.createNewClient);
   const getAllClients = useClientStore((state) => state.fetchAllClients);
-  
+
+  const clientData: ClientType = {
+    id: "",
+    name: name,
+    telegram: telegram,
+    email: email,
+    country: country,
+    alerts: alerts,
+    paymentForm: paymentMethod,
+    comprovative: bankReceipt as File,
+    subscriptionON: true,
+  };
+
   const toggleAlert = (value: string) => {
     setAlerts((prev) =>
       prev.includes(value) ? prev.filter((a) => a !== value) : [...prev, value],
@@ -43,16 +56,22 @@ const SubscriptionForm: React.FC = () => {
     if (!validate()) return alert("Por favor preencha os campos necessários.");
     setLoading(true);
     
+    try {
+        const formData = { ...clientData, 
+          createAt: new Date(),
+          updatedAt: new Date()};  
 
-    // Simulação de envio: aqui podes integrar com API/serviços reais
-    await new Promise((r) => setTimeout(r, 1200));
-
-    // Opcional: montar FormData para enviar para backend
-    // const form = new FormData();
-    // form.append("name", name);
+         await createClient(formData);
+         router.push("/assinatura/sucesso");
+    }
+    catch (error) {
+      console.error("Erro ao criar cliente:", error);
+      alert("Ocorreu um erro ao processar sua assinatura. Tente novamente.");
+      setLoading(false);
+      return;
+    }
 
     setLoading(false);
-    router.push("/assinatura/sucesso");
   };
 
   return (

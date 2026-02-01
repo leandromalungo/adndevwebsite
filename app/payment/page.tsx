@@ -24,7 +24,7 @@ const PaymentPaypal = () => {
     //O valor do pagamento está fixo em 10.00
   const createOrder = async () => {
     const res = await fetch("/api/create-order", { method: "POST" ,
-      body: JSON.stringify({ amount: 10.00 }),
+      body: JSON.stringify({ amount: 4.00 }),
       headers: { "Content-Type": "application/json" },
     });
     const data = await res.json();
