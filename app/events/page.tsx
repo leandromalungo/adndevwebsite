@@ -1,9 +1,3 @@
-export const metadata = {
-  title: "Eventos de tecnologia",
-  description:
-    "Confira os melhores eventos, hackathon, woorkshop e mais sobre tecnologia e programação dentro da lusofonioa.",
-};
-
 "use client";
 
 /**
@@ -23,21 +17,15 @@ export const metadata = {
 
 import { useState, useMemo, useRef } from "react";
 import { Loader2, ArrowRight } from "lucide-react";
-
+import Head from "next/head";
 import AdvancedFilters from "@/components/events/AdvancedFilters";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import EventCard from "@/components/events/EventCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
 import { MOCK_EVENTS } from "@/components/events/constants";
 
 const Page = () => {
-  /**
-   * REFERÊNCIA DO VÍDEO
-   */
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   /**
    * ESTADOS DA PÁGINA
@@ -117,6 +105,14 @@ const Page = () => {
 
   return (
     <>
+
+      <Head>
+        <title>Eventos de Tecnologia na Lusofonia</title>
+        <meta
+          name="description"
+          content="Descubra os melhores eventos de tecnologia na lusofonia, desde conferências até workshops e meetups."
+        />
+      </Head>
       <Navbar />
 
       {/* SEÇÃO COM FUNDO E CTA */}

@@ -1,3 +1,5 @@
+"use client";
+import Head from "next/head";
 import Navbar from "@/components/Navbar";
 import { QuizGame } from "@/components/quiz/QuizGame";
 
@@ -58,6 +60,13 @@ const careerTipsData: CareerTip[] = [
 export default function CareerQuizPage() {
   return (
     <>
+      <Head>
+        <title>Quiz de Carreira em Tecnologia</title>
+        <meta
+          name="description"
+          content="Responda a perguntas sobre carreira em tecnologia e descubra qual caminho seguir."
+        />
+      </Head>
       <Navbar />
 
       {/* QUIZ SECTION CONTAINER */}

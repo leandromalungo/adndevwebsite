@@ -1,11 +1,6 @@
-export const metadata = {
-  title: "Cursos Gratuitos de Programação e Tecnologia",
-  description:
-    "Cursos gratuitos de programação, tecnologia e inovação para iniciantes e profissionais.",
-};
-
 "use client";
 
+import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
@@ -30,6 +25,13 @@ const Page = () => {
 
   return (
     <>
+      <Head>
+        <title>Cursos Gratuitos de Programação e Tecnologia</title>
+        <meta
+          name="description"
+          content="Cursos gratuitos de programação, tecnologia e inovação para iniciantes e profissionais."
+        />
+      </Head>
       <Navbar />
 
       <section className="relative w-full h-[50vh] overflow-hidden bg-zinc-900">

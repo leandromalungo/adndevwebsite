@@ -1,12 +1,6 @@
-export const metadata = {
-  title: "Bolsas de Estudo",
-  description:
-    "Bolsas de estudo nacionais e internacionais para todas áreas de estudo para aas melhores fauldade do mundo.",
-};
+"use client";
 
-
-"use client"; 
-
+import Head from "next/head";
 import { useState } from "react";
 import { LeaderBo } from "@/components/bolsas/LeaderBo";
 import { AboutUsSection } from "@/components/bolsas/AboutUsSection";
@@ -30,8 +24,15 @@ const Page = () => {
 
   return (
     <>
+      <Head>
+        <title>Bolsas de Estudo</title>
+        <meta
+          name="description"
+          content="Bolsas de estudo nacionais e internacionais para todas áreas de estudo para as melhores faculdades do mundo."
+        />
+      </Head>
+      
       <Navbar />
-
       {/* SEÇÃO COM FUNDO E CTA */}
       <section className="relative w-full h-[50vh] overflow-hidden bg-zinc-900">
         {/* FUNDO COM IMAGEM */}
@@ -81,9 +82,7 @@ const Page = () => {
           </div>
         </div>
       </section>
-
       <CarroselBo />
-
       <main className="min-h-screen bg-white">
         <Preview />
         <div className="space-y-0">

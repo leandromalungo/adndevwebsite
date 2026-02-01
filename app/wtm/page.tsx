@@ -1,12 +1,7 @@
-export const metadata = {
-  title: "Programas de apoio a mulheres na tecnolgia",
-  description:
-    "Descubra iniciativas, programas e recursos dedicados a promover a inclusão e o empoderamento de mulheres no setor de tecnologia na lusofonia.",
-};
-
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import Head from "next/head";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -31,6 +26,14 @@ const App = () => {
 
   return (
     <>
+      <Head>
+        <title>Programas de apoio a mulheres na tecnologia</title>
+        <meta
+          name="description"
+          content="Descubra iniciativas, programas e recursos dedicados a promover a inclusão e o empoderamento de mulheres no setor de tecnologia na lusofonia."
+        />
+      </Head>
+
       <Navbar />
 
       {/* HERO / CTA */}

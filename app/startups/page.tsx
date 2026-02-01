@@ -1,11 +1,6 @@
-export const metadata = {
-  title: "Recursos e apoio para Startups",
-  description:
-    "Conteúdos, eventos e oportunidades para startups, empreendedores e inovadores em Angola, Brasil, Portugal, Moçambique e toda lusofonia.",
-};
-
 "use client"; // importante se estiver usando Next.js app directory
 
+import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Features from "@/components/startups/Features";
@@ -29,6 +24,13 @@ const App = () => {
 
   return (
     <>
+      <Head>
+        <title>Recursos e apoio para Startups</title>
+        <meta
+          name="description"
+          content="Conteúdos, eventos e oportunidades para startups, empreendedores e inovadores em Angola, Brasil, Portugal, Moçambique e toda lusofonia."
+        />
+      </Head>
       <Navbar />
 
       {/* SEÇÃO COM FUNDO E CTA */}

@@ -1,11 +1,6 @@
-export const metadata = {
-  title: "Game Development e Jogos Digitais na lusofonia",
-  description:
-    "Os maiores criadores de jogos na lusofonia. Desde comunidades, eventos e newslatter para game developers e criadores de jogos digitais.",
-};
-
 "use client";
 
+import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, ArrowRight } from "lucide-react";
@@ -38,6 +33,14 @@ const Page = () => {
 
   return (
     <>
+      <Head>
+        <title>Game Development e Jogos Digitais na lusofonia</title>
+        <meta
+          name="description"
+          content="Os maiores criadores de jogos na lusofonia. Desde comunidades, eventos e newslatter para game developers e criadores de jogos digitais."
+        />
+      </Head>
+
       <Navbar />
 
       {/* HERO */}
