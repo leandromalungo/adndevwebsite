@@ -1,3 +1,9 @@
+export const metadata = {
+  title: "Game Development e Jogos Digitais na lusofonia",
+  description:
+    "Os maiores criadores de jogos na lusofonia. Desde comunidades, eventos e newslatter para game developers e criadores de jogos digitais.",
+};
+
 "use client";
 
 import { useState } from "react";

@@ -1,3 +1,9 @@
+export const metadata = {
+  title: "Cursos Gratuitos de Programação e Tecnologia",
+  description:
+    "Cursos gratuitos de programação, tecnologia e inovação para iniciantes e profissionais.",
+};
+
 "use client";
 
 import { useState } from "react";

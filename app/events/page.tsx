@@ -1,3 +1,9 @@
+export const metadata = {
+  title: "Eventos de tecnologia",
+  description:
+    "Confira os melhores eventos, hackathon, woorkshop e mais sobre tecnologia e programação dentro da lusofonioa.",
+};
+
 "use client";
 
 /**

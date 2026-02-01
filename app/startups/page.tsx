@@ -1,6 +1,12 @@
+export const metadata = {
+  title: "Recursos e apoio para Startups",
+  description:
+    "Conteúdos, eventos e oportunidades para startups, empreendedores e inovadores em Angola, Brasil, Portugal, Moçambique e toda lusofonia.",
+};
+
 "use client"; // importante se estiver usando Next.js app directory
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Features from "@/components/startups/Features";
 import AccessSection from "@/components/startups/AccessSection";

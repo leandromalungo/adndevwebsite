@@ -1,3 +1,9 @@
+export const metadata = {
+  title: "Programas de apoio a mulheres na tecnolgia",
+  description:
+    "Descubra iniciativas, programas e recursos dedicados a promover a inclusão e o empoderamento de mulheres no setor de tecnologia na lusofonia.",
+};
+
 "use client";
 
 import { useState, useRef, useEffect } from "react";

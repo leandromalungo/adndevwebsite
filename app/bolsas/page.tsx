@@ -1,3 +1,10 @@
+export const metadata = {
+  title: "Bolsas de Estudo",
+  description:
+    "Bolsas de estudo nacionais e internacionais para todas áreas de estudo para aas melhores fauldade do mundo.",
+};
+
+
 "use client"; 
 
 import { useState } from "react";

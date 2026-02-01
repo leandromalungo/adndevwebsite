@@ -32,6 +32,8 @@ export interface Event {
   tags: string[];
   day: string;
   month: string;
+  // opcional: data de última atualização (ISO string)
+  updatedAt?: string;
 }
 
 // ============================================

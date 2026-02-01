@@ -1,7 +1,12 @@
+export const metadata = {
+  title: "As Melhores Comunidades de Tecnologia",
+  description:
+    "Descubra as melhores comunidades de tecnologia, programação e inovação em Angola e na lusofonia.",
+};
+
 "use client";
 
 import { useState } from "react";
-
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CommunityGrid } from "@/components/community/CommunityGrid";
