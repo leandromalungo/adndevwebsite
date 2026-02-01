@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useCallback } from 'react';
 import { SLIDES, WTMLogo } from '@/components/wtm/constants';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
