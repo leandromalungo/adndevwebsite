@@ -17,6 +17,7 @@ const STATIC_ROUTES = [
   '/startups',             // Para Startups
   '/gamedev',              // GameDeveloper
   '/bolsas',               // Bolsas de estudo
+  '/wtm',                  // Mulheres na T.I
 
   // Rotas de suporte / conversão
   '/assinatura',
