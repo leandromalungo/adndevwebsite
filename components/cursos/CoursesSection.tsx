@@ -1,3 +1,4 @@
+"use client";
 
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
@@ -50,7 +51,7 @@ const PartnerColumn: React.FC<PartnerColumnProps> = ({ title, items, buttonText,
   </div>
 );
 
-export const PartnersSection = () => {
+export const CoursesSection = () => {
   const universities: PartnerItem[] = [
     { name: 'Harvard University', logoUrl: 'https://upload.wikimedia.org/wikipedia/en/2/29/Harvard_shield.svg' },
     { name: 'Yale University', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/22/Yale_University_Shield.svg' },

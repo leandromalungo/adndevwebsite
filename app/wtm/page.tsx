@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import { HeroCarousel } from "@/components/wtm/HeroCarousel";
 import { LeadershipSection } from "@/components/wtm/LeadershipSection";
 import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
+import ActivitiesSection from "@/components/wtm/activity/ActivitiesSection";
 
 const App = () => {
   // --- REFERÊNCIA DO VÍDEO ---
@@ -92,6 +93,7 @@ const App = () => {
         className="bg-white border-b border-gray-200"
       />
       <LeadershipSection selectedCountry={selectedCountry} />
+      <ActivitiesSection />
       <HeroCarousel selectedCountry={selectedCountry} />
       <Footer />
     </>

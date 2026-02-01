@@ -5,13 +5,129 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Loader2, ArrowRight } from "lucide-react";
+import { Funcao } from "@/data/types";
+import { JobBoard } from "@/components/cursos/JobBoard";
+import { CourseSection } from "@/components/cursos/CourseSection";
+import {
+  Loader2,
+  ArrowRight,
+  Zap,
+  ClipboardList,
+  Lightbulb,
+  Cpu,
+  BarChart3,
+  Box,
+  PieChart,
+  TrendingUp,
+  Database,
+  Code,
+  ShieldCheck,
+  Smartphone,
+  Globe,
+  Users,
+  Terminal,
+} from "lucide-react";
 
 const Page = () => {
   const [loadingAssinar, setLoadingAssinar] = useState(false);
   const [loadingPlano, setLoadingPlano] = useState(false);
 
   const router = useRouter();
+
+  const FULL_MOCK_DATA: Funcao[] = [
+    {
+      id: 1,
+      titulo: "Cientista de dados",
+      corIcone: "bg-amber-500",
+      icone: <Zap className="w-6 h-6" />,
+    },
+    {
+      id: 2,
+      titulo: "Gerente de projetos de TI",
+      corIcone: "bg-blue-600",
+      icone: <ClipboardList className="w-6 h-6" />,
+    },
+    {
+      id: 3,
+      titulo: "Consultor de tecnologia",
+      corIcone: "bg-violet-600",
+      icone: <Lightbulb className="w-6 h-6" />,
+    },
+    {
+      id: 4,
+      titulo: "Engenheiro de aprendizado de máquina",
+      corIcone: "bg-amber-500",
+      icone: <Cpu className="w-6 h-6" />,
+    },
+    {
+      id: 5,
+      titulo: "Analista de Business Intelligence",
+      corIcone: "bg-amber-500",
+      icone: <BarChart3 className="w-6 h-6" />,
+    },
+    {
+      id: 6,
+      titulo: "Gerente de produtos",
+      corIcone: "bg-blue-600",
+      icone: <Box className="w-6 h-6" />,
+    },
+    {
+      id: 7,
+      titulo: "Analista de negócios/gerenciamento",
+      corIcone: "bg-violet-600",
+      icone: <PieChart className="w-6 h-6" />,
+    },
+    {
+      id: 8,
+      titulo: "Analista de dados",
+      corIcone: "bg-amber-500",
+      icone: <TrendingUp className="w-6 h-6" />,
+    },
+    {
+      id: 9,
+      titulo: "Desenvolvedor de Data Warehouse",
+      corIcone: "bg-blue-600",
+      icone: <Database className="w-6 h-6" />,
+    },
+    {
+      id: 10,
+      titulo: "Desenvolvedor Full Stack",
+      corIcone: "bg-emerald-500",
+      icone: <Code className="w-6 h-6" />,
+    },
+    {
+      id: 11,
+      titulo: "Especialista em Cibersegurança",
+      corIcone: "bg-rose-600",
+      icone: <ShieldCheck className="w-6 h-6" />,
+    },
+    {
+      id: 12,
+      titulo: "Desenvolvedor Mobile",
+      corIcone: "bg-indigo-500",
+      icone: <Smartphone className="w-6 h-6" />,
+    },
+    {
+      id: 13,
+      titulo: "Arquiteto de Nuvem (Cloud)",
+      corIcone: "bg-sky-500",
+      icone: <Globe className="w-6 h-6" />,
+    },
+    {
+      id: 14,
+      titulo: "Scrum Master",
+      corIcone: "bg-teal-500",
+      icone: <Users className="w-6 h-6" />,
+    },
+    {
+      id: 15,
+      titulo: "Engenheiro de DevOps",
+      corIcone: "bg-slate-700",
+      icone: <Terminal className="w-6 h-6" />,
+    },
+  ];
+
+  const ITEMS_PER_PAGE = 6;
 
   const handleClickAssinar = () => {
     setLoadingAssinar(true);
@@ -22,6 +138,21 @@ const Page = () => {
     setLoadingPlano(true);
     setTimeout(() => router.push("/assinatura"), 1000);
   };
+
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+
+  const handleAddRole = (funcao: Funcao) => {
+    alert(`Função "${funcao.titulo}" adicionada com sucesso!`);
+  };
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) =>
+      Math.min(prev + ITEMS_PER_PAGE, FULL_MOCK_DATA.length),
+    );
+  };
+
+  const displayedFuncoes = FULL_MOCK_DATA.slice(0, visibleCount);
+  const hasMore = visibleCount < FULL_MOCK_DATA.length;
 
   return (
     <>
@@ -102,6 +233,16 @@ const Page = () => {
           </div>
         </div>
       </section>
+
+      {/* Seção de Busca e Cards de Cargos */}
+      <JobBoard
+        funcoes={displayedFuncoes}
+        onAdd={handleAddRole}
+        onLoadMore={handleLoadMore}
+        hasMore={hasMore}
+      />
+      {/* Seção de Parceiros (Instituições, Universidades, etc) */}
+      <CourseSection />
 
       <Footer />
     </>
