@@ -1,4 +1,3 @@
-import React from "react";
 import { SlideData, LeadershipCardData, SheBuildsCardData } from "@/data/types";
 
 export const NAV_ITEMS = [
@@ -14,7 +13,7 @@ export const SLIDES: SlideData[] = [
     description:
       "The WTM Academy is your all-in-one platform for learning and career growth in tech. Gain technical skills, leadership training, and community support, with a special focus on excelling in the world of AI. Join us and unlock your full potential!",
     boldKeywords: ["technical skills,", "leadership", "community"],
-    buttonText: "Let's learn!",
+    buttonText: "Assinar agora",
     imageSrc:
       "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=1200",
     imageAlt: "Woman looking up into the sky",
@@ -25,7 +24,7 @@ export const SLIDES: SlideData[] = [
     description:
       "Our mission is to build a world where all women can thrive in tech. Through our intensive mentorship programs and hands-on workshops, we prepare you for the next generation of AI innovation.",
     boldKeywords: ["thrive in tech.", "mentorship", "innovation."],
-    buttonText: "Explore AI",
+    buttonText: "Saber mais",
     imageSrc:
       "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1200",
     imageAlt: "Digital collaboration",
@@ -36,7 +35,7 @@ export const SLIDES: SlideData[] = [
     description:
       "Connect with over 200,000 women in technology worldwide. Share knowledge, find mentors, and grow your network within the Google Developer Ecosystem.",
     boldKeywords: ["200,000 women", "mentors,", "network"],
-    buttonText: "Join Community",
+    buttonText: "Ver mais",
     imageSrc:
       "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=1200",
     imageAlt: "Networking event",
@@ -112,8 +111,8 @@ export const LEADERSHIP_CARDS: LeadershipCardData[] = [
   {
     id: "intro-1",
     type: "intro",
-    subtitle: "JUST FOR YOU: LEADERSHIP DEVELOPMENT",
-    title: "Build your leadership skills",
+    subtitle: "Programas",
+    title: "Iniciativas para participação das mulheres na T.I.",
     description:
       "Elevate your leadership with our immersive series designed to empower you with essential skills, from mastering communication and networking to building confidence, while gaining wisdom from accomplished women leaders in tech.",
   },
@@ -150,16 +149,6 @@ export const LEADERSHIP_CARDS: LeadershipCardData[] = [
     status: "On demand",
   },
 ];
-
-export const WTMLogo = () => (
-  <svg
-    viewBox="0 0 24 24"
-    className="w-8 h-8 fill-white"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M12 2L4.5 20.29L5.21 21L12 18L18.79 21L19.5 20.29L12 2Z" />
-  </svg>
-);
 
 export const WTMLogoColored = () => (
   <svg

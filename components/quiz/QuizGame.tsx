@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {ArrowRight, CheckCircle2, RefreshCcw, ChevronRight, Loader2, Reply,} from "lucide-react";
 import { AreaKey, FULL_QUESTION_BANK, TECH_AREAS, TechArea, Question,} from "@/app/quiz/data";
 
@@ -140,7 +140,7 @@ export function QuizGame() {
         <div className="p-4 bg-violet-600/20 rounded mb-2 border border-violet-500/30 opacity-30">
           <CheckCircle2 className="w-12 h-12 text-violet-500" />
         </div>
-        <h2 className="text-3xl md:text-5xl text-white tracking-tight">
+        <h2 className="text-2xl md:text-3xl text-white tracking-tight">
           Descobre o teu perfil Tech!
         </h2>
         <p className="text-zinc-400 max-w-lg text-lg">
@@ -187,7 +187,7 @@ export function QuizGame() {
     return (
       <div className="flex flex-col items-center justify-center py-20 animate-in fade-in duration-300">
         <Loader2 className="w-12 h-12 text-violet-500 animate-spin mb-4" />
-        <p className="text-zinc-400">A sortear perguntas para ti, {name}...</p>
+        <p className="text-zinc-400">{name} estou a sortear perguntas para ti.</p>
       </div>
     );
   }

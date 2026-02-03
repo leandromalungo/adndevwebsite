@@ -5,7 +5,7 @@ import { Check } from 'lucide-react';
 
 const MagazineSubscription = () => {
   return (
-    <div className="w-full relative overflow-hidden bg-[#452b27] py-16 px-4 md:px-12 flex flex-col items-center justify-center text-white">
+    <div className="w-full relative overflow-hidden bg-[#483430] py-16 px-4 md:px-12 rounded flex flex-col items-center justify-center text-white">
       {/* Elementos decorativos de fundo */}
       <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
         <div className="absolute -left-20 top-0 text-[12rem] font-black italic whitespace-nowrap rotate-12 select-none">GAMEINFORMER</div>
@@ -24,7 +24,7 @@ const MagazineSubscription = () => {
                 className="w-full h-full object-cover"
               />
               <div className="absolute top-4 left-0 right-0 flex justify-center">
-                <span className="text-white font-black text-2xl italic tracking-tighter drop-shadow-md">GAMEINFORMER</span>
+                <span className="text-white font-black text-2xl italic tracking-tighter drop-shadow-md">GameDev informado</span>
               </div>
             </div>
           </div>
@@ -32,8 +32,8 @@ const MagazineSubscription = () => {
 
         {/* Centro: Conteúdo */}
         <div className="lg:col-span-6 flex flex-col items-center space-y-8 text-center">
-          <h2 className="text-4xl md:text-5xl tracking-tight text-white drop-shadow-lg">
-            Adquira a revista
+          <h2 className="text-2xl md:text-3xl tracking-tight text-white drop-shadow-lg uppercase">
+            Publique seu jogo aqui
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-left w-fit">
@@ -49,7 +49,7 @@ const MagazineSubscription = () => {
 
           <div className="pt-4">
             <button className="bg-[#e52d27] hover:bg-[#c42520] text-white font-black py-4 px-12 rounded shadow-xl transition-all active:scale-95 text-sm uppercase tracking-widest">
-              VEJA OS PLANOS
+              Publicar
             </button>
           </div>
         </div>

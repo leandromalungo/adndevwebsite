@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-type PaymentMethod = "paypal" | "transfer" | "reference";
+type PaymentMethod = "paypal" | "transfer";
 
-const SubscriptionForm: React.FC = () => {
+const SubscriptionForm = () => {
   const router = useRouter();
   const [name, setName] = useState("");
   const [telegram, setTelegram] = useState("");
@@ -14,7 +14,6 @@ const SubscriptionForm: React.FC = () => {
   const [alerts, setAlerts] = useState<string[]>([]);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("paypal");
   const [bankReceipt, setBankReceipt] = useState<File | null>(null);
-  const [referenceId, setReferenceId] = useState("");
   const [loading, setLoading] = useState(false);
 
   const toggleAlert = (value: string) => {
@@ -31,7 +30,6 @@ const SubscriptionForm: React.FC = () => {
   const validate = () => {
     if (!name.trim() || !email.trim()) return false;
     if (paymentMethod === "transfer" && !bankReceipt) return false;
-    if (paymentMethod === "reference" && !referenceId.trim()) return false;
     return true;
   };
 
@@ -106,6 +104,17 @@ const SubscriptionForm: React.FC = () => {
             placeholder="seu@exemplo.com"
           />
         </label>
+        <label className="flex flex-col">
+          <span className="text-sm font-medium mb-1">Palavra passe</span>
+          <input
+            type="password"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="px-3 py-2 border rounded"
+            placeholder="Digite sua senha"
+          />
+        </label>
       </div>
 
       <section className="mt-4">
@@ -146,7 +155,11 @@ const SubscriptionForm: React.FC = () => {
               checked={paymentMethod === "paypal"}
               onChange={() => setPaymentMethod("paypal")}
             />
-            <img src="/images/payments/paypol.jpg" alt="PayPal" className="h-6 w-6 object-contain" />
+            <img
+              src="/images/payments/paypol.jpg"
+              alt="PayPal"
+              className="h-6 w-6 object-contain"
+            />
             <span>PayPal</span>
           </label>
 
@@ -157,19 +170,12 @@ const SubscriptionForm: React.FC = () => {
               checked={paymentMethod === "transfer"}
               onChange={() => setPaymentMethod("transfer")}
             />
-            <img src="/images/payments/express.png" alt="Transferência bancária" className="h-6 w-6 object-contain" />
-            <div>Transferência bancária (envie o comprovante abaixo)</div>
-          </label>
-
-          <label className="flex items-center gap-3">
-            <input
-              type="radio"
-              name="payment"
-              checked={paymentMethod === "reference"}
-              onChange={() => setPaymentMethod("reference")}
+            <img
+              src="/images/payments/express.png"
+              alt="Transferência bancária"
+              className="h-6 w-6 object-contain"
             />
-            <img src="/images/payments/reference.jpg" alt="Pagamento por referência" className="h-6 w-6 object-contain" />
-            <div>Pagamento por referência</div>
+            <div>Transferência bancária (envie o comprovante abaixo)</div>
           </label>
         </div>
 
@@ -187,20 +193,6 @@ const SubscriptionForm: React.FC = () => {
                   Arquivo: {bankReceipt.name}
                 </span>
               )}
-            </label>
-          </div>
-        )}
-
-        {paymentMethod === "reference" && (
-          <div className="mt-3">
-            <label className="flex flex-col">
-              <span className="text-sm mb-1">Código de referência</span>
-              <input
-                value={referenceId}
-                onChange={(e) => setReferenceId(e.target.value)}
-                className="px-3 py-2 border rounded"
-                placeholder="Ex: REF-12345"
-              />
             </label>
           </div>
         )}

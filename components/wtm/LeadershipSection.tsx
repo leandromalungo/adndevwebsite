@@ -11,7 +11,7 @@ export const LeadershipSection: React.FC<LeadershipSectionProps> = ({ selectedCo
     <section className="container mx-auto py-16 px-4">
       {/* Título da secção */}
       <h2 className="text-2xl md:text-3xl font-medium text-gray-700 mb-10 uppercase">
-        Mulheres na tecnologia {selectedCountry && <span className="text-sm">em {selectedCountry}</span>}
+        Mulheres na tecnologia {selectedCountry && <span className="text-2xl md:text-3xl font-medium">em {selectedCountry}</span>}
       </h2>
 
       {/* Grelha de cartões */}

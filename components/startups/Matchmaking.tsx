@@ -77,7 +77,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({ selectedCountry }) => {
     {
       title: "Comunidade",
       description: "Trocas e aprendizado com + 700 empreendedores e startups da nossa rede, no físico e no digital.",
-      imageUrl: "https://images.unsplash.com/photo-1523240715639-99f84d39443b?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=800",
       accentColor: "bg-gradient-to-br from-blue-600 to-indigo-600",
       patternPosition: 'left' as const
     },
@@ -91,14 +91,14 @@ const Matchmaking: React.FC<MatchmakingProps> = ({ selectedCountry }) => {
     {
       title: "Fundraising",
       description: "Preparo para rodadas de investimento e conexão com fundos, investors e benefícios de partners.",
-      imageUrl: "https://images.unsplash.com/photo-1551288049-bbbda5366392?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=800",
       accentColor: "bg-gradient-to-br from-indigo-500 to-blue-400",
       patternPosition: 'left' as const
     },
     {
       title: "Conteúdos exclusivos",
       description: "Networking com quem é referência no mercado em eventos, workshops, mentorias e treinamentos.",
-      imageUrl: "https://images.unsplash.com/photo-1475721027187-402ad75d124c?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=800",
       accentColor: "bg-gradient-to-br from-pink-500 to-rose-400",
       patternPosition: 'right' as const
     }

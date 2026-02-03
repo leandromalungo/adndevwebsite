@@ -1,8 +1,8 @@
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Activity } from '@/data/types';
 import ActivityCard from '@/components/wtm/activity/ActivityCard';
-import { ChevronRight, ThinArrowRight } from '@/components/wtm/activity/constants';
+import { ChevronRight } from '@/components/wtm/activity/constants';
 
 const INITIAL_ACTIVITIES: Activity[] = [
   {
@@ -37,7 +37,57 @@ const INITIAL_ACTIVITIES: Activity[] = [
   },
   {
     id: '4',
+    title: 'Jogof issões',
+    description: 'Uma iniciativa lúdica para inspirar as gerações futuras sobre as diversas carreiras no mundo da tecnologia.',
+    year: '2021',
+    location: 'DIA DA CRIANÇA',
+    imageUrl: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800&auto=format&fit=crop',
+    types: ['evento', 'artigo'],
+    link: '#'
+  },
+    {
+    id: '5',
     title: 'Jogo das Profissões',
+    description: 'Uma iniciativa lúdica para inspirar as gerações futuras sobre as diversas carreiras no mundo da tecnologia.',
+    year: '2021',
+    location: 'DIA DA CRIANÇA',
+    imageUrl: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800&auto=format&fit=crop',
+    types: ['evento', 'artigo'],
+    link: '#'
+  },
+    {
+    id: '6',
+    title: 'Jogo',
+    description: 'Uma iniciativa lúdica para inspirar as gerações futuras sobre as diversas carreiras no mundo da tecnologia.',
+    year: '2021',
+    location: 'DIA DA CRIANÇA',
+    imageUrl: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800&auto=format&fit=crop',
+    types: ['evento', 'artigo'],
+    link: '#'
+  },
+    {
+    id: '7',
+    title: 'Profissões',
+    description: 'Uma iniciativa lúdica para inspirar as gerações futuras sobre as diversas carreiras no mundo da tecnologia.',
+    year: '2021',
+    location: 'DIA DA CRIANÇA',
+    imageUrl: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800&auto=format&fit=crop',
+    types: ['evento', 'artigo'],
+    link: '#'
+  },
+    {
+    id: '8',
+    title: 'Jogo Profissões',
+    description: 'Uma iniciativa lúdica para inspirar as gerações futuras sobre as diversas carreiras no mundo da tecnologia.',
+    year: '2021',
+    location: 'DIA DA CRIANÇA',
+    imageUrl: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800&auto=format&fit=crop',
+    types: ['evento', 'artigo'],
+    link: '#'
+  },
+    {
+    id: '9',
+    title: 'Jogo das',
     description: 'Uma iniciativa lúdica para inspirar as gerações futuras sobre as diversas carreiras no mundo da tecnologia.',
     year: '2021',
     location: 'DIA DA CRIANÇA',
@@ -47,24 +97,7 @@ const INITIAL_ACTIVITIES: Activity[] = [
   }
 ];
 
-const generateMoreActivities = async (): Promise<Activity[]> => {
-  // Simula uma chamada a uma API/IA que gera novas atividades
-  await new Promise((res) => setTimeout(res, 500));
-  return [
-    {
-      id: `${Date.now()}`,
-      title: 'Workshop de Design Thinking',
-      description: 'Aprende a aplicar Design Thinking em projetos tech.',
-      year: '2023',
-      location: 'LISBOA',
-      imageUrl: 'https://images.unsplash.com/photo-1557800636-894a64c1696f?q=80&w=800&auto=format&fit=crop',
-      types: ['evento'],
-      link: '#'
-    }
-  ];
-};
-
-const ActivitiesSection: React.FC = () => {
+const ActivitiesSection = () => {
   const [activities, setActivities] = useState<Activity[]>(INITIAL_ACTIVITIES);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -74,7 +107,7 @@ const ActivitiesSection: React.FC = () => {
   useEffect(() => {
     const updateSlides = () => {
       const w = typeof window !== 'undefined' ? window.innerWidth : 1200;
-      if (w >= 1024) setSlidesPerView(4);
+      if (w >= 1024) setSlidesPerView(10);
       else if (w >= 768) setSlidesPerView(3);
       else if (w >= 640) setSlidesPerView(2);
       else setSlidesPerView(1);
@@ -116,14 +149,10 @@ const ActivitiesSection: React.FC = () => {
   return (
     <section className="max-w-[1440px] mx-auto px-10 py-20 overflow-hidden">
       <div className="flex items-center justify-between mb-16 px-2">
-        <h2 className="text-[36px] font-bold text-[#001A72] tracking-tight">
+        <h2 className="text-[36px] text-gray-800 tracking-tight">
           Atividades
         </h2>
         
-        <a href="#" className="flex items-center gap-3 text-[#001A72] font-semibold text-sm hover:opacity-70 transition-opacity">
-          <ThinArrowRight className="text-[#00BFFF]" />
-          Ver todas as atividades
-        </a>
       </div>
 
       <div className="relative group">

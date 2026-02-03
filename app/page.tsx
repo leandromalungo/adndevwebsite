@@ -55,7 +55,7 @@ const Page = () => {
       title: "Desafios nacionais",
       description:
         "Competições para testar habilidades e conquistar reconhecimento no cenário tecnológico.",
-      imageUrl: "/images/1768288533539.jpg",
+      imageUrl: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop",
       link: "#",
     },
     {
@@ -63,7 +63,7 @@ const Page = () => {
       title: "Testes de codificação",
       description:
         "Avaliação técnica para desenvolver raciocínio lógico e solução de problemas em código.",
-      imageUrl: "/images/1768288533539.jpg",
+      imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop",
       link: "#",
     },
   ];
