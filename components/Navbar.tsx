@@ -139,7 +139,7 @@ const Navbar = () => {
       return;
     }
     if (emailInput !== user.email || senhaInput !== user.senha) {
-      setDeleteMessage("Email ou senha incorretos.");
+      setDeleteMessage("Senha incorreta.");
       return;
     }
     setDeleteMessage("Conta eliminada!");
