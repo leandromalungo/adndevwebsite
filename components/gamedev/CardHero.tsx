@@ -28,12 +28,7 @@ const CardHero = () => {
           gênero, recursos, preço e muito mais para encontrar seu próximo jogo
           favorito.
         </p>
-
-        <div className="pt-4">
-          <button className="bg-[#a3e635] hover:bg-[#bef264] text-black font-black py-4 px-10 rounded-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-[#a3e635]/20 text-sm uppercase tracking-wide">
-            Veja todos os jogos
-          </button>
-        </div>
+        
       </div>
     </div>
   );

@@ -87,8 +87,8 @@ export const CuratedCollections = () => {
       </div>
 
       <div className="relative z-10 text-center mb-12">
-        <h2 className="text-3xl md:text-4xl text-[#002D2D]">
-          Navegue pela diversidade de áreas dentro do sector <span className="text-[#007E7E]">tecnologico.</span>
+        <h2 className="text-3xl md:text-4xl text-[#202020]">
+          Navegue pela diversidade de áreas dentro do sector <span className="text-[#812cff]">tecnologico.</span>
         </h2>
       </div>
 
@@ -128,14 +128,14 @@ export const CuratedCollections = () => {
 
                 {/* Fornecedor */}
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-semibold text-[#007E7E] bg-[#E8F4F4] px-3 py-1 rounded-full">
+                  <span className="text-xs font-semibold text-[#303030] bg-[#E8F4F4] px-3 py-1 rounded">
                     {course.provider}
                   </span>
                 </div>
 
                 {/* Botão de acesso */}
                 <Link href={course.link}>
-                  <button className="w-full bg-[#007E7E] hover:bg-[#005f5f] text-white font-bold py-2 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 mt-auto">
+                  <button className="w-full bg-[#56b7f4] hover:bg-[#2f86dd] text-white font-bold py-2 px-4 rounded transition-colors flex items-center justify-center gap-2 mt-auto">
                     Acessar Curso
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -148,13 +148,13 @@ export const CuratedCollections = () => {
         {/* Botões de navegação */}
         <button
           onClick={() => scroll('left')}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 md:-translate-x-12 bg-[#007E7E] hover:bg-[#005f5f] text-white p-2 md:p-3 rounded-full shadow-lg transition-all opacity-0 group-hover:opacity-100 z-20"
+          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 md:-translate-x-12 bg-[#303030] hover:bg-[#4a4a4a] text-white p-2 md:p-3 rounded-full shadow-lg transition-all opacity-0 group-hover:opacity-100 z-20"
         >
           <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
         </button>
         <button
           onClick={() => scroll('right')}
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 md:translate-x-12 bg-[#007E7E] hover:bg-[#005f5f] text-white p-2 md:p-3 rounded-full shadow-lg transition-all opacity-0 group-hover:opacity-100 z-20"
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 md:translate-x-12 bg-[#303030] hover:bg-[#4a4a4a] text-white p-2 md:p-3 rounded-full shadow-lg transition-all opacity-0 group-hover:opacity-100 z-20"
         >
           <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
         </button>
@@ -162,7 +162,7 @@ export const CuratedCollections = () => {
 
       {/* Botão de chamada à ação */}
       <div className="flex justify-center mt-12 relative z-10">
-        <button className="flex items-center gap-2 bg-[#B1DBDD] text-[#002D2D] font-bold py-3 px-10 rounded-xl hover:bg-[#9AD2D5] transition-colors shadow-sm group">
+        <button className="flex items-center gap-2 bg-[#56b7f4] font-bold text-gray-50 py-3 px-10 rounded hover:bg-[#2f86dd] transition-colors shadow-sm group">
           <Link href="/roadmaps">Ver mais cursos disponíveis</Link>
           <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </button>

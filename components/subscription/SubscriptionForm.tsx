@@ -101,7 +101,7 @@ const SubscriptionForm: React.FC = () => {
             value={telegram}
             onChange={(e) => setTelegram(e.target.value)}
             className="px-3 py-2 border rounded"
-            placeholder="@seuusuario"
+            placeholder="seu @usuario"
           />
         </label>
 

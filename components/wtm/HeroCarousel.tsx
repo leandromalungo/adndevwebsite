@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useCallback } from 'react';
-import { SLIDES, WTMLogo } from '@/components/wtm/constants';
+import { SLIDES } from '@/components/wtm/constants';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { FilterTab } from '@/components/CountryFilter';
 
@@ -59,7 +59,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ selectedCountry }) =
             {formatDescription(currentSlide.description, currentSlide.boldKeywords)}
           </p>
 
-          <button className="bg-[#1a73e8] hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-sm transition">
+          <button className="bg-[#1a73e8] hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded shadow-sm transition">
             {currentSlide.buttonText}
           </button>
         </div>

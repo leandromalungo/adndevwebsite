@@ -93,8 +93,8 @@ const App = () => {
         className="bg-white border-b border-gray-200"
       />
       <LeadershipSection selectedCountry={selectedCountry} />
-      <ActivitiesSection />
       <HeroCarousel selectedCountry={selectedCountry} />
+      <ActivitiesSection />
       <Footer />
     </>
   );

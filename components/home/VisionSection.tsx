@@ -22,7 +22,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
         onClick={onClick}
         className="w-full px-6 py-6 flex items-center justify-between text-left focus:outline-none"
       >
-        <span className="text-2xl sm:text-3xl font-bold text-[#1e293b]">
+        <span className="text-2xl sm:text-3xl text-[#1e293b]">
           {title}
         </span>
         <div className="bg-transparent rounded-full p-1">

@@ -316,13 +316,7 @@ const Footer = () => {
               Trabalhe conosco
             </a>
             <a href="#" className="hover:text-gray-900">
-              Anuncie
-            </a>
-            <a href="#" className="hover:text-gray-900">
               Central de Ajuda
-            </a>
-            <a href="#" className="hover:text-gray-900">
-              Contato
             </a>
           </div>
         </div>
