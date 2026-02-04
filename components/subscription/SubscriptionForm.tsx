@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 type PaymentMethod = "paypal" | "transfer";
+type PayPalCurrency = "USD" | "EUR";
 
 const SubscriptionForm: React.FC = () => {
   const router = useRouter();
@@ -19,6 +20,9 @@ const SubscriptionForm: React.FC = () => {
   const [alerts, setAlerts] = useState<string[]>([]);
   const [paymentMethod, setPaymentMethod] =
     useState<PaymentMethod>("paypal");
+
+  const [paypalCurrency, setPaypalCurrency] =
+    useState<PayPalCurrency>("USD");
 
   const [bankReceipt, setBankReceipt] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
@@ -66,11 +70,9 @@ const SubscriptionForm: React.FC = () => {
     if (!validate()) return;
 
     setLoading(true);
-
-    // Simulação de envio
     await new Promise((r) => setTimeout(r, 1200));
-
     setLoading(false);
+
     router.push("/assinatura/sucesso");
   };
 
@@ -169,41 +171,12 @@ const SubscriptionForm: React.FC = () => {
         </label>
       </div>
 
-      {/* Alertas */}
-      <section className="mt-4">
-        <h4 className="font-semibold mb-2">
-          Que tipos de alertas deseja receber?
-        </h4>
-        <div className="flex flex-wrap gap-3">
-          {[
-            { id: "events", label: "Eventos" },
-            { id: "community", label: "Comunidade" },
-            { id: "gamedev", label: "Game Development" },
-            { id: "wtm", label: "Mulheres na T.I" },
-            { id: "roadmaps", label: "Cursos" },
-            { id: "bolsas", label: "Bolsas de estudo" },
-            { id: "startups", label: "Startups" },
-          ].map((item) => (
-            <label
-              key={item.id}
-              className="inline-flex items-center gap-2"
-            >
-              <input
-                type="checkbox"
-                checked={alerts.includes(item.id)}
-                onChange={() => toggleAlert(item.id)}
-              />
-              <span className="text-sm">{item.label}</span>
-            </label>
-          ))}
-        </div>
-      </section>
-
       {/* Pagamento */}
       <section className="mt-6">
         <h4 className="font-semibold mb-2">Método de pagamento</h4>
 
-        <label className="flex items-center gap-3 mb-3">
+        {/* PayPal */}
+        <label className="flex items-center gap-3 mb-2">
           <input
             type="radio"
             name="payment"
@@ -218,20 +191,45 @@ const SubscriptionForm: React.FC = () => {
           <span>PayPal</span>
         </label>
 
-        <label className="flex items-center gap-3">
-          <input
-            type="radio"
-            name="payment"
-            checked={paymentMethod === "transfer"}
-            onChange={() => setPaymentMethod("transfer")}
-          />
-          <img
-            src="/images/payments/express.png"
-            alt="Transferência bancária"
-            className="h-6 w-6"
-          />
-          <span>Transferência bancária</span>
-        </label>
+        {paymentMethod === "paypal" && (
+          <div className="ml-6 mt-2 space-y-1 text-sm">
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                checked={paypalCurrency === "USD"}
+                onChange={() => setPaypalCurrency("USD")}
+              />
+              <span>2 USD (Dólares)</span>
+            </label>
+
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                checked={paypalCurrency === "EUR"}
+                onChange={() => setPaypalCurrency("EUR")}
+              />
+              <span>Conversão para EUR</span>
+            </label>
+          </div>
+        )}
+
+        {/* Multicaixa Express apenas para Angola */}
+        {country === "Angola" && (
+          <label className="flex items-center gap-3 mt-4">
+            <input
+              type="radio"
+              name="payment"
+              checked={paymentMethod === "transfer"}
+              onChange={() => setPaymentMethod("transfer")}
+            />
+            <img
+              src="/images/payments/express.png"
+              alt="Multicaixa Express"
+              className="h-6 w-6"
+            />
+            <span>Multicaixa Express — 1000 KZ</span>
+          </label>
+        )}
 
         {paymentMethod === "transfer" && (
           <div className="mt-3">
