@@ -18,7 +18,7 @@ const CardHero = () => {
 
       {/* Conteúdo CENTRALIZADO */}
       <div className="relative z-10 max-w-2xl text-center space-y-3 px-4 mx-auto">
-        <h2 className="text-3xl md:text-4xl text-white tracking-tight leading-tight uppercase">
+        <h2 className="text-2xl md:text-3xl text-white tracking-tight leading-tight uppercase">
           Aproveitando o melhor conteúdo
         </h2>
 
