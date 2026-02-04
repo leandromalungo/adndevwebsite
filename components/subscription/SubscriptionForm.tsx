@@ -230,7 +230,7 @@ const SubscriptionForm: React.FC = () => {
               alt="Multicaixa Express"
               className="h-6 w-6"
             />
-            <span>Multicaixa Express — 1000 KZ</span>
+            <span>Multicaixa Express - 1000 KZ</span>
           </label>
         )}
 
