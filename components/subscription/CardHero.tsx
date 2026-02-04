@@ -1,8 +1,8 @@
-"use client";
+"use client"; 
 
 const CardHero = () => {
   return (
-    <div className="relative w-full min-h-[100px] rounded-xl overflow-hidden flex items-center px-8 md:px-20 py-8">
+    <div className="relative w-[86%] max-w-5xl min-h-[100px] rounded-xl overflow-hidden flex items-center px-8 md:px-20 py-8 mx-auto">
       {/* Imagem de fundo */}
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -17,7 +17,7 @@ const CardHero = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
 
       {/* Content CENTRALIZADO */}
-      <div className="relative z-10 max-w-3xl text-center space-y-3 px-4">
+      <div className="relative z-10 max-w-2xl text-center space-y-3 px-4 mx-auto">
         <h2 className="text-3xl md:text-4xl text-white tracking-tight leading-tight uppercase">
           Com uma assinatura 
         </h2>
