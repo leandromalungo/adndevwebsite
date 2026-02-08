@@ -310,9 +310,6 @@ const Footer = () => {
             
           </div>
           <div className="flex flex-wrap justify-center gap-4 text-xs font-medium text-gray-500">
-            <a href="#" className="hover:text-gray-900">
-              Trabalhe conosco
-            </a>
             <a href="mailto:geral@adndeveloper.com" className="hover:text-gray-900">
               geral@adndeveloper.com
             </a>

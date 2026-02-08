@@ -1,8 +1,7 @@
-
 import { useState, useEffect, useCallback } from 'react';
 import { Activity } from '@/data/types';
 import ActivityCard from '@/components/wtm/activity/ActivityCard';
-import { ChevronRight } from '@/components/wtm/activity/constants';
+import { ChevronRight, ChevronLeft } from '@/components/wtm/activity/constants';
 
 const INITIAL_ACTIVITIES: Activity[] = [
   {
@@ -45,7 +44,7 @@ const INITIAL_ACTIVITIES: Activity[] = [
     types: ['evento', 'artigo'],
     link: '#'
   },
-    {
+  {
     id: '5',
     title: 'Jogo das Profissões',
     description: 'Uma iniciativa lúdica para inspirar as gerações futuras sobre as diversas carreiras no mundo da tecnologia.',
@@ -55,7 +54,7 @@ const INITIAL_ACTIVITIES: Activity[] = [
     types: ['evento', 'artigo'],
     link: '#'
   },
-    {
+  {
     id: '6',
     title: 'Jogo',
     description: 'Uma iniciativa lúdica para inspirar as gerações futuras sobre as diversas carreiras no mundo da tecnologia.',
@@ -65,7 +64,7 @@ const INITIAL_ACTIVITIES: Activity[] = [
     types: ['evento', 'artigo'],
     link: '#'
   },
-    {
+  {
     id: '7',
     title: 'Profissões',
     description: 'Uma iniciativa lúdica para inspirar as gerações futuras sobre as diversas carreiras no mundo da tecnologia.',
@@ -75,7 +74,7 @@ const INITIAL_ACTIVITIES: Activity[] = [
     types: ['evento', 'artigo'],
     link: '#'
   },
-    {
+  {
     id: '8',
     title: 'Jogo Profissões',
     description: 'Uma iniciativa lúdica para inspirar as gerações futuras sobre as diversas carreiras no mundo da tecnologia.',
@@ -85,9 +84,49 @@ const INITIAL_ACTIVITIES: Activity[] = [
     types: ['evento', 'artigo'],
     link: '#'
   },
-    {
+  {
     id: '9',
     title: 'Jogo das',
+    description: 'Uma iniciativa lúdica para inspirar as gerações futuras sobre as diversas carreiras no mundo da tecnologia.',
+    year: '2021',
+    location: 'DIA DA CRIANÇA',
+    imageUrl: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800&auto=format&fit=crop',
+    types: ['evento', 'artigo'],
+    link: '#'
+  },
+  {
+    id: '10',
+    title: 'Jogo das',
+    description: 'Uma iniciativa lúdica para inspirar as gerações futuras sobre as diversas carreiras no mundo da tecnologia.',
+    year: '2021',
+    location: 'DIA DA CRIANÇA',
+    imageUrl: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800&auto=format&fit=crop',
+    types: ['evento', 'artigo'],
+    link: '#'
+  },
+  {
+    id: '11',
+    title: 'Jogo das Profissões',
+    description: 'Uma iniciativa lúdica para inspirar as gerações futuras sobre as diversas carreiras no mundo da tecnologia.',
+    year: '2021',
+    location: 'DIA DA CRIANÇA',
+    imageUrl: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800&auto=format&fit=crop',
+    types: ['evento', 'artigo'],
+    link: '#'
+  },
+  {
+    id: '12',
+    title: 'Jogo das Profissões',
+    description: 'Uma iniciativa lúdica para inspirar as gerações futuras sobre as diversas carreiras no mundo da tecnologia.',
+    year: '2021',
+    location: 'DIA DA CRIANÇA',
+    imageUrl: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800&auto=format&fit=crop',
+    types: ['evento', 'artigo'],
+    link: '#'
+  },
+  {
+    id: '13',
+    title: 'Jogo das Profissões',
     description: 'Uma iniciativa lúdica para inspirar as gerações futuras sobre as diversas carreiras no mundo da tecnologia.',
     year: '2021',
     location: 'DIA DA CRIANÇA',
@@ -101,15 +140,14 @@ const ActivitiesSection = () => {
   const [activities, setActivities] = useState<Activity[]>(INITIAL_ACTIVITIES);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [slidesPerView, setSlidesPerView] = useState<number>(1);
 
   useEffect(() => {
     const updateSlides = () => {
       const w = typeof window !== 'undefined' ? window.innerWidth : 1200;
-      if (w >= 1024) setSlidesPerView(10);
-      else if (w >= 768) setSlidesPerView(3);
-      else if (w >= 640) setSlidesPerView(2);
+      if (w >= 1440) setSlidesPerView(4);
+      else if (w >= 1024) setSlidesPerView(3);
+      else if (w >= 768) setSlidesPerView(2);
       else setSlidesPerView(1);
     };
     updateSlides();
@@ -119,12 +157,18 @@ const ActivitiesSection = () => {
 
   const displayActivities = [...activities, ...activities, ...activities];
   const offsetIndex = currentIndex + activities.length;
-  const slideWidthPercent = 100 / slidesPerView; 
+  const slideWidthPercent = 100 / slidesPerView;
 
   const handleNext = useCallback(() => {
     if (isTransitioning) return;
     setIsTransitioning(true);
     setCurrentIndex((prev) => prev + 1);
+  }, [isTransitioning]);
+
+  const handlePrev = useCallback(() => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev - 1);
   }, [isTransitioning]);
 
   useEffect(() => {
@@ -152,7 +196,6 @@ const ActivitiesSection = () => {
         <h2 className="text-[36px] text-gray-800 tracking-tight pl-10">
           Atividades
         </h2>
-        
       </div>
 
       <div className="relative group">
@@ -164,13 +207,23 @@ const ActivitiesSection = () => {
             <div 
               key={`${activity.id}-${idx}`} 
               className="flex-shrink-0"
-              style={{ width: `calc(${slideWidthPercent}% - 18px)` }}
+              style={{ width: `calc(${slideWidthPercent}% - 18px)`, maxWidth: '300px' }}
             >
               <ActivityCard activity={activity} />
             </div>
           ))}
         </div>
 
+        {/* Botão Retroceder */}
+        <button 
+          onClick={handlePrev}
+          className="absolute -left-6 top-1/2 -translate-y-1/2 bg-white w-[64px] h-[64px] rounded-[12px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] flex items-center justify-center text-[#001A72] hover:scale-105 transition-all z-20 border border-gray-50"
+          aria-label="Anterior"
+        >
+          <ChevronLeft className="w-8 h-8" />
+        </button>
+
+        {/* Botão Avançar */}
         <button 
           onClick={handleNext}
           className="absolute -right-6 top-1/2 -translate-y-1/2 bg-white w-[64px] h-[64px] rounded-[12px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] flex items-center justify-center text-[#001A72] hover:scale-105 transition-all z-20 border border-gray-50"
@@ -196,7 +249,6 @@ const ActivitiesSection = () => {
           />
         ))}
       </div>
-
     </section>
   );
 };

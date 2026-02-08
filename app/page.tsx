@@ -18,7 +18,6 @@ import { Destaque } from "@/components/home/Destaque";
 import CardHero from "@/components/home/CardHero";
 import UniverseSection from "@/components/home/ContentSection";
 import DicasSection from "@/components/home/DicasSection";
-// import TeamMember from "@/components/home/TeamMember"
 
 const Page = () => {
   const servicesData = [
@@ -122,7 +121,6 @@ const Page = () => {
         </div>
       </section>
       <Testimonials />
-      {/* <TeamMember /> */}
       <TeamMemberSection />
       <FAQSection />
       <Footer />

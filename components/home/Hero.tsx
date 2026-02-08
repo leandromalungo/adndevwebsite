@@ -32,14 +32,14 @@ export const Hero = () => {
         max-w-7xl mx-auto
         flex flex-col
         min-h-[70vh]
-        pt-20 sm:pt-24 md:pt-32
+        pt-20 sm:pt-12 md:pt-16
         pb-10 md:pb-16
         md:justify-center
       "
     >
       <div className="max-w-4xl">
         {/* Título */}
-        <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-5xl xl:text-6xl leading-[1.1] mb-5 sm:mb-6 md:mb-8 lg:mb-10 tracking-tight text-gray-50">
+        <h1 className="text-3xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-6xl leading-[1.1] mb-5 sm:mb-6 md:mb-8 lg:mb-10 tracking-tight text-gray-50">
           Ecossistema de conteúdo, impulsionado por Tecnologia.
         </h1>
 

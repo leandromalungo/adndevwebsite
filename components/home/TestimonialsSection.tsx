@@ -45,7 +45,7 @@ const TestimonialsSection = () => {
           {testimonials.map((t, i) => (
             <div
               key={i}
-              className="flex flex-col rounded-2xl overflow-hidden shadow-xl shadow-blue-900/10 transition-transform hover:scale-[1.02]"
+              className="flex flex-col rounded overflow-hidden shadow-xl shadow-blue-900/10"
             >
               {/* Seção Superior Branca */}
               <div className="bg-white p-8 sm:p-10 flex flex-col items-start text-left flex-grow">
