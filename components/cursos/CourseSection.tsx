@@ -55,11 +55,7 @@ export const CourseSection = () => {
               name="Yale University"
               color="bg-blue-900 text-white"
             />
-            <CourseItem
-              logo="IIT"
-              name="IIT Kharagpur"
-              color="bg-indigo-100"
-            />
+            <CourseItem logo="IIT" name="IIT Kharagpur" color="bg-indigo-100" />
             <CourseItem logo="MIT" name="MIT" color="bg-gray-900 text-white" />
             <CourseItem
               logo="R"
@@ -72,11 +68,7 @@ export const CourseSection = () => {
               name="Columbia University"
               color="bg-blue-50"
             />
-            <CourseItem
-              logo="CU"
-              name="Cornell University"
-              color="bg-red-50"
-            />
+            <CourseItem logo="CU" name="Cornell University" color="bg-red-50" />
             <CourseItem
               logo="E"
               name="U. of Edinburgh"
@@ -147,36 +139,40 @@ export const CourseSection = () => {
         {/* Institutions Column */}
         <div className="flex flex-col md:pl-8">
           <SectionTitle>Big tech</SectionTitle>
-          <div className="flex flex-col gap-1">
-            <CourseItem logo="G" name="Google" color="bg-white" />
-            <CourseItem logo="a" name="Amazon" color="bg-black text-white" />
-            <CourseItem logo="MS" name="Microsoft" color="bg-white" />
-            <CourseItem logo="IBM" name="IBM" color="bg-blue-50" />
-            <CourseItem
-              logo="S"
-              name="Smithsonian"
-              color="bg-blue-400 text-white"
-            />
-            <CourseItem logo="UN" name="United Nations" color="bg-sky-100" />
-            <CourseItem logo="N" name="NPTEL" color="bg-orange-50" />
-            
-          </div>
 
-           <div className="flex flex-col gap-1">
-            <CourseItem logo="G" name="Google" color="bg-white" />
-            <CourseItem logo="a" name="Amazon" color="bg-black text-white" />
-            <CourseItem logo="MS" name="Microsoft" color="bg-white" />
-            <CourseItem logo="IBM" name="IBM" color="bg-blue-50" />
-            <CourseItem
-              logo="S"
-              name="Smithsonian"
-              color="bg-blue-400 text-white"
-            />
-            <CourseItem logo="UN" name="United Nations" color="bg-sky-100" />
-            <CourseItem logo="N" name="NPTEL" color="bg-orange-50" />
-            
+          {/* Container horizontal */}
+          <div className="flex flex-row gap-8">
+            {" "}
+            {/* Aqui usei flex-row e gap para espaçamento */}
+            {/* Primeira coluna */}
+            <div className="flex flex-col gap-1">
+              <CourseItem logo="G" name="Google" color="bg-white" />
+              <CourseItem logo="a" name="Amazon" color="bg-black text-white" />
+              <CourseItem logo="MS" name="Microsoft" color="bg-white" />
+              <CourseItem logo="IBM" name="IBM" color="bg-blue-50" />
+              <CourseItem
+                logo="S"
+                name="Smithsonian"
+                color="bg-blue-400 text-white"
+              />
+              <CourseItem logo="UN" name="United Nations" color="bg-sky-100" />
+              <CourseItem logo="N" name="NPTEL" color="bg-orange-50" />
+            </div>
+            {/* Segunda coluna */}
+            <div className="flex flex-col gap-1">
+              <CourseItem logo="G" name="Google" color="bg-white" />
+              <CourseItem logo="a" name="Amazon" color="bg-black text-white" />
+              <CourseItem logo="MS" name="Microsoft" color="bg-white" />
+              <CourseItem logo="IBM" name="IBM" color="bg-blue-50" />
+              <CourseItem
+                logo="S"
+                name="Smithsonian"
+                color="bg-blue-400 text-white"
+              />
+              <CourseItem logo="UN" name="United Nations" color="bg-sky-100" />
+              <CourseItem logo="N" name="NPTEL" color="bg-orange-50" />
+            </div>
           </div>
-          
         </div>
       </div>
     </div>
