@@ -21,7 +21,7 @@ export default function CareerQuizPage() {
       <Navbar />
 
       {/* QUIZ SECTION CONTAINER */}
-      <section className="relative w-full  min-h-screen bg-zinc-950 flex flex-col justify-center overflow-hidden py-20">
+      <section className="relative w-full  min-h-screen bg-zinc-950 flex flex-col justify-center overflow-hidden py-10">
         {/* Background Decorative */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10"
