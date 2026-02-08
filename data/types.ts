@@ -301,3 +301,19 @@ export interface Activity {
 export interface ActivityResponse {
   activities: Activity[];
 }
+export interface AlumniRole {
+  id: string;
+  name: string;
+  originalRole: string;
+  newRole: string;
+  testimonial: string;
+  imageUrl: string;
+  linkedInUrl?: string;
+  instagramUrl?: string;
+  githubUrl?: string;
+  facebookUrl?: string;
+}
+
+export interface SearchState {
+  query: string;
+}

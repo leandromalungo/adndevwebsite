@@ -59,8 +59,8 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ selectedCountry }) =
             {formatDescription(currentSlide.description, currentSlide.boldKeywords)}
           </p>
 
-          <button className="bg-[#1a73e8] hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded shadow-sm transition">
-            {currentSlide.buttonText}
+          <button className="bg-[#1a73e8] hover:bg-blue-700 text-white font-bold py-3 px-8 rounded transition-colors shadow-sm">
+            ASSINAR AGORA
           </button>
         </div>
 

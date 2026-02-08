@@ -8,7 +8,7 @@ import { Loader2 } from "lucide-react";
 type LoadingButton = "assinar" | "area" | null;
 
 export const Hero = () => {
-  const tags = ["E-books", "Newsletters", "Bolsas de Estudo", "E muito mais"];
+  const tags = ["Eventos", "Bolsas de Estudo", "Newsletters", "E muito mais"];
   const [loadingButton, setLoadingButton] = useState<LoadingButton>(null);
   const router = useRouter();
 
@@ -39,7 +39,7 @@ export const Hero = () => {
     >
       <div className="max-w-4xl">
         {/* Título */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl leading-[1.1] mb-5 sm:mb-6 md:mb-8 lg:mb-10 tracking-tight text-gray-50">
+        <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-5xl xl:text-6xl leading-[1.1] mb-5 sm:mb-6 md:mb-8 lg:mb-10 tracking-tight text-gray-50">
           Ecossistema de conteúdo, impulsionado por Tecnologia.
         </h1>
 
@@ -47,7 +47,7 @@ export const Hero = () => {
         <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-4 sm:mb-5 md:mb-6 lg:mb-8 leading-relaxed max-w-3xl">
           O maior repositorio de conteúdo tecnológico da lusofonia, com tudo o
           que precisas para entrar na área de tecnologia, desde cursos,
-          bootcamps e muito mais. Um espaço feito para ti crescer na tua
+          bootcamps e muito mais. Um espaço feito para desenvolveres mais tua a
           carreira tech, com a nossa ajuda.
         </p>
 

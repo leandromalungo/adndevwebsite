@@ -31,7 +31,7 @@ const Page = () => {
           content="Bolsas de estudo nacionais e internacionais para todas áreas de estudo para as melhores faculdades do mundo."
         />
       </Head>
-      
+
       <Navbar />
       {/* SEÇÃO COM FUNDO E CTA */}
       <section className="relative w-full h-[50vh] overflow-hidden bg-zinc-900">
@@ -61,7 +61,7 @@ const Page = () => {
             <button
               onClick={handleClick}
               disabled={loading}
-              className={`inline-flex items-center gap-2 px-3 py-3 font-semibold transition-all active:scale-95 rounded-xl ${
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded ${
                 loading
                   ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                   : "bg-blue-400 hover:bg-blue-500 text-white"
@@ -69,7 +69,7 @@ const Page = () => {
             >
               {loading ? (
                 <>
-                  <Loader2 size={20} className="animate-spin" />
+                  <Loader2 size={18} className="animate-spin" />
                   Processando...
                 </>
               ) : (

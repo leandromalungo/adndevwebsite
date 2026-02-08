@@ -135,7 +135,7 @@ export const CuratedCollections = () => {
 
                 {/* Botão de acesso */}
                 <Link href={course.link}>
-                  <button className="w-full bg-[#56b7f4] hover:bg-[#2f86dd] text-white font-bold py-2 px-4 rounded transition-colors flex items-center justify-center gap-2 mt-auto">
+                  <button className="w-full bg-[#5901dc] hover:bg-[#4504a6] text-white font-bold py-2 px-4 rounded transition-colors flex items-center justify-center gap-2 mt-auto">
                     Acessar Curso
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -162,8 +162,8 @@ export const CuratedCollections = () => {
 
       {/* Botão de chamada à ação */}
       <div className="flex justify-center mt-12 relative z-10">
-        <button className="flex items-center gap-2 bg-[#56b7f4] font-bold text-gray-50 py-3 px-10 rounded hover:bg-[#2f86dd] transition-colors shadow-sm group">
-          <Link href="/roadmaps">Ver mais cursos disponíveis</Link>
+        <button className="flex items-center gap-2 bg-[#5901dc] font-bold text-gray-50 py-3 px-10 rounded hover:bg-[#4504a6] transition-colors shadow-sm group">
+          <Link href="/cursos">Ver mais cursos disponíveis</Link>
           <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </button>
       </div>

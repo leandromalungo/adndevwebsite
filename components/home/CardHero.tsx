@@ -28,7 +28,7 @@ const CardHero = () => {
         </p>
 
         <div className="pt-4">
-          <button className="bg-[#356ae6] hover:bg-[#4071e5] text-white py-4 px-10 rounded-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-[#a3e635]/20 text-sm uppercase tracking-wide">
+          <button className="bg-[#356ae6] font-semibold hover:bg-[#4071e5] text-white py-4 px-10 rounded transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-[#a3e635]/20 text-sm uppercase tracking-wide">
             Acessar agora
           </button>
         </div>

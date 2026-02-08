@@ -149,7 +149,7 @@ const ActivitiesSection = () => {
   return (
     <section className="max-w-[1440px] mx-auto px-10 py-20 overflow-hidden">
       <div className="flex items-center justify-between mb-16 px-2">
-        <h2 className="text-[36px] text-gray-800 tracking-tight">
+        <h2 className="text-[36px] text-gray-800 tracking-tight pl-10">
           Atividades
         </h2>
         

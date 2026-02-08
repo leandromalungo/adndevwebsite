@@ -40,10 +40,10 @@ export const JobBoard: React.FC<JobBoardProps> = ({ funcoes, onAdd, onLoadMore, 
             onClick={onLoadMore}
             className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors group"
           >
-            <div className="p-1 bg-transparent group-hover:bg-blue-50 rounded-md transition-colors">
+            <div className="p-1 bg-transparent group-hover:bg-blue-50 rounded transition-colors">
               <Plus className="w-4 h-4" />
             </div>
-            Ver mais funções
+            Ver mais áreas
           </button>
         </div>
       )}

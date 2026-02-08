@@ -23,7 +23,7 @@ const CourseItem: React.FC<CourseItemProps> = ({
         logo
       )}
     </div>
-    <span className="text-sm font-medium text-gray-700 group-hover:text-blue-600 transition-colors truncate">
+    <span className="text-sm font-medium text-gray-700 group-hover:text-gray-800 transition-colors truncate">
       {name}
     </span>
   </div>
@@ -32,7 +32,7 @@ const CourseItem: React.FC<CourseItemProps> = ({
 const SectionTitle: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => (
-  <h2 className="text-xl font-extrabold text-[#54a2fb] mb-8 px-2 tracking-tight">
+  <h2 className="text-xl font-extrabold text-[#2d2d2d] mb-8 px-2 tracking-tight">
     {children}
   </h2>
 );
@@ -159,7 +159,24 @@ export const CourseSection = () => {
             />
             <CourseItem logo="UN" name="United Nations" color="bg-sky-100" />
             <CourseItem logo="N" name="NPTEL" color="bg-orange-50" />
+            
           </div>
+
+           <div className="flex flex-col gap-1">
+            <CourseItem logo="G" name="Google" color="bg-white" />
+            <CourseItem logo="a" name="Amazon" color="bg-black text-white" />
+            <CourseItem logo="MS" name="Microsoft" color="bg-white" />
+            <CourseItem logo="IBM" name="IBM" color="bg-blue-50" />
+            <CourseItem
+              logo="S"
+              name="Smithsonian"
+              color="bg-blue-400 text-white"
+            />
+            <CourseItem logo="UN" name="United Nations" color="bg-sky-100" />
+            <CourseItem logo="N" name="NPTEL" color="bg-orange-50" />
+            
+          </div>
+          
         </div>
       </div>
     </div>

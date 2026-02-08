@@ -4,6 +4,7 @@
  * Página inicial da plataforma.
  */
 
+import Head from "next/head";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/home/Hero";
 import FAQSection from "@/components/home/FAQSection";
@@ -15,6 +16,9 @@ import CuratedCollections from "@/components/cursos/courses/CuratedCollections";
 import TeamMemberSection from "@/components/home/TeamMemberSection";
 import { Destaque } from "@/components/home/Destaque";
 import CardHero from "@/components/home/CardHero";
+import UniverseSection from "@/components/home/ContentSection";
+import DicasSection from "@/components/home/DicasSection";
+// import TeamMember from "@/components/home/TeamMember"
 
 const Page = () => {
   const servicesData = [
@@ -55,7 +59,8 @@ const Page = () => {
       title: "Desafios nacionais",
       description:
         "Competições para testar habilidades e conquistar reconhecimento no cenário tecnológico.",
-      imageUrl: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop",
+      imageUrl:
+        "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop",
       link: "#",
     },
     {
@@ -63,15 +68,19 @@ const Page = () => {
       title: "Testes de codificação",
       description:
         "Avaliação técnica para desenvolver raciocínio lógico e solução de problemas em código.",
-      imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop",
+      imageUrl:
+        "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop",
       link: "#",
     },
   ];
 
   return (
     <div className="min-h-screen bg-white selection:bg-yellow-200">
+      {" "}
+      <Head>
+        <meta name="msvalidate.01" content="87B7E18D878A5F97D76F0A95CBFA4EAA" />
+      </Head>
       <Navbar />
-
       {/* Secção HERO */}
       <section className="relative min-h-screen w-full bg-black/90 overflow-hidden">
         <main className="relative z-10">
@@ -93,7 +102,7 @@ const Page = () => {
         </div>
       </section>
       <Destaque />
-
+      <DicasSection />
       {/* CONTEÚDO */}
       <section className="relative z-10 bg-[#f7f8f9] flex flex-col items-center py-5 px-4 md:px-10 space-y-24">
         <div className="w-full max-w-7xl">
@@ -107,12 +116,13 @@ const Page = () => {
         <div className="w-full max-w-7xl">
           <CardHero />
         </div>
-
+        <UniverseSection />
         <div className="w-full max-w-7xl">
           <Vision />
         </div>
       </section>
       <Testimonials />
+      {/* <TeamMember /> */}
       <TeamMemberSection />
       <FAQSection />
       <Footer />

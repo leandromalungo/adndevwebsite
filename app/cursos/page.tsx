@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { Funcao } from "@/data/types";
 import { JobBoard } from "@/components/cursos/JobBoard";
 import { CourseSection } from "@/components/cursos/CourseSection";
+import BootcampsSection from "@/components/cursos/BootcampsSection";
 import {
   Loader2,
   ArrowRight,
@@ -192,7 +193,7 @@ const Page = () => {
               <button
                 onClick={handleClickAssinar}
                 disabled={loadingAssinar}
-                className={`inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold transition-all active:scale-95 rounded-xl hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
+                className={`inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
                   loadingAssinar
                     ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                     : "bg-blue-400 hover:bg-blue-500 text-white"
@@ -214,7 +215,7 @@ const Page = () => {
               <button
                 onClick={handleClickPlano}
                 disabled={loadingPlano}
-                className={`inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold transition-all active:scale-95 rounded-xl hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
+                className={`inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
                   loadingPlano
                     ? "cursor-not-allowed text-zinc-800"
                     : "border border-blue-400 hover:bg-blue-500 text-white"
@@ -241,6 +242,8 @@ const Page = () => {
         onLoadMore={handleLoadMore}
         hasMore={hasMore}
       />
+
+      <BootcampsSection />
       {/* Seção de Parceiros (Instituições, Universidades, etc) */}
       <CourseSection />
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {ArrowRight, CheckCircle2, RefreshCcw, ChevronRight, Loader2, Reply,} from "lucide-react";
+import {ArrowRight, CheckCircle2, RefreshCcw, ChevronRight, Loader2 } from "lucide-react";
 import { AreaKey, FULL_QUESTION_BANK, TECH_AREAS, TechArea, Question,} from "@/app/quiz/data";
 
 /* =======================
@@ -30,7 +30,7 @@ export function QuizGame() {
   const [scores, setScores] = useState<Record<string, number>>({});
 
   // Configuração
-  const QUESTIONS_PER_SESSION = 40;
+  const QUESTIONS_PER_SESSION = 20;
 
   // INICIALIZAR PERGUNTAS
   const handleStart = () => {
@@ -248,7 +248,7 @@ export function QuizGame() {
                   onClick={handleSkip}
                   className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors py-2 px-4 rounded hover:bg-zinc-800/50 border border-violet-500/30"
                 >
-                    <Reply size={16} />
+                    <RefreshCcw size={16} />
                     Não entendi a pergunta, pular.
                 </button>
             )}
@@ -285,7 +285,7 @@ export function QuizGame() {
         {/* Gráfico de distribuição */}
         <div className="max-w-md mx-auto bg-zinc-900/80 p-6 rounded-2xl border border-zinc-800 mb-10 shadow-2xl">
           <h4 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-4 text-left border-b border-zinc-800 pb-2">
-            Top 5 Compatibilidades
+            Áreas compativeis contigo:
           </h4>
           <div className="space-y-4">
             {result.breakdown.map((item) => (

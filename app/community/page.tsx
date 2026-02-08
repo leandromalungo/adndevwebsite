@@ -59,7 +59,7 @@ export default function Page() {
             <button
               onClick={handleClick}
               disabled={loading}
-              className={`inline-flex items-center gap-2 px-3 py-3 mb-4 font-semibold transition-all active:scale-95 rounded-xl ${
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded ${
                 loading
                   ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                   : "bg-blue-400 hover:bg-blue-500 text-white"
@@ -67,7 +67,7 @@ export default function Page() {
             >
               {loading ? (
                 <>
-                  <Loader2 size={20} className="animate-spin" />
+                  <Loader2 size={18} className="animate-spin" />
                   Processando...
                 </>
               ) : (
@@ -83,22 +83,22 @@ export default function Page() {
 
       {/* SEÇÃO COMUNIDADES */}
       <div className="min-h-screen bg-[#f9fafb]">
-        <header className="bg-white border-b border-gray-200 py-6 mb-8">
+        <header className="bg-white border-b border-gray-200 py-6">
           <div className="max-w-7xl mx-auto px-4">
-            <h1 className="text-2xl font-bold text-gray-900">Comunidades</h1>
-            <p className="text-gray-500 text-sm mt-1">
+            <h1 className="text-2xl font-bold text-gray-900 pl-3">Comunidades</h1>
+            <p className="text-gray-500 text-sm pl-3">
               Descubra grupos e comunidades de tecnologia na lusofonia e
               participe.
             </p>
+
+            {/* FILTRO POR PAÍS */}
+            <CountryFilter
+              selectedCountry={selectedCountry}
+              onCountryChange={setSelectedCountry}
+              className="bg-white border-b border-gray-200"
+            />
           </div>
         </header>
-
-        {/* FILTRO POR PAÍS */}
-        <CountryFilter
-          selectedCountry={selectedCountry}
-          onCountryChange={setSelectedCountry}
-          className="bg-white border-b border-gray-200"
-        />
 
         <main className="max-w-7xl mx-auto px-4">
           <CommunityGrid selectedCountry={selectedCountry} />
