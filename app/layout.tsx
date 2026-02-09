@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Geist } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
-import "./globals.css"
+import "@/styles/globals.css"
 
 // Importar a fonte Geist do Google Fonts
 const _geist = Geist({ subsets: ["latin"] })
@@ -17,7 +17,7 @@ const _geist = Geist({ subsets: ["latin"] })
 // Metadados globais da aplicação
 export const metadata: Metadata = {
   title: "ADN Developer",
-  description: "seja bem-vindo",
+  description: "Maior repósitorio de informações sobre tecnologia na lusofinia, saiba de tudo que se passa sobre tecnologia na C.P.L.P.",
   generator: "www.adndeveloper.com",
   icons: {
     icon: [
@@ -28,10 +28,6 @@ export const metadata: Metadata = {
       {
         url: "/icon-dark-32x32.png",
         media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
       },
     ],
     apple: "/apple-icon.png",

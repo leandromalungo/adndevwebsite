@@ -8,6 +8,7 @@ export type ClientType = {
     paymentForm: PaymentMethod;
     telegram: string;
     comprovative: File;
+    comprovativePaypal?: any[];
     createdAt?: Date;
     updatedAt?: Date;
 }

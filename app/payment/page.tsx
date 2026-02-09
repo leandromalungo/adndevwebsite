@@ -37,10 +37,9 @@ const PaymentPaypal = () => {
   }, [router]);
 
   // Função que chama a API para criar a ordem
-  //O valor do pagamento está fixo em 10.00
   const createOrder = async () => {
     const res = await fetch("/api/create-order", { method: "POST" ,
-      body: JSON.stringify({ amount: 4.00 }),
+      body: JSON.stringify({ amount: 2.00 }),
       headers: { "Content-Type": "application/json" },
     });
     const data = await res.json();
@@ -64,7 +63,8 @@ const PaymentPaypal = () => {
         const formData = { 
           ...clienteData, 
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
+          comprovativePaypal: captureData,
         };
         await createClient(formData);
         

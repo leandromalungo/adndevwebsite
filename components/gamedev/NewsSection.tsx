@@ -1,12 +1,11 @@
 "use client";
 
 import { POPULAR_NEWS } from '@/components/gamedev/constants';
-import { MessageSquare } from 'lucide-react';
 
 const NewsSection = () => {
   return (
     <div className="w-full mt-16 mb-24 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-      {/* Featured News Column */}
+      {/* Coluna de notícias em destaque */}
       <div className="lg:col-span-8 flex flex-col space-y-4">
         <h2 className="text-3xl text-[#262626] tracking-tight uppercase">
           Notícias
@@ -21,7 +20,7 @@ const NewsSection = () => {
         </div>
       </div>
 
-      {/* Popular Sidebar Column */}
+      {/* Coluna lateral: Popular */}
       <div className="lg:col-span-4 flex flex-col space-y-4">
         <h2 className="text-xl text-[#262626] tracking-tight uppercase border-b border-gray-200 pb-2">
           Popular
@@ -29,14 +28,14 @@ const NewsSection = () => {
         <div className="flex flex-col space-y-6 pt-2">
           {POPULAR_NEWS.map((news, index) => (
             <div key={news.id} className="flex gap-4 group cursor-pointer items-start">
-              {/* Rank Badge */}
+              {/* Distintivo de posição */}
               <div className="flex items-center justify-center w-6 h-6 rounded border border-gray-900 shrink-0 mt-1">
                 <span className="text-[10px] font-black text-gray-900">
                   {String(index + 1).padStart(2, '0')}
                 </span>
               </div>
               
-              {/* Content */}
+              {/* Conteúdo */}
               <div className="flex flex-col space-y-1 min-w-0">
                 <p className="text-xs font-bold text-[#262626] leading-none uppercase">
                   {news.time}

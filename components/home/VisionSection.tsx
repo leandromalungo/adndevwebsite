@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Plus, Minus } from 'lucide-react';
+import React, { useState } from "react";
+import { Plus, Minus } from "lucide-react";
 
 interface AccordionItemProps {
   title: string;
@@ -10,21 +10,32 @@ interface AccordionItemProps {
   onClick: () => void;
 }
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ title, content, isOpen, onClick }) => {
+const AccordionItem: React.FC<AccordionItemProps> = ({
+  title,
+  content,
+  isOpen,
+  onClick,
+}) => {
   return (
     <div className="bg-[#efefef] rounded overflow-hidden mb-4 border border-transparent transition-all duration-300">
-      <button 
+      <button
         onClick={onClick}
         className="w-full px-6 py-6 flex items-center justify-between text-left focus:outline-none"
       >
-        <span className="text-2xl sm:text-3xl font-bold text-[#1e293b]">{title}</span>
+        <span className="text-2xl sm:text-3xl text-[#1e293b]">
+          {title}
+        </span>
         <div className="bg-transparent rounded-full p-1">
-          {isOpen ? <Minus className="w-6 h-6 text-[#1e293b]" /> : <Plus className="w-6 h-6 text-[#1e293b]" />}
+          {isOpen ? (
+            <Minus className="w-6 h-6 text-[#1e293b]" />
+          ) : (
+            <Plus className="w-6 h-6 text-[#1e293b]" />
+          )}
         </div>
       </button>
-      <div 
+      <div
         className={`px-6 transition-all duration-300 ease-in-out overflow-hidden ${
-          isOpen ? 'max-h-60 pb-8 opacity-100' : 'max-h-0 opacity-0'
+          isOpen ? "max-h-60 pb-8 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <p className="text-[#475569] text-sm sm:text-base leading-relaxed max-w-xl">
@@ -41,37 +52,44 @@ const VisionSection = () => {
   const items = [
     {
       title: "Tecnologia",
-      content: "Desenvolver soluções criativas e colaborativas em equipe, com desafios práticos e oportunidades de networking, impulsionando sua carreira na área de tecnologia."
+      content:
+        "Desenvolver soluções criativas e colaborativas em equipe, com desafios práticos e oportunidades de networking, impulsionando sua carreira na área de tecnologia.",
     },
     {
       title: "Educação",
-      content: "Fomentar o aprendizado contínuo e o desenvolvimento de habilidades técnicas por meio de programas educacionais inovadores e acessíveis."
+      content:
+        "Fomentar o aprendizado contínuo e o desenvolvimento de habilidades técnicas por meio de programas educacionais inovadores e acessíveis.",
     },
     {
       title: "Eventos",
-      content: "Participe de eventos e atividades que promovem o networking e o desenvolvimento profissional, impulsionando sua carreira na área de tecnologia."
-    }
+      content:
+        "Participe de eventos e atividades que promovem o networking e o desenvolvimento profissional, impulsionando sua carreira na área de tecnologia.",
+    },
   ];
 
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-        {/* Text Content */}
+        {/* Conteúdo de texto */}
         <div className="flex flex-col">
-          <span className="text-base font-bold text-[#1e293b] mb-4 uppercase">Nossa visão</span>
+          <span className="text-base font-bold text-[#1e293b] mb-4 uppercase">
+            Nossa visão
+          </span>
           <h2 className="text-4xl sm:text-3xl text-[#1e293b] leading-[1.1] mb-8">
             Tecnologia por meio da criatividade, da confiança e da programação.
           </h2>
           <p className="text-[#475569] text-base mb-10 leading-relaxed">
-            Somos a voz que impulsiona a inovação tecnológica, promovendo a criatividade e a confiança através da programação. 
-            Nosso compromisso é capacitar indivíduos e organizações a alcançarem seu potencial máximo, transformando ideias em soluções tecnológicas impactantes. 
+            Somos a voz que impulsiona a inovação tecnológica, promovendo a
+            criatividade e a confiança através da programação. Nosso compromisso
+            é capacitar indivíduos e organizações a alcançarem seu potencial
+            máximo, transformando ideias em soluções tecnológicas impactantes.
           </p>
         </div>
 
-        {/* Accordion */}
+        {/* Acordeão */}
         <div className="flex flex-col">
           {items.map((item, index) => (
-            <AccordionItem 
+            <AccordionItem
               key={index}
               title={item.title}
               content={item.content}

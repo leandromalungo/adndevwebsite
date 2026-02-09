@@ -78,7 +78,8 @@ adndeveloper/
 - Página de **Quiz de Orientação Profissional**
 - "Qual área é para mim?" - identifica melhor área para o desenvolvedor
 - Usa FontAwesome Icons
-- Componentes: CareerTips, ProgressBar, Button
+- Componentes: `QuizGame`, `CareerTips`, `ProgressBar`, `Button`
+- Banco completo de perguntas em `app/quiz/data.ts` (`FULL_QUESTION_BANK`) e resultados personalizados por área
 
 ##### **`/app/roadmaps`**
 - Página de **Roteiros de Aprendizado**
@@ -115,6 +116,11 @@ adndeveloper/
 - **`theme-provider.tsx`** - Provedor de tema
   - Configuração de temas (claro/escuro)
   - Context para aplicar temas globalmente
+
+- **`CountryFilter.tsx`** - Filtro por país com tipo `FilterTab`
+  - Permite seleção por países lusófonos (Angola, Brasil, Moçambique, Portugal, São Tomé e Príncipe, Guiné-Bissau, Cabo Verde, Timor-Leste)
+  - Integrado em diversas seções (WTM, Startups, Community, Bolsas, Subscription)
+  - Estilos de foco e acessibilidade configurados em `styles/globals.css`
 
 #### **`/components/home` - Seções da Página Inicial**
 - **`hero.tsx`** - Seção herói principal
@@ -450,6 +456,7 @@ npm run lint
 | **Bolsas de Estudo** | `/bolsas` | Oportunidades de financiamento |
 | **Guia Startup** | `/startups` | Informações para empreendedores |
 | **Quiz** | `/quiz` | Identifica área ideal do desenvolvedor |
+| **Assinatura** | `/assinatura` | Fluxo de assinatura e confirmação (página de assinatura e página de sucesso) |
 
 ---
 
@@ -567,6 +574,10 @@ O código segue as melhores práticas:
    - `data/eventsDatabase.ts` — eventos mockados (60+) organizados por estado/província
    - `components/news` — correção de imports de tipos para `@/data/types`
    - Páginas `app/events/page.tsx` atualizada para consumir o novo sistema de filtros
+   - `components/CountryFilter.tsx` — componente de seleção por país (`FilterTab`) consumido globalmente (WTM, Startups, Community, Bolsas, Subscription)
+   - `app/assinatura` e `app/assinatura/sucesso` — fluxo de assinatura e confirmação
+   - `components/quiz/QuizGame.tsx` e `app/quiz/data.ts` (`FULL_QUESTION_BANK`) — quiz com banco completo de perguntas e resultados aprimorados
+   - `styles/globals.css` — ajustes de foco e acessibilidade para `CountryFilter`
 
 ---
 

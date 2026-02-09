@@ -1,4 +1,4 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 
 /**
  * TIPOS E INTERFACES DO PROJETO
@@ -32,6 +32,8 @@ export interface Event {
   tags: string[];
   day: string;
   month: string;
+  // opcional: data de última atualização (ISO string)
+  updatedAt?: string;
 }
 
 // ============================================
@@ -139,7 +141,7 @@ export interface MediaItem {
 export interface CommunityItem {
   id: string;
   title: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   href: string;
 }
 
@@ -269,4 +271,49 @@ export interface GameItem {
   secondaryLogoUrl?: string;
   heroImageUrl: string;
 }
- 
+export interface Funcao {
+  id: string | number;
+  titulo: string;
+  corIcone: string; // Tailwind color class like 'bg-blue-600'
+  icone: ReactNode;
+}
+
+export interface JobBoardProps {
+  funcoes: Funcao[];
+  onAdd: (funcao: Funcao) => void;
+  onLoadMore?: () => void;
+  hasMore: boolean;
+}
+
+export type BadgeType = 'evento' | 'artigo';
+
+export interface Activity {
+  id: string;
+  title: string;
+  description: string;
+  year: string;
+  location: string;
+  imageUrl: string;
+  types: BadgeType[];
+  link: string;
+}
+
+export interface ActivityResponse {
+  activities: Activity[];
+}
+export interface AlumniRole {
+  id: string;
+  name: string;
+  originalRole: string;
+  newRole: string;
+  testimonial: string;
+  imageUrl: string;
+  linkedInUrl?: string;
+  instagramUrl?: string;
+  githubUrl?: string;
+  facebookUrl?: string;
+}
+
+export interface SearchState {
+  query: string;
+}

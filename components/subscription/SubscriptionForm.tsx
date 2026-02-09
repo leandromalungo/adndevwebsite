@@ -1,15 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useClientStore } from "@/app/database/ClientRepository";
 import { ClientType } from "@/lib/clientType";
+
+type PayPalCurrency = "USD" | "EUR";
 
 const SubscriptionForm: React.FC = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const createClient = useClientStore((state) => state.createNewClient);
-  const getAllClients = useClientStore((state) => state.fetchAllClients);
 
   const [clienteData, setClienteData] = useState<ClientType>({
     id: "",
@@ -23,6 +24,18 @@ const SubscriptionForm: React.FC = () => {
     subscriptionON: true,
   });
 
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [paypalCurrency, setPaypalCurrency] = useState<PayPalCurrency>("USD");
+
+  // Seleciona Multicaixa automaticamente se o país for Angola
+  useEffect(() => {
+    if (clienteData.country === "Angola") {
+      setClienteData((prev) => ({...prev, paymentForm: "transfer"}));
+    } else {
+      setClienteData((prev) => ({...prev, paymentForm: "paypal"}));
+    }
+  }, [clienteData.country]);
 
   const toggleAlert = (value: string) => {
     setClienteData((prev) => ({
@@ -34,29 +47,62 @@ const SubscriptionForm: React.FC = () => {
   };
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0] ?? null;
-    setClienteData((prev) => ({
-      ...prev,
-      comprovative: f as any,
-    }));
+    const file = e.target.files?.[0] ?? null;
+    // Aceitar apenas PDF
+    if (file && file.type !== "application/pdf") {
+      alert("Apenas arquivos PDF são permitidos para o comprovante.");
+      e.target.value = ""; // limpa o input
+      setClienteData((prev) => ({...prev, comprovative: null as any}));
+      return;
+    }
+    setClienteData((prev) => ({...prev, comprovative: file as any}));
   };
 
   const validate = () => {
-    if (!clienteData.name.trim() || !clienteData.email.trim()) return false;
-    if (clienteData.paymentForm === "transfer" && !clienteData.comprovative) return false;
-    if (clienteData.paymentForm === "reference" && !clienteData.telegram.trim()) return false;
+    if (!clienteData.name.trim() || !clienteData.email.trim()) {
+      alert("Preencha todos os campos obrigatórios.");
+      return false;
+    }
+
+    if (password.length < 8) {
+      alert("A senha deve ter no mínimo 8 caracteres.");
+      return false;
+    }
+
+    if (password !== confirmPassword) {
+      alert("As senhas não coincidem.");
+      return false;
+    }
+
+    if (clienteData.paymentForm === "transfer" && !clienteData.comprovative) {
+      alert("Envie o comprovante da transferência em PDF.");
+      return false;
+    }
+
+    if (clienteData.alerts.length === 0) {
+      alert("Selecione pelo menos um tipo de alerta.");
+      return false;
+    }
+
     return true;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return alert("Por favor preencha os campos necessários.");
+
+    if (!validate()) return;
+
     setLoading(true);
     
     try {
       // Se PayPal, salvar dados e redirecionar para pagamento
       if (clienteData.paymentForm === "paypal") {
-        sessionStorage.setItem("clienteData", JSON.stringify(clienteData));
+        const paymentData = {
+          ...clienteData,
+          password,
+          paypalCurrency
+        };
+        sessionStorage.setItem("clienteData", JSON.stringify(paymentData));
         router.push("/payment");
         return;
       }
@@ -74,11 +120,9 @@ const SubscriptionForm: React.FC = () => {
     catch (error) {
       console.error("Erro ao criar cliente:", error);
       alert("Ocorreu um erro ao processar sua assinatura. Tente novamente.");
+    } finally {
       setLoading(false);
-      return;
     }
-
-    setLoading(false);
   };
 
   return (
@@ -87,6 +131,7 @@ const SubscriptionForm: React.FC = () => {
       className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Nome */}
         <label className="flex flex-col">
           <span className="text-sm font-medium mb-1">Nome completo</span>
           <input
@@ -94,20 +139,22 @@ const SubscriptionForm: React.FC = () => {
             onChange={(e) => setClienteData({...clienteData, name: e.target.value})}
             required
             className="px-3 py-2 border rounded"
-            placeholder="Digite seu nome"
+            placeholder="Digite seu nome completo"
           />
         </label>
 
+        {/* Telegram */}
         <label className="flex flex-col">
           <span className="text-sm font-medium mb-1">Contacto (Telegram)</span>
           <input
             value={clienteData.telegram}
             onChange={(e) => setClienteData({...clienteData, telegram: e.target.value})}
             className="px-3 py-2 border rounded"
-            placeholder="Digite o @seuusuario"
+            placeholder="seu @usuario"
           />
         </label>
 
+        {/* País */}
         <label className="flex flex-col">
           <span className="text-sm font-medium mb-1">Escolha o seu país</span>
           <select
@@ -125,6 +172,7 @@ const SubscriptionForm: React.FC = () => {
           </select>
         </label>
 
+        {/* Email */}
         <label className="flex flex-col">
           <span className="text-sm font-medium mb-1">E-mail</span>
           <input
@@ -133,11 +181,40 @@ const SubscriptionForm: React.FC = () => {
             onChange={(e) => setClienteData({...clienteData, email: e.target.value})}
             required
             className="px-3 py-2 border rounded"
-            placeholder="seu@exemplo.com"
+            placeholder="seu@email.com"
+          />
+        </label>
+
+        {/* Senha */}
+        <label className="flex flex-col">
+          <span className="text-sm font-medium mb-1">Senha</span>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            minLength={8}
+            className="px-3 py-2 border rounded"
+            placeholder="Digite sua senha"
+          />
+        </label>
+
+        {/* Confirmar Senha */}
+        <label className="flex flex-col">
+          <span className="text-sm font-medium mb-1">Confirmar senha</span>
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+            minLength={8}
+            className="px-3 py-2 border rounded"
+            placeholder="Digite a senha novamente"
           />
         </label>
       </div>
 
+      {/* Alertas */}
       <section className="mt-4">
         <h4 className="font-semibold mb-2">
           Que tipos de alertas deseja receber?
@@ -151,57 +228,42 @@ const SubscriptionForm: React.FC = () => {
             { id: "roadmaps", label: "Cursos" },
             { id: "bolsas", label: "Bolsas de estudo" },
             { id: "startups", label: "Startups" },
-            { id: "mind", label: "Mentes Brilhantes" },
-          ].map((t) => (
-            <label key={t.id} className="inline-flex items-center gap-2">
+          ].map((item) => (
+            <label
+              key={item.id}
+              className="inline-flex items-center gap-2"
+            >
               <input
                 type="checkbox"
-                checked={clienteData.alerts.includes(t.id)}
-                onChange={() => toggleAlert(t.id)}
+                checked={clienteData.alerts.includes(item.id)}
+                onChange={() => toggleAlert(item.id)}
                 className="h-4 w-4"
               />
-              <span className="text-sm">{t.label}</span>
+              <span className="text-sm">{item.label}</span>
             </label>
           ))}
         </div>
       </section>
 
+      {/* Pagamento */}
       <section className="mt-6">
         <h4 className="font-semibold mb-2">Método de pagamento</h4>
-        <div className="space-y-3">
-          <label className="flex items-center gap-3">
-            <input
-              type="radio"
-              name="payment"
-              checked={clienteData.paymentForm === "paypal"}
-              onChange={() => setClienteData({...clienteData, paymentForm: "paypal"})}
-            />
-            <img src="/images/payments/paypol.jpg" alt="PayPal" className="h-6 w-6 object-contain" />
-            <span>PayPal</span>
-          </label>
-
-          <label className="flex items-center gap-3">
-            <input
-              type="radio"
-              name="payment"
-              checked={clienteData.paymentForm === "transfer"}
-              onChange={() => setClienteData({...clienteData, paymentForm: "transfer"})}
-            />
-            <img src="/images/payments/express.png" alt="Transferência bancária" className="h-6 w-6 object-contain" />
-            <div>Transferência bancária (envie o comprovante abaixo)</div>
-          </label>
-
-          <label className="flex items-center gap-3">
-            <input
-              type="radio"
-              name="payment"
-              checked={clienteData.paymentForm === "reference"}
-              onChange={() => setClienteData({...clienteData, paymentForm: "reference"})}
-            />
-            <img src="/images/payments/reference.jpg" alt="Pagamento por referência" className="h-6 w-6 object-contain" />
-            <div>Pagamento por referência</div>
-          </label>
-        </div>
+        
+        {/* Multicaixa Express apenas para Angola */}
+        {clienteData.country === "Angola" && (
+          <>
+            <label className="flex items-center gap-3 mb-2">
+              <input
+                type="radio"
+                name="payment"
+                checked={clienteData.paymentForm === "transfer"}
+                onChange={() => setClienteData({...clienteData, paymentForm: "transfer"})}
+              />
+              <img src="/images/payments/express.png" alt="Transferência bancária" className="h-6 w-6 object-contain" />
+              <div>Transferência bancária (envie o comprovante abaixo)</div>
+            </label>
+          </>
+        )}
 
         {clienteData.paymentForm === "transfer" && (
           <div className="mt-3">
@@ -209,7 +271,7 @@ const SubscriptionForm: React.FC = () => {
               <span className="text-sm mb-1">Carregar comprovante</span>
               <input
                 type="file"
-                accept="image/*,application/pdf"
+                accept="application/pdf"
                 onChange={handleFile}
               />
               {clienteData.comprovative && (
@@ -220,23 +282,48 @@ const SubscriptionForm: React.FC = () => {
             </label>
           </div>
         )}
+        
+        {/* PayPal */}
+        <label className="flex items-center gap-3 mt-4">
+          <input
+            type="radio"
+            name="payment"
+            checked={clienteData.paymentForm === "paypal"}
+            onChange={() => setClienteData({...clienteData, paymentForm: "paypal"})}
+          />
+          <img
+            src="/images/payments/paypol.jpg"
+            alt="PayPal"
+            className="h-6 w-6"
+          />
+          <span>PayPal</span>
+        </label>
 
-        {clienteData.paymentForm === "reference" && (
-          <div className="mt-3">
-            <label className="flex flex-col">
-              <span className="text-sm mb-1">Código de referência</span>
+        {clienteData.paymentForm === "paypal" && (
+          <div className="ml-6 mt-2 space-y-1 text-sm">
+{/*             <label className="flex items-center gap-2">
               <input
-                value={clienteData.telegram}
-                onChange={(e) => setClienteData({...clienteData, telegram: e.target.value})}
-                className="px-3 py-2 border rounded"
-                placeholder="Ex: REF-12345"
+                type="radio"
+                checked={paypalCurrency === "USD"}
+                onChange={() => setPaypalCurrency("USD")}
               />
+              <span>2 USD (Dolares)</span>
+            </label> */}
+
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                checked={paypalCurrency === "EUR"}
+                onChange={() => setPaypalCurrency("EUR")}
+              />
+              <span>2 EUR (Euro)</span>
             </label>
           </div>
         )}
       </section>
 
-      <div className="mt-6 flex items-center gap-3">
+      {/* Botões */}
+      <div className="mt-6 flex gap-3">
         <button
           type="submit"
           disabled={loading}

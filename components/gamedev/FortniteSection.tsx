@@ -9,8 +9,8 @@ const FortniteSection = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {FORTNITE_FEATURES.map((feature) => (
           <div key={feature.id} className="group flex flex-col space-y-4">
-            {/* Image Container */}
-            <div className="relative aspect-video rounded-xl overflow-hidden shadow-sm border border-gray-100 cursor-pointer">
+            {/* Contentor de imagem */}
+            <div className="relative aspect-video rounded overflow-hidden shadow-sm border border-gray-100 cursor-pointer">
               <img 
                 src={feature.imageUrl} 
                 alt={feature.title}
@@ -19,7 +19,7 @@ const FortniteSection = () => {
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors" />
             </div>
 
-            {/* Content Container */}
+            {/* Contentor de conteúdo */}
             <div className="flex flex-col flex-1 space-y-3 px-1">
               <h3 className="text-lg font-bold text-gray-900 tracking-tight">
                 {feature.title}

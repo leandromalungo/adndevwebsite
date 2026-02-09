@@ -37,9 +37,11 @@ function Calendar({
       captionLayout={captionLayout}
       formatters={{
         formatMonthDropdown: (date) =>
-          date.toLocaleString('default', { month: 'short' }),
+          // Use an explicit locale to ensure server and client are deterministic
+          date.toLocaleString('pt-BR', { month: 'short' }),
         ...formatters,
       }}
+
       classNames={{
         root: cn('w-fit', defaultClassNames.root),
         months: cn(
@@ -190,7 +192,8 @@ function CalendarDayButton({
       ref={ref}
       variant="ghost"
       size="icon"
-      data-day={day.date.toLocaleDateString()}
+      // Use explicit locale so server/client rendering produce the same string
+      data-day={day.date.toLocaleDateString('pt-BR')}
       data-selected-single={
         modifiers.selected &&
         !modifiers.range_start &&

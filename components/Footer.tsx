@@ -2,25 +2,17 @@
 
 /**
  * COMPONENTE FOOTER
- * 
- * Rodapé principal do aplicativo.
- * Exibe:
- * - Informações da empresa
- * - Links rápidos
- * - Redes sociais
- * - Contato
- */
+*/
 
-import React from "react";
 import { Facebook, Twitter, Linkedin, Youtube, Rss, Instagram } from "lucide-react";
 
 const Footer = () => {
   return (
     <footer className="bg-gray-50 border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-4 py-12">
-        {/* Primeiro Grid Footer */}
+        {/* Primeiro Grid do Rodapé */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
-          {/* Browse by subject */}
+          {/* Navegar por assunto */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
             Cursos gratuitos
@@ -150,7 +142,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Univerisidades */}
+          {/* Bolsas */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
               Bolsas de estudo
@@ -201,7 +193,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
                 >
-                  são Tomé e príncipe
+                  São Tomé e Príncipe
                 </a>
               </li>
               <li>
@@ -256,7 +248,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* About Branding */}
+          {/* Sobre */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4">
               O que fazemos?
@@ -266,31 +258,31 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://www.facebook.com/adn.developer.oficial/"
                 className="text-gray-400 hover:text-blue-600 transition-colors"
               >
                 <Facebook className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/adndeveloper/?__pwa=1"
                 className="text-gray-400 hover:text-rose-400 transition-colors"
               >
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/company/adn-developer/about/?viewAsMember=true"
                 className="text-gray-400 hover:text-blue-700 transition-colors"
               >
                 <Linkedin className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://www.youtube.com/@adn_developer"
                 className="text-gray-400 hover:text-red-600 transition-colors"
               >
                 <Youtube className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://twitter.com/adn_developer"
                 className="text-gray-400 hover:text-black transition-colors"
               >
                 <svg
@@ -311,26 +303,15 @@ const Footer = () => {
             <div className="flex items-center gap-2">
               <span className="font-bold text-gray-700">ADN Developer</span>
             </div>
-            <span>© 2025 - 2026</span>
+            <span>©2025-2026</span>
             <a href="#" className="hover:text-gray-900">
               Políticas de Privacidade
             </a>
-            <a href="" className="hover:text-gray-900">
-              adn@developer.com
-            </a>
+            
           </div>
           <div className="flex flex-wrap justify-center gap-4 text-xs font-medium text-gray-500">
-            <a href="#" className="hover:text-gray-900">
-              Trabalhe conosco
-            </a>
-            <a href="#" className="hover:text-gray-900">
-              Anuncie
-            </a>
-            <a href="#" className="hover:text-gray-900">
-              Central de Ajuda
-            </a>
-            <a href="#" className="hover:text-gray-900">
-              Contato
+            <a href="mailto:geral@adndeveloper.com" className="hover:text-gray-900">
+              geral@adndeveloper.com
             </a>
           </div>
         </div>

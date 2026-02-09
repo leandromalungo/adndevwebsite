@@ -50,33 +50,33 @@ const GOGPreservation = () => {
   }, []);
 
   return (
-    <div className="w-full bg-[#1a1c20] py-12 px-6 md:px-12 rounded-xl mt-16 overflow-hidden">
+    <div className="w-full bg-[#d4d5d8] py-12 px-6 md:px-12 rounded mt-16 overflow-hidden">
       <div className="max-w-[1300px] mx-auto space-y-8">
         
-        {/* Header */}
+        {/* Cabeçalho */}
         <div className="flex flex-col space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              {/* Numeric Indicator */}
-              <span className="bg-white/10 text-white/60 text-[10px] font-black px-2 py-0.5 rounded-full border border-white/5">
+              {/* Indicador numérico */}
+              <span className="bg-black/10 text-black/60 text-[10px] font-black px-2 py-0.5 rounded-full border border-white/5">
                 {currentIndex} / {GOG_PRESERVATION_GAMES.length}
               </span>
             </div>
-            <button className="text-gray-400 hover:text-white text-sm font-bold transition-colors">
+            <button className="text-gray-900 hover:text-white text-sm font-bold transition-colors">
               Veja mais
             </button>
           </div>
-          <p className="text-gray-400 text-sm max-w-2xl leading-relaxed">
+          <p className="text-gray-900 text-sm max-w-2xl leading-relaxed">
             O Programa de Preservação da GOG garante que seus clássicos favoritos rodem, agora e sempre, sem complicações em PCs modernos, em sua melhor forma possível.
           </p>
         </div>
 
-        {/* Carousel Wrapper */}
+        {/* Contentor do carrossel */}
         <div className="relative group">
-          {/* Controls */}
+          {/* Controlos */}
           <button 
             onClick={() => scroll('left')}
-            className="absolute left-[-20px] top-1/2 -translate-y-1/2 z-20 p-3 bg-gray-800/80 hover:bg-gray-700 text-white rounded-full transition-all opacity-0 group-hover:opacity-100 disabled:opacity-30 active:scale-90"
+            className="absolute left-[-20px] top-1/2 -translate-y-1/2 z-20 p-3 bg-gray-400/80 hover:bg-gray-700 text-white rounded-full transition-all opacity-0 group-hover:opacity-100 disabled:opacity-30 active:scale-90"
             aria-label="Anterior"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -90,7 +90,7 @@ const GOGPreservation = () => {
             <ChevronRight className="w-6 h-6" />
           </button>
 
-          {/* Cards Container */}
+          {/* Contentor de cartões */}
           <div 
             ref={scrollRef}
             className="flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory"
@@ -99,16 +99,10 @@ const GOGPreservation = () => {
             {GOG_PRESERVATION_GAMES.map((game) => (
               <div 
                 key={game.id}
-                className="min-w-[280px] md:min-w-[320px] bg-[#2b2d31] rounded-xl overflow-hidden shadow-xl flex flex-col group/card cursor-pointer snap-start"
+                className="min-w-[280px] md:min-w-[320px] bg-[#2b2d31] rounded overflow-hidden shadow-xl flex flex-col group/card cursor-pointer snap-start"
               >
-                {/* Image Section */}
+                {/* Secção de imagem */}
                 <div className="relative aspect-[16/9] overflow-hidden">
-                  {/* Badge */}
-                  <div className="absolute top-2 left-2 z-10">
-                    <span className="text-[9px] font-black text-white bg-black border border-white px-2 py-0.5 rounded tracking-tighter uppercase">
-                      O BOM E VELHO JOGO
-                    </span>
-                  </div>
                   <img 
                     src={game.imageUrl} 
                     alt={game.title} 
@@ -117,32 +111,20 @@ const GOGPreservation = () => {
                   <div className="absolute inset-0 bg-black/0 group-hover/card:bg-black/10 transition-colors" />
                 </div>
 
-                {/* Content Section */}
+                {/* Secção de conteúdo */}
                 <div className="p-4 flex flex-col justify-between flex-1 space-y-4">
                   <h3 className="text-white font-bold text-sm line-clamp-2 leading-tight">
                     {game.title}
                   </h3>
 
-                  <div className="flex items-center justify-end gap-3 self-end">
-                    <div className="bg-[#a855f7] text-white text-sm font-black px-2 py-1 rounded">
-                      {game.discount}
-                    </div>
-                    <div className="flex flex-col items-end leading-none">
-                      <span className="text-[10px] text-gray-400 line-through">
-                        {game.oldPrice}
-                      </span>
-                      <span className="text-sm font-bold text-white">
-                        {game.price}
-                      </span>
-                    </div>
-                  </div>
                 </div>
+
               </div>
             ))}
           </div>
         </div>
 
-        {/* Progress Indicator */}
+        {/* Indicador de progresso */}
         <div className="flex justify-center pt-4">
           <div className="w-32 h-[3px] bg-gray-800 rounded-full overflow-hidden">
             <div 

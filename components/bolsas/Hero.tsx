@@ -10,7 +10,7 @@ export const Hero = () => {
   return (
     <section className="relative w-full min-h-screen overflow-hidden text-white font-sans">
       
-      {/* Background Image */}
+      {/* Imagem de fundo */}
       <Image
         src={heroBg}
         alt="Hero background"
@@ -19,10 +19,10 @@ export const Hero = () => {
         className="object-cover"
       />
 
-      {/* Overlay 40% */}
+      {/* Sobreposição 40% */}
       <div className="absolute inset-0 bg-black/70 opacity-4 z-10" />
 
-      {/* Floating Background Icons */}
+      {/* Ícones flutuantes de fundo */}
       <div className="absolute inset-0 pointer-events-none opacity-10 z-20">
         <Calculator className="absolute top-[10%] left-[5%] w-16 h-16 rotate-12" />
         <Book className="absolute top-[15%] left-[30%] w-20 h-20 -rotate-6" />
@@ -32,11 +32,11 @@ export const Hero = () => {
         <div className="absolute bottom-[5%] right-[30%] w-20 h-20 border-t-4 border-l-4 border-white rotate-12 opacity-50" />
       </div>
 
-      {/* Hero Content */}
+      {/* Conteúdo do herói */}
       <div className="relative z-30 max-w-7xl mx-auto px-6 min-h-screen flex items-center">
         <div className="grid grid-cols-1 md:grid-cols-2 w-full">
           
-          {/* Left Side */}
+          {/* Lado esquerdo */}
           <div className="md:pr-12 py-12 flex flex-col justify-center">
             <h1 className="text-4xl lg:text-5xl font-bold leading-tight mb-8 max-w-md uppercase">
               Confira as bolsas de estudo de 50% até 100% finaciada

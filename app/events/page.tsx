@@ -17,21 +17,15 @@
 
 import { useState, useMemo, useRef } from "react";
 import { Loader2, ArrowRight } from "lucide-react";
-
+import Head from "next/head";
 import AdvancedFilters from "@/components/events/AdvancedFilters";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import EventCard from "@/components/events/EventCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
 import { MOCK_EVENTS } from "@/components/events/constants";
 
 const Page = () => {
-  /**
-   * REFERÊNCIA DO VÍDEO
-   */
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   /**
    * ESTADOS DA PÁGINA
@@ -111,6 +105,14 @@ const Page = () => {
 
   return (
     <>
+
+      <Head>
+        <title>Eventos de Tecnologia na Lusofonia</title>
+        <meta
+          name="description"
+          content="Descubra os melhores eventos de tecnologia na lusofonia, desde conferências até workshops e meetups."
+        />
+      </Head>
       <Navbar />
 
       {/* SEÇÃO COM FUNDO E CTA */}
@@ -128,7 +130,7 @@ const Page = () => {
         <div className="relative flex items-center h-full px-8 md:px-12">
           <div className="max-w-md">
             <h2 className="text-2xl md:text-4xl font-bold text-white mt-6 mb-3 leading-tight">
-               O maior repositório de eventos de tecnologia da lusofonia.
+              O maior repositório de eventos de tecnologia da lusofonia.
             </h2>
 
             <p className="text-gray-100 mb-2 md:mb-5 text-sm md:text-base">
@@ -139,7 +141,7 @@ const Page = () => {
             <button
               onClick={handleClick}
               disabled={loading}
-              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded-xl ${
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
                 loading
                   ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                   : "bg-blue-400 hover:bg-blue-500 text-white"
@@ -187,7 +189,7 @@ const Page = () => {
             <div className="mt-4 flex justify-end">
               <button
                 onClick={clearFilters}
-                className="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors"
+                className="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors"
               >
                 Limpar todos os filtros
               </button>

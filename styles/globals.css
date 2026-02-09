@@ -1,7 +1,19 @@
-/* @import 'tailwindcss'; */
-@import 'tw-animate-css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@custom-variant dark (&:is(.dark *));
+/* Merged globals (origem: styles/globals.css + app/globals.css)
+   Mantém as variáveis de tema necessárias ao Tailwind e o reset básico
+*/
+
+/* Reset básico */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 :root {
   --background: oklch(1 0 0);
@@ -117,9 +129,33 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
+
+  /* Removemos o contorno de foco global (pedido do utilizador). */
+  *:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  /* Classe utilitária para ativar contorno quando for necessário */
+  .focus-ring:focus,
+  .focus-ring:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  /* Reativar o estilo de foco apenas para elementos dentro do CountryFilter */
+  .country-filter :is(button, a, [role="button"], input, textarea):focus,
+  .country-filter :is(button, a, [role="button"], input, textarea):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  html,
   body {
+    font-family: 'Inter', sans-serif;
     @apply bg-background text-foreground;
+    line-height: 1.6;
   }
 }

@@ -1,7 +1,7 @@
-"use client"; // importante se estiver usando Next.js app directory
+"use client";
 
-import React, { useState } from "react";
-import { Hero } from "@/components/bolsas/Hero";
+import Head from "next/head";
+import { useState } from "react";
 import { LeaderBo } from "@/components/bolsas/LeaderBo";
 import { AboutUsSection } from "@/components/bolsas/AboutUsSection";
 import { BigTechBo } from "@/components/bolsas/BigTechBo";
@@ -13,7 +13,7 @@ import Footer from "@/components/Footer";
 import { useRouter } from "next/navigation";
 import { Loader2, ArrowRight } from "lucide-react";
 
-const App: React.FC = () => {
+const Page = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -24,14 +24,21 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Navbar />
+      <Head>
+        <title>Bolsas de Estudo</title>
+        <meta
+          name="description"
+          content="Bolsas de estudo nacionais e internacionais para todas áreas de estudo para as melhores faculdades do mundo."
+        />
+      </Head>
 
+      <Navbar />
       {/* SEÇÃO COM FUNDO E CTA */}
       <section className="relative w-full h-[50vh] overflow-hidden bg-zinc-900">
         {/* FUNDO COM IMAGEM */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/images/bolsasImg.png')` }}
+          style={{ backgroundImage: `url('/images/bolsas.jpg')` }}
         >
           {/* OVERLAY / GRADIENT */}
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
@@ -54,7 +61,7 @@ const App: React.FC = () => {
             <button
               onClick={handleClick}
               disabled={loading}
-              className={`inline-flex items-center gap-2 px-3 py-3 font-semibold transition-all active:scale-95 rounded-xl ${
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
                 loading
                   ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                   : "bg-blue-400 hover:bg-blue-500 text-white"
@@ -62,7 +69,7 @@ const App: React.FC = () => {
             >
               {loading ? (
                 <>
-                  <Loader2 size={20} className="animate-spin" />
+                  <Loader2 size={18} className="animate-spin" />
                   Processando...
                 </>
               ) : (
@@ -75,9 +82,7 @@ const App: React.FC = () => {
           </div>
         </div>
       </section>
-
       <CarroselBo />
-
       <main className="min-h-screen bg-white">
         <Preview />
         <div className="space-y-0">
@@ -99,4 +104,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Page;

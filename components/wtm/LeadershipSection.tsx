@@ -9,16 +9,16 @@ interface LeadershipSectionProps {
 export const LeadershipSection: React.FC<LeadershipSectionProps> = ({ selectedCountry }) => {
   return (
     <section className="container mx-auto py-16 px-4">
-      {/* Section Title */}
+      {/* Título da secção */}
       <h2 className="text-2xl md:text-3xl font-medium text-gray-700 mb-10 uppercase">
-        Mulheres na tecnologia {selectedCountry && <span className="text-sm">em {selectedCountry}</span>}
+        Mulheres na tecnologia {selectedCountry && <span className="text-2xl md:text-3xl font-medium">em {selectedCountry}</span>}
       </h2>
 
-      {/* Cards Grid */}
+      {/* Grelha de cartões */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {LEADERSHIP_CARDS.map((card) => (
           <div key={card.id} className="flex flex-col h-full">
-            {/* Intro Card */}
+            {/* Cartão introdutório */}
             {card.type === 'intro' ? (
               <div className="bg-white border-b border-l border-r border-gray-100 rounded-lg shadow-sm border-t-[6px] border-t-[#00CBA9] p-6 md:p-8 flex flex-col h-full">
                 <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">
@@ -35,23 +35,13 @@ export const LeadershipSection: React.FC<LeadershipSectionProps> = ({ selectedCo
               /* Cartão de Líder Padrão */
               <div className="bg-white border border-gray-100 rounded-lg shadow-sm flex flex-col h-full overflow-hidden relative group">
                 
-                {/* Teal Corner */}
+                {/* Canto turquesa */}
                 <div className="absolute top-0 right-0 w-16 h-10 bg-[#00CBA9] rounded-bl-3xl" />
 
                 <div className="p-4 md:p-6 flex flex-col h-full">
                   <div className="flex gap-4 mb-4">
                     
-                    {/* Profile Image */}
-                    <div className="flex-shrink-0 relative w-20 md:w-24 h-28 md:h-32">
-                      <div className="absolute inset-0 -m-1 border-2 border-blue-500 rounded-tr-[2rem] rounded-bl-[1rem] border-l-0 border-b-0"></div>
-                      <img 
-                        src={card.image} 
-                        alt={card.name} 
-                        className="w-full h-full object-cover rounded-sm relative z-10"
-                      />
-                    </div>
-                    
-                    {/* Name + Info */}
+                    {/* Nome + informação */}
                     <div className="flex-1 flex flex-col justify-between">
                       <div>
                         <h4 className="font-bold text-gray-900 text-lg md:text-xl leading-tight mb-1">
@@ -74,7 +64,7 @@ export const LeadershipSection: React.FC<LeadershipSectionProps> = ({ selectedCo
                     </div>
                   </div>
 
-                  {/* Session Title */}
+                  {/* Título da sessão */}
                   <h5 className="text-lg md:text-xl font-bold text-gray-800 leading-tight mt-auto">
                     {card.sessionTitle}
                   </h5>

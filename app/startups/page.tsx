@@ -1,24 +1,20 @@
 "use client"; // importante se estiver usando Next.js app directory
 
-import React, { useState } from 'react';
+import Head from "next/head";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Features from '@/components/startups/Features';
-import AccessSection from '@/components/startups/AccessSection';
-import Matchmaking from '@/components/startups/Matchmaking';
-import HubShowcase from '@/components/startups/HubShowcase';
-import ChallengesSection from '@/components/startups/ChallengesSection';
-import NewsletterSection from '@/components/startups/NewsletterSection';
-import Navbar from '@/components/Navbar';
-import Link from "next/link";
-import Footer from '@/components/Footer';
-import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
-
-// ícones do lucide-react
+import Features from "@/components/startups/Features";
+import AccessSection from "@/components/startups/AccessSection";
+import Matchmaking from "@/components/startups/Matchmaking";
+import HubShowcase from "@/components/startups/HubShowcase";
+import ChallengesSection from "@/components/startups/ChallengesSection";
+import NewsletterSection from "@/components/startups/NewsletterSection";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Loader2, ArrowRight } from "lucide-react";
 
 const App = () => {
   const [loading, setLoading] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
 
   const router = useRouter();
   const handleClick = () => {
@@ -28,6 +24,13 @@ const App = () => {
 
   return (
     <>
+      <Head>
+        <title>Recursos e apoio para Startups</title>
+        <meta
+          name="description"
+          content="Conteúdos, eventos e oportunidades para startups, empreendedores e inovadores em Angola, Brasil, Portugal, Moçambique e toda lusofonia."
+        />
+      </Head>
       <Navbar />
 
       {/* SEÇÃO COM FUNDO E CTA */}
@@ -49,14 +52,15 @@ const App = () => {
             </h2>
 
             <p className="text-gray-100 mb-2 md:mb-5 text-sm md:text-base">
-             Descubra as melhores ecubadoras, aceleradoras e recursos para startups de tecnologia na 
-             lusofonia e impulsione o crescimento do seu negócio inovador.
+              Descubra as melhores ecubadoras, aceleradoras e recursos para
+              startups de tecnologia na lusofonia e impulsione o crescimento do
+              seu negócio inovador.
             </p>
 
             <button
               onClick={handleClick}
               disabled={loading}
-              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded-xl ${
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
                 loading
                   ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                   : "bg-blue-400 hover:bg-blue-500 text-white"
@@ -78,21 +82,14 @@ const App = () => {
         </div>
       </section>
 
-      {/* FILTRO POR PAÍS */}
-      <CountryFilter
-        selectedCountry={selectedCountry}
-        onCountryChange={setSelectedCountry}
-        className="bg-white border-b border-gray-200"
-      />
-
       <div className="min-h-screen bg-black">
         <main>
-          <Features selectedCountry={selectedCountry} />
-          <AccessSection selectedCountry={selectedCountry} />
-          <Matchmaking selectedCountry={selectedCountry} />
-          <HubShowcase selectedCountry={selectedCountry} />
-          <ChallengesSection selectedCountry={selectedCountry} />
-          <NewsletterSection selectedCountry={selectedCountry} />
+          <Features />
+          <HubShowcase />
+          <AccessSection />
+          <Matchmaking />
+          <ChallengesSection />
+          <NewsletterSection />
           <Footer />
         </main>
       </div>

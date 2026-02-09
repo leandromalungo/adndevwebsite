@@ -214,7 +214,7 @@ function Sidebar({
       data-side={side}
       data-slot="sidebar"
     >
-      {/* This is what handles the sidebar gap on desktop */}
+      {/* Isto trata do espaço do sidebar no desktop */}
       <div
         data-slot="sidebar-gap"
         className={cn(

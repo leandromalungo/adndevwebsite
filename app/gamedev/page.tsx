@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import Head from "next/head";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, ArrowRight } from "lucide-react";
-
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
 import DiscoverSection from "@/components/gamedev/DiscoverSection";
 import FortniteSection from "@/components/gamedev/FortniteSection";
 import TopChartsSection from "@/components/gamedev/TopChartsSection";
@@ -18,12 +17,6 @@ import CardHero from "@/components/gamedev/CardHero";
 import GOGPreservation from "@/components/gamedev/GOGPreservation";
 
 const Page = () => {
-  // --- REFERÊNCIA DO VÍDEO ---
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  // --- FILTRO ---
-  const [selectedCountry, setSelectedCountry] =
-    useState<FilterTab>("Angola");
 
   // --- BOTÃO CTA ---
   const [loading, setLoading] = useState(false);
@@ -38,24 +31,24 @@ const Page = () => {
     }, 1200);
   };
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current
-        .play()
-        .catch((err) => console.log("Erro ao rodar vídeo:", err));
-    }
-  }, []);
-
   return (
     <>
+      <Head>
+        <title>Game Development e Jogos Digitais na lusofonia</title>
+        <meta
+          name="description"
+          content="Os maiores criadores de jogos na lusofonia. Desde comunidades, eventos e newslatter para game developers e criadores de jogos digitais."
+        />
+      </Head>
+
       <Navbar />
 
-      {/* HERO / CTA */}
+      {/* HERO */}
       <section className="relative w-full h-[50vh] overflow-hidden bg-zinc-900">
         {/* FUNDO */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/images/gamedev.png')` }}
+          style={{ backgroundImage: `url('/images/games.jpg')` }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
         </div>
@@ -74,7 +67,7 @@ const Page = () => {
             <button
               onClick={handleClick}
               disabled={loading}
-              className={`inline-flex items-center gap-2 px-3 py-3 mb-4 font-semibold transition-all active:scale-95 rounded-xl ${
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
                 loading
                   ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                   : "bg-blue-400 hover:bg-blue-500 text-white"
@@ -82,7 +75,7 @@ const Page = () => {
             >
               {loading ? (
                 <>
-                  <Loader2 size={20} className="animate-spin" />
+                  <Loader2 size={18} className="animate-spin" />
                   Processando...
                 </>
               ) : (
@@ -95,13 +88,6 @@ const Page = () => {
           </div>
         </div>
       </section>
-
-      {/* FILTRO POR PAÍS */}
-      <CountryFilter
-        selectedCountry={selectedCountry}
-        onCountryChange={setSelectedCountry}
-        className="bg-white border-b border-gray-200"
-      />
 
       {/* CONTEÚDO */}
       <div className="min-h-screen bg-white flex flex-col items-center py-12 px-4 md:px-8 overflow-x-hidden">

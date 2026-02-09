@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { ArrowRight, CheckCircle2, RefreshCcw, ChevronRight, Loader2 } from "lucide-react";
-import { AreaKey, FULL_QUESTION_BANK, TECH_AREAS, TechArea, Question } from "@/app/quiz/data";
+import { useState } from "react";
+import {ArrowRight, CheckCircle2, RefreshCcw, ChevronRight, Loader2 } from "lucide-react";
+import { AreaKey, FULL_QUESTION_BANK, TECH_AREAS, TechArea, Question,} from "@/app/quiz/data";
 
 /* =======================
    HELPER: SHUFFLE ARRAY
@@ -20,9 +20,12 @@ function shuffleArray<T>(array: T[]): T[] {
    COMPONENTE QUIZ 
    ======================= */
 export function QuizGame() {
-  const [step, setStep] = useState<"intro" | "loading" | "playing" | "result">("intro");
+  const [step, setStep] = useState<"intro" | "loading" | "playing" | "result">(
+    "intro",
+  );
   const [name, setName] = useState("");
   const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
+  const [unusedQuestions, setUnusedQuestions] = useState<Question[]>([]);
   const [currentQIndex, setCurrentQIndex] = useState(0);
   const [scores, setScores] = useState<Record<string, number>>({});
 
@@ -33,12 +36,15 @@ export function QuizGame() {
   const handleStart = () => {
     if (name.trim().length > 0) {
       setStep("loading");
-      
+
       // Simular um pequeno tempo de "carregar perguntas do servidor"
       setTimeout(() => {
         const shuffled = shuffleArray(FULL_QUESTION_BANK);
         const selected = shuffled.slice(0, QUESTIONS_PER_SESSION);
+        const remaining = shuffled.slice(QUESTIONS_PER_SESSION);
+        
         setSessionQuestions(selected);
+        setUnusedQuestions(remaining);
         setScores({});
         setCurrentQIndex(0);
         setStep("playing");
@@ -65,8 +71,28 @@ export function QuizGame() {
     }
   };
 
+  // JOGO: Pular Pergunta
+  const handleSkip = () => {
+    if (unusedQuestions.length === 0) return;
+
+    const newUnused = [...unusedQuestions];
+    const newQuestion = newUnused.pop(); // Remove um das não usadas
+    
+    if (newQuestion) {
+      const newSession = [...sessionQuestions];
+      newSession[currentQIndex] = newQuestion; // Substitui a atual
+      
+      setSessionQuestions(newSession);
+      setUnusedQuestions(newUnused);
+    }
+  };
+
   // RESULTADO: Calcular vencedor
-  const getResult = (): { area: TechArea; percent: number; breakdown: any[] } => {
+  const getResult = (): {
+    area: TechArea;
+    percent: number;
+    breakdown: any[];
+  } => {
     let maxScore = -1;
     let winnerKey: AreaKey = "frontend"; // fallback
     let totalScore = 0;
@@ -81,17 +107,19 @@ export function QuizGame() {
     });
 
     // 2. Criar breakdown ordenado
-    const breakdown = Object.entries(TECH_AREAS).map(([key, area]) => {
-      const score = scores[key] || 0;
-      // Percentagem relativa ao total de pontos distribuídos
-      const rawPercent = totalScore > 0 ? (score / totalScore) * 100 : 0;
-      return { ...area, score, percent: Math.round(rawPercent) };
-    }).sort((a, b) => b.score - a.score);
+    const breakdown = Object.entries(TECH_AREAS)
+      .map(([key, area]) => {
+        const score = scores[key] || 0;
+        // Percentagem relativa ao total de pontos distribuídos
+        const rawPercent = totalScore > 0 ? (score / totalScore) * 100 : 0;
+        return { ...area, score, percent: Math.round(rawPercent) };
+      })
+      .sort((a, b) => b.score - a.score);
 
     return {
       area: TECH_AREAS[winnerKey],
-      percent: breakdown.find(b => b.id === winnerKey)?.percent || 0,
-      breakdown: breakdown.slice(0, 5) // Top 5
+      percent: breakdown.find((b) => b.id === winnerKey)?.percent || 0,
+      breakdown: breakdown.slice(0, 5), // Top 5
     };
   };
 
@@ -101,6 +129,7 @@ export function QuizGame() {
     setScores({});
     setCurrentQIndex(0);
     setSessionQuestions([]);
+    setUnusedQuestions([]);
   };
 
   // --- RENDERIZADORES --- //
@@ -111,16 +140,24 @@ export function QuizGame() {
         <div className="p-4 bg-violet-600/20 rounded mb-2 border border-violet-500/30 opacity-30">
           <CheckCircle2 className="w-12 h-12 text-violet-500" />
         </div>
-        <h2 className="text-3xl md:text-5xl text-white tracking-tight">
+        <h2 className="text-2xl md:text-3xl text-white tracking-tight">
           Descobre o teu perfil Tech!
         </h2>
         <p className="text-zinc-400 max-w-lg text-lg">
-          Vamos fazer <span className="text-violet-400">{QUESTIONS_PER_SESSION} perguntas</span> rápidas e aleatórias para analisar o teu perfil em áreas como Frontend, Backend, AI, Segurança, Gestão e mais.
+          Vamos fazer{" "}
+          <span className="text-violet-400">
+            {QUESTIONS_PER_SESSION} perguntas
+          </span>{" "}
+          rápidas e aleatórias para analisar o teu perfil em áreas como
+          Frontend, Backend, AI, Segurança, Gestão e mais.
         </p>
-        
+
         <div className="w-full max-w-sm space-y-4 pt-4">
           <div className="text-left w-full">
-            <label htmlFor="name" className="block text-sm font-medium text-zinc-300 mb-2 ml-1">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-zinc-300 mb-2 ml-1"
+            >
               Como te chamas?
             </label>
             <input
@@ -150,7 +187,7 @@ export function QuizGame() {
     return (
       <div className="flex flex-col items-center justify-center py-20 animate-in fade-in duration-300">
         <Loader2 className="w-12 h-12 text-violet-500 animate-spin mb-4" />
-        <p className="text-zinc-400">A sortear perguntas para ti, {name}...</p>
+        <p className="text-zinc-400">{name} estou a sortear perguntas para ti.</p>
       </div>
     );
   }
@@ -161,26 +198,33 @@ export function QuizGame() {
 
     return (
       <div className="w-full max-w-2xl mx-auto animate-in slide-in-from-right duration-300">
-        {/* Header/Progress */}
+        {/* Cabeçalho/Progresso */}
         <div className="mb-8">
           <div className="flex justify-between text-sm text-zinc-400 mb-2 font-medium">
-            <span>Questão <span className="text-violet-400">{currentQIndex + 1}</span> de {QUESTIONS_PER_SESSION}</span>
+            <span>
+              Questão{" "}
+              <span className="text-violet-400">{currentQIndex + 1}</span> de{" "}
+              {QUESTIONS_PER_SESSION}
+            </span>
             <span>{Math.round(progress)}%</span>
           </div>
           <div className="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-violet-600 transition-all duration-500 ease-out shadow-[0_0_10px_rgba(124,58,237,0.5)]" 
-              style={{ width: `${progress}%` }} 
+            <div
+              className="h-full bg-violet-600 transition-all duration-500 ease-out shadow-[0_0_10px_rgba(124,58,237,0.5)]"
+              style={{ width: `${progress}%` }}
             />
           </div>
         </div>
 
-        {/* Question */}
-        <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 leading-tight min-h-[80px]">
-          {question.text}
-        </h3>
+        {/* Pergunta */}
+        <div className="relative">
+          <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 leading-tight min-h-[80px]">
+            {question.text}
+          </h3>
+        
+        </div>
 
-        {/* Options */}
+        {/* Opções */}
         <div className="space-y-3">
           {question.options.map((opt, idx) => (
             <button
@@ -197,6 +241,18 @@ export function QuizGame() {
             </button>
           ))}
         </div>
+        
+        <div className="mt-8 text-center">
+            {unusedQuestions.length > 0 && (
+                <button 
+                  onClick={handleSkip}
+                  className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors py-2 px-4 rounded hover:bg-zinc-800/50 border border-violet-500/30"
+                >
+                    <RefreshCcw size={16} />
+                    Não entendi a pergunta, pular.
+                </button>
+            )}
+        </div>
       </div>
     );
   }
@@ -206,24 +262,30 @@ export function QuizGame() {
 
     return (
       <div className="text-center animate-in zoom-in duration-500">
-        <p className="text-lg text-zinc-400 mb-2">Olá <span className="text-white font-bold">{name}</span>, a tua área ideal é:</p>
-        
-        <div className={`inline-flex p-6 rounded-full ${result.area.color} bg-opacity-20 mb-6 ring-4 ring-white/5`}>
-           <CheckCircle2 className={`w-16 h-16 ${result.area.color.replace('bg-', 'text-')}`} />
+        <div
+          className={`inline-flex p-6 rounded-full ${result.area.color} bg-opacity-20 mb-6 ring-4 ring-white/5`}
+        >
+          <CheckCircle2
+            className={`w-16 h-16 ${result.area.color.replace("bg-", "text-")}`}
+          />
         </div>
+        <p className="text-lg text-zinc-400 mb-2">
+          Olá <span className="text-white font-bold">{name}</span>, a tua área
+          ideal é:
+        </p>
 
         <h2 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
           {result.area.label}
         </h2>
-        
+
         <p className="text-xl text-zinc-300 max-w-2xl mx-auto mb-10 leading-relaxed">
           {result.area.description}
         </p>
 
-        {/* Breakdown Chart */}
+        {/* Gráfico de distribuição */}
         <div className="max-w-md mx-auto bg-zinc-900/80 p-6 rounded-2xl border border-zinc-800 mb-10 shadow-2xl">
           <h4 className="text-sm font-semibold text-zinc-500 uppercase tracking-wider mb-4 text-left border-b border-zinc-800 pb-2">
-            Top 5 Compatibilidades
+            Áreas compativeis contigo:
           </h4>
           <div className="space-y-4">
             {result.breakdown.map((item) => (
@@ -233,8 +295,8 @@ export function QuizGame() {
                   <span>{item.percent}%</span>
                 </div>
                 <div className="h-2.5 w-full bg-zinc-800 rounded-full overflow-hidden">
-                  <div 
-                    className={`h-full ${item.color} transition-all duration-1000 ease-out`} 
+                  <div
+                    className={`h-full ${item.color} transition-all duration-1000 ease-out`}
                     style={{ width: `${item.percent}%` }}
                   />
                 </div>
@@ -253,6 +315,6 @@ export function QuizGame() {
       </div>
     );
   }
-  
+
   return null;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { TOP_CHARTS, ChartItem } from '@/components/gamedev/constants';
-import { ChevronRight, Crown } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 const ChartColumn: React.FC<{ title: string; items: ChartItem[] }> = ({ title, items }) => {
   return (
@@ -15,17 +15,17 @@ const ChartColumn: React.FC<{ title: string; items: ChartItem[] }> = ({ title, i
       <div className="flex flex-col">
         {items.map((item) => (
           <div key={item.id} className="flex items-center gap-4 p-2 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer group" >
-            {/* Poster */}
+            {/* Cartaz */}
             <div className="relative w-12 h-16 rounded-lg overflow-hidden shrink-0 shadow-sm border border-gray-100">
               <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
             </div>
 
-            {/* Info */}
+            {/* Informação */}
             <div className="flex flex-col justify-center min-w-0">
               <h3 className="text-sm font-bold text-gray-900 truncate leading-tight mb-1">
                 {item.title}
               </h3>
-              
+
               <div className="flex flex-wrap items-center gap-2">
                 <div className="flex items-center gap-1">
                   {item.oldPrice && (

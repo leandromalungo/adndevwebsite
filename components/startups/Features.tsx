@@ -28,7 +28,7 @@ const Features: React.FC<FeaturesProps> = ({ selectedCountry }) => {
   return (
     <section className="bg-white py-20 px-6 md:px-12 lg:px-24">
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-        {/* Left Side: Copy */}
+        {/* Lado esquerdo: Texto */}
         <div className="lg:col-span-5 flex flex-col justify-center">
           <h2 className="text-2xl md:text-5xl font-semibold text-gray-900 leading-tight mb-8">
             Inovação é nosso compromisso, conexões que fazem a diferença são nosso resultado
@@ -39,7 +39,7 @@ const Features: React.FC<FeaturesProps> = ({ selectedCountry }) => {
           </p>
         </div>
 
-        {/* Right Side: Feature Grid */}
+        {/* Lado direito: Grelha de funcionalidades */}
         <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4">
           <FeatureCard 
             icon="fas fa-search" 

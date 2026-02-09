@@ -46,7 +46,7 @@ const DecorativePattern: React.FC<{ position: 'left' | 'right' | 'center' }> = (
 
 const MatchmakingCard: React.FC<MatchmakingCardProps> = ({ title, description, imageUrl, accentColor, patternPosition }) => (
   <div className="relative group overflow-hidden h-[500px] md:h-[600px] flex flex-col justify-end">
-    {/* Background Image */}
+    {/* Imagem de fundo */}
     <div className="absolute inset-0 z-0">
       <img 
         src={imageUrl} 
@@ -56,10 +56,10 @@ const MatchmakingCard: React.FC<MatchmakingCardProps> = ({ title, description, i
       <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
     </div>
 
-    {/* Decorative Pattern at Top */}
+    {/* Padrão decorativo no topo */}
     <DecorativePattern position={patternPosition} />
 
-    {/* White Content Box */}
+    {/* Caixa de conteúdo branca */}
     <div className="relative z-10 bg-white p-8 mx-4 mb-8 shadow-lg transform transition-transform duration-500 group-hover:-translate-y-2">
       <h3 className="text-xl font-semibold text-gray-900 mb-3">{title}</h3>
       <p className="text-sm text-gray-600 leading-relaxed">
@@ -67,7 +67,7 @@ const MatchmakingCard: React.FC<MatchmakingCardProps> = ({ title, description, i
       </p>
     </div>
 
-    {/* Accent Color Tab at Bottom Right */}
+    {/* Separador de cor de destaque no canto inferior direito */}
     <div className={`absolute bottom-0 right-0 w-8 h-8 ${accentColor} z-20`}></div>
   </div>
 );
@@ -77,7 +77,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({ selectedCountry }) => {
     {
       title: "Comunidade",
       description: "Trocas e aprendizado com + 700 empreendedores e startups da nossa rede, no físico e no digital.",
-      imageUrl: "https://images.unsplash.com/photo-1523240715639-99f84d39443b?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=800",
       accentColor: "bg-gradient-to-br from-blue-600 to-indigo-600",
       patternPosition: 'left' as const
     },
@@ -91,14 +91,14 @@ const Matchmaking: React.FC<MatchmakingProps> = ({ selectedCountry }) => {
     {
       title: "Fundraising",
       description: "Preparo para rodadas de investimento e conexão com fundos, investors e benefícios de partners.",
-      imageUrl: "https://images.unsplash.com/photo-1551288049-bbbda5366392?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=800",
       accentColor: "bg-gradient-to-br from-indigo-500 to-blue-400",
       patternPosition: 'left' as const
     },
     {
       title: "Conteúdos exclusivos",
       description: "Networking com quem é referência no mercado em eventos, workshops, mentorias e treinamentos.",
-      imageUrl: "https://images.unsplash.com/photo-1475721027187-402ad75d124c?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=800",
       accentColor: "bg-gradient-to-br from-pink-500 to-rose-400",
       patternPosition: 'right' as const
     }
