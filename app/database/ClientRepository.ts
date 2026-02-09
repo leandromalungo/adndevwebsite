@@ -51,9 +51,7 @@ export const useClientStore = create<ClientState>((set, get) => ({
   createNewClient: async (data, file) => {
     set({ loading: true, error: null });
     try {
-      console.log("[ClientRepository] createNewClient called", { data, file });
       await ClientDAO.createClient(data, file as File);
-      await get().fetchAllClients(); // Atualiza a lista
       set({ loading: false });
     } catch (error: any) {
       set({ error: error.message, loading: false });
@@ -65,7 +63,6 @@ export const useClientStore = create<ClientState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       await ClientDAO.updateClient(id, data, file);
-      await get().fetchAllClients(); // Atualiza a lista
       set({ loading: false });
     } catch (error: any) {
       set({ error: error.message, loading: false });
@@ -77,7 +74,6 @@ export const useClientStore = create<ClientState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       await ClientDAO.deleteClient(id);
-      await get().fetchAllClients(); // Atualiza a lista
       set({ loading: false });
     } catch (error: any) {
       set({ error: error.message, loading: false });

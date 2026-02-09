@@ -1,10 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import  {  PayPalScriptProvider ,  PayPalButtons, usePayPalScriptReducer  }  from  "@paypal/react-paypal-js" ;
 import { PAYPAL_CLIENT_ID } from '@/lib/constants';
+import { useClientStore } from '@/app/database/ClientRepository';
+import { ClientType } from '@/lib/clientType';
 
 
 const PaypalLoadingSpinner = () => {
@@ -17,11 +20,24 @@ const PaypalLoadingSpinner = () => {
 };
 
 const PaymentPaypal = () => {
-
+  const router = useRouter();
   const [paymentMethod, setPaymentMethod] = useState('Paypal');
+  const [clienteData, setClienteData] = useState<ClientType | null>(null);
+  const [loading, setLoading] = useState(false);
+  const createClient = useClientStore((state) => state.createNewClient);
 
-    // Função que chama a API para criar a ordem
-    //O valor do pagamento está fixo em 10.00
+  // Recuperar dados do cliente do sessionStorage
+  useEffect(() => {
+    const saved = sessionStorage.getItem("clienteData");
+    if (saved) {
+      setClienteData(JSON.parse(saved));
+    } else {
+      router.push("/subscribe");
+    }
+  }, [router]);
+
+  // Função que chama a API para criar a ordem
+  //O valor do pagamento está fixo em 10.00
   const createOrder = async () => {
     const res = await fetch("/api/create-order", { method: "POST" ,
       body: JSON.stringify({ amount: 4.00 }),
@@ -33,17 +49,58 @@ const PaymentPaypal = () => {
 
   // Função que chama a API para capturar a ordem
   const onApprove = async (data: { orderID: string }) => {
-    const res = await fetch("/api/capture-order", {
-      method: "POST",
-      body: JSON.stringify({ orderID: data.orderID }),
-      headers: { "Content-Type": "application/json" },
-    });
-    const captureData = await res.json();
-    console.log("Pagamento capturado:", captureData);
-    // Aqui podes redirecionar ou mostrar confirmação
-    
+    setLoading(true);
+    try {
+      const res = await fetch("/api/capture-order", {
+        method: "POST",
+        body: JSON.stringify({ orderID: data.orderID }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const captureData = await res.json();
+      console.log("Pagamento capturado:", captureData);
+      
+      // Criar cliente após pagamento bem-sucedido
+      if (clienteData) {
+        const formData = { 
+          ...clienteData, 
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        await createClient(formData);
+        
+        // Limpar dados do sessionStorage
+        sessionStorage.removeItem("clienteData");
+        
+        // Redirecionar para página de sucesso
+        router.push("/assinatura/sucesso");
+      }
+    } catch (error) {
+      console.error("Erro ao processar pagamento:", error);
+      alert("Erro ao processar o pagamento. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  const onError = (err: any) => {
+    console.error("Erro no PayPal:", err);
+    alert("Ocorreu um erro no pagamento. Tente novamente.");
+  };
+
+  if (!clienteData) {
+    return (
+      <>
+        <Navbar />
+        <section className="relative w-full h-screen overflow-hidden bg-zinc-900">
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/90 to-black/50" />
+          <div className="relative h-full z-10 flex min-h-full flex-col justify-center items-center px-6 py-12 lg:px-8">
+            <div className="text-white">Carregando...</div>
+          </div>
+        </section>
+        <Footer/>
+      </>
+    );
+  }
 
   return (
   <>
@@ -62,7 +119,9 @@ const PaymentPaypal = () => {
             <PaypalLoadingSpinner />
             <PayPalButtons 
               createOrder={createOrder}
-              onApprove={onApprove} 
+              onApprove={onApprove}
+              onError={onError}
+              disabled={loading}
             />
         </PayPalScriptProvider>
     </div>
