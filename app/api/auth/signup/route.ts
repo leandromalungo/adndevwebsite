@@ -10,18 +10,53 @@ import { NextRequest, NextResponse } from "next/server";
 import { adminAuth, adminDb } from "@/lib/firebase-admin";
 import { sanitizeText, sanitizeEmail, isSafeString } from "@/lib/security";
 
+import { Redis } from "@upstash/redis";
+import { Ratelimit } from "@upstash/ratelimit";
+
+// ==============================
+// Redis Rate Limit (ADICIONADO)
+// ==============================
+
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+});
+
+const ratelimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(5, "1 m"), // 5 requests por minuto por IP
+});
+
 /**
  * POST /api/auth/signup
- * 
- * Creates a new user in Firebase.
- * Frontend sends raw data - backend validates everything.
  */
 export async function POST(request: NextRequest) {
     try {
+
+        // ==============================
+        // RATE LIMIT (ADICIONADO)
+        // ==============================
+
+        const ip =
+          request.headers.get("x-forwarded-for")?.split(",")[0] ||
+          "unknown";
+
+        const { success } = await ratelimit.limit(ip);
+
+        if (!success) {
+            return NextResponse.json(
+                { message: "Muitas requisições. Tente novamente mais tarde." },
+                { status: 429 }
+            );
+        }
+
+        // ==============================
+        // RESTANTE DO SEU CÓDIGO (INALTERADO)
+        // ==============================
+
         const body = await request.json();
         const { email, password, name, country, telegram, alerts } = body;
 
-        // Backend validation - frontend sends raw data
         if (!email || !password) {
             return NextResponse.json(
                 { message: "Email e senha são obrigatórios" },
@@ -29,7 +64,6 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Sanitize inputs (backend security)
         const sanitizedEmail = sanitizeEmail(email);
         const sanitizedName = sanitizeText(name || "");
         const sanitizedTelegram = sanitizeText(telegram || "");
@@ -41,7 +75,6 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Security check
         if (
             (sanitizedName && !isSafeString(sanitizedName)) ||
             (sanitizedTelegram && !isSafeString(sanitizedTelegram))
@@ -52,7 +85,6 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Password validation (backend only)
         if (password.length < 8) {
             return NextResponse.json(
                 { message: "A senha deve ter no mínimo 8 caracteres" },
@@ -60,14 +92,12 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Create user in Firebase (backend only)
         const userRecord = await adminAuth.createUser({
             email: sanitizedEmail,
-            password: password,
+            password: password, // Firebase faz hash automaticamente
             displayName: sanitizedName || sanitizedEmail,
         });
 
-        // Store additional user data in Firestore (optional)
         if (adminDb) {
             await adminDb.collection("users").doc(userRecord.uid).set({
                 email: sanitizedEmail,
@@ -79,7 +109,6 @@ export async function POST(request: NextRequest) {
             });
         }
 
-        // Return success - frontend will then call signIn
         return NextResponse.json(
             {
                 message: "Usuário criado com sucesso",
@@ -87,10 +116,12 @@ export async function POST(request: NextRequest) {
             },
             { status: 201 }
         );
-    } catch (error: any) {
-        console.error("[Signup Error]:", error.message);
 
-        // Handle Firebase errors
+    } catch (error: any) {
+
+        // Logging seguro (sem expor payload)
+        console.error("[Signup Error]:", error.code || error.message);
+
         if (error.code === "auth/email-already-exists") {
             return NextResponse.json(
                 { message: "Este email já está cadastrado" },
@@ -112,7 +143,6 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Generic error - don't expose details
         return NextResponse.json(
             { message: "Erro ao criar usuário. Tente novamente." },
             { status: 500 }
