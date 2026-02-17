@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "name": "João Silva",
+    "email": "joao.silva@example.com",
+    "country": "Brasil",
+    "status": "active",
+    "joinDate": "2023-01-15",
+    "role": "user"
+  },
+  {
+    "id": "2",
+    "name": "Maria Santos",
+    "email": "maria.santos@example.com",
+    "country": "Angola",
+    "status": "active",
+    "joinDate": "2023-02-10",
+    "role": "admin"
+  },
+  {
+    "id": "3",
+    "name": "João Silva",
+    "email": "joao.silva@example.com",
+    "country": "Brasil",
+    "status": "active",
+    "joinDate": "2023-01-15",
+    "role": "user"
+  },
+  {
+    "id": "4",
+    "name": "Maria Santos",
+    "email": "maria.santos@example.com",
+    "country": "Angola",
+    "status": "active",
+    "joinDate": "2023-02-10",
+    "role": "admin"
+  }
+]
