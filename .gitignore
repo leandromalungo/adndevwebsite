@@ -21,6 +21,7 @@ ui-debug.log*
 functions/lib/
 functions/node_modules/
 functions/firebase-debug.log*
+functions/
 
 # Environment Variables & Secrets
 .env
