@@ -1,42 +1,39 @@
+import { callCloudFunction } from "../cloud-functions-client";
+
 export type User = {
   id: string;
   name: string;
   email: string;
-  country: string;
+  country?: string;
   status: "active" | "banned" | "pending";
-  joinDate: string;
+  joinDate?: string;
   role: "admin" | "user" | "editor";
+  createdAt?: any;
 };
 
-// Lista simulada de usuários. PONTO DE INTEGRAÇÃO: Em produção, faça fetch para o backend real.
-// Aqui usamos um JSON local para simular o backend.
-import usersJson from "../../data/mockUsers.json";
-const users: User[] = usersJson as unknown as User[];
-
-// Busca usuários (simulado). PONTO DE INTEGRAÇÃO: Troque por chamada real ao backend.
+/**
+ * Busca usuários via Cloud Function
+ */
 export async function getUsers(): Promise<User[]> {
-  // Busca usuários (simulado). PONTO DE INTEGRAÇÃO: Troque por chamada real ao backend.
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  return users;
+  return callCloudFunction<User[]>("getAdminUsers", "GET", undefined, true);
 }
 
-// Busca usuário por ID (simulado). PONTO DE INTEGRAÇÃO: Troque por chamada real ao backend.
+/**
+ * Busca usuário por ID (filtrado da lista carregada ou via nova função se necessário)
+ * Por agora, mantemos consistência buscando da lista ou poderíamos criar getAdminUserById
+ */
 export async function getUserById(id: string): Promise<User | undefined> {
-  // Busca usuário por ID (simulado). PONTO DE INTEGRAÇÃO: Troque por chamada real ao backend.
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  const users = await getUsers();
   return users.find((user) => user.id === id);
 }
 
-// Atualiza status do usuário (simulado). PONTO DE INTEGRAÇÃO: Troque por chamada real ao backend.
+/**
+ * Atualiza status do usuário via Cloud Function
+ */
 export async function updateUserStatus(
-  // Atualiza status do usuário (simulado). PONTO DE INTEGRAÇÃO: Troque por chamada real ao backend.
   id: string,
   status: User["status"],
-): Promise<User | undefined> {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  const user = users.find((u) => u.id === id);
-  if (user) {
-    user.status = status;
-  }
-  return user;
+): Promise<{ success: boolean }> {
+  return callCloudFunction("updateAdminUserStatus", "POST", { userId: id, status }, true);
 }
+

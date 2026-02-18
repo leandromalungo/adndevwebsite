@@ -1,219 +1,226 @@
 /**
- * NextAuth.js Configuration
- * 
- * Centralizes all authentication logic on the backend.
- * The frontend NEVER validates credentials or tokens - it only sends requests.
- * 
- * Supports:
- * - Admin authentication (with role validation)
- * - User authentication (normal users)
- * - Session management with JWT
- * - Role-based access control (RBAC)
+ * Configuração do NextAuth.js
+ *
+ * O Frontend comunica com o backend de Cloud Functions para toda a lógica de autenticação.
+ * As Cloud Functions gerem:
+ * - Validação de email/password
+ * - Verificação de OAuth do Google
+ * - Gestão de sessões com JWT + Redis
+ * - Controlo de acesso baseado em roles (RBAC)
+ *
+ * Este ficheiro configura o NextAuth para delegar a autenticação nas Cloud Functions.
  */
 
-import NextAuth, { NextAuthOptions } from "next-auth";
+import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { adminAuth } from "@/lib/firebase-admin";
+import GoogleProvider from "next-auth/providers/google";
 
 /**
- * NextAuth configuration object.
- * All authentication logic happens here on the backend.
+ * URL base das Cloud Functions, adaptada para ambiente local ou produção
+ */
+const CLOUD_FUNCTIONS_URL =
+  process.env.NEXT_PUBLIC_CLOUD_FUNCTIONS_URL ||
+  (process.env.NODE_ENV === "production"
+    ? "https://us-central1-adndev-5a2b0.cloudfunctions.net"
+    : "http://localhost:5001/adndev-5a2b0/us-central1");
+
+/**
+ * Objeto de configuração do NextAuth
+ * Delega toda a lógica de autenticação para as Cloud Functions.
  */
 export const authOptions: NextAuthOptions = {
-    // Use JWT strategy for session management
-    session: {
-        strategy: "jwt",
-        maxAge: 30 * 24 * 60 * 60, // 30 days
-    },
+  // Utiliza a estratégia JWT para gestão de sessões
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 dias de validade
+  },
 
-    // Custom pages for authentication flows
-    pages: {
-        signIn: "/cd1afa520f/login", // Default admin login page
-        error: "/auth/error",
-    },
+  // Páginas personalizadas para fluxos de autenticação
+  pages: {
+    signIn: "/cd1afa520f/login",
+    error: "/auth/error",
+  },
 
-    // Authentication providers
-    providers: [
-        /**
-         * ADMIN CREDENTIALS PROVIDER
-         * Backend validates admin credentials and role.
-         * Frontend just sends email/password - NO validation.
-         */
-        CredentialsProvider({
-            id: "admin-credentials",
-            name: "Admin Login",
-            credentials: {
-                email: { label: "Email", type: "email" },
-                password: { label: "Password", type: "password" },
-            },
-            async authorize(credentials) {
-                // Backend validation only - frontend sends raw credentials
-                if (!credentials?.email || !credentials?.password) {
-                    throw new Error("Email e senha são obrigatórios");
-                }
-
-                try {
-                    // Step 1: Verify password using Firebase Auth REST API
-                    const idToken = await verifyFirebasePassword(
-                        credentials.email,
-                        credentials.password
-                    );
-
-                    // Step 2: Verify the ID token and get user data
-                    const decodedToken = await adminAuth.verifyIdToken(idToken);
-
-                    // Step 3: Get user record to check custom claims
-                    const userRecord = await adminAuth.getUser(decodedToken.uid);
-                    const customClaims = userRecord.customClaims || {};
-
-                    // Step 4: Validate admin role
-                    if (customClaims.admin !== true && customClaims.role !== "admin") {
-                        throw new Error("Acesso negado. Usuário não é administrador.");
-                    }
-
-                    // Return user object for session
-                    return {
-                        id: userRecord.uid,
-                        email: userRecord.email!,
-                        name: userRecord.displayName || userRecord.email!,
-                        role: "admin",
-                    };
-                } catch (error: any) {
-                    // Generic error - don't expose details to frontend
-                    console.error("[NextAuth] Admin login error:", error.message);
-                    throw new Error("Credenciais inválidas ou acesso negado");
-                }
-            },
-        }),
-
-        /**
-         * USER CREDENTIALS PROVIDER
-         * Backend validates normal user credentials.
-         * Frontend just sends email/password - NO validation.
-         */
-        CredentialsProvider({
-            id: "credentials",
-            name: "User Login",
-            credentials: {
-                email: { label: "Email", type: "email" },
-                password: { label: "Password", type: "password" },
-            },
-            async authorize(credentials) {
-                // Backend validation only
-                if (!credentials?.email || !credentials?.password) {
-                    throw new Error("Email e senha são obrigatórios");
-                }
-
-                try {
-                    // Step 1: Verify password using Firebase Auth REST API
-                    const idToken = await verifyFirebasePassword(
-                        credentials.email,
-                        credentials.password
-                    );
-
-                    // Step 2: Verify the ID token and get user data
-                    const decodedToken = await adminAuth.verifyIdToken(idToken);
-
-                    // Step 3: Get user record to check custom claims
-                    const userRecord = await adminAuth.getUser(decodedToken.uid);
-                    const customClaims = userRecord.customClaims || {};
-
-                    // Step 4: Ensure user is NOT an admin
-                    if (customClaims.admin === true || customClaims.role === "admin") {
-                        throw new Error("Use o painel de administrador para fazer login");
-                    }
-
-                    // Return user object for session
-                    return {
-                        id: userRecord.uid,
-                        email: userRecord.email!,
-                        name: userRecord.displayName || userRecord.email!,
-                        role: "user",
-                    };
-                } catch (error: any) {
-                    console.error("[NextAuth] User login error:", error.message);
-                    throw new Error("Credenciais inválidas");
-                }
-            },
-        }),
-    ],
-
+  // Provedores de Autenticação
+  providers: [
     /**
-     * JWT CALLBACK
-     * Adds custom data to the JWT token (backend only).
-     * This data is encrypted and stored in the session cookie.
+     * PROVEDOR DE CREDENCIAIS ADMIN
+     * Chama a Cloud Function signinAdmin para validar administradores
      */
-    callbacks: {
-        async jwt({ token, user, account }) {
-            // On first sign in, add user data to token
-            if (user) {
-                token.uid = user.id;
-                token.email = user.email;
-                token.name = user.name;
-                token.role = (user as any).role || "user";
-            }
+    CredentialsProvider({
+      id: "admin-credentials",
+      name: "Login Admin",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Senha", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Email e senha são obrigatórios");
+        }
 
-            return token;
-        },
-
-        /**
-         * SESSION CALLBACK
-         * Exposes safe user data to the frontend.
-         * Frontend receives this via useSession() - NO sensitive data exposed.
-         */
-        async session({ session, token }) {
-            if (token) {
-                session.user = {
-                    id: token.uid as string,
-                    email: token.email as string,
-                    name: token.name as string,
-                    role: token.role as string,
-                };
-            }
-
-            return session;
-        },
-    },
-
-    // Security settings
-    secret: process.env.NEXTAUTH_SECRET,
-
-    // Enable debug in development
-    debug: process.env.NODE_ENV === "development",
-};
-
-/**
- * Helper function to verify password using Firebase Auth REST API.
- * This is needed because Firebase Admin SDK doesn't verify passwords.
- * 
- * @param email - User email
- * @param password - User password
- * @returns Firebase ID token if valid
- */
-export async function verifyFirebasePassword(
-    email: string,
-    password: string
-): Promise<string> {
-    const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
-
-    const response = await fetch(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
-        {
+        try {
+          // Chamada segura ao backend para autenticação de admin
+          const response = await fetch(`${CLOUD_FUNCTIONS_URL}/signinAdmin`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                email,
-                password,
-                returnSecureToken: true,
+              email: credentials.email,
+              password: credentials.password,
             }),
+          });
+
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || "Falha na autenticação");
+          }
+
+          const data = await response.json();
+
+          // Retorna o objeto do utilizador com o token gerado pelo backend
+          return {
+            id: data.user.id,
+            email: data.user.email,
+            name: data.user.name,
+            role: data.user.role,
+            token: data.token,
+          };
+        } catch (error: any) {
+          console.error("[NextAuth] Erro no login admin:", error.message);
+          throw new Error("Credenciais inválidas ou acesso negado");
         }
-    );
+      },
+    }),
 
-    if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error?.message || "Invalid credentials");
-    }
+    /**
+     * PROVEDOR DE CREDENCIAIS UTILIZADOR
+     * Chama a Cloud Function signinUser para autenticação padrão
+     */
+    CredentialsProvider({
+      id: "credentials",
+      name: "Login Utilizador",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Senha", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Email e senha são obrigatórios");
+        }
 
-    const data = await response.json();
-    return data.idToken;
-}
+        try {
+          // Chamada segura ao backend para login de utilizador
+          const response = await fetch(`${CLOUD_FUNCTIONS_URL}/signinUser`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+            }),
+          });
+
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || "Falha na autenticação");
+          }
+
+          const data = await response.json();
+
+          // Retorna o utilizador com o JWT de sessão do backend
+          return {
+            id: data.user.id,
+            email: data.user.email,
+            name: data.user.name,
+            role: data.user.role,
+            token: data.token,
+          };
+        } catch (error: any) {
+          console.error("[NextAuth] Erro no login utilizador:", error.message);
+          throw new Error("Credenciais inválidas");
+        }
+      },
+    }),
+
+    /**
+     * PROVEDOR GOOGLE OAUTH
+     * Envia o token do Google para a Cloud Function validar e criar/atualizar o perfil
+     */
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      allowDangerousEmailAccountLinking: true,
+    }),
+  ],
+
+  /**
+   * CALLBACKS DO NEXTAUTH
+   */
+  callbacks: {
+    /**
+     * Callback de JWT: Executado quando um token JWT é criado ou atualizado
+     */
+    async jwt({ token, user, account }) {
+      // No primeiro login, popula o token com os dados retornados pelo backend
+      if (user) {
+        token.uid = user.id;
+        token.email = user.email;
+        token.name = user.name;
+        token.role = (user as any).role || "user";
+        token.cloudFunctionToken = (user as any).token;
+      }
+
+      // Se for login via Google, troca o ID Token do Google por um token do nosso backend
+      if (account?.provider === "google" && account.id_token) {
+        try {
+          const response = await fetch(
+            `${CLOUD_FUNCTIONS_URL}/signupWithGoogle`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                googleIdToken: account.id_token,
+              }),
+            },
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            token.uid = data.user.id;
+            token.email = data.user.email;
+            token.name = data.user.name;
+            token.role = data.user.role;
+            token.cloudFunctionToken = data.token;
+          }
+        } catch (error) {
+          console.error("[NextAuth] Erro no callback do Google:", error);
+        }
+      }
+
+      return token;
+    },
+
+    /**
+     * Callback de Sessão: Disponibiliza os dados do token para o frontend via useSession()
+     */
+    async session({ session, token }) {
+      if (token) {
+        session.user = {
+          id: token.uid as string,
+          email: token.email as string,
+          name: token.name as string,
+          role: token.role as string,
+        };
+        // Armazena o token do backend para chamadas de API futuras
+        (session as any).token = token.cloudFunctionToken;
+      }
+
+      return session;
+    },
+  },
+
+  // Segredo usado para assinar os cookies do NextAuth
+  secret: process.env.NEXTAUTH_SECRET,
+
+  // Ativa logs de detalhados em ambiente de desenvolvimento
+  debug: process.env.NODE_ENV === "development",
+};

@@ -203,7 +203,7 @@ const Page = () => {
                   </>
                 ) : (
                   <>
-                    Assinar agora!
+                    Subscreva-se ao nosso portal
                     <ArrowRight size={18} className="sm:size-auto" />
                   </>
                 )}

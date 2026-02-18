@@ -87,7 +87,7 @@ export const Hero = () => {
                   Carregando...
                 </span>
               ) : (
-                "Assinar agora"
+                "Subscreva-se ao nosso portal"
               )}
             </button>
 

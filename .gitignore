@@ -1,49 +1,58 @@
-# dependencies
+# Dependencies
 node_modules/
+.pnpm-store/
 
-# next.js
+# Next.js
 .next/
 out/
+build/
 dist/
+.next-env.d.ts
+tsconfig.tsbuildinfo
 
+# Firebase
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+pubsub-debug.log*
+ui-debug.log*
 
-# env
+# Cloud Functions
+functions/lib/
+functions/node_modules/
+functions/firebase-debug.log*
+
+# Environment Variables & Secrets
 .env
 .env.local
-*.env
-.env.local
-.env.development
-.env.production
-.env.test
 .env.development.local
-.env.production.local
 .env.test.local
+.env.production.local
+*.env
+*.local
+serviceAccountKey.json
+*-firebase-adminsdk-*.json
+**/config/*.json
+!**/config/public-*.json
 
-
-# logs
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# OS
+# OS & Editor
 .DS_Store
 Thumbs.db
-
-#Arquivos de configuração do editor
+.vscode/
+.idea/
 *.swp
 *.swo
-*.DS_Store
-.vscode/
 
-
-/config/serviceAccountKey.json
-/config/adndev-5a2b0-firebase-adminsdk-fbsvc-795a8ce5a8.json
-/config/
-/scripts
-/script
-
-/pip install git-filter-repo git filter-repo --path scripts --path config --invert-paths git push origin --force --all git push origin --force --tags
+# Misc
+.vercel
+.cache
+.npm
+.swc
+tmp/
+temp/

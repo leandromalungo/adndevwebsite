@@ -45,7 +45,7 @@ const CardHero = () => {
                 disabled:opacity-70 disabled:cursor-not-allowed
                 uppercase tracking-wide"
           >
-            Assinar agora
+            Junte-se a nós
           </button>
         </div>
       </div>

@@ -25,10 +25,6 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/portal/checkout",
-        destination: "/api/create-checkout-session",
-      },
-      {
         source: "/portal/payment-ref",
         destination: "/api/create-ref",
       },
@@ -82,7 +78,8 @@ const nextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.vercel-scripts.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https:; font-src 'self' data:; connect-src 'self' https:; frame-ancestors 'none';",
+            value:
+              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.vercel-scripts.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https:; font-src 'self' data:; connect-src 'self' https:; frame-ancestors 'none';",
           },
         ],
       },

@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { sanitizeText, sanitizeEmail, isSafeString } from "@/lib/security";
 import { db } from "@/lib/firebase";
 import { onSnapshot, doc } from "firebase/firestore";
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import { Landmark, CreditCard, Loader2, Eye, EyeOff } from "lucide-react";
 
 type PaymentMethod = "paypal" | "transfer";
@@ -151,16 +151,6 @@ const SubscriptionForm = () => {
     return true;
   };
 
-  /**
-   * FRONTEND: Apenas envia dados para o backend.
-   * BACKEND: Valida, cria usuário e processa pagamento.
-   * 
-   * Fluxo:
-   * 1. Frontend valida inputs básicos (UX)
-   * 2. Backend cria usuário via /api/auth/signup
-   * 3. Frontend faz login via NextAuth
-   * 4. Backend processa pagamento
-   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -178,58 +168,36 @@ const SubscriptionForm = () => {
         throw new Error("Email inválido.");
       }
 
-      // STEP 1: BACKEND cria usuário via API
-      const signupRes = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: sEmail,
-          password: password,
-          name: sName,
-          country,
-          telegram: sTelegram,
-          alerts,
-        }),
-      });
-
-      const signupData = await signupRes.json();
-
-      // Handle signup errors
-      if (!signupRes.ok) {
-        // User already exists - try to login
-        if (signupRes.status === 409) {
-          // BACKEND: NextAuth valida credenciais
-          const loginResult = await signIn("credentials", {
-            email: sEmail,
-            password: password,
-            redirect: false,
-          });
-
-          if (loginResult?.error) {
-            throw new Error("Senha está incorreta.");
-          }
-        } else {
-          throw new Error(signupData.message || "Erro ao criar usuário.");
-        }
-      } else {
-        // STEP 2: BACKEND autentica usuário via NextAuth
-        const loginResult = await signIn("credentials", {
-          email: sEmail,
-          password: password,
-          redirect: false,
-        });
-
-        if (loginResult?.error) {
-          throw new Error("Usuário criado, mas erro ao fazer login.");
+      // STEP 1: Try to create user via Cloud Functions
+      try {
+        const { signupUser } = await import("@/lib/cloud-functions-client");
+        await signupUser(sEmail, password, sName);
+      } catch (signupError: any) {
+        // User might already exist - this is okay, we'll try to login
+        if (!signupError.message?.includes("already exists") && !signupError.message?.includes("já cadastrado")) {
+          throw signupError;
         }
       }
 
-      // STEP 3: Obter session para chamar APIs de pagamento
-      // NextAuth já criou a sessão - podemos prosseguir
+      // STEP 2: Login via NextAuth to create session
+      const loginResult = await signIn("credentials", {
+        email: sEmail,
+        password: password,
+        redirect: false,
+      });
+
+      if (loginResult?.error) {
+        throw new Error("Erro ao fazer login. Verifique suas credenciais.");
+      }
+
+      // STEP 3: Get current session
+      const session = await getSession();
+      if (!session?.user) {
+        throw new Error("Sessão não criada. Tente novamente.");
+      }
 
       // Prepare payload for payment
       const payload = {
-        userId: signupData.userId, // From signup response
         name: sName,
         telegram: sTelegram,
         email: sEmail,
@@ -238,27 +206,27 @@ const SubscriptionForm = () => {
         plan: "premium"
       };
 
-      // STEP 4: BACKEND processa pagamento
+      // STEP 4: Process payment
       if (paymentMethod === "paypal") {
-        // Stripe Logic
-        const res = await fetch("/api/create-checkout-session", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        
-        const data = await res.json();
-        
-        if (res.status === 429) throw new Error(data.message || "Muitas tentativas. Aguarde.");
-
-        if (data.url) {
-          setSubId(data.subscriptionId);
-          window.location.href = data.url;
-        } else {
-          throw new Error(data.message || "Não foi possível iniciar o checkout.");
+        // Stripe Logic - Call Cloud Function
+        try {
+          const { createCheckoutSession } = await import("@/lib/cloud-functions-client");
+          const response = await createCheckoutSession("price_monthly", "monthly");
+          
+          if (response?.url) {
+            setSubId(response.sessionId);
+            window.location.href = response.url;
+          } else {
+            throw new Error("Não foi possível iniciar o checkout.");
+          }
+        } catch (error: any) {
+          if (error.message?.includes("429")) {
+            throw new Error("Muitas tentativas. Aguarde.");
+          }
+          throw error;
         }
       } else {
-        // Lógica Referencia 
+        // Reference payment method
         const res = await fetch("/api/create-ref", {
           method: "POST",
           headers: { "Content-Type": "application/json" },

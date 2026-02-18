@@ -71,7 +71,7 @@ export default function Page() {
                 </>
               ) : (
                 <>
-                  Assinar agora!
+                  Subscreva-se ao nosso portal
                   <ArrowRight size={20} />
                 </>
               )}
