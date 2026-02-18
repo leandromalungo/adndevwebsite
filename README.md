@@ -1,13 +1,3 @@
-# ADN Developer - Documentação Completa
-
-## Visão Geral do Projeto
-
-**ADN Developer** é uma plataforma web completa desenvolvida com **Next.js + React + TypeScript + Tailwind CSS**, dedicada a promover oportunidades de desenvolvimento técnico e crescimento profissional em países africanos de língua portuguesa (Angola, Brasil, Moçambique, Portugal, São Tomé e Príncipe, Guiné-Bissau e Cabo-Verde).
-
-A plataforma oferece workshops, palestras, bolsas de estudo, hackathons, competições e um guia completo para startups.
-
----
-
 ## Estrutura do Projeto
 
 ### **Raiz do Projeto**
@@ -81,7 +71,7 @@ adndeveloper/
 - Componentes: `QuizGame`, `CareerTips`, `ProgressBar`, `Button`
 - Banco completo de perguntas em `app/quiz/data.ts` (`FULL_QUESTION_BANK`) e resultados personalizados por área
 
-##### **`/app/roadmaps`**
+##### **`/app/cursos`**
 - Página de **Roteiros de Aprendizado**
 - Mostra caminhos de aprendizado por especialidade (Frontend, Backend, DevOps, etc.)
 - Componentes: RoadmapCard, ProjectGrid, TechIcon, DetailView
