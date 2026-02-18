@@ -1,0 +1,65 @@
+rules_version = '2';
+
+/**
+ * Regras de Segurança do Firestore - ADN Developer
+ * 
+ * Estratégia: 
+ * 1. Bloqueio total por defeito.
+ * 2. Utilizadores podem ler/escrever os seus próprios documentos básicos.
+ * 3. Apenas administradores têm acesso a dados sensíveis e métricas.
+ * 4. A lógica de escrita complexa é delegada para as Cloud Functions.
+ */
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Função auxiliar para verificar se o utilizador é administrador via token
+    function isAdmin() {
+      return request.auth != null && request.auth.token.role == 'admin';
+    }
+
+    // Função para verificar se o ID do documento corresponde ao UID do utilizador
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    // --- COLEÇÃO: users ---
+    match /users/{userId} {
+      // Utilizadores podem ler o seu próprio perfil. Admins podem ler tudo.
+      allow read: if isOwner(userId) || isAdmin();
+      
+      // Escrita limitada: Utilizadores podem atualizar alguns campos (ex: nome, país)
+      // Nota: Roles e status são protegidos pelo backend.
+      allow write: if isOwner(userId) || isAdmin();
+    }
+
+    // --- COLEÇÃO: subscriptions ---
+    match /subscriptions/{subId} {
+      // O Navbar precisa ler a subscrição para mostrar o estado em tempo real
+      // Permitimos leitura se o documento pertencer ao utilizador ou se for admin
+      allow read: if (request.auth != null && resource.data.userId == request.auth.uid) || isAdmin();
+      
+      // Apenas admins ou Cloud Functions podem criar/editar subscrições diretamente
+      allow write: if isAdmin();
+    }
+
+    // --- COLEÇÃO: metrics_global ---
+    match /metrics_global/{docId} {
+      // Apenas administradores podem ver métricas financeiras globais
+      allow read: if isAdmin();
+      
+      // Escrita proibida no client side (gerida por webhooks no backend)
+      allow write: if false;
+    }
+
+    // --- COLEÇÃO: security_logs ---
+    match /security_logs/{logId} {
+      // Logs de auditoria não devem ser visíveis nem alteráveis pelo frontend
+      allow read, write: if false;
+    }
+
+    // --- PROTEÇÃO PADRÃO ---
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

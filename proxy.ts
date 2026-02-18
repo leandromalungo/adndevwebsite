@@ -1,83 +1,94 @@
-/**
- * NextAuth Middleware
- *
- * Protege rotas baseado em autenticação e roles.
- * BACKEND: Valida sessão e roles - frontend não tem acesso.
- *
- * Rotas protegidas:
- * - /cd1afa520f/* - Apenas admins
- * - /perfil - Usuários autenticados
- * - /api/cd1afa520f/* - Apenas admins (API routes)
- */
-
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
+/**
+ * Middleware de Segurança ADN Developer
+ * 
+ * Protege rotas baseadas em autenticação e papéis (roles) no nível do servidor (Edge Runtime).
+ * 
+ * Rotas protegidas:
+ * - /cd1afa520f/* - Apenas administradores (role: 'admin')
+ * - /perfil/* - Utilizadores autenticados
+ * - /api/cd1afa520f/* - Apenas administradores (Proteção adicional para rotas de API)
+ */
 export default withAuth(
-  function middleware(req) {
-    const token = req.nextauth.token;
-    const path = req.nextUrl.pathname;
-
-    // Proteção de rotas de admin
-    if (path.startsWith("/cd1afa520f")) {
-      // Permite acesso à página de login
-      if (path === "/cd1afa520f/login") {
-        return NextResponse.next();
-      }
-
-      // BACKEND: Verifica role de admin
-      if (token?.role !== "admin") {
-        // Log unauthorized access attempt
-        console.log(
-          `[SECURITY] Unauthorized access attempt to ${path} from ${req.headers.get("x-forwarded-for") || "unknown IP"} at ${new Date().toISOString()}`,
-        );
-        return NextResponse.redirect(new URL("/cd1afa520f/login", req.url));
-      }
-    }
-
-    // Proteção de rotas de usuário
-    if (path.startsWith("/perfil")) {
-      // BACKEND: Verifica se está autenticado
-      if (!token) {
-        return NextResponse.redirect(new URL("/", req.url));
-      }
-    }
-
-    return NextResponse.next();
-  },
-  {
-    callbacks: {
-      // BACKEND: Define quais rotas requerem autenticação
-      authorized: ({ token, req }) => {
+    function middleware(req) {
+        const token = req.nextauth.token;
         const path = req.nextUrl.pathname;
+        const ip = req.headers.get("x-forwarded-for") || "unknown";
 
-        // Rotas públicas
-        if (
-          path === "/" ||
-          path.startsWith("/_next") ||
-          path.startsWith("/api/auth") ||
-          path === "/cd1afa520f/login"
-        ) {
-          return true;
+        // 1. Proteção de rotas Administrativas
+        if (path.startsWith("/cd1afa520f")) {
+            // Permite sempre o acesso à página de login
+            if (path === "/cd1afa520f/login") {
+                return NextResponse.next();
+            }
+
+            // Verifica se o utilizador tem a role de administrador
+            if (token?.role !== "admin") {
+                console.warn(
+                    `[SECURITY] Tentativa de acesso não autorizado a ${path} por ${token?.email || "Anónimo"} (IP: ${ip}) em ${new Date().toISOString()}`
+                );
+                // Redireciona para o login administrativo
+                return NextResponse.redirect(new URL("/cd1afa520f/login", req.url));
+            }
         }
 
-        // Rotas protegidas requerem token
-        if (
-          path.startsWith("/cd1afa520f") ||
-          path.startsWith("/perfil") ||
-          path.startsWith("/api/cd1afa520f")
-        ) {
-          return !!token;
+        // 2. Proteção de rotas do Utilizador (Perfil)
+        if (path.startsWith("/perfil")) {
+            if (!token) {
+                return NextResponse.redirect(new URL("/", req.url));
+            }
         }
 
-        // Outras rotas são públicas
-        return true;
-      },
+        return NextResponse.next();
     },
-  },
+    {
+        callbacks: {
+            /**
+             * Determina se o pedido está autorizado a prosseguir.
+             * O token deve existir para rotas protegidas.
+             */
+            authorized: ({ token, req }) => {
+                const path = req.nextUrl.pathname;
+
+                // Rotas que são sempre públicas
+                if (
+                    path === "/" ||
+                    path.startsWith("/_next") ||
+                    path.startsWith("/api/auth") ||
+                    path === "/cd1afa520f/login"
+                ) {
+                    return true;
+                }
+
+                // Rotas que requerem autenticação (token)
+                if (
+                    path.startsWith("/cd1afa520f") ||
+                    path.startsWith("/perfil") ||
+                    path.startsWith("/api/cd1afa520f")
+                ) {
+                    return !!token;
+                }
+
+                // Por defeito, permite outras rotas (públicas)
+                return true;
+            },
+        },
+        pages: {
+            signIn: "/cd1afa520f/login",
+            error: "/auth/error",
+        },
+    }
 );
 
-// Configuração de rotas que o middleware deve processar
+/**
+ * Configuração de correspondência (matcher) para otimizar a execução do middleware.
+ */
 export const config = {
-  matcher: ["/cd1afa520f/:path*", "/perfil/:path*", "/api/cd1afa520f/:path*"],
+    matcher: [
+        "/cd1afa520f/:path*",
+        "/perfil/:path*",
+        "/api/cd1afa520f/:path*",
+    ],
 };
