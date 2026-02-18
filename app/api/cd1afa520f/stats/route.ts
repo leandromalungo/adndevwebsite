@@ -6,12 +6,16 @@ import { authOptions } from "@/lib/next-auth.config";
 
 export const dynamic = 'force-dynamic';
 
+/**
+ * Rota para obter estatísticas resumidas do sistema (Apenas para Admin)
+ * Inclui verificação de rate limiting e autenticação.
+ */
 export async function GET(request: NextRequest) {
     const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
     const userAgent = request.headers.get("user-agent") || "unknown";
 
     try {
-        // CAMADA 1: Rate Limiting
+        // CAMADA 1: Controlo de Taxa (Rate Limiting)
         const rateLimit = await checkRateLimit(ip, "api");
         if (!rateLimit.allowed) {
             return NextResponse.json({ message: "Muitas solicitações" }, { status: 429 });
@@ -21,6 +25,7 @@ export async function GET(request: NextRequest) {
         const session = await getServerSession(authOptions);
 
         if (session?.user?.role !== "admin") {
+            // Regista tentativa de acesso não autorizado
             await logSecurityAction({
                 adminEmail: session?.user?.email || "unknown",
                 action: "UNAUTHORIZED_STATS_ACCESS",
@@ -28,10 +33,13 @@ export async function GET(request: NextRequest) {
                 ip,
                 userAgent
             });
-            return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+            return NextResponse.json({ message: "Acesso não autorizado" }, { status: 401 });
         }
 
-        // Dados simulados para demonstração
+        /**
+         * Dados estatísticos (Simulados)
+         * PONTO DE INTEGRAÇÃO: Substituir por uma query agregada no Firestore ou Cloud Function específica.
+         */
         const stats = {
             totalUsers: 1247,
             activeSubscriptions: 342,
@@ -41,9 +49,9 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json(stats, { status: 200 });
     } catch (error: any) {
-        console.error("[INTERNAL] Stats Error:", error.message);
+        console.error("[INTERNAL] Erro ao obter estatísticas:", error.message);
         return NextResponse.json(
-            { message: "Erro ao buscar estatísticas" },
+            { message: "Erro interno ao procurar estatísticas" },
             { status: 500 }
         );
     }

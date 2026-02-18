@@ -6,10 +6,19 @@ import "@/styles/globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { SessionProvider } from "@/components/SessionProvider";
 
+/**
+ * Fonte padrão Geist com subset latim
+ */
 const _geist = Geist({ subsets: ["latin"] });
 
+/**
+ * URL base do ADN Developer para geração de meta-tags e sitemaps
+ */
 const BASE_URL = "https://adndeveloper.com";
 
+/**
+ * Configurações de viewport para responsividade e cores do sistema
+ */
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
@@ -19,6 +28,10 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+/**
+ * Metadados globais (SEO) do ADN Developer
+ * Define títulos, descrições, keywords e tags OpenGraph/Twitter
+ */
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
@@ -71,6 +84,10 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Layout Principal (Root Layout) da Aplicação
+ * Envolve toda a aplicação com os providers necessários (Autenticação, UI Toasts, Analytics)
+ */
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -82,7 +99,7 @@ export default function RootLayout({
             __html: `
               if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
                 const noop = () => {};
-                // Preservar console para depuração se necessário via variável global
+                // Desativa logs de consola em produção para segurança e performance
                 if (!window.__DEBUG__) {
                   console.log = noop;
                   console.info = noop;

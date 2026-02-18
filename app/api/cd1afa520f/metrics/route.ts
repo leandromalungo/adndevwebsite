@@ -6,6 +6,10 @@ import { authOptions } from "@/lib/next-auth.config";
 
 export const dynamic = 'force-dynamic';
 
+/**
+ * Rota para obter métricas globais do SaaS (Apenas para Admin)
+ * Utiliza o NextAuth para validar a role de administrador.
+ */
 export async function GET(request: NextRequest) {
     const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
     const userAgent = request.headers.get("user-agent") || "unknown";
@@ -15,6 +19,7 @@ export async function GET(request: NextRequest) {
         const session = await getServerSession(authOptions);
 
         if (session?.user?.role !== "admin") {
+            // Regista tentativa de acesso não autorizado
             await logSecurityAction({
                 adminEmail: session?.user?.email || "unknown",
                 action: "UNAUTHORIZED_METRICS_ACCESS",
@@ -22,14 +27,15 @@ export async function GET(request: NextRequest) {
                 ip,
                 userAgent
             });
-            return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
+            return NextResponse.json({ message: "Acesso não autorizado" }, { status: 401 });
         }
 
-        // 2. Buscar Métricas do Firestore
+        // 2. Procurar Métricas no Firestore (Documento Singleton)
         const metricsRef = adminDb.collection("metrics_global").doc("current");
         const doc = await metricsRef.get();
 
         if (!doc.exists) {
+            // Valores padrão se o documento ainda não existir
             return NextResponse.json({
                 totalMRR: 0,
                 totalSubscribers: 0,
@@ -42,7 +48,7 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json(doc.data());
     } catch (error: any) {
-        console.error("[INTERNAL] Metrics Error:", error.message);
-        return NextResponse.json({ message: "Erro interno ao buscar métricas" }, { status: 500 });
+        console.error("[INTERNAL] Erro ao obter métricas:", error.message);
+        return NextResponse.json({ message: "Erro interno ao procurar métricas" }, { status: 500 });
     }
 }

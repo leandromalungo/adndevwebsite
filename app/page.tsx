@@ -1,10 +1,10 @@
 /**
- * HOME PAGE — ADN Developer
+ * PÁGINA INICIAL (HOME) — ADN Developer
  *
- * Página inicial da plataforma.
+ * Esta é a porta de entrada da plataforma, apresentando o Hero, serviços,
+ * coleções curadas, testemunhos e secções de destaque.
  */
 
-import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import Hero from "@/components/home/Hero";
@@ -20,8 +20,10 @@ import CardHero from "@/components/home/CardHero";
 import UniverseSection from "@/components/home/content/ContentSection";
 import DicasSection from "@/components/home/dicas/DicasSection";
 
-
 const Page = () => {
+  /**
+   * Dados dos serviços/ofertas da plataforma
+   */
   const servicesData = [
     {
       id: 1,
@@ -78,29 +80,33 @@ const Page = () => {
   return (
     <div className="min-h-screen bg-white selection:bg-yellow-200">
       <Navbar />
-      {/* Secção HERO */}
+
+      {/* Secção HERO: Introdução visual e CTA principal */}
       <section className="relative min-h-[100dvh] w-full bg-black/90 overflow-hidden">
         <main className="relative z-10">
           <Hero />
         </main>
 
-        {/* Fundo de imagem */}
+        {/* Fundo de imagem com tratamento visual (overlay gradiente e grayscale) */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <Image
             src="/images/index.jpg"
-            alt="Background"
+            alt="Fundo ADN Developer"
             fill
             className="object-cover opacity-60 grayscale-[0.2]"
             priority
           />
 
-          {/* Sobreposições */}
+          {/* Sobreposições para legibilidade do texto */}
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
         </div>
       </section>
+
+      {/* Secções de Destaque e Dicas */}
       <Destaque />
       <DicasSection />
-      {/* CONTEÚDO */}
+
+      {/* ÁREA DE CONTEÚDO E SERVIÇOS */}
       <section className="relative z-10 bg-[#f7f8f9] flex flex-col items-center py-5 px-4 md:px-10 space-y-24">
         <div className="w-full max-w-7xl">
           <ServiceSection services={servicesData} />
@@ -113,14 +119,19 @@ const Page = () => {
         <div className="w-full max-w-7xl">
           <CardHero />
         </div>
+
         <UniverseSection />
+
         <div className="w-full max-w-7xl">
           <Vision />
         </div>
       </section>
+
+      {/* Testemunhos, Equipa e FAQ */}
       <Testimonials />
       <TeamMemberSection />
       <FAQSection />
+
       <Footer />
     </div>
   );

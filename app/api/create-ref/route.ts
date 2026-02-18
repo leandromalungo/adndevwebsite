@@ -8,12 +8,16 @@ import { authOptions } from "@/lib/next-auth.config";
 
 export const dynamic = 'force-dynamic';
 
+/**
+ * Rota para criação de referências de pagamento (Multicaixa/Referência)
+ * Executada no servidor para garantir segurança.
+ */
 export async function POST(request: NextRequest) {
     const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
     const userAgent = request.headers.get("user-agent") || "unknown";
 
     try {
-        // 1. CAMADA: Rate Limiting
+        // 1. CAMADA: Controlo de Taxa (Rate Limiting)
         const rateLimit = await checkRateLimit(ip, "subscription");
         if (!rateLimit.allowed) {
             return NextResponse.json(
@@ -22,7 +26,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // 2. CAMADA: Verificação de Sessão (NextAuth Backend-only)
+        // 2. CAMADA: Verificação de Sessão (Apenas no servidor com NextAuth)
         const session = await getServerSession(authOptions);
 
         if (!session?.user?.id) {
@@ -37,7 +41,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: "Dados incompletos" }, { status: 400 });
         }
 
-        // 3. CAMADA: Sanitização
+        // 3. CAMADA: Sanitização de Dados
         const sName = sanitizeText(name || "");
         const sEmail = sanitizeEmail(email || session.user.email || "");
         const sPlan = sanitizeText(plan);
@@ -46,14 +50,14 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: "Email inválido" }, { status: 400 });
         }
 
-        // 4. CAMADA: Fingerprinting
+        // 4. CAMADA: Impressão Digital (Fingerprinting) para segurança adicional
         const fingerprint = await generateFingerprint(userAgent, ip);
 
         const entityNumber = "00688";
         const referenceNumber = Math.floor(100000000 + Math.random() * 900000000).toString();
         const amount = sPlan === "premium" ? 5000 : 2500;
 
-        // 1. Criar registro no Firestore com referência
+        // 5. CAMADA: Persistência no Firestore
         const subRef = adminDb.collection("subscriptions").doc();
         await subRef.set({
             userId,
@@ -69,7 +73,7 @@ export async function POST(request: NextRequest) {
             createdAt: new Date().toISOString(),
         });
 
-        // 5. CAMADA: Audit Log
+        // 6. CAMADA: Log de Auditoria
         await logSecurityAction({
             adminEmail: sEmail,
             action: "SUBSCRIPTION_CREATE_REFERENCE",
@@ -87,16 +91,16 @@ export async function POST(request: NextRequest) {
             subscriptionId: subRef.id
         });
 
-        // Adiciona headers de segurança
+        // Adiciona headers de segurança recomentados
         Object.entries(SECURITY_HEADERS).forEach(([key, value]) => {
             response.headers.set(key, value);
         });
 
         return response;
     } catch (error: any) {
-        console.error("[INTERNAL] Reference Creation failed:", error.message);
+        console.error("[INTERNAL] Falha na criação de referência:", error.message);
         return NextResponse.json(
-            { message: "Erro ao gerar referência" },
+            { message: "Erro ao gerar referência de pagamento" },
             { status: 500 }
         );
     }
