@@ -39,16 +39,16 @@ export const Hero = () => {
     >
       <div className="max-w-4xl">
         {/* Título */}
-        <h1 className="text-3xl font-bold sm:text-5xl md:text-5xl lg:text-5xl xl:text-6xl leading-[1.1] mb-5 sm:mb-6 md:mb-8 lg:mb-10 tracking-tight text-gray-50">
+        <h1 className="text-3xl font-bold sm:text-5xl md:text-5xl lg:text-6xl xl:text-6xl leading-[1.1] mb-5 sm:mb-6 md:mb-8 lg:mb-10 tracking-tight text-gray-50">
           Ecossistema de conteúdo, impulsionado por Tecnologia
         </h1>
 
         {/* Descrição */}
         <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-4 sm:mb-5 md:mb-6 lg:mb-8 leading-relaxed max-w-3xl">
-          O maior repositorio de conteúdo tecnológico da lusofonia, com tudo o
-          que precisas para entrar na área de tecnologia, desde cursos,
-          bootcamps e muito mais. Um espaço feito para desenvolveres mais tua a
-          carreira tech, com a nossa ajuda.
+          O maior repositorio de conteúdo tecnológico da lusofonia com tudo o
+          que precisas para entrar na área de tecnologia, desde cursos
+          e muito mais. Um espaço feito para desenvolver a tua 
+          carreira no sector tecnologico. Conte com a nossa ajuda.
         </p>
 
         {/* Tags */}
@@ -70,10 +70,10 @@ export const Hero = () => {
                 border border-violet-600
                 bg-violet-550 hover:bg-violet-600/90
                 text-white
-                px-4 sm:px-10 lg:px-12
-                py-2 sm:py-4 lg:py-5
+                px-5 sm:px-10 lg:px-12
+                py-3 sm:py-4 lg:py-5
                 rounded-xl
-                text-xs sm:text-lg lg:text-xl
+                text-sm sm:text-lg lg:text-xl
                 font-bold
                 transition-all transform
                 shadow-xl shadow-violet-500/40
@@ -87,7 +87,7 @@ export const Hero = () => {
                   Carregando...
                 </span>
               ) : (
-                "Subscreva-se ao nosso portal"
+                "Subscreva-se ao portal"
               )}
             </button>
 
@@ -99,10 +99,10 @@ export const Hero = () => {
                 inline-flex items-center justify-center
                 border bg-violet-600 hover:border-violet-600
                 text-white
-                px-4 sm:px-10 lg:px-12
-                py-2 sm:py-4 lg:py-5
+                px-5 sm:px-10 lg:px-12
+                py-3 sm:py-4 lg:py-5
                 rounded-xl
-                text-xs sm:text-lg lg:text-xl
+                text-sm sm:text-lg lg:text-xl
                 font-bold
                 transition-all transform
                 shadow-xl shadow-violet-500/20
@@ -116,17 +116,17 @@ export const Hero = () => {
                   Processando...
                 </span>
               ) : (
-                "Qual área é para mim?"
+                "Saber mais"
               )}
             </button>
           </div>
 
-          <p className="text-xs md:text-sm lg:text-[10px] text-gray-500 font-medium max-w-2xl lg:max-w-3xl mt-3 lg:mt-1">
+          <p className="text-xs md:text-sm lg:text-[10px] text-gray-100 font-medium max-w-2xl lg:max-w-3xl mt-3 lg:mt-1">
             Não perca tempo! Junte-se a nós e esteja com profissionais de
             tecnologia que já estão a transformar suas carreiras com nossos
-            recursos exclusivos. Este site não possui parceria oficial 
-            com os eventos, cursos, comunidades, projectos, bolsas e entidades aqui divulgadas. 
-            Fornecemos informações sobre o sector tecnologia e muito mais na lusofonia.  
+            recursos exclusivos. Este site não possui parceria oficial
+            com os eventos, cursos, comunidades, projectos, bolsas e entidades aqui divulgadas.
+            Fornecemos informações sobre o sector tecnologia e muito mais na lusofonia.
             Para qualquer esclarecimento, entre em contacto connosco.
           </p>
         </div>

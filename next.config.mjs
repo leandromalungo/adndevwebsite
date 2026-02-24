@@ -34,6 +34,11 @@ const nextConfig = {
   images: {
     dangerouslyAllowSVG: false,
     contentDispositionType: "attachment",
+    localPatterns: [
+      {
+        pathname: "/**",
+      },
+    ],
     remotePatterns: [
       {
         protocol: "https",

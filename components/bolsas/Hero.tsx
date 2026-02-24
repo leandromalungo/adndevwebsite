@@ -3,16 +3,15 @@
 import Image from "next/image";
 import { Calculator, Book, Pencil, Beaker } from "lucide-react";
 
-// IMPORT DIRETO DA IMAGEM
-import heroBg from "@/public/images/imgbol1.jpeg";
+// Usamos rota API privada em vez de public
 
 export const Hero = () => {
   return (
     <section className="relative w-full min-h-screen overflow-hidden text-white font-sans">
-      
+
       {/* Imagem de fundo */}
       <Image
-        src={heroBg}
+        src="/api/images/bolsas"
         alt="Hero background"
         fill
         priority
@@ -35,7 +34,7 @@ export const Hero = () => {
       {/* Conteúdo do herói */}
       <div className="relative z-30 max-w-7xl mx-auto px-6 min-h-screen flex items-center">
         <div className="grid grid-cols-1 md:grid-cols-2 w-full">
-          
+
           {/* Lado esquerdo */}
           <div className="md:pr-12 py-12 flex flex-col justify-center">
             <h1 className="text-4xl lg:text-5xl font-bold leading-tight mb-8 max-w-md uppercase">

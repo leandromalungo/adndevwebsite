@@ -4,39 +4,39 @@ export const BigTechBo = () => {
   const supporters = [
     {
       name: "M.I.T - Massachusetts Institute of Technology",
-      logo: "/images/bolsas/mit.jpg",
+      logo: "/api/images/mit",
     },
     {
       name: "Harvard University",
-      logo: "/images/bolsas/Hardvard.jpg",
+      logo: "/api/images/hardvard",
     },
     {
       name: "Universidade de Cambridge",
-      logo: "/images/bolsas/cambridge.jpg",
+      logo: "/api/images/cambridge",
     },
     {
       name: "Universidade de Oxford",
-      logo: "/images/bolsas/Oxford.jpg",
+      logo: "/api/images/oxford",
     },
     {
       name: "Imperial College London",
-      logo: "/images/bolsas/Imperial.jpg",
+      logo: "/api/images/imperial",
     },
     {
       name: "Universidade de Princeton",
-      logo: "/images/bolsas/Princeton.jpg",
+      logo: "/api/images/princeton",
     },
     {
       name: "Universidade de São Paulo (USP)",
-      logo: "/images/bolsas/Paulo.jpg",
+      logo: "/api/images/paulo",
     },
     {
       name: "Universidade Nacional de Singapura",
-      logo: "/images/bolsas/NUS.jpg",
+      logo: "/api/images/nus",
     },
     {
       name: "Universidade de Pequim (PKU ou Beida)",
-      logo: "/images/bolsas/china.jpg",
+      logo: "/api/images/china",
     },
   ];
 

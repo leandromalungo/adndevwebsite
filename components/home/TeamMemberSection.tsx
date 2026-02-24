@@ -80,23 +80,23 @@ const TeamMemberSection = () => {
     {
       name: "Leandro Malungo",
       location: "Africa / Angola",
-      imageUrl: "/images/lm.jpg",
+      imageUrl: "/api/images/lm",
     },
     {
       name: "Neuza Nascimento",
       location: "Europa / Portugal",
-      imageUrl: "/images/nn.jpg",
+      imageUrl: "/api/images/nn",
     },
     {
       name: "Filipe Mafuila",
       location: "Africa / Angola",
-      imageUrl: "/images/nn.jpg",
+      imageUrl: "/api/images/fl?v=1",
     },
   ];
 
   return (
-    <section className="max-w-7xl mx-auto px-6 md:px-12 py-10">
-      <div className="bg-gray-50 rounded shadow-sm border border-gray-100 p-8 md:p-10">
+    <section className="w-full px-4 md:px-8 py-10">
+      <div className="max-w-7xl mx-auto bg-gray-50 rounded shadow-sm border border-gray-100 p-8 md:p-10">
         <div className="max-w-3xl mx-auto text-center">
           <h3 className="text-2xl font-bold text-[#334155] mb-8 uppercase">
             Quem Somos?

@@ -5,25 +5,25 @@ import { WorkCard } from "./WorkCard";
 export const LeaderBo = () => {
   const workItems = [
     {
-      image: "/images/bolsas/africabo.jpg",
+      image: "/api/images/africabo",
       title: "Programa de bolsas estudo líderes africanos",
       description:
         "Este programa oferece bolsas de estudo completas para estudantes africanos talentosos que desejam cursar universidades de renome mundial. As bolsas cobrem todas as despesas, incluindo mensalidades, acomodação e despesas de subsistência.",
     },
     {
-      image: "/images/bolsas/americabo.jpg",
+      image: "/api/images/americabo",
       title: "Programa de bolsas estudo líderes na america",
       description:
         "Este programa de bolsas de estudo para líderes na América visa capacitar jovens talentos com potencial de liderança, oferecendo suporte financeiro e mentorias exclusivas para impulsionar suas carreiras acadêmicas e profissionais, tanto no Brasil quanto no exterior.",
     },
     {
-      image: "/images/bolsas/eurobo.webp",
+      image: "/api/images/eurobo",
       title: "Programa de bolsas estudo líderes na europa",
       description:
         "Este programa de bolsas de estudo para líderes na Europa é projetado para identificar e apoiar estudantes excepcionais com potencial de liderança, proporcionando-lhes oportunidades acadêmicas em instituições de prestígio, juntamente com mentorias e desenvolvimento profissional, tanto em portugal quanto no exterior.",
     },
     {
-      image: "/images/bolsas/mundialbo.jpg",
+      image: "/api/images/mundialbo",
       title: "Programa de bolsas estudo líderes mundias",
       description:
         "Este programa de bolsas de estudo para líderes mundiais tem como objetivo identificar e apoiar estudantes talentosos com potencial de liderança global, oferecendo-lhes oportunidades acadêmicas em instituições de renome internacional, juntamente com mentorias e desenvolvimento profissional para prepará-los para desafios globais.",

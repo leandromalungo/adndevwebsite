@@ -22,6 +22,8 @@ functions/lib/
 functions/node_modules/
 functions/firebase-debug.log*
 functions/
+scripts/
+script/
 
 # Environment Variables & Secrets
 .env
@@ -57,3 +59,8 @@ Thumbs.db
 .swc
 tmp/
 temp/
+coverage/
+error*.html
+
+# Uploads Locais & Dados Dinâmicos
+storage/

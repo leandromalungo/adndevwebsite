@@ -19,7 +19,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ selectedCountry }) => {
     : `Temos bootcamps, cursos de curta duração e preparação para certificações. Quer esteja a mudar de carreira ou a aperfeiçoar-se na sua função atual, o Course Report em ${selectedCountry} dá-lhe as ferramentas para comparar programas e encontrar o que melhor se adapta a si.`;
 
   return (
-    <section className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center px-4">
+    <section className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center px-4 mt-12">
       {/* Left Content */}
       <div className="lg:col-span-5 space-y-6">
         <h2 className="text-4xl md:text-5xl font-bold text-[#2d3748] leading-[1.1]">

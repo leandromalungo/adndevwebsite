@@ -14,23 +14,19 @@ import { Menu, X, User, AlertCircle, Loader2 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "@/public/logo.png";
-import { sanitizeText, sanitizeEmail, isSafeString } from "@/lib/security";
-import { useAuth } from "@/hooks/useAuth";
-import { signIn } from "next-auth/react";
-import { db } from "@/lib/firebase";
-import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { signIn, useSession, signOut } from "next-auth/react";
 
 const Navbar = () => {
-  // BACKEND: NextAuth gerencia autenticação - frontend apenas lê sessão
-  const { user, isLoggedIn, logout } = useAuth();
-  
+  const { data: session, status } = useSession();
+  const user = session?.user;
+  const isLoggedIn = status === "authenticated";
+
   // Estados locais do componente
   const [openMenu, setOpenMenu] = useState(false);
   const [loadingLink, setLoadingLink] = useState<string | null>(null);
   const [userDropdown, setUserDropdown] = useState(false);
   const [configOpen, setConfigOpen] = useState(false);
-  
+
   // Dados do usuário (preenchidos pelo Firebase)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -45,7 +41,7 @@ const Navbar = () => {
     "Bolsas de estudo": true,
     Startups: true,
   });
-  
+
   const [unsavedChanges, setUnsavedChanges] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [confirmText, setConfirmText] = useState("");
@@ -65,26 +61,38 @@ const Navbar = () => {
 
   useEffect(() => {
     if (user) {
-      setName(user.displayName || "");
+      setName(user.name || "");
       setEmail(user.email || "");
     }
   }, [user]);
 
-  // Escuta assinatura em tempo real
+  // Buscar assinatura via Cloud Function em vez de onSnapshot inseguro do lado do cliente
   useEffect(() => {
-    if (!user || !db) {
+    if (!user) {
       setSubscription(null);
       return;
     }
-    const q = query(collection(db, "subscriptions"), where("userId", "==", user.uid));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      if (!snapshot.empty) {
-        setSubscription(snapshot.docs[0].data());
-      } else {
-        setSubscription(null);
+
+    const fetchSubscription = async () => {
+      try {
+        const { getSubscriptionStatus } = await import("@/lib/cloud-functions-client");
+        const res = await getSubscriptionStatus();
+
+        if (res.success && res.isActive && res.subscription) {
+          setSubscription(res.subscription);
+        } else {
+          // Se isActive for falso ou pending, setSubscription(null) para a App perceber que precisa renovar
+          setSubscription(null);
+        }
+      } catch (error: any) {
+        // Falha silenciosa ou erro de conexão
+        // Usa console.warn sem o objecto 'error' para não disparar o Error Overlay do Next.js
+        console.warn("Aviso ao verificar assinatura: Backend indisponível ou CORS (Failed to fetch).", error.message);
       }
-    });
-    return () => unsubscribe();
+    };
+
+    // Chama uma única vez ao montar (polling só é necessário se a página atual for um Checkout pendente)
+    fetchSubscription();
   }, [user]);
 
   const closeMobileMenu = () => setOpenMenu(false);
@@ -131,13 +139,9 @@ const Navbar = () => {
   };
 
   const handleSave = () => {
-    const sanitizedName = sanitizeText(name);
-    const sanitizedTelegram = sanitizeText(telegram);
+    const sanitizedName = name.trim();
+    const sanitizedTelegram = telegram.trim();
 
-    if (!isSafeString(sanitizedName) || !isSafeString(sanitizedTelegram)) {
-      alert("Conteúdo inválido detectado.");
-      return;
-    }
     // Nota: Em produção, salvaria no Firestore
     alert("Alterações salvas (Simulado)");
     setUnsavedChanges(false);
@@ -145,11 +149,13 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await logout();
-    } catch (error) {
-      // Falha silenciosa ou erro genérico
-    } finally {
+      if (typeof signOut === 'function') {
+        await signOut({ redirect: false });
+      }
+      setOpenMenu(false);
       setUserDropdown(false);
+    } catch (error) {
+      console.error("Falha ao desligar sessão.", error);
     }
   };
 
@@ -159,8 +165,8 @@ const Navbar = () => {
       setTimeout(() => setDeleteMessage(""), 3000);
       return;
     }
-    
-    const sanitizedEmailInput = sanitizeEmail(emailInput);
+
+    const sanitizedEmailInput = emailInput.trim().toLowerCase();
     if (!sanitizedEmailInput || sanitizedEmailInput !== (user?.email || "")) {
       setDeleteMessage("Email incorrecto.");
       setTimeout(() => setDeleteMessage(""), 3000);
@@ -237,10 +243,10 @@ const Navbar = () => {
           className="focus:outline-none focus:ring-0 focus-visible:outline-none"
         >
           <Image
-            src={logo}
-            alt="Logo"
-            width={60}
-            height={60}
+            src="/api/images/logoNavbar"
+            alt="ADN Developer Logo"
+            width={80}
+            height={50}
             className="cursor-pointer object-contain"
             priority
           />
@@ -282,6 +288,12 @@ const Navbar = () => {
             href="/startups"
             loading={loadingLink === "/startups"}
             onClick={() => setLoadingLink("/startups")}
+          />
+          <NavLink
+            label="Inteligência Artificial"
+            href="/ia"
+            loading={loadingLink === "/ia"}
+            onClick={() => setLoadingLink("/ia")}
           />
         </div>
 
@@ -445,6 +457,11 @@ const Navbar = () => {
             href="/startups"
             onClick={() => { closeMobileMenu(); }}
           />
+          <MobileLink
+            label="Inteligência Artificial"
+            href="/ia"
+            onClick={() => { closeMobileMenu(); }}
+          />
         </div>
       </div>
 
@@ -455,7 +472,7 @@ const Navbar = () => {
             {/* Lado da Imagem */}
             <div className="hidden md:flex md:w-1/2 relative bg-gray-200">
               <Image
-                src="/8de2ab7c6c83961fde16e26aa1286d28.jpg"
+                src="/api/images/login-bg"
                 alt="Login Image"
                 fill
                 className="object-cover"
@@ -474,16 +491,6 @@ const Navbar = () => {
 
             {/* Lado do Formulário */}
             <div className="w-full md:w-1/2 p-6 flex flex-col justify-center space-y-3">
-              {/* Logo no topo */}
-              <div className="flex justify-center md:justify-start mb-2">
-                <Image
-                  src="/images/logo_login.png"
-                  alt="Logo da Plataforma"
-                  width={200}
-                  height={56}
-                  className="h-14 w-auto object-contain"
-                />
-              </div>
 
               <h2 className="font-bold text-2xl text-gray-800 uppercase mb-1">
                 Entre com sua conta
@@ -537,6 +544,21 @@ const Navbar = () => {
                 {loginLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Entrar"}
               </button>
 
+              <div className="flex items-center my-3">
+                <div className="flex-1 border-t border-gray-200"></div>
+                <span className="px-3 text-xs text-gray-400 font-bold uppercase">ou</span>
+                <div className="flex-1 border-t border-gray-200"></div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => signIn("google", { callbackUrl: "/" })}
+                className="w-full bg-white border border-gray-300 text-gray-800 py-2.5 rounded-lg hover:bg-gray-50 transition font-bold mb-4 flex items-center justify-center gap-2 shadow-sm"
+              >
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" className="w-5 h-5" />
+                Entrar com Google
+              </button>
+
               <button
                 onClick={() => setLoginModal(false)}
                 className="w-full text-gray-500 hover:text-gray-900 text-sm font-medium"
@@ -583,8 +605,8 @@ const Navbar = () => {
                     confirmText.toUpperCase() === "SIM"
                       ? setEmailInput(user?.email || "")
                       : setDeleteMessage(
-                          "Você deve digitar 'SIM' para continuar.",
-                        )
+                        "Você deve digitar 'SIM' para continuar.",
+                      )
                   }
                   className="w-full bg-red-600 text-white py-2 rounded font-bold"
                 >
@@ -644,7 +666,7 @@ const NavLink = ({
     onClick={onClick}
     className="flex items-center gap-2 text-[13px] font-medium text-gray-600 hover:text-gray-900 transition focus:outline-none focus:ring-0 focus-visible:outline-none"
   >
-    {label} {loading && <Loader2 className="w-3 h-3 animate-spin"/>}
+    {label} {loading && <Loader2 className="w-3 h-3 animate-spin" />}
   </Link>
 );
 

@@ -2,11 +2,11 @@ import Image from "next/image";
 
 const CardHero = () => {
   return (
-    <div className="relative w-full min-h-[450px] rounded-xl overflow-hidden flex items-center px-8 md:px-20 py-16">
+    <div className="relative w-full min-h-[450px] rounded overflow-hidden flex items-center px-8 md:px-20 py-16">
       {/* Imagem de fundo */}
       <div className="absolute inset-0">
         <Image
-          src="/CardHeroo.jpg"
+          src="/api/images/cardheroo"
           alt="Card Hero Background"
           fill
           className="object-cover object-center"

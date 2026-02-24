@@ -11,9 +11,6 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { sanitizeText, sanitizeEmail, isSafeString } from "@/lib/security";
-import { db } from "@/lib/firebase";
-import { onSnapshot, doc } from "firebase/firestore";
 import { signIn, getSession } from "next-auth/react";
 import { Landmark, CreditCard, Loader2, Eye, EyeOff } from "lucide-react";
 
@@ -57,28 +54,7 @@ const SubscriptionForm = () => {
   const [subId, setSubId] = useState<string | null>(null);
   const [status, setStatus] = useState<string>("pending");
 
-  // Tempo de escuta de atualização de estados
-  useEffect(() => {
-    if (!subId || !db) return;
-
-    const unsub = onSnapshot(doc(db, "subscriptions", subId), (docSnap) => {
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        if (data.status === "active") {
-          setStatus("active");
-          // Auto-close modal on success
-          if (showRefModal) {
-            setTimeout(() => {
-              setShowRefModal(false);
-              router.push("/perfil?success=true");
-            }, 2000);
-          }
-        }
-      }
-    });
-
-    return () => unsub();
-  }, [subId, db, showRefModal, router]);
+  // Tempo de escuta de atualização de estados (Módulo Polling substituído por Full Page Redirect no onSuccess do Stripe)
 
   // Geo-location based payment method pre-selection
   useEffect(() => {
@@ -114,7 +90,9 @@ const SubscriptionForm = () => {
     }
 
     // Security validation - Detects XSS/Injection attempts
-    if ((name && !isSafeString(name)) || (telegram && !isSafeString(telegram))) {
+    const isSafe = (str: string) => !str.match(/[<>]/);
+
+    if ((name && !isSafe(name)) || (telegram && !isSafe(telegram))) {
       showError("Conteúdo inválido detectado nos campos.");
       return false;
     }
@@ -133,8 +111,12 @@ const SubscriptionForm = () => {
       return false;
     }
 
-    if (password.length < 8) {
-      showError("A senha deve ter no mínimo 8 caracteres.");
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+
+    if (password.length < 8 || !hasUpperCase || !hasLowerCase || !hasNumber) {
+      showError("A senha deve ter no mínimo 8 caracteres, com letras maiúsculas, minúsculas e números.");
       return false;
     }
 
@@ -160,26 +142,42 @@ const SubscriptionForm = () => {
 
     try {
       // Sanitize inputs (frontend básico - backend valida tudo)
-      const sName = sanitizeText(name);
-      const sTelegram = sanitizeText(telegram);
-      const sEmail = sanitizeEmail(email);
+      const sName = name.replace(/[<>]/g, '').trim();
+      const sTelegram = telegram.replace(/[<>]/g, '').trim();
+      const sEmail = email.replace(/[<>]/g, '').trim().toLowerCase();
 
       if (!sEmail) {
         throw new Error("Email inválido.");
       }
 
-      // STEP 1: Try to create user via Cloud Functions
-      try {
-        const { signupUser } = await import("@/lib/cloud-functions-client");
-        await signupUser(sEmail, password, sName);
-      } catch (signupError: any) {
-        // User might already exist - this is okay, we'll try to login
-        if (!signupError.message?.includes("already exists") && !signupError.message?.includes("já cadastrado")) {
-          throw signupError;
+      // STEP 1: Pre-Payment Safety Check (Fail-Fast antes de criar conta)
+      let stripePriceId = "";
+      if (paymentMethod === "paypal") {
+        stripePriceId = process.env.NEXT_PUBLIC_STRIPE_PRICE_ID || "";
+        if (!stripePriceId) {
+          throw new Error("Sistema de pagamentos temporariamente indisponível (Erro de configuração).");
         }
       }
 
-      // STEP 2: Login via NextAuth to create session
+      // Prepare payload for atomic subscription
+      const payload = {
+        name: sName,
+        telegram: sTelegram,
+        email: sEmail,
+        password: password,
+        country,
+        alerts,
+        plan: "premium",
+        paymentMethod,
+        priceId: stripePriceId,
+        billingCycle: "monthly"
+      };
+
+      // STEP 2: Chamada Atômica (Criação de user + Criação de pagamento backend)
+      const { submitSubscription } = await import("@/lib/cloud-functions-client");
+      const initResponse = await submitSubscription(payload);
+
+      // STEP 3: Login via NextAuth to create local session (Since user was just created by backend)
       const loginResult = await signIn("credentials", {
         email: sEmail,
         password: password,
@@ -187,76 +185,64 @@ const SubscriptionForm = () => {
       });
 
       if (loginResult?.error) {
-        throw new Error("Erro ao fazer login. Verifique suas credenciais.");
+        // O pagamento já foi inicializado e o user já foi criado no Firebase, o login next-auth
+        // é apenas para estabelecer a sessão via Cookie.
+        throw new Error("Sua conta e pagamento foram criados, mas ocorreu um erro no login local. Recarregue a página e tente fazer login.");
       }
 
-      // STEP 3: Get current session
-      const session = await getSession();
-      if (!session?.user) {
-        throw new Error("Sessão não criada. Tente novamente.");
-      }
-
-      // Prepare payload for payment
-      const payload = {
-        name: sName,
-        telegram: sTelegram,
-        email: sEmail,
-        country,
-        alerts,
-        plan: "premium"
-      };
-
-      // STEP 4: Process payment
-      if (paymentMethod === "paypal") {
-        // Stripe Logic - Call Cloud Function
-        try {
-          const { createCheckoutSession } = await import("@/lib/cloud-functions-client");
-          const response = await createCheckoutSession("price_monthly", "monthly");
-          
-          if (response?.url) {
-            setSubId(response.sessionId);
-            window.location.href = response.url;
-          } else {
-            throw new Error("Não foi possível iniciar o checkout.");
-          }
-        } catch (error: any) {
-          if (error.message?.includes("429")) {
-            throw new Error("Muitas tentativas. Aguarde.");
-          }
-          throw error;
+      // STEP 4: Processar a resposta do pagamento
+      if (initResponse.method === "stripe") {
+        if (initResponse.url) {
+          setSubId(initResponse.sessionId || "");
+          window.location.href = initResponse.url;
+          return;
+        } else {
+          throw new Error("A sessão de pagamento não retornou um URL válido.");
+        }
+      } else if (initResponse.method === "multicaixa") {
+        if (initResponse.refData) {
+          setSubId(initResponse.subscriptionId || "");
+          setRefData(initResponse.refData);
+          setShowRefModal(true);
+          return;
+        } else {
+          throw new Error("Nenhum dado de referência Multicaixa retornado.");
         }
       } else {
-        // Reference payment method
-        const res = await fetch("/api/create-ref", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-
-        if (res.status === 404) throw new Error("Integração Multicaixa indisponível no momento.");
-        if (res.status === 429) throw new Error(data.message || "Muitas tentativas. Aguarde.");
-
-        if (data.referenceNumber) {
-          setSubId(data.subscriptionId);
-          setRefData(data);
-          setShowRefModal(true);
-        } else {
-          throw new Error(data.message || "Não foi possível gerar a referência.");
-        }
+        throw new Error("Método de pagamento não reconhecido retornado pelo servidor.");
       }
 
     } catch (err: any) {
-      // Generic error handling - backend handles details
-      let userFriendlyMessage = "Ocorreu um erro inesperado. Por favor, tente novamente.";
+      // Erros com mensagens amigáveis do backend (4xx) — mostrar directamente ao utilizador
+      // Nunca expor detalhes internos, stack traces ou dados sensíveis
+      const backendMessage = err?.message || "";
 
-      if (err.message.includes("Email inválido")) {
-        userFriendlyMessage = "Email inválido.";
-      } else if (err.message.includes("senha")) {
-        userFriendlyMessage = err.message;
-      } else if (err.message.includes("Conta existente")) {
-        userFriendlyMessage = err.message;
-      }
+      // Mensagens seguras que vêm do backend (validação, incorrecção ou rede)
+      const isSafeBackendError =
+        backendMessage.includes("inha") ||
+        backendMessage.includes("Email") ||
+        backendMessage.includes("email") ||
+        backendMessage.includes("cadastrado") ||
+        backendMessage.includes("tentativas") ||
+        backendMessage.includes("Aguarde") ||
+        backendMessage.includes("Muitas") ||
+        backendMessage.includes("obrigatório") ||
+        backendMessage.includes("inválido") ||
+        backendMessage.includes("Inválido") ||
+        backendMessage.includes("Plano") ||
+        backendMessage.includes("sessão") ||
+        backendMessage.includes("Sessão") ||
+        backendMessage.includes("checkout") ||
+        backendMessage.includes("Multicaixa") ||
+        backendMessage.includes("referência") ||
+        backendMessage.includes("temporariamente") ||
+        backendMessage.includes("servidor") ||
+        backendMessage.includes("esperado") ||
+        backendMessage.includes("Timeout");
+
+      const userFriendlyMessage = isSafeBackendError
+        ? backendMessage
+        : "Ocorreu um erro inesperado. Por favor, tente novamente.";
 
       showError(userFriendlyMessage);
     } finally {
@@ -268,7 +254,23 @@ const SubscriptionForm = () => {
     <>
       <form onSubmit={handleSubmit} className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow" >
 
-         {/* Inputs */}
+        {/* Google Auth na Assinatura */}
+        <div className="mb-6 pb-6 border-b border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div>
+            <h4 className="text-sm font-bold text-gray-800">Já tem uma conta? </h4>
+            <p className="text-xs text-gray-500">Faça login com sua conta Google.</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => signIn("google", { callbackUrl: "/assinatura" })}
+            className="w-full md:w-auto px-5 py-2 md:py-2.5 bg-white border border-gray-300 text-gray-800 rounded-lg hover:bg-gray-50 transition font-bold flex items-center justify-center gap-2 shadow-sm whitespace-nowrap"
+          >
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" className="w-5 h-5" />
+            Continuar com Google
+          </button>
+        </div>
+
+        {/* Inputs */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Nome */}
           <label className="flex flex-col">
@@ -278,7 +280,7 @@ const SubscriptionForm = () => {
               onChange={(e) => setName(e.target.value)}
               required
               maxLength={100}
-              className="px-3 py-2 border rounded"
+              className="px-3 py-2 rounded bg-gray-50 border border-transparent focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200 focus:outline-none transition-all"
               placeholder="Digite seu nome completo"
             />
           </label>
@@ -293,7 +295,7 @@ const SubscriptionForm = () => {
                 setTelegramError("");
               }}
               maxLength={50}
-              className={`px-3 py-2 border rounded transition-colors ${telegramError ? "border-red-500 bg-red-50" : ""}`}
+              className={`px-3 py-2 rounded bg-gray-50 border border-transparent focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200 focus:outline-none transition-all ${telegramError ? "border-red-500 bg-red-50 focus:border-red-500 focus:ring-red-100" : ""}`}
               placeholder="seu @usuario"
             />
             {telegramError && (
@@ -309,7 +311,7 @@ const SubscriptionForm = () => {
             <select
               value={country}
               onChange={(e) => setCountry(e.target.value)}
-              className="px-3 py-2 border rounded"
+              className="px-3 py-2 rounded bg-gray-50 border border-transparent focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200 focus:outline-none transition-all"
             >
               <option>Angola</option>
               <option>Portugal</option>
@@ -330,7 +332,7 @@ const SubscriptionForm = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               maxLength={254}
-              className="px-3 py-2 border rounded"
+              className="px-3 py-2 rounded bg-gray-50 border border-transparent focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200 focus:outline-none transition-all"
               placeholder="seu@email.com"
             />
           </label>
@@ -345,7 +347,7 @@ const SubscriptionForm = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={8}
-                className="px-3 py-2 border rounded w-full pr-10"
+                className="px-3 py-2 rounded bg-gray-50 border border-transparent focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200 focus:outline-none transition-all w-full pr-10"
                 placeholder="Digite sua senha"
               />
               <button
@@ -368,7 +370,7 @@ const SubscriptionForm = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 minLength={8}
-                className="px-3 py-2 border rounded w-full pr-10"
+                className="px-3 py-2 rounded bg-gray-50 border border-transparent focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200 focus:outline-none transition-all w-full pr-10"
                 placeholder="Digite a senha novamente"
               />
               <button
@@ -427,7 +429,7 @@ const SubscriptionForm = () => {
                   onChange={() => setPaymentMethod("transfer")}
                 />
                 <img
-                  src="/images.png"
+                  src="/api/images/multicaixa"
                   alt="Multicaixa"
                   className="h-10 w-10 rounded-lg object-contain bg-white p-1 border border-gray-100"
                 />
@@ -450,7 +452,7 @@ const SubscriptionForm = () => {
                 onChange={() => setPaymentMethod("paypal")}
               />
               <img
-                src="/stripe-logo-sq.jpg"
+                src="/api/images/stripe.webp"
                 alt="Cartão/Stripe"
                 className="h-10 w-10 rounded-lg object-contain bg-white p-1 border border-gray-100"
               />
@@ -475,10 +477,9 @@ const SubscriptionForm = () => {
 
         {/* Botões */}
         <div className="mt-6 flex gap-3">
-          <button  type="submit" disabled={loading}
-                    className={`px-4 py-2 rounded bg-indigo-600 text-white font-semibold 
-                              hover:bg-indigo-700 transition flex items-center gap-2 ${
-                                    loading ? "opacity-60 cursor-not-allowed" : "" }`}  >
+          <button type="submit" disabled={loading}
+            className={`px-4 py-2 rounded bg-indigo-600 text-white font-semibold 
+                              hover:bg-indigo-700 transition flex items-center gap-2 ${loading ? "opacity-60 cursor-not-allowed" : ""}`}  >
             {loading && <Loader2 className="w-4 h-4 animate-spin" />}
             {loading ? "Processando..." : "Confirmar Assinatura"}
           </button>
@@ -542,8 +543,8 @@ const SubscriptionForm = () => {
                     </ul>
                   </div>
 
-                  <button 
-                    onClick={() => router.push("/perfil")} 
+                  <button
+                    onClick={() => router.push("/perfil")}
                     className="w-full py-4 bg-gray-900 text-white font-black rounded-2xl hover:bg-black transition shadow-lg active:scale-95"
                   >
                     Entendi, Ver meu Perfil

@@ -11,7 +11,7 @@ export const LeadershipSection: React.FC<LeadershipSectionProps> = ({ selectedCo
   const cards = selectedCountry ? (COUNTRY_DATA[selectedCountry]?.leadership?.length > 0 ? COUNTRY_DATA[selectedCountry].leadership : LEADERSHIP_CARDS) : LEADERSHIP_CARDS;
 
   return (
-    <section className="container mx-auto py-16 px-4">
+    <section className="container md:mx-28 max-w-7xl py-16 px-4">
       {/* Título da secção */}
       <h2 className="text-2xl md:text-3xl font-medium text-gray-700 mb-10 uppercase">
         Mulheres na tecnologia {selectedCountry && <span className="text-2xl md:text-3xl font-medium">em {selectedCountry}</span>}

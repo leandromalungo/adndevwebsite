@@ -8,7 +8,7 @@ const CardHero = () => {
         className="absolute inset-0 bg-cover bg-center"
         style={{
           backgroundImage:
-            "url('/images/86843ada19050958a1aecf7de9c7403876f74d53230a5a96d7e615c1348ba6a9_explore_catalog_2560x570_2x.webp')",
+            "url('/api/images/assinatura')",
         }}
       />
 
@@ -25,7 +25,7 @@ const CardHero = () => {
         <p className="text-gray-300 text-base md:text-lg leading-relaxed font-medium">
           Tenha acesso aos nossos conteúdos premium e receba alertas filtrados durante
           todo o mês. Aproveite recursos exclusivos que vão impulsionar sua
-          jornada de trabalho, crescimento e tudo isso por um preço acessível. 
+          jornada de trabalho, crescimento e tudo isso por um preço acessível.
           Assine agora e comece a explorar!
         </p>
       </div>
