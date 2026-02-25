@@ -64,3 +64,4 @@ error*.html
 
 # Uploads Locais & Dados Dinâmicos
 storage/
+!storage/mapping.json
