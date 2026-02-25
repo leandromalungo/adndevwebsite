@@ -20,8 +20,19 @@ const redis = new Redis({
 
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
-// URL base do Vercel Blob (formato: https://<hash>.public.blob.vercel-storage.com)
-const BLOB_BASE_URL = process.env.BLOB_BASE_URL || "";
+// Obtém a URL base do Blob:
+// 1. Usa BLOB_BASE_URL se configurada
+// 2. Deriva automaticamente do BLOB_READ_WRITE_TOKEN (formato: vercel_blob_rw_[STOREID]_[...])
+function getBlobBaseUrl(): string {
+    if (process.env.BLOB_BASE_URL) return process.env.BLOB_BASE_URL;
+    const token = process.env.BLOB_READ_WRITE_TOKEN || "";
+    const match = token.match(/^vercel_blob_rw_([^_]+)/i);
+    if (match) {
+        const storeId = match[1].toLowerCase();
+        return `https://${storeId}.public.blob.vercel-storage.com`;
+    }
+    return "";
+}
 
 // Caminho para a pasta privada de imagens (apenas dev)
 const STORAGE_DIR = path.join(process.cwd(), "storage", "images");
@@ -83,11 +94,12 @@ export async function GET(
 
         if (IS_PRODUCTION) {
             // ── PRODUÇÃO: busca a imagem do Vercel Blob ──────────────────────
-            if (!BLOB_BASE_URL) {
-                console.error("[Storage] BLOB_BASE_URL não configurado em produção.");
+            const blobBaseUrl = getBlobBaseUrl();
+            if (!blobBaseUrl) {
+                console.error("[Storage] Token do Blob não configurado em produção.");
                 return NextResponse.json({ error: "Configuração de storage em falta" }, { status: 500 });
             }
-            const blobUrl = `${BLOB_BASE_URL}/${filename}`;
+            const blobUrl = `${blobBaseUrl}/${filename}`;
             const response = await fetch(blobUrl);
             if (!response.ok) {
                 console.warn(`[Storage] Blob 404 para: ${blobUrl}`);
