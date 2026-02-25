@@ -12,6 +12,27 @@
  */
 
 import { NextAuthOptions } from "next-auth";
+import "next-auth";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+      role?: string;
+    };
+    token?: string;
+  }
+
+  interface User {
+    id: string;
+    role?: string;
+    token?: string;
+  }
+}
+
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -148,7 +169,15 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-      allowDangerousEmailAccountLinking: true,
+      // allowDangerousEmailAccountLinking REMOVIDO — previne account takeover.
+      // Um atacante com acesso ao email de outra pessoa não pode fazer merge de contas.
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
     }),
   ],
 

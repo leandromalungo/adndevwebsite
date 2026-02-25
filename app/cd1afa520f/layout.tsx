@@ -6,7 +6,7 @@
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { Toaster } from "@/components/ui/toaster";
-import { useAdminAuth } from "@/hooks/useAdminAuth";
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
 export default function AdminLayout({
@@ -14,7 +14,9 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user, loading, logout } = useAdminAuth();
+  const { data: session, status } = useSession();
+  const user = session?.user;
+  const loading = status === "loading";
   const pathname = usePathname();
 
   // Não aplica layout na página de login
@@ -47,11 +49,11 @@ export default function AdminLayout({
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       {/* Sidebar */}
-      <AdminSidebar onLogout={logout} />
+      <AdminSidebar onLogout={() => { import("next-auth/react").then(m => m.signOut()); }} />
 
       {/* Main Content */}
       <div className="flex flex-1 flex-col overflow-hidden lg:ml-64">
-        <AdminHeader userName={user?.name || user?.email} />
+        <AdminHeader userName={user?.name || user?.email || ""} />
         <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
 

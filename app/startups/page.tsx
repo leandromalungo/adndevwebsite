@@ -38,7 +38,7 @@ const App = () => {
         {/* FUNDO COM IMAGEM */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/images/startupers.png')` }}
+          style={{ backgroundImage: `url('/api/images/startupers')` }}
         >
           {/* OVERLAY / GRADIENT */}
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />

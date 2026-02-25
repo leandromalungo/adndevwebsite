@@ -6,19 +6,17 @@
  */
 
 import Navbar from "@/components/Navbar";
-import Image from "next/image";
 import Hero from "@/components/home/Hero";
 import FAQSection from "@/components/home/FAQSection";
 import Footer from "@/components/Footer";
 import { SectionHero as ServiceSection } from "@/components/home/ServiceSection";
+import { CTACardsContainer } from "@/components/home/cardCta/Container";
 import Vision from "@/components/home/VisionSection";
-import Testimonials from "@/components/home/TestimonialsSection";
-import CuratedCollections from "@/components/cursos/courses/CuratedCollections";
 import TeamMemberSection from "@/components/home/TeamMemberSection";
-import { Destaque } from "@/components/home/Destaque";
 import CardHero from "@/components/home/CardHero";
-import UniverseSection from "@/components/home/content/ContentSection";
-import DicasSection from "@/components/home/dicas/DicasSection";
+import GradientBackground from "@/components/home/GradientBackground";
+import SectionCall from "@/components/sectionCall";
+import CardVideo from "@/components/home/cardVideo";
 
 const Page = () => {
   /**
@@ -30,7 +28,7 @@ const Page = () => {
       title: "Workshops",
       description:
         "Workshops práticos liderados por especialistas da indústria para desenvolver habilidades técnicas de forma dinâmica.",
-      imageUrl: "/images/img1.jpg",
+      imageUrl: "/api/images/images-card1",
       link: "#",
     },
     {
@@ -38,7 +36,7 @@ const Page = () => {
       title: "Palestras",
       description:
         "Palestras com profissionais da área trazendo insights, tendências e networking estratégico.",
-      imageUrl: "/images/IMG-20251221-WA0008.jpg",
+      imageUrl: "/api/images/images-card2?v=1",
       link: "#",
     },
     {
@@ -46,7 +44,7 @@ const Page = () => {
       title: "Bolsas de estudos",
       description:
         "Oportunidades de bolsas com suporte financeiro e mentoria para impulsionar carreiras em tecnologia.",
-      imageUrl: "/images/cnjgrad09.jpg",
+      imageUrl: "/api/images/images-card3?v=1",
       link: "#",
     },
     {
@@ -54,7 +52,7 @@ const Page = () => {
       title: "Hackathon",
       description:
         "Desafios colaborativos para criar soluções inovadoras e acelerar aprendizado prático.",
-      imageUrl: "/images/1768288533539.jpg",
+      imageUrl: "/api/images/card4",
       link: "#",
     },
     {
@@ -87,24 +85,13 @@ const Page = () => {
           <Hero />
         </main>
 
-        {/* Fundo de imagem com tratamento visual (overlay gradiente e grayscale) */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <Image
-            src="/images/index.jpg"
-            alt="Fundo ADN Developer"
-            fill
-            className="object-cover opacity-60 grayscale-[0.2]"
-            priority
-          />
-
+        {/* Fundo ShaderGradient fixo para não piscar/recarregar no scroll */}
+        <div className="fixed inset-0 z-0 pointer-events-none">
+          <GradientBackground />
           {/* Sobreposições para legibilidade do texto */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
         </div>
       </section>
-
-      {/* Secções de Destaque e Dicas */}
-      <Destaque />
-      <DicasSection />
 
       {/* ÁREA DE CONTEÚDO E SERVIÇOS */}
       <section className="relative z-10 bg-[#f7f8f9] flex flex-col items-center py-5 px-4 md:px-10 space-y-24">
@@ -113,26 +100,28 @@ const Page = () => {
         </div>
 
         <div className="w-full max-w-7xl">
-          <CuratedCollections />
+          <SectionCall />
+        </div>
+
+        <div className="w-full px-4 md:px-8">
+          <CardVideo />
         </div>
 
         <div className="w-full max-w-7xl">
           <CardHero />
         </div>
 
-        <UniverseSection />
-
         <div className="w-full max-w-7xl">
           <Vision />
         </div>
       </section>
 
-      {/* Testemunhos, Equipa e FAQ */}
-      <Testimonials />
-      <TeamMemberSection />
-      <FAQSection />
-
-      <Footer />
+      <div className="relative z-10 bg-white w-full">
+        <CTACardsContainer />
+        <TeamMemberSection />
+        <FAQSection />
+        <Footer />
+      </div>
     </div>
   );
 };

@@ -46,7 +46,7 @@ export default function StudyPlanSelectionPage() {
           {/* Imagem */}
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url('/fundo_1.jpg')` }}
+            style={{ backgroundImage: `url('/api/images/cursos')` }}
           />
 
           {/* Overlay melhorado */}
@@ -94,7 +94,7 @@ export default function StudyPlanSelectionPage() {
                   </>
                 ) : (
                   <>
-                    Subscreva-se ao nosso portal
+                    Subscreva ao portal
                     <ArrowRight size={20} />
                   </>
                 )}

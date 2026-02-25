@@ -37,7 +37,7 @@ export default function Page() {
         {/* FUNDO */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/images/community.jpg')` }}
+          style={{ backgroundImage: `url('/api/images/community?v=1')` }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
         </div>
@@ -58,11 +58,10 @@ export default function Page() {
             <button
               onClick={handleClick}
               disabled={loading}
-              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
-                loading
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${loading
                   ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                   : "bg-blue-400 hover:bg-blue-500 text-white"
-              }`}
+                }`}
             >
               {loading ? (
                 <>
@@ -71,7 +70,7 @@ export default function Page() {
                 </>
               ) : (
                 <>
-                  Subscreva-se ao nosso portal
+                  Assinar agora!
                   <ArrowRight size={20} />
                 </>
               )}

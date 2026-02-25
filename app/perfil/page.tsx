@@ -12,8 +12,6 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { db } from "@/lib/firebase";
-import { collection, query, where, onSnapshot } from "firebase/firestore";
 import Navbar from "@/components/Navbar";
 import { Loader2, CreditCard, ShieldCheck, AlertTriangle, CheckCircle2 } from "lucide-react";
 
@@ -50,28 +48,47 @@ function ProfileContent() {
       return;
     }
 
-    if (!session?.user?.id) {
+    // By default NextAuth types do not include 'id' on user
+    const userWithId = session?.user as any;
+    if (!userWithId?.id) {
       return;
     }
 
-    // Buscar assinatura em tempo real
-    const q = query(
-      collection(db!, "subscriptions"), 
-      where("userId", "==", session.user.id)
-    );
-    
-    const unsubSub = onSnapshot(q, (snapshot) => {
-      if (!snapshot.empty) {
-        // Prioriza ativa, depois pending, depois qualquer outra
-        const subs = snapshot.docs.map(d => d.data());
-        const active = subs.find(s => s.status === "active");
-        const pending = subs.find(s => s.status === "pending");
-        setSubscription(active || pending || subs[0]);
-      }
-      setLoading(false);
-    });
+    // Buscar assinatura via HTTP Client
+    let isMounted = true;
+    let timeoutId: NodeJS.Timeout;
 
-    return () => unsubSub();
+    const fetchSub = async () => {
+      try {
+        const { getSubscriptionStatus } = await import("@/lib/cloud-functions-client");
+        const data = await getSubscriptionStatus();
+        
+        if (!isMounted) return;
+
+        if (data.success && data.subscription) {
+          setSubscription(data.subscription);
+          setLoading(false);
+          
+          // Poll a cada 5s apenas se o estado for pending 
+          // (esperando a confirmação do Stripe Webhook ou Multicaixa)
+          if (data.subscription.status === "pending") {
+            timeoutId = setTimeout(fetchSub, 5000);
+          }
+        } else {
+          setSubscription(null);
+          setLoading(false);
+        }
+      } catch (error) {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    fetchSub();
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timeoutId);
+    };
   }, [router, searchParams, session, status]);
 
   /**
@@ -147,7 +164,7 @@ function ProfileContent() {
                     <p className="text-gray-500">{session?.user?.email}</p>
                 </div>
                 <div className="text-xs px-3 py-1 bg-gray-100 rounded-full font-mono text-gray-500 truncate max-w-[200px]">
-                    UID: {session?.user?.id}
+                    UID: {(session?.user as any)?.id}
                 </div>
             </div>
 

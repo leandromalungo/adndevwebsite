@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { Loader2, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { HeroCarousel } from "@/components/wtm/HeroCarousel";
 import { LeadershipSection } from "@/components/wtm/LeadershipSection";
 import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
 import ActivitiesSection from "@/components/wtm/activity/ActivitiesSection";
@@ -48,7 +47,7 @@ const App = () => {
         {/* FUNDO */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/images/wtm.jpg')` }}
+          style={{ backgroundImage: `url('/api/images/wtm')` }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
         </div>
@@ -98,11 +97,10 @@ const App = () => {
         onCountryChange={setSelectedCountry}
         className="bg-white border-b border-gray-200"
       />
-      <LeadershipSection selectedCountry={selectedCountry} />
-      <HeroCarousel selectedCountry={selectedCountry} />
       <ReviewsSection selectedCountry={selectedCountry} />
-      <ActivitiesSection selectedCountry={selectedCountry} />
+      <LeadershipSection selectedCountry={selectedCountry} />      
       <Programs selectedCountry={selectedCountry} />
+      <ActivitiesSection selectedCountry={selectedCountry} />
 
       <Footer />
     </>

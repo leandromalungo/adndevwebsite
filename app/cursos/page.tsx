@@ -8,6 +8,8 @@ import { Funcao } from "@/data/types";
 import { JobBoard } from "@/components/cursos/JobBoard";
 import { CourseSection } from "@/components/cursos/CourseSection";
 import BootcampsSection from "@/components/cursos/BootcampsSection";
+import DicasSection from "@/components/cursos/dicas/DicasSection";
+
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
 import {
@@ -167,7 +169,7 @@ const Page = () => {
         {/* FUNDO COM IMAGEM */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/fundo_1.jpg')` }}
+          style={{ backgroundImage: `url('/api/images/cursos')` }}
         >
           {/* OVERLAY / GRADIENT */}
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
@@ -203,7 +205,7 @@ const Page = () => {
                   </>
                 ) : (
                   <>
-                    Subscreva-se ao nosso portal
+                    Subscreva ao portal
                     <ArrowRight size={18} className="sm:size-auto" />
                   </>
                 )}
@@ -228,7 +230,7 @@ const Page = () => {
         onLoadMore={handleLoadMore}
         hasMore={hasMore}
       />
-
+      <DicasSection />
       <BootcampsSection />
       {/* Seção de Parceiros (Instituições, Universidades, etc) */}
       <CourseSection />
