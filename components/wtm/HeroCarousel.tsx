@@ -153,7 +153,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
             className="flex items-center gap-2 bg-[#1a73e8] hover:bg-blue-700 text-white font-bold py-3 px-8 rounded transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {googleLoading && <Loader2 className="w-5 h-5 animate-spin" />}
-            {googleLoading ? "Processando..." : "ASSINAR AGORA"}
+            {googleLoading ? "Processando..." : "Inscrever-se no portal"}
           </button>
         </div>
 

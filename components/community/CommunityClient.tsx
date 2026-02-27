@@ -58,7 +58,7 @@ export default function CommunityClient() {
                 </>
               ) : (
                 <>
-                  Assinar agora!
+                  Inscrever-se no portal
                   <ArrowRight size={20} />
                 </>
               )}

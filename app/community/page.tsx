@@ -66,7 +66,7 @@ export default function Page() {
                 </>
               ) : (
                 <>
-                  Subscreva-se ao nosso portal!
+                  Inscrever-se no portal
                   <ArrowRight size={20} />
                 </>
               )}

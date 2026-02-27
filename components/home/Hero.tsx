@@ -93,7 +93,7 @@ export const Hero = () => {
                   Carregando...
                 </span>
               ) : (
-                "Subscreva-se ao portal"
+                "Inscrever-se no portal"
               )}
             </button>
 

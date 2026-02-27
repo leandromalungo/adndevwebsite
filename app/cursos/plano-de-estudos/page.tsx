@@ -90,7 +90,7 @@ export default function StudyPlanSelectionPage() {
                   </>
                 ) : (
                   <>
-                    Subscreva ao portal
+                    Inscrever-se no portal
                     <ArrowRight size={20} />
                   </>
                 )}

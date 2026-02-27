@@ -65,7 +65,7 @@ export default function BolsasClient() {
                 </>
               ) : (
                 <>
-                  Assinar agora!
+                  Inscrever-se no portal
                   <ArrowRight size={20} />
                 </>
               )}

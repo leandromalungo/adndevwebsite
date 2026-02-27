@@ -204,7 +204,7 @@ const Page = () => {
                   </>
                 ) : (
                   <>
-                    Subscreva ao portal
+                    Inscrever-se no portal
                     <ArrowRight size={18} className="sm:size-auto" />
                   </>
                 )}

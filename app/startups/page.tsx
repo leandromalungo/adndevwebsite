@@ -72,7 +72,7 @@ const App = () => {
                 </>
               ) : (
                 <>
-                  Subscreva-se ao nosso portal
+                  Inscrever-se no portal
                   <ArrowRight size={20} />
                 </>
               )}

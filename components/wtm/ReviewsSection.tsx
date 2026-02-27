@@ -37,7 +37,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ selectedCountry }) => {
           className="flex items-center gap-2 bg-[#1a73e8] hover:bg-blue-700 text-white font-bold py-3 px-8 rounded transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {loading && <Loader2 className="w-5 h-5 animate-spin" />}
-          {loading ? "Processando..." : "ASSINAR AGORA"}
+          {loading ? "Processando..." : "Inscrever-se no portal"}
         </button>
 
       </div>
