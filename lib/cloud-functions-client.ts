@@ -227,6 +227,28 @@ export async function signout(): Promise<{
 }
 
 /**
+ * Obtém o perfil completo do utilizador autenticado do Firestore
+ * Chamado pelo frontend quando o modal de perfil é aberto
+ */
+export async function getProfile(): Promise<{
+  success: boolean;
+  profile: {
+    name: string;
+    email: string;
+    country: string;
+    telegram: string;
+    itArea: string;
+    itRole: string;
+    alerts: string[];
+    subscription: any | null;
+    isActive: boolean;
+    photoURL: string | null;
+  };
+}> {
+  return callCloudFunction("getProfile", "GET", undefined, true);
+}
+
+/**
  * Atualiza o perfil do utilizador autenticado
  * O backend valida todos os campos e persiste no Firestore
  */

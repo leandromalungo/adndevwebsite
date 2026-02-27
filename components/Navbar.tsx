@@ -101,6 +101,12 @@ const Navbar = () => {
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [saveError, setSaveError] = useState("");
 
+  // Estados do carregamento do perfil do backend
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [profileLoaded, setProfileLoaded] = useState(false);
+  // Foto de perfil: Google OAuth ou URL do Firestore
+  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
+
   // Estados de assinatura inline
   const [subStatus, setSubStatus] = useState<string | null>(null);
   const [subLoading, setSubLoading] = useState(false);
@@ -119,13 +125,73 @@ const Navbar = () => {
   const [loginError, setLoginError] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
 
-  // Preencher dados a partir da sessão
+  // Preenche nome e email da sessão NextAuth (dados básicos do Google)
+  // Inicializa foto de perfil a partir da sessão NextAuth (Google OAuth)
   useEffect(() => {
     if (user) {
       setName(user.name || "");
       setEmail(user.email || "");
+      // Usa a foto do Google OAuth se disponível
+      if ((user as any)?.image) {
+        setProfilePhoto((user as any).image);
+      }
     }
   }, [user]);
+
+  // Carrega perfil completo do backend quando o dropdown é aberto pela primeira vez
+  // TODA a lógica de leitura de dados está no backend — o frontend apenas ouve
+  useEffect(() => {
+    if (userDropdown && isLoggedIn && !profileLoaded && !profileLoading) {
+      setProfileLoading(true);
+      import("@/lib/cloud-functions-client").then(({ getProfile }) => {
+        getProfile()
+          .then((res) => {
+            if (res.success && res.profile) {
+              const p = res.profile;
+              if (p.name) setName(p.name);
+              if (p.email) setEmail(p.email);
+              if (p.country) setPais(p.country);
+              if (p.telegram) setTelegram(p.telegram);
+              if (p.itArea) setItArea(p.itArea);
+              if (p.itRole) setItRole(p.itRole);
+              // Foto do backend substitui se existir (pode ser foto personalizada)
+              if (p.photoURL) setProfilePhoto(p.photoURL);
+              // Mapeia o array de alerts do backend para o Record de notificações
+              if (Array.isArray(p.alerts) && p.alerts.length > 0) {
+                const ALERT_LABELS: Record<string, string> = {
+                  events: "Eventos",
+                  community: "Comunidade",
+                  wtm: "Mulheres na T.I",
+                  roadmaps: "Cursos",
+                  bolsas: "Bolsas de estudo",
+                  startups: "Startups",
+                  ia: "Inteligência Artificial",
+                };
+                setNotificacoes(prev => {
+                  const updated = { ...prev };
+                  // Reset all to false first
+                  Object.keys(updated).forEach(k => { updated[k] = false; });
+                  // Enable only the ones returned by backend
+                  p.alerts.forEach((alertId: string) => {
+                    const label = ALERT_LABELS[alertId];
+                    if (label && label in updated) updated[label] = true;
+                  });
+                  return updated;
+                });
+              }
+              setProfileLoaded(true);
+            }
+          })
+          .catch(() => {
+            // Erro silencioso — mantém os dados da sessão NextAuth
+          })
+          .finally(() => {
+            setProfileLoading(false);
+          });
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userDropdown, isLoggedIn]);
 
   // Fechar dropdown ao clicar fora
   useEffect(() => {
@@ -146,7 +212,7 @@ const Navbar = () => {
   };
 
   /**
-   * Salva o perfil via Cloud Function
+   * Salva o perfil via Cloud Function `updateProfile`
    * BACKEND valida e persiste — frontend apenas exibe feedback
    */
   const handleSave = async () => {
@@ -154,6 +220,21 @@ const Navbar = () => {
     setSaveError("");
     setSaveSuccess(false);
     try {
+      // Converte o Record de notificações de label para IDs do backend
+      const ALERT_IDS: Record<string, string> = {
+        "Eventos": "events",
+        "Comunidade": "community",
+        "Mulheres na T.I": "wtm",
+        "Cursos": "roadmaps",
+        "Bolsas de estudo": "bolsas",
+        "Startups": "startups",
+        "Inteligência Artificial": "ia",
+      };
+      const alertIds = Object.entries(notificacoes)
+        .filter(([, active]) => active)
+        .map(([label]) => ALERT_IDS[label])
+        .filter(Boolean);
+
       const { updateProfile } = await import("@/lib/cloud-functions-client");
       const result = await updateProfile({
         name: name.trim(),
@@ -161,7 +242,7 @@ const Navbar = () => {
         country: pais,
         itArea,
         itRole,
-        alerts: Object.keys(notificacoes).filter(k => notificacoes[k]),
+        alerts: alertIds,
       });
       if (result.success) {
         setSaveSuccess(true);
@@ -315,7 +396,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-3 relative">
-          {/* Botão de perfil — foto do Google ou ícone padrão */}
+          {/* Botão de perfil — foto do utilizador ou ícone padrão */}
           <button
             onClick={() => {
               if (!isLoggedIn) {
@@ -327,12 +408,13 @@ const Navbar = () => {
             className="p-1 rounded-full hover:bg-gray-100 transition focus:outline-none focus:ring-0 focus-visible:outline-none"
             aria-label="Perfil do utilizador"
           >
-            {isLoggedIn && (user as any)?.image ? (
+            {isLoggedIn && profilePhoto ? (
               <img
-                src={(user as any).image}
+                src={profilePhoto}
                 alt={user?.name || "Foto de perfil"}
                 className="w-8 h-8 rounded-full object-cover border-2 border-blue-500"
                 referrerPolicy="no-referrer"
+                onError={() => setProfilePhoto(null)}
               />
             ) : (
               <User className={`w-6 h-6 ${isLoggedIn ? "text-blue-600" : "text-gray-600"}`} />
@@ -347,12 +429,13 @@ const Navbar = () => {
           >
             {/* Cabeçalho do perfil */}
             <div className="px-4 py-3 bg-gradient-to-r from-indigo-50 to-blue-50 border-b border-gray-100 flex items-center gap-3">
-              {(user as any)?.image ? (
+              {profilePhoto ? (
                 <img
-                  src={(user as any).image}
+                  src={profilePhoto}
                   alt={user?.name || "Foto de perfil"}
                   className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm"
                   referrerPolicy="no-referrer"
+                  onError={() => setProfilePhoto(null)}
                 />
               ) : (
                 <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
@@ -377,175 +460,182 @@ const Navbar = () => {
             {/* Painel de Configurações */}
             {configOpen && (
               <div className="border-t border-gray-100 max-h-[60vh] overflow-y-auto">
-                <div className="px-4 py-3 space-y-3">
-
-                  {/* Nome */}
-                  <div>
-                    <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Nome</label>
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="w-full border border-gray-200 px-2 py-1.5 rounded-lg text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 transition"
-                      placeholder="Nome completo"
-                      maxLength={100}
-                    />
+                {profileLoading ? (
+                  <div className="flex items-center justify-center py-8 text-gray-400">
+                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                    <span className="text-sm">A carregar perfil...</span>
                   </div>
+                ) : (
+                  <div className="px-4 py-3 space-y-3">
 
-                  {/* Email (read-only) */}
-                  <div>
-                    <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Email</label>
-                    <input
-                      type="email"
-                      value={email}
-                      disabled
-                      className="w-full border border-gray-100 px-2 py-1.5 rounded-lg text-sm bg-gray-50 text-gray-400 cursor-not-allowed"
-                    />
-                  </div>
-
-                  {/* País */}
-                  <div>
-                    <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">País</label>
-                    <select
-                      value={pais}
-                      onChange={(e) => setPais(e.target.value)}
-                      className="w-full border border-gray-200 px-2 py-1.5 rounded-lg text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 transition"
-                    >
-                      <option>Angola</option>
-                      <option>Portugal</option>
-                      <option>Brasil</option>
-                      <option>Mozambique</option>
-                      <option>Cabo Verde</option>
-                      <option>Guiné-Bissau</option>
-                    </select>
-                  </div>
-
-                  {/* Telegram */}
-                  <div>
-                    <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Telegram</label>
-                    <input
-                      type="text"
-                      value={telegram}
-                      onChange={(e) => setTelegram(e.target.value)}
-                      className="w-full border border-gray-200 px-2 py-1.5 rounded-lg text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 transition"
-                      placeholder="@seuusuario"
-                      maxLength={50}
-                    />
-                  </div>
-
-                  {/* Área de TI */}
-                  <div>
-                    <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Área de atuação</label>
-                    <select
-                      value={itArea}
-                      onChange={(e) => { setItArea(e.target.value); setItRole(""); }}
-                      className="w-full border border-gray-200 px-2 py-1.5 rounded-lg text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 transition"
-                    >
-                      <option value="">Selecione uma área</option>
-                      {Object.keys(IT_AREAS).map((area) => (
-                        <option key={area} value={area}>{area}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Função dentro da área */}
-                  <div>
-                    <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Função</label>
-                    <select
-                      value={itRole}
-                      onChange={(e) => setItRole(e.target.value)}
-                      disabled={!itArea}
-                      className="w-full border border-gray-200 px-2 py-1.5 rounded-lg text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      <option value="">{itArea ? "Selecione uma função" : "Escolha a área primeiro"}</option>
-                      {itArea && IT_AREAS[itArea].map((role) => (
-                        <option key={role} value={role}>{role}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Notificações */}
-                  <div>
-                    <span className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Notificações</span>
-                    <div className="space-y-1">
-                      {Object.keys(notificacoes).map((key) => (
-                        <label key={key} className="flex items-center gap-2 text-xs cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={notificacoes[key]}
-                            onChange={() => handleNotifChange(key)}
-                            className="rounded"
-                          />
-                          {key}
-                        </label>
-                      ))}
+                    {/* Nome */}
+                    <div>
+                      <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Nome</label>
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="w-full border border-gray-200 px-2 py-1.5 rounded-lg text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 transition"
+                        placeholder="Nome completo"
+                        maxLength={100}
+                      />
                     </div>
-                  </div>
 
-                  {/* Feedback de save */}
-                  {saveSuccess && (
-                    <div className="flex items-center gap-1.5 text-green-600 text-xs font-medium">
-                      <CheckCircle2 className="w-3.5 h-3.5" /> Perfil actualizado!
+                    {/* Email (read-only) */}
+                    <div>
+                      <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Email</label>
+                      <input
+                        type="email"
+                        value={email}
+                        disabled
+                        className="w-full border border-gray-100 px-2 py-1.5 rounded-lg text-sm bg-gray-50 text-gray-400 cursor-not-allowed"
+                      />
                     </div>
-                  )}
-                  {saveError && (
-                    <div className="flex items-center gap-1.5 text-red-500 text-xs font-medium">
-                      <AlertTriangle className="w-3.5 h-3.5" /> {saveError}
+
+                    {/* País */}
+                    <div>
+                      <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">País</label>
+                      <select
+                        value={pais}
+                        onChange={(e) => setPais(e.target.value)}
+                        className="w-full border border-gray-200 px-2 py-1.5 rounded-lg text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 transition"
+                      >
+                        <option>Angola</option>
+                        <option>Portugal</option>
+                        <option>Brasil</option>
+                        <option>Mozambique</option>
+                        <option>Cabo Verde</option>
+                        <option>Guiné-Bissau</option>
+                      </select>
                     </div>
-                  )}
 
-                  {/* Botão Salvar */}
-                  <button
-                    onClick={handleSave}
-                    disabled={saveLoading}
-                    className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition font-bold text-xs flex items-center justify-center gap-1.5 disabled:opacity-60"
-                  >
-                    {saveLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
-                    {saveLoading ? "A salvar..." : "Salvar perfil"}
-                  </button>
+                    {/* Telegram */}
+                    <div>
+                      <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Telegram</label>
+                      <input
+                        type="text"
+                        value={telegram}
+                        onChange={(e) => setTelegram(e.target.value)}
+                        className="w-full border border-gray-200 px-2 py-1.5 rounded-lg text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 transition"
+                        placeholder="@seuusuario"
+                        maxLength={50}
+                      />
+                    </div>
 
-                  {/* Separador */}
-                  <div className="border-t border-gray-100 pt-2">
-                    <span className="block text-[10px] font-bold text-gray-400 uppercase mb-2">Assinatura</span>
+                    {/* Área de TI */}
+                    <div>
+                      <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Área de atuação</label>
+                      <select
+                        value={itArea}
+                        onChange={(e) => { setItArea(e.target.value); setItRole(""); }}
+                        className="w-full border border-gray-200 px-2 py-1.5 rounded-lg text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 transition"
+                      >
+                        <option value="">Selecione uma área</option>
+                        {Object.keys(IT_AREAS).map((area) => (
+                          <option key={area} value={area}>{area}</option>
+                        ))}
+                      </select>
+                    </div>
 
-                    {/* Verificar Assinatura */}
-                    <button
-                      onClick={handleCheckSubscription}
-                      disabled={subLoading}
-                      className="w-full bg-gray-900 text-white py-2 rounded-lg hover:bg-black transition font-bold text-xs flex items-center justify-center gap-1.5 disabled:opacity-60"
-                    >
-                      {subLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CreditCard className="w-3.5 h-3.5" />}
-                      {subLoading ? "A verificar..." : "Verificar Assinatura"}
-                    </button>
+                    {/* Função dentro da área */}
+                    <div>
+                      <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Função</label>
+                      <select
+                        value={itRole}
+                        onChange={(e) => setItRole(e.target.value)}
+                        disabled={!itArea}
+                        className="w-full border border-gray-200 px-2 py-1.5 rounded-lg text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <option value="">{itArea ? "Selecione uma função" : "Escolha a área primeiro"}</option>
+                        {itArea && IT_AREAS[itArea].map((role) => (
+                          <option key={role} value={role}>{role}</option>
+                        ))}
+                      </select>
+                    </div>
 
-                    {/* Resultado inline */}
-                    {subChecked && (
-                      <div className="mt-2 p-2.5 bg-gray-50 rounded-lg border border-gray-100">
-                        <p className={`text-xs font-bold ${subStatusColor()}`}>{subStatusLabel()}</p>
-                        {subStatus === "none" && (
-                          <Link
-                            href="/assinatura"
-                            onClick={() => setUserDropdown(false)}
-                            className="mt-1.5 block text-center text-xs text-indigo-600 hover:text-indigo-800 font-bold underline underline-offset-2"
-                          >
-                            Assinar agora
-                          </Link>
-                        )}
-                        {subStatus === "pending" && (
-                          <p className="text-xs text-gray-500 mt-1">Aguarda confirmação do pagamento.</p>
-                        )}
+                    {/* Notificações */}
+                    <div>
+                      <span className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Notificações</span>
+                      <div className="space-y-1">
+                        {Object.keys(notificacoes).map((key) => (
+                          <label key={key} className="flex items-center gap-2 text-xs cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={notificacoes[key]}
+                              onChange={() => handleNotifChange(key)}
+                              className="rounded"
+                            />
+                            {key}
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Feedback de save */}
+                    {saveSuccess && (
+                      <div className="flex items-center gap-1.5 text-green-600 text-xs font-medium">
+                        <CheckCircle2 className="w-3.5 h-3.5" /> Perfil actualizado!
                       </div>
                     )}
-                  </div>
+                    {saveError && (
+                      <div className="flex items-center gap-1.5 text-red-500 text-xs font-medium">
+                        <AlertTriangle className="w-3.5 h-3.5" /> {saveError}
+                      </div>
+                    )}
 
-                  {/* Eliminar conta */}
-                  <button
-                    className="w-full text-left text-red-500 hover:text-red-700 font-medium text-xs"
-                    onClick={() => setDeleteModal(true)}
-                  >
-                    Eliminar conta
-                  </button>
-                </div>
+                    {/* Botão Salvar */}
+                    <button
+                      onClick={handleSave}
+                      disabled={saveLoading}
+                      className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition font-bold text-xs flex items-center justify-center gap-1.5 disabled:opacity-60"
+                    >
+                      {saveLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
+                      {saveLoading ? "A salvar..." : "Salvar perfil"}
+                    </button>
+
+                    {/* Separador */}
+                    <div className="border-t border-gray-100 pt-2">
+                      <span className="block text-[10px] font-bold text-gray-400 uppercase mb-2">Assinatura</span>
+
+                      {/* Verificar Assinatura */}
+                      <button
+                        onClick={handleCheckSubscription}
+                        disabled={subLoading}
+                        className="w-full bg-gray-900 text-white py-2 rounded-lg hover:bg-black transition font-bold text-xs flex items-center justify-center gap-1.5 disabled:opacity-60"
+                      >
+                        {subLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CreditCard className="w-3.5 h-3.5" />}
+                        {subLoading ? "A verificar..." : "Verificar Assinatura"}
+                      </button>
+
+                      {/* Resultado inline */}
+                      {subChecked && (
+                        <div className="mt-2 p-2.5 bg-gray-50 rounded-lg border border-gray-100">
+                          <p className={`text-xs font-bold ${subStatusColor()}`}>{subStatusLabel()}</p>
+                          {subStatus === "none" && (
+                            <Link
+                              href="/assinatura"
+                              onClick={() => setUserDropdown(false)}
+                              className="mt-1.5 block text-center text-xs text-indigo-600 hover:text-indigo-800 font-bold underline underline-offset-2"
+                            >
+                              Assinar agora
+                            </Link>
+                          )}
+                          {subStatus === "pending" && (
+                            <p className="text-xs text-gray-500 mt-1">Aguarda confirmação do pagamento.</p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Eliminar conta */}
+                    <button
+                      className="w-full text-left text-red-500 hover:text-red-700 font-medium text-xs"
+                      onClick={() => setDeleteModal(true)}
+                    >
+                      Eliminar conta
+                    </button>
+                  </div>
+                )}
               </div>
             )}
 

@@ -171,7 +171,7 @@ export const authOptions: NextAuthOptions = {
     /**
      * Callback de JWT: Executado quando um token JWT é criado ou atualizado
      */
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, profile }) {
       // No primeiro login, popula o token com os dados retornados pelo backend
       if (user) {
         token.uid = user.id;
@@ -179,6 +179,11 @@ export const authOptions: NextAuthOptions = {
         token.name = user.name;
         token.role = (user as any).role || "user";
         token.cloudFunctionToken = (user as any).token;
+      }
+
+      // Guarda a foto do perfil Google (NextAuth popula `profile.picture` automaticamente)
+      if (profile) {
+        token.picture = (profile as any).picture || (profile as any).image || token.picture;
       }
 
       // Se for login via Google, troca o ID Token do Google por um token do nosso backend
@@ -221,7 +226,9 @@ export const authOptions: NextAuthOptions = {
           email: token.email as string,
           name: token.name as string,
           role: token.role as string,
-        };
+          // Inclui a foto do perfil Google para o Navbar a exibir
+          image: (token.picture as string) || (token.image as string) || null,
+        } as any;
         // Armazena o token do backend para chamadas de API futuras
         (session as any).token = token.cloudFunctionToken;
       }

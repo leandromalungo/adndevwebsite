@@ -11,10 +11,10 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { signIn, getSession } from "next-auth/react";
-import { Landmark, CreditCard, Loader2, Eye, EyeOff } from "lucide-react";
+import { signIn, getSession, useSession } from "next-auth/react";
+import { Landmark, CreditCard, Loader2, Eye, EyeOff, CheckCircle } from "lucide-react";
 
-type PaymentMethod = "paypal" | "transfer";
+type PaymentMethod = "stripe" | "multicaixa";
 
 const IT_AREAS: Record<string, string[]> = {
   "Desenvolvimento de Software": [
@@ -138,6 +138,10 @@ interface ReferenceData {
  */
 const SubscriptionForm = () => {
   const router = useRouter();
+  // Lê dados do utilizador autenticado com Google — o backend valida tudo
+  const { data: session } = useSession();
+  const googleUser = session?.user;
+  const isGoogleUser = !!(googleUser?.email);
 
   const [name, setName] = useState("");
   const [telegram, setTelegram] = useState("");
@@ -154,7 +158,7 @@ const SubscriptionForm = () => {
 
   const [alerts, setAlerts] = useState<string[]>([]);
   // Maps UI selection to internal payment provider logic
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("paypal");
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("stripe");
 
   const [loading, setLoading] = useState(false);
   const [showRefModal, setShowRefModal] = useState(false);
@@ -162,14 +166,23 @@ const SubscriptionForm = () => {
   const [subId, setSubId] = useState<string | null>(null);
   const [status, setStatus] = useState<string>("pending");
 
-  // Tempo de escuta de atualização de estados (Módulo Polling substituído por Full Page Redirect no onSuccess do Stripe)
+  // Pré-preenche nome e email com os dados do Google (sessão NextAuth)
+  // O backend é responsável por validar todos os dados — o frontend apenas coleta
+  useEffect(() => {
+    if (googleUser) {
+      if (googleUser.name && !name) setName(googleUser.name);
+      if (googleUser.email && !email) setEmail(googleUser.email);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [googleUser]);
 
   // Geo-location based payment method pre-selection
+  // Angola uses Multicaixa (local bank reference), all other countries use Stripe
   useEffect(() => {
     if (country === "Angola") {
-      setPaymentMethod("transfer");
+      setPaymentMethod("multicaixa");
     } else {
-      setPaymentMethod("paypal");
+      setPaymentMethod("stripe");
     }
   }, [country]);
 
@@ -268,16 +281,9 @@ const SubscriptionForm = () => {
         throw new Error("Email inválido.");
       }
 
-      // STEP 1: Pre-Payment Safety Check (Fail-Fast antes de criar conta)
-      let stripePriceId = "";
-      if (paymentMethod === "paypal") {
-        stripePriceId = process.env.NEXT_PUBLIC_STRIPE_PRICE_ID || "";
-        if (!stripePriceId) {
-          throw new Error("Sistema de pagamentos temporariamente indisponível (Erro de configuração).");
-        }
-      }
-
-      // Prepare payload for atomic subscription
+      // STEP 1: Preparar payload para o backend (sem validação de priceId no frontend)
+      // O backend valida tudo: priceId, país, plano, moeda e inicializa o pagamento.
+      // O frontend apenas coleta os dados e aguarda a resposta.
       const payload = {
         name: sName,
         telegram: sTelegram,
@@ -289,7 +295,7 @@ const SubscriptionForm = () => {
         alerts,
         plan: "premium",
         paymentMethod,
-        priceId: stripePriceId,
+        priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID || "",
         billingCycle: "monthly"
       };
 
@@ -311,6 +317,7 @@ const SubscriptionForm = () => {
       }
 
       // STEP 4: Processar a resposta do pagamento
+      // STEP 4: O frontend apenas reage à resposta do backend — sem autenticação ou lógica de pagamento aqui
       if (initResponse.method === "stripe") {
         if (initResponse.url) {
           setSubId(initResponse.sessionId || "");
@@ -394,15 +401,25 @@ const SubscriptionForm = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Nome */}
           <label className="flex flex-col">
-            <span className="text-sm font-medium mb-1">Nome completo</span>
+            <span className="text-sm font-medium mb-1 flex items-center gap-1">
+              Nome completo
+              {isGoogleUser && <CheckCircle className="w-3 h-3 text-green-500" />}
+            </span>
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
               maxLength={100}
-              className="px-3 py-2 rounded bg-gray-50 border border-transparent focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200 focus:outline-none transition-all"
+              readOnly={isGoogleUser}
+              className={`px-3 py-2 rounded border border-transparent focus:outline-none transition-all ${isGoogleUser
+                  ? "bg-green-50 border-green-100 text-gray-700 cursor-not-allowed"
+                  : "bg-gray-50 focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200"
+                }`}
               placeholder="Digite seu nome completo"
             />
+            {isGoogleUser && (
+              <span className="text-[10px] text-green-600 mt-0.5 ml-1">Preenchido pela sua conta Google</span>
+            )}
           </label>
 
           {/* Telegram */}
@@ -476,16 +493,26 @@ const SubscriptionForm = () => {
 
           {/* Email */}
           <label className="flex flex-col">
-            <span className="text-sm font-medium mb-1">E-mail</span>
+            <span className="text-sm font-medium mb-1 flex items-center gap-1">
+              E-mail
+              {isGoogleUser && <CheckCircle className="w-3 h-3 text-green-500" />}
+            </span>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               maxLength={254}
-              className="px-3 py-2 rounded bg-gray-50 border border-transparent focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200 focus:outline-none transition-all"
+              readOnly={isGoogleUser}
+              className={`px-3 py-2 rounded border border-transparent focus:outline-none transition-all ${isGoogleUser
+                  ? "bg-green-50 border-green-100 text-gray-700 cursor-not-allowed"
+                  : "bg-gray-50 focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200"
+                }`}
               placeholder="seu@email.com"
             />
+            {isGoogleUser && (
+              <span className="text-[10px] text-green-600 mt-0.5 ml-1">Preenchido pela sua conta Google</span>
+            )}
           </label>
 
           {/* Senha */}
@@ -570,15 +597,15 @@ const SubscriptionForm = () => {
           </h4>
 
           <div className="space-y-3">
-            {/* Referencia - Disponível apenas para Angola */}
+            {/* Referencia Multicaixa - Disponível apenas para Angola */}
             {country === "Angola" && (
-              <label className={`flex items-start gap-4 p-4 border rounded-lg cursor-pointer transition-all ${paymentMethod === "transfer" ? "border-indigo-600 bg-indigo-50" : "border-gray-100 hover:bg-gray-50"}`}>
+              <label className={`flex items-start gap-4 p-4 border rounded-lg cursor-pointer transition-all ${paymentMethod === "multicaixa" ? "border-indigo-600 bg-indigo-50" : "border-gray-100 hover:bg-gray-50"}`}>
                 <input
                   type="radio"
                   name="payment"
                   className="mt-3 flex-shrink-0"
-                  checked={paymentMethod === "transfer"}
-                  onChange={() => setPaymentMethod("transfer")}
+                  checked={paymentMethod === "multicaixa"}
+                  onChange={() => setPaymentMethod("multicaixa")}
                 />
                 <img
                   src="/api/images/multicaixa"
@@ -595,13 +622,13 @@ const SubscriptionForm = () => {
             )}
 
             {/* Stripe / Cartão */}
-            <label className={`flex items-start gap-4 p-4 border rounded-lg cursor-pointer transition-all ${paymentMethod === "paypal" ? "border-indigo-600 bg-indigo-50" : "border-gray-100 hover:bg-gray-50"}`}>
+            <label className={`flex items-start gap-4 p-4 border rounded-lg cursor-pointer transition-all ${paymentMethod === "stripe" ? "border-indigo-600 bg-indigo-50" : "border-gray-100 hover:bg-gray-50"}`}>
               <input
                 type="radio"
                 name="payment"
                 className="mt-3 flex-shrink-0"
-                checked={paymentMethod === "paypal"}
-                onChange={() => setPaymentMethod("paypal")}
+                checked={paymentMethod === "stripe"}
+                onChange={() => setPaymentMethod("stripe")}
               />
               <img
                 src="/api/images/stripe.webp"
