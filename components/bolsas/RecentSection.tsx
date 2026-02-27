@@ -2,6 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
+import { Loader2 } from "lucide-react";
 import type { FilterTab } from "@/components/CountryFilter";
 
 interface CategoryCardProps {
@@ -35,9 +37,9 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
         <p className="text-white text-sm leading-relaxed mb-6 flex-grow">
           {description}
         </p>
-           <span className="text-[10px] text-gray-100 mb-4">
-              Fonte: Esta bolsa tem as suas fontes devidamente mencionadas nesta postagem sem nenhuma alteração.
-            </span>
+        <span className="text-[10px] text-gray-100 mb-4">
+          Fonte: Esta bolsa tem as suas fontes devidamente mencionadas nesta postagem sem nenhuma alteração.
+        </span>
         <div>
           <Link
             href={href}
@@ -58,51 +60,53 @@ interface RecentSectionProps {
 export const RecentSection: React.FC<RecentSectionProps> = ({
   selectedCountry,
 }) => {
+  const { triggerGoogleSignup, loading } = useGoogleSignup();
+
   const categories = [
     {
-      image: "/images/bolsas/Europeu.jpg",
+      image: "/api/images/europeu",
       title: " Programa de Bolsas Sakharov 2026 do Parlamento Europeu",
       description:
         "Programa de Bolsas Sakharov 2026 - 7 a 20 de junho de 2026 - edital de inscrições. O Programa de Bolsas Sakharov do Parlamento Europeu oferece a até 14 defensores dos direitos humanos, selecionados de países não pertencentes à UE, a oportunidade de participar de um treinamento intensivo de duas semanas em Bruxelas e em outro local em um Estado-membro da UE.",
       href: "https://www.europarl.europa.eu/sakharovprize/pt/fellowship/supporting-defenders",
     },
     {
-      image: "/images/bolsas/qatar.jpg",
+      image: "/api/images/qatar",
       title: "LICENCIATURA, MESTRADO E DOUTORADO EM QATAR",
       description:
         "Na Universidade Hamad Bin Khalifa as candidaturas estão abertas até 01 de Março de 2026, uma oportunidade para quem deseja uma admissão numa das melhores universidades em Qatar com possibilidade de obter auxílio financeiro. Mais informações desse programa serão enviados daqui a nada.",
       href: "https://www.abdn.ac.uk/qatar/undergraduate/business-management/",
     },
     {
-      image: "/images/bolsas/uppsala.jpg",
+      image: "/api/images/uppsala",
       title: "BOLSAS DE ESTUDO DA UNIVERSIDADE DE UPPSALA NA SUÉCIA",
       description:
         "A Universidade de Uppsala oferece bolsas de estudo para 2026 em diversos programas de bacharelado e mestrado. A duração do bacharelado é de 4 anos e a do mestrado, de 1 ano. Todo o processo de candidatura a esta bolsa de estudos é online. Durante a candidatura, leia atentamente todos os termos e condições e faça o upload de todos os documentos necessários antes do prazo final.",
       href: "https://www.uu.se/en/study/masters-studies/scholarships/application-guide",
     },
     {
-      image: "/images/bolsas/studyro.jpg",
+      image: "/api/images/studyro",
       title: "Bolsas de estudo do governo da Romênia",
       description:
         "Programa de bolsas oferecido pelo governo romeno, gerido pelo Ministério das Relações Exteriores (MAE) e pelo Ministério da Educação e Pesquisa. O objetivo é permitir que estudantes internacionais (fora da União Europeia) procurem Licenciatura, mestrado ou doutorado em universidades romenas. ",
       href: "https://scholarships.studyinromania.gov.ro/",
     },
     {
-      image: "/images/bolsas/usa.jpg",
+      image: "/api/images/usa",
       title: "Programas Fulbright para o ano académico 2027-2028",
       description:
         "Fulbright Foreign Student Program, Fulbright African Research Scholar Program (ARSP), Estes programas de prestígio proporcionam oportunidades únicas de investigação e estudo nos Estados Unidos, impulsionando carreiras académicas e alargando redes profissionais a nível global.",
       href: "https://ow.ly/60a250Y3CAG",
     },
     {
-      image: "/images/bolsas/turquia.jpg",
+      image: "/api/images/turquia",
       title: "Programa de bolsas de estudos para Turquia",
       description:
         "Turquia oferece ensino de qualidade e todos anos recebem estudantes oriundos de vários países do mundo, incluindo Angola, Moçambique, Brasil, Guine Bissau, Timor Leste, Portugal, cabo Verde e etc. Os níveis oferecidos no programa abrangem: Licenciatura, Mestrado e Doutorado. O programa cobre absolutamente tudo desde passagens aéreas, subsídio mensal, acomodação, curso de língua e etc.",
       href: "https://www.turkiyeburslari.gov.tr/",
     },
     {
-      image: "/images/bolsas/turismo.jpg",
+      image: "/api/images/turismo",
       title:
         " Candidaturas para estudantes internacionais às Escolas do Turismo de Portugal",
       description:
@@ -110,7 +114,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
       href: "https://escolas.turismodeportugal.pt/en/",
     },
     {
-      image: "/images/bolsas/ipg.jpg",
+      image: "/api/images/ipg",
       title:
         "Bolsas de Estudo Prioritárias Internacionais IPS 2026 na Indonésia🇵🇱 (Totalmente Financiadas)",
       description:
@@ -118,28 +122,28 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
       href: " https://isp.ums.ac.id/ums-scholarship",
     },
     {
-      image: "/images/bolsas/balassi.jpg",
+      image: "/api/images/balassi",
       title: "Inscreva-se agora na Universidade de Verano Balassi",
       description:
         "nscreva-se agora na Universidade de Verano Balassi. Durante as 4 semanas que duram a universidade de verão, oferecemos: curso intensivo de língua e cultura, alojamento gratuito em dormitório, três comidas ao dia, abono de transporte para Budapeste, e vários eventos. CONDIÇÕES DE APLICAÇÃO: uma pessoa que tenha atingido a idade de 18 anos no início da formação  , seja de origem húngara  e possua a cidadania de um Estado-membro da União Europeia  não abrangido pela Lei LXII de 2001 sobre húngaros residentes em Estados vizinhos (Lei de Preferências)  [1] e  uma pessoa de origem não húngara, que tenha atingido a idade de 18 anos e seja cidadã estrangeira no início da formação  . DATA LIMITE: 3 de Março de 2026, 12h00 (CET), Estudos em línguas combinadas húngaro/inglês.",
       href: "https://balassieducation.hu/.../call-for-applications.../",
     },
     {
-      image: "/images/bolsas/canada.jpg",
+      image: "/api/images/canada",
       title: "Boldas de estudo da universidade de Montreal 2026-2027 no canada",
       description:
         "O programa de Bolsas de Estudo da Universidade de Montreal para 2026, no Canadá, oferece bolsas de estudo com financiamento parcial para estudantes internacionais. Existe um  processo de inscrição online para concorrer às bolsas de estudo da Universidade de Montreal em 2026, no Canadá. Os candidatos devem ser admitidos em qualquer curso de graduação da universidade. Após a admissão, serão automaticamente considerados para a bolsa. ",
       href: "https://admission.umontreal.ca/en/scholarship-for-international-students/",
     },
     {
-      image: "/images/bolsas/RUDN.jpeg",
+      image: "/api/images/rudn",
       title: "RUDN UNIVERSITY- Moscow",
       description:
         "Bolsa de estudos integral na Universidade RUDN, de acordo com a cota do Governo Russo. Oportunidade de participar do concurso de bolsas de estudo RUDN BRILLIANT STUDENTS. Premiados: Possibilidade de bolsa de estudos integral na Universidade RUDN, de acordo com a cota do Governo Russo, caso haja disponibilidade após a matrícula dos vencedores da Olimpíada. Oportunidade de obter um desconto significativo nas mensalidades da universidade.",
       href: "https://olymp.rudn.ru/eng/main",
     },
     {
-      image: "/images/bolsas/pt1.jpg",
+      image: "/api/images/pt1",
       title:
         "Concurso Especial para Estudantes Internacionais do IPB-Instituto Politécnico de Bragança em Portugal para o ano letivo 2026/2027.",
       description:
@@ -167,8 +171,13 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
               "Explore as bolsas de estudo mais recentes e populares disponíveis para você, independentemente do país Assine a plataforma e receba alertas durante o mês."}
           </p>
 
-          <button className="bg-[#620fe7] hover:bg-[#5815c4] text-white py-3 px-8 rounded transition-all duration-200 shadow-md active:scale-95">
-            Assinar agora
+          <button
+            onClick={triggerGoogleSignup}
+            disabled={loading}
+            className="flex items-center gap-2 bg-[#620fe7] hover:bg-[#5815c4] text-white py-3 px-8 rounded transition-all duration-200 shadow-md active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {loading && <Loader2 className="w-5 h-5 animate-spin" />}
+            {loading ? "Processando..." : "Assinar agora"}
           </button>
         </header>
 

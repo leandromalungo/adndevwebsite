@@ -5,96 +5,200 @@
  * 
  * FRONTEND: Apenas exibe dados e envia requisições.
  * BACKEND (NextAuth): Valida toda autenticação.
+ * BACKEND (Cloud Functions): Valida e persiste dados do perfil.
  * 
  * - Exibe logotipo, links de navegação e menu do usuário
  * - Gerencia estado local para UI (menu móvel, dropdowns, modals)
  * - Lê dados de sessão do backend via NextAuth
+ * - Foto do Google é exibida no ícone de perfil quando disponível
  */
-import { Menu, X, User, AlertCircle, Loader2 } from "lucide-react";
+import { Menu, X, User, CreditCard, Loader2, CheckCircle2, AlertTriangle, Save } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "@/public/logo.png";
-import { sanitizeText, sanitizeEmail, isSafeString } from "@/lib/security";
-import { useAuth } from "@/hooks/useAuth";
-import { signIn } from "next-auth/react";
-import { db } from "@/lib/firebase";
-import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { signIn, useSession, signOut } from "next-auth/react";
+
+// ───────────── Dados de áreas de TI ─────────────
+const IT_AREAS: Record<string, string[]> = {
+  "Desenvolvimento de Software": [
+    "Desenvolvedor Front-end", "Desenvolvedor Back-end", "Desenvolvedor Full Stack",
+    "Desenvolvedor Mobile", "Desenvolvedor Desktop", "Desenvolvedor de Jogos",
+    "Engenheiro de Software", "Software Architect", "QA Engineer", "Test Automation Engineer",
+  ],
+  "Cibersegurança": [
+    "Analista de Segurança", "Pentester (Ethical Hacker)", "Security Engineer",
+    "SOC Analyst", "Especialista em Resposta a Incidentes", "Analista Forense Digital",
+    "GRC (Governança, Risco e Compliance)", "Security Architect", "Red Team", "Blue Team",
+  ],
+  "Redes e Infraestrutura": [
+    "Administrador de Redes", "Network Engineer", "Técnico de Redes",
+    "Especialista em Firewall", "Engenheiro de Infraestrutura", "NOC Analyst",
+    "Administrador de Sistemas", "DevOps Engineer",
+  ],
+  "Cloud Computing": [
+    "Cloud Engineer", "Cloud Architect", "Cloud Administrator", "DevOps Cloud",
+    "Site Reliability Engineer (SRE)", "Especialista AWS", "Especialista Azure", "Especialista Google Cloud",
+  ],
+  "Ciência de Dados e Inteligência Artificial": [
+    "Data Analyst", "Data Scientist", "Machine Learning Engineer", "AI Engineer",
+    "Data Engineer", "BI Analyst", "Especialista em Big Data",
+  ],
+  "Suporte Técnico e Help Desk": [
+    "Técnico de Suporte", "Help Desk Nível 1", "Help Desk Nível 2",
+    "Help Desk Nível 3", "Field Support", "Técnico de Hardware",
+  ],
+  "Gestão e Governança de TI": [
+    "IT Manager", "CIO", "CTO", "Product Manager", "Project Manager",
+    "Scrum Master", "IT Auditor", "Analista de Processos",
+  ],
+  "UX/UI e Design Digital": [
+    "UX Designer", "UI Designer", "Product Designer", "UX Researcher", "Interaction Designer",
+  ],
+  "Banco de Dados": [
+    "DBA", "Database Engineer", "Database Administrator", "Especialista SQL", "Especialista NoSQL",
+  ],
+  "Automação e RPA": [
+    "RPA Developer", "Automation Engineer", "QA Automation", "Especialista em Processos Automatizados",
+  ],
+  "Blockchain e Web3": [
+    "Blockchain Developer", "Smart Contract Developer", "Web3 Developer", "Especialista em Criptografia",
+  ],
+  "IoT (Internet das Coisas)": [
+    "IoT Engineer", "Embedded Systems Developer", "Firmware Developer", "Especialista em Sistemas Embarcados",
+  ],
+};
 
 const Navbar = () => {
-  // BACKEND: NextAuth gerencia autenticação - frontend apenas lê sessão
-  const { user, isLoggedIn, logout } = useAuth();
-  
+  const { data: session, status } = useSession();
+  const user = session?.user;
+  const isLoggedIn = status === "authenticated";
+
   // Estados locais do componente
   const [openMenu, setOpenMenu] = useState(false);
   const [loadingLink, setLoadingLink] = useState<string | null>(null);
   const [userDropdown, setUserDropdown] = useState(false);
   const [configOpen, setConfigOpen] = useState(false);
-  
-  // Dados do usuário (preenchidos pelo Firebase)
+
+  // Dados do perfil (preenchidos pela sessão / backend)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pais, setPais] = useState("Angola");
   const [telegram, setTelegram] = useState("");
+  const [itArea, setItArea] = useState("");
+  const [itRole, setItRole] = useState("");
+  // Notificações — todas a false por defeito.
+  // Apenas são marcadas após o backend (getProfile) confirmar as escolhas do utilizador.
   const [notificacoes, setNotificacoes] = useState<Record<string, boolean>>({
-    Eventos: true,
-    Comunidade: true,
-    "Game Development": false,
-    "Mulheres na T.I": true,
+    Eventos: false,
+    Comunidade: false,
+    "Mulheres na T.I": false,
     Cursos: false,
-    "Bolsas de estudo": true,
-    Startups: true,
+    "Bolsas de estudo": false,
+    Startups: false,
+    "Inteligência Artificial": false,
   });
-  
-  const [unsavedChanges, setUnsavedChanges] = useState(false);
+
+  // Estados de save
+  const [saveLoading, setSaveLoading] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [saveError, setSaveError] = useState("");
+
+  // Estados do carregamento do perfil do backend
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [profileLoaded, setProfileLoaded] = useState(false);
+  // Foto de perfil: Google OAuth ou URL do Firestore
+  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
+
+  // Estados de assinatura inline
+  const [subStatus, setSubStatus] = useState<string | null>(null);
+  const [subLoading, setSubLoading] = useState(false);
+  const [subChecked, setSubChecked] = useState(false);
+
   const [deleteModal, setDeleteModal] = useState(false);
   const [confirmText, setConfirmText] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [deleteMessage, setDeleteMessage] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Novos estados para o painel de login
+  // Painel de login
   const [loginModal, setLoginModal] = useState(false);
   const [loginEmail, setLoginEmail] = useState("");
   const [loginSenha, setLoginSenha] = useState("");
   const [loginError, setLoginError] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
 
-  // Estado da assinatura real
-  const [subscription, setSubscription] = useState<any>(null);
-
+  // Preenche nome e email da sessão NextAuth (dados básicos do Google)
+  // Inicializa foto de perfil a partir da sessão NextAuth (Google OAuth)
   useEffect(() => {
     if (user) {
-      setName(user.displayName || "");
+      setName(user.name || "");
       setEmail(user.email || "");
-    }
-  }, [user]);
-
-  // Escuta assinatura em tempo real
-  useEffect(() => {
-    if (!user || !db) {
-      setSubscription(null);
-      return;
-    }
-    const q = query(collection(db, "subscriptions"), where("userId", "==", user.uid));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      if (!snapshot.empty) {
-        setSubscription(snapshot.docs[0].data());
-      } else {
-        setSubscription(null);
+      // Usa a foto do Google OAuth se disponível
+      if ((user as any)?.image) {
+        setProfilePhoto((user as any).image);
       }
-    });
-    return () => unsubscribe();
+    }
   }, [user]);
 
-  const closeMobileMenu = () => setOpenMenu(false);
+  // Carrega perfil completo do backend quando o dropdown é aberto pela primeira vez
+  // TODA a lógica de leitura de dados está no backend — o frontend apenas ouve
+  useEffect(() => {
+    if (userDropdown && isLoggedIn && !profileLoaded && !profileLoading) {
+      setProfileLoading(true);
+      import("@/lib/cloud-functions-client").then(({ getProfile }) => {
+        getProfile()
+          .then((res) => {
+            if (res.success && res.profile) {
+              const p = res.profile;
+              if (p.name) setName(p.name);
+              if (p.email) setEmail(p.email);
+              if (p.country) setPais(p.country);
+              if (p.telegram) setTelegram(p.telegram);
+              if (p.itArea) setItArea(p.itArea);
+              if (p.itRole) setItRole(p.itRole);
+              // Foto do backend substitui se existir (pode ser foto personalizada)
+              if (p.photoURL) setProfilePhoto(p.photoURL);
+              // Mapeia o array de alerts do backend para o Record de notificações
+              if (Array.isArray(p.alerts) && p.alerts.length > 0) {
+                const ALERT_LABELS: Record<string, string> = {
+                  events: "Eventos",
+                  community: "Comunidade",
+                  wtm: "Mulheres na T.I",
+                  roadmaps: "Cursos",
+                  bolsas: "Bolsas de estudo",
+                  startups: "Startups",
+                  ia: "Inteligência Artificial",
+                };
+                setNotificacoes(prev => {
+                  const updated = { ...prev };
+                  // Reset all to false first
+                  Object.keys(updated).forEach(k => { updated[k] = false; });
+                  // Enable only the ones returned by backend
+                  p.alerts.forEach((alertId: string) => {
+                    const label = ALERT_LABELS[alertId];
+                    if (label && label in updated) updated[label] = true;
+                  });
+                  return updated;
+                });
+              }
+              setProfileLoaded(true);
+            }
+          })
+          .catch(() => {
+            // Erro silencioso — mantém os dados da sessão NextAuth
+          })
+          .finally(() => {
+            setProfileLoading(false);
+          });
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userDropdown, isLoggedIn]);
 
+  // Fechar dropdown ao clicar fora
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setUserDropdown(false);
         setConfigOpen(false);
       }
@@ -103,113 +207,157 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const getEstadoColor = (estado?: string) => {
-    switch (estado) {
-      case "active":
-        return "text-green-600";
-      case "pending":
-        return "text-yellow-500";
-      case "canceled":
-      case "expired":
-        return "text-red-600";
-      default:
-        return "text-gray-600";
-    }
-  };
-
-  const getDisplayStatus = (estado?: string) => {
-    switch (estado) {
-      case "active": return "activo";
-      case "pending": return "pendente";
-      default: return "desativada";
-    }
-  };
+  const closeMobileMenu = () => setOpenMenu(false);
 
   const handleNotifChange = (key: string) => {
     setNotificacoes(prev => ({ ...prev, [key]: !prev[key] }));
-    setUnsavedChanges(true);
   };
 
-  const handleSave = () => {
-    const sanitizedName = sanitizeText(name);
-    const sanitizedTelegram = sanitizeText(telegram);
+  /**
+   * Salva o perfil via Cloud Function `updateProfile`
+   * BACKEND valida e persiste — frontend apenas exibe feedback
+   */
+  const handleSave = async () => {
+    setSaveLoading(true);
+    setSaveError("");
+    setSaveSuccess(false);
+    try {
+      // Converte o Record de notificações de label para IDs do backend
+      const ALERT_IDS: Record<string, string> = {
+        "Eventos": "events",
+        "Comunidade": "community",
+        "Mulheres na T.I": "wtm",
+        "Cursos": "roadmaps",
+        "Bolsas de estudo": "bolsas",
+        "Startups": "startups",
+        "Inteligência Artificial": "ia",
+      };
+      const alertIds = Object.entries(notificacoes)
+        .filter(([, active]) => active)
+        .map(([label]) => ALERT_IDS[label])
+        .filter(Boolean);
 
-    if (!isSafeString(sanitizedName) || !isSafeString(sanitizedTelegram)) {
-      alert("Conteúdo inválido detectado.");
-      return;
+      const { updateProfile } = await import("@/lib/cloud-functions-client");
+      const result = await updateProfile({
+        name: name.trim(),
+        telegram: telegram.trim(),
+        country: pais,
+        itArea,
+        itRole,
+        alerts: alertIds,
+      });
+      if (result.success) {
+        setSaveSuccess(true);
+        setTimeout(() => setSaveSuccess(false), 3000);
+      } else {
+        setSaveError(result.message || "Erro ao salvar. Tente novamente.");
+        setTimeout(() => setSaveError(""), 3000);
+      }
+    } catch (err: any) {
+      // Mostra mensagem amigável — nunca expõe detalhes internos
+      setSaveError("Não foi possível salvar. Verifique a sua conexão.");
+      setTimeout(() => setSaveError(""), 3000);
+    } finally {
+      setSaveLoading(false);
     }
-    // Nota: Em produção, salvaria no Firestore
-    alert("Alterações salvas (Simulado)");
-    setUnsavedChanges(false);
+  };
+
+  /**
+   * Verifica assinatura via Cloud Function
+   */
+  const handleCheckSubscription = async () => {
+    setSubLoading(true);
+    setSubChecked(false);
+    try {
+      const { getSubscriptionStatus } = await import("@/lib/cloud-functions-client");
+      const res = await getSubscriptionStatus();
+      if (res.success && res.subscription) {
+        setSubStatus(res.subscription.status);
+      } else {
+        setSubStatus("none");
+      }
+    } catch {
+      setSubStatus("error");
+    } finally {
+      setSubLoading(false);
+      setSubChecked(true);
+    }
   };
 
   const handleLogout = async () => {
     try {
-      await logout();
-    } catch (error) {
-      // Falha silenciosa ou erro genérico
-    } finally {
+      if (typeof signOut === "function") {
+        await signOut({ redirect: false });
+      }
+      setOpenMenu(false);
       setUserDropdown(false);
+    } catch (error) {
+      console.error("Falha ao desligar sessão.", error);
     }
   };
 
-  const confirmDelete = () => {
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
+  /**
+   * Elimina a conta do utilizador via Cloud Function.
+   * BACKEND: valida identidade e elimina dados. Frontend apenas envia o pedido.
+   */
+  const confirmDelete = async () => {
     if (confirmText.toUpperCase() !== "SIM") {
       setDeleteMessage("Você deve digitar 'SIM' para continuar.");
       setTimeout(() => setDeleteMessage(""), 3000);
       return;
     }
-    
-    const sanitizedEmailInput = sanitizeEmail(emailInput);
-    if (!sanitizedEmailInput || sanitizedEmailInput !== (user?.email || "")) {
+    const sanitizedEmailInput = emailInput.trim().toLowerCase();
+    if (!sanitizedEmailInput || sanitizedEmailInput !== (user?.email || "").toLowerCase()) {
       setDeleteMessage("Email incorrecto.");
       setTimeout(() => setDeleteMessage(""), 3000);
       return;
     }
-
-    setDeleteMessage("Solicitação de exclusão enviada.");
-    setTimeout(() => {
-      setDeleteModal(false);
-      setDeleteMessage("");
-    }, 1500);
+    setDeleteLoading(true);
+    setDeleteMessage("");
+    try {
+      const { deleteAccountOnPaymentFailure } = await import("@/lib/cloud-functions-client");
+      await deleteAccountOnPaymentFailure();
+      setDeleteMessage("Conta eliminada. A encerrar sessão...");
+      setTimeout(async () => {
+        await signOut({ redirect: true, callbackUrl: "/" });
+      }, 1500);
+    } catch (err: any) {
+      setDeleteMessage("Erro ao eliminar conta. Tente novamente.");
+      setTimeout(() => setDeleteMessage(""), 4000);
+    } finally {
+      setDeleteLoading(false);
+    }
   };
 
   /**
-   * FRONTEND: Apenas envia credenciais para o backend.
-   * BACKEND (NextAuth): Valida credenciais e cria sessão.
+   * Login com email/password via NextAuth
+   * BACKEND: Valida credenciais e cria sessão.
    */
   const handleLogin = async () => {
     setLoginError("");
-
-    // Validação mínima apenas para UX - backend valida tudo
     if (!loginEmail || !loginSenha) {
       setLoginError("Preencha todos os campos.");
       setTimeout(() => setLoginError(""), 3000);
       return;
     }
-
     setLoginLoading(true);
     try {
-      // BACKEND: NextAuth valida credenciais
-      // Frontend apenas envia email/password - SEM validação
       const result = await signIn("credentials", {
         email: loginEmail,
         password: loginSenha,
         redirect: false,
       });
-
       if (result?.error) {
-        // Backend retornou erro
         setLoginError("Email ou senha incorrectos.");
         setTimeout(() => setLoginError(""), 4000);
       } else if (result?.ok) {
-        // Login bem-sucedido - backend validou tudo
         setLoginModal(false);
         setLoginEmail("");
         setLoginSenha("");
       }
-    } catch (error: any) {
-      // Erro de rede ou outro erro inesperado
+    } catch {
       setLoginError("Erro ao fazer login. Tente novamente.");
       setTimeout(() => setLoginError(""), 4000);
     } finally {
@@ -219,74 +367,54 @@ const Navbar = () => {
 
   // Trava o scroll quando o modal de login está aberto
   useEffect(() => {
-    if (loginModal) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
+    document.body.style.overflow = loginModal ? "hidden" : "unset";
+    return () => { document.body.style.overflow = "unset"; };
   }, [loginModal]);
+
+  // ─── Helpers de cor / texto do estado de assinatura ───
+  const subStatusColor = () => {
+    switch (subStatus) {
+      case "active": return "text-green-600";
+      case "pending": return "text-yellow-500";
+      case "none": return "text-gray-500";
+      default: return "text-red-500";
+    }
+  };
+  const subStatusLabel = () => {
+    switch (subStatus) {
+      case "active": return "✅ Ativa";
+      case "pending": return "⏳ Pendente de pagamento";
+      case "none": return "Sem assinatura";
+      default: return "Erro ao verificar";
+    }
+  };
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-100">
       <div className="flex items-center justify-between px-6 py-4">
-        <Link
-          href="/"
-          className="focus:outline-none focus:ring-0 focus-visible:outline-none"
-        >
+        <Link href="/" className="focus:outline-none focus:ring-0 focus-visible:outline-none">
           <Image
-            src={logo}
-            alt="Logo"
+            src="/logoNavbar.png"
+            alt="ADN Developer Logo"
             width={60}
-            height={60}
+            height={40}
             className="cursor-pointer object-contain"
             priority
           />
         </Link>
 
         <div className="hidden lg:flex items-center gap-6 font-bold">
-          <NavLink
-            label="Eventos"
-            href="/events"
-            loading={loadingLink === "/events"}
-            onClick={() => setLoadingLink("/events")}
-          />
-          <NavLink
-            label="Comunidades"
-            href="/community"
-            loading={loadingLink === "/community"}
-            onClick={() => setLoadingLink("/community")}
-          />
-          <NavLink
-            label="Mulheres na T.I"
-            href="/wtm"
-            loading={loadingLink === "/wtm"}
-            onClick={() => setLoadingLink("/wtm")}
-          />
-          <NavLink
-            label="Cursos"
-            href="/cursos"
-            loading={loadingLink === "/cursos"}
-            onClick={() => setLoadingLink("/cursos")}
-          />
-          <NavLink
-            label="Bolsas de estudo"
-            href="/bolsas"
-            loading={loadingLink === "/bolsas"}
-            onClick={() => setLoadingLink("/bolsas")}
-          />
-          <NavLink
-            label="Startups"
-            href="/startups"
-            loading={loadingLink === "/startups"}
-            onClick={() => setLoadingLink("/startups")}
-          />
+          <NavLink label="Eventos" href="/events" loading={loadingLink === "/events"} onClick={() => setLoadingLink("/events")} />
+          <NavLink label="Comunidades" href="/community" loading={loadingLink === "/community"} onClick={() => setLoadingLink("/community")} />
+          <NavLink label="Mulheres na T.I" href="/wtm" loading={loadingLink === "/wtm"} onClick={() => setLoadingLink("/wtm")} />
+          <NavLink label="Cursos" href="/cursos" loading={loadingLink === "/cursos"} onClick={() => setLoadingLink("/cursos")} />
+          <NavLink label="Bolsas de estudo" href="/bolsas" loading={loadingLink === "/bolsas"} onClick={() => setLoadingLink("/bolsas")} />
+          <NavLink label="Startups" href="/startups" loading={loadingLink === "/startups"} onClick={() => setLoadingLink("/startups")} />
+          <NavLink label="Inteligência Artificial" href="/ia" loading={loadingLink === "/ia"} onClick={() => setLoadingLink("/ia")} />
         </div>
 
         <div className="flex items-center gap-3 relative">
-          {/* Botão do usuário */}
+          {/* Botão de perfil — foto do utilizador ou ícone padrão */}
           <button
             onClick={() => {
               if (!isLoggedIn) {
@@ -295,106 +423,249 @@ const Navbar = () => {
                 setUserDropdown(!userDropdown);
               }
             }}
-            className="p-2 rounded-full hover:bg-gray-100 transition focus:outline-none focus:ring-0 focus-visible:outline-none"
+            className="p-1 rounded-full hover:bg-gray-100 transition focus:outline-none focus:ring-0 focus-visible:outline-none"
+            aria-label="Perfil do utilizador"
           >
-            <User className={`w-6 h-6 ${isLoggedIn ? "text-blue-600" : "text-gray-600"}`} />
+            {isLoggedIn && profilePhoto ? (
+              <img
+                src={profilePhoto}
+                alt={user?.name || "Foto de perfil"}
+                className="w-8 h-8 rounded-full object-cover border-2 border-blue-500"
+                referrerPolicy="no-referrer"
+                onError={() => setProfilePhoto(null)}
+              />
+            ) : (
+              <User className={`w-6 h-6 ${isLoggedIn ? "text-blue-600" : "text-gray-600"}`} />
+            )}
           </button>
 
-          {/* Dropdown do usuário */}
+          {/* Dropdown do utilizador */}
           <div
             ref={dropdownRef}
-            className={`absolute right-0 top-12 w-64 bg-white border border-gray-200 shadow-lg rounded-lg py-2 flex flex-col z-50 transition-all duration-300 transform origin-top-right
+            className={`absolute right-0 top-12 w-80 bg-white border border-gray-200 shadow-xl rounded-lg overflow-hidden z-50 transition-all duration-300 transform origin-top-right
               ${userDropdown ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}`}
           >
-            <div className="px-4 py-2 text-sm font-medium text-gray-700">
-              Assinatura:{" "}
-              <span className={getEstadoColor(subscription?.status)}>
-                {getDisplayStatus(subscription?.status)}
-              </span>
+            {/* Cabeçalho do perfil */}
+            <div className="px-4 py-3 bg-gradient-to-r from-indigo-50 to-blue-50 border-b border-gray-100 flex items-center gap-3">
+              {profilePhoto ? (
+                <img
+                  src={profilePhoto}
+                  alt={user?.name || "Foto de perfil"}
+                  className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm"
+                  referrerPolicy="no-referrer"
+                  onError={() => setProfilePhoto(null)}
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
+                  <User className="w-5 h-5 text-indigo-600" />
+                </div>
+              )}
+              <div className="min-w-0">
+                <p className="font-bold text-sm text-gray-900 truncate">{user?.name || "Utilizador"}</p>
+                <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+              </div>
             </div>
 
+            {/* Botão Configurações de Perfil */}
             <button
               onClick={() => setConfigOpen(!configOpen)}
-              className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left w-full font-medium"
+              className="px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 text-left w-full font-medium flex items-center justify-between"
             >
-              Configurações
+              <span>Configurações do Perfil</span>
+              <span className="text-gray-400 text-xs">{configOpen ? "▲" : "▼"}</span>
             </button>
 
+            {/* Painel de Configurações */}
             {configOpen && (
-              <div className="px-4 py-2 space-y-2 text-sm text-gray-700 border-t border-gray-200">
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => { setName(e.target.value); setUnsavedChanges(true); }}
-                  className="w-full border p-1 rounded outline-none"
-                  placeholder="Nome do usuário"
-                  maxLength={100}
-                />
-                <input
-                  type="email"
-                  value={email}
-                  disabled
-                  className="w-full border p-1 rounded bg-gray-50 text-gray-400"
-                  placeholder="Email"
-                />
-                <select
-                  value={pais}
-                  onChange={(e) => { setPais(e.target.value); setUnsavedChanges(true); }}
-                  className="w-full border p-1 rounded"
-                >
-                  <option value="Angola">Angola</option>
-                  <option value="Portugal">Portugal</option>
-                  <option value="Brasil">Brasil</option>
-                  <option value="Mozambique">Mozambique</option>
-                  <option value="Cabo Verde">Cabo Verde</option>
-                  <option value="Guine Bissau">Guiné Bissau</option>
-                </select>
-                <input
-                  type="text"
-                  value={telegram}
-                  onChange={(e) => { setTelegram(e.target.value); setUnsavedChanges(true); }}
-                  className="w-full border p-1 rounded outline-none"
-                  placeholder="Telegram"
-                  maxLength={50}
-                />
-                <div className="space-y-1">
-                  <span className="font-medium text-[11px] uppercase text-gray-400">Notificações:</span>
-                  {Object.keys(notificacoes).map((key) => (
-                    <label key={key} className="flex items-center gap-2 text-xs">
+              <div className="border-t border-gray-100 max-h-[60vh] overflow-y-auto">
+                {profileLoading ? (
+                  <div className="flex items-center justify-center py-8 text-gray-400">
+                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                    <span className="text-sm">A carregar perfil...</span>
+                  </div>
+                ) : (
+                  <div className="px-4 py-3 space-y-3">
+
+                    {/* Nome */}
+                    <div>
+                      <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Nome</label>
                       <input
-                        type="checkbox"
-                        checked={notificacoes[key]}
-                        onChange={() => handleNotifChange(key)}
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="w-full border border-gray-200 px-2 py-1.5 rounded-lg text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 transition"
+                        placeholder="Nome completo"
+                        maxLength={100}
                       />
-                      {key}
-                    </label>
-                  ))}
-                </div>
+                    </div>
 
-                <button
-                  className="w-full text-left text-red-600 hover:text-red-800 font-medium text-xs mt-2"
-                  onClick={() => setDeleteModal(true)}
-                >
-                  Eliminar conta
-                </button>
+                    {/* Email (read-only) */}
+                    <div>
+                      <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Email</label>
+                      <input
+                        type="email"
+                        value={email}
+                        disabled
+                        className="w-full border border-gray-100 px-2 py-1.5 rounded-lg text-sm bg-gray-50 text-gray-400 cursor-not-allowed"
+                      />
+                    </div>
 
-                {unsavedChanges && (
-                  <button
-                    onClick={handleSave}
-                    className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition font-medium text-xs"
-                  >
-                    Salvar
-                  </button>
+                    {/* País */}
+                    <div>
+                      <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">País</label>
+                      <select
+                        value={pais}
+                        onChange={(e) => setPais(e.target.value)}
+                        className="w-full border border-gray-200 px-2 py-1.5 rounded-lg text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 transition"
+                      >
+                        <option>Angola</option>
+                        <option>Portugal</option>
+                        <option>Brasil</option>
+                        <option>Mozambique</option>
+                        <option>Cabo Verde</option>
+                        <option>Guiné-Bissau</option>
+                      </select>
+                    </div>
+
+                    {/* Telegram */}
+                    <div>
+                      <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Telegram</label>
+                      <input
+                        type="text"
+                        value={telegram}
+                        onChange={(e) => setTelegram(e.target.value)}
+                        className="w-full border border-gray-200 px-2 py-1.5 rounded-lg text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 transition"
+                        placeholder="@seuusuario"
+                        maxLength={50}
+                      />
+                    </div>
+
+                    {/* Área de TI */}
+                    <div>
+                      <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Área de atuação</label>
+                      <select
+                        value={itArea}
+                        onChange={(e) => { setItArea(e.target.value); setItRole(""); }}
+                        className="w-full border border-gray-200 px-2 py-1.5 rounded-lg text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 transition"
+                      >
+                        <option value="">Selecione uma área</option>
+                        {Object.keys(IT_AREAS).map((area) => (
+                          <option key={area} value={area}>{area}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Função dentro da área */}
+                    <div>
+                      <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Função</label>
+                      <select
+                        value={itRole}
+                        onChange={(e) => setItRole(e.target.value)}
+                        disabled={!itArea}
+                        className="w-full border border-gray-200 px-2 py-1.5 rounded-lg text-sm outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <option value="">{itArea ? "Selecione uma função" : "Escolha a área primeiro"}</option>
+                        {itArea && IT_AREAS[itArea].map((role) => (
+                          <option key={role} value={role}>{role}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Notificações */}
+                    <div>
+                      <span className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Notificações</span>
+                      <div className="space-y-1">
+                        {Object.keys(notificacoes).map((key) => (
+                          <label key={key} className="flex items-center gap-2 text-xs cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={notificacoes[key]}
+                              onChange={() => handleNotifChange(key)}
+                              className="rounded"
+                            />
+                            {key}
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Feedback de save */}
+                    {saveSuccess && (
+                      <div className="flex items-center gap-1.5 text-green-600 text-xs font-medium">
+                        <CheckCircle2 className="w-3.5 h-3.5" /> Perfil actualizado!
+                      </div>
+                    )}
+                    {saveError && (
+                      <div className="flex items-center gap-1.5 text-red-500 text-xs font-medium">
+                        <AlertTriangle className="w-3.5 h-3.5" /> {saveError}
+                      </div>
+                    )}
+
+                    {/* Botão Salvar */}
+                    <button
+                      onClick={handleSave}
+                      disabled={saveLoading}
+                      className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition font-bold text-xs flex items-center justify-center gap-1.5 disabled:opacity-60"
+                    >
+                      {saveLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
+                      {saveLoading ? "A salvar..." : "Salvar perfil"}
+                    </button>
+
+                    {/* Separador */}
+                    <div className="border-t border-gray-100 pt-2">
+                      <span className="block text-[10px] font-bold text-gray-400 uppercase mb-2">Assinatura</span>
+
+                      {/* Verificar Assinatura */}
+                      <button
+                        onClick={handleCheckSubscription}
+                        disabled={subLoading}
+                        className="w-full bg-gray-900 text-white py-2 rounded-lg hover:bg-black transition font-bold text-xs flex items-center justify-center gap-1.5 disabled:opacity-60"
+                      >
+                        {subLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CreditCard className="w-3.5 h-3.5" />}
+                        {subLoading ? "A verificar..." : "Verificar Assinatura"}
+                      </button>
+
+                      {/* Resultado inline */}
+                      {subChecked && (
+                        <div className="mt-2 p-2.5 bg-gray-50 rounded-lg border border-gray-100">
+                          <p className={`text-xs font-bold ${subStatusColor()}`}>{subStatusLabel()}</p>
+                          {subStatus === "none" && (
+                            <Link
+                              href="/assinatura"
+                              onClick={() => setUserDropdown(false)}
+                              className="mt-1.5 block text-center text-xs text-indigo-600 hover:text-indigo-800 font-bold underline underline-offset-2"
+                            >
+                              Assinar agora
+                            </Link>
+                          )}
+                          {subStatus === "pending" && (
+                            <p className="text-xs text-gray-500 mt-1">Aguarda confirmação do pagamento.</p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Eliminar conta */}
+                    <button
+                      className="w-full text-left text-red-500 hover:text-red-700 font-medium text-xs"
+                      onClick={() => setDeleteModal(true)}
+                    >
+                      Eliminar conta
+                    </button>
+                  </div>
                 )}
               </div>
             )}
 
-            <button
-              onClick={handleLogout}
-              className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left w-full font-medium"
-            >
-              Sair da conta
-            </button>
+            {/* Sair da conta */}
+            <div className="border-t border-gray-100">
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 text-left w-full font-medium"
+              >
+                Sair da conta
+              </button>
+            </div>
           </div>
 
           {/* Botão mobile */}
@@ -402,49 +673,21 @@ const Navbar = () => {
             onClick={() => setOpenMenu(!openMenu)}
             className="lg:hidden p-2 rounded-xl hover:bg-gray-100 transition"
           >
-            {openMenu ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
+            {openMenu ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
-      <div
-        className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${openMenu ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"}`}
-      >
+      {/* Menu mobile */}
+      <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${openMenu ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"}`}>
         <div className="px-6 pb-6 space-y-2 font-bold">
-          <MobileLink
-            label="Eventos"
-            href="/events"
-            onClick={() => { closeMobileMenu(); }}
-          />
-          <MobileLink
-            label="Comunidades"
-            href="/community"
-            onClick={() => { closeMobileMenu(); }}
-          />
-          <MobileLink
-            label="Mulheres na T.I"
-            href="/wtm"
-            onClick={() => { closeMobileMenu(); }}
-          />
-          <MobileLink
-            label="Cursos"
-            href="/cursos"
-            onClick={() => { closeMobileMenu(); }}
-          />
-          <MobileLink
-            label="Bolsas de estudo"
-            href="/bolsas"
-            onClick={() => { closeMobileMenu(); }}
-          />
-          <MobileLink
-            label="Startups"
-            href="/startups"
-            onClick={() => { closeMobileMenu(); }}
-          />
+          <MobileLink label="Eventos" href="/events" onClick={() => { closeMobileMenu(); }} />
+          <MobileLink label="Comunidades" href="/community" onClick={() => { closeMobileMenu(); }} />
+          <MobileLink label="Mulheres na T.I" href="/wtm" onClick={() => { closeMobileMenu(); }} />
+          <MobileLink label="Cursos" href="/cursos" onClick={() => { closeMobileMenu(); }} />
+          <MobileLink label="Bolsas de estudo" href="/bolsas" onClick={() => { closeMobileMenu(); }} />
+          <MobileLink label="Startups" href="/startups" onClick={() => { closeMobileMenu(); }} />
+          <MobileLink label="Inteligência Artificial" href="/ia" onClick={() => { closeMobileMenu(); }} />
         </div>
       </div>
 
@@ -454,45 +697,18 @@ const Navbar = () => {
           <div className="bg-white rounded-lg overflow-hidden w-full max-w-[700px] h-[500px] flex shadow-lg relative">
             {/* Lado da Imagem */}
             <div className="hidden md:flex md:w-1/2 relative bg-gray-200">
-              <Image
-                src="/8de2ab7c6c83961fde16e26aa1286d28.jpg"
-                alt="Login Image"
-                fill
-                className="object-cover"
-              />
-              {/* Overlay com gradiente/fumê na parte inferior */}
-              <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/90 to-transparent p-4 flex flex-col justify-end items-start text-white">
-                <h2 className="text-3xl font-bold mb-1">
-                  Bem-vindo de Volta!
-                </h2>
-                <p className="text-sm">
-                  Acesse conteúdos exclusivos e fique por dentro das últimas
-                  tendências em tecnologia.
-                </p>
+              <Image src="/api/images/login-bg" alt="Login Image" fill className="object-cover" />
+              <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/90 to-transparent p-4 flex flex-col justify-end text-white">
+                <h2 className="text-3xl font-bold mb-1">Bem-vindo de Volta!</h2>
+                <p className="text-sm">Acesse conteúdos exclusivos e fique por dentro das últimas tendências em tecnologia.</p>
               </div>
             </div>
 
             {/* Lado do Formulário */}
             <div className="w-full md:w-1/2 p-6 flex flex-col justify-center space-y-3">
-              {/* Logo no topo */}
-              <div className="flex justify-center md:justify-start mb-2">
-                <Image
-                  src="/images/logo_login.png"
-                  alt="Logo da Plataforma"
-                  width={200}
-                  height={56}
-                  className="h-14 w-auto object-contain"
-                />
-              </div>
-
-              <h2 className="font-bold text-2xl text-gray-800 uppercase mb-1">
-                Entre com sua conta
-              </h2>
-
-              {/* Parágrafo acima do formulário */}
+              <h2 className="font-bold text-2xl text-gray-800 uppercase mb-1">Entre com sua conta</h2>
               <p className="text-gray-600 text-sm mb-2">
-                Entre com sua conta de assinante para teres acesso aos seus
-                artigos premium, tutoriais e novidades em tecnologia.
+                Entre com sua conta de assinante para teres acesso aos seus artigos premium, tutoriais e novidades em tecnologia.
               </p>
 
               <div className="flex flex-col mb-2">
@@ -500,10 +716,7 @@ const Navbar = () => {
                 <input
                   type="email"
                   value={loginEmail}
-                  onChange={(e) => {
-                    setLoginEmail(e.target.value);
-                    setLoginError("");
-                  }}
+                  onChange={(e) => { setLoginEmail(e.target.value); setLoginError(""); }}
                   className="w-full border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100"
                   placeholder="Digite seu email"
                   maxLength={254}
@@ -515,19 +728,14 @@ const Navbar = () => {
                 <input
                   type="password"
                   value={loginSenha}
-                  onChange={(e) => {
-                    setLoginSenha(e.target.value);
-                    setLoginError("");
-                  }}
+                  onChange={(e) => { setLoginSenha(e.target.value); setLoginError(""); }}
                   className="w-full border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-100"
                   placeholder="Digite sua senha"
                   maxLength={100}
                 />
               </div>
 
-              {loginError && (
-                <p className="text-xs text-red-600 mb-2 font-medium">{loginError}</p>
-              )}
+              {loginError && <p className="text-xs text-red-600 mb-2 font-medium">{loginError}</p>}
 
               <button
                 onClick={handleLogin}
@@ -537,24 +745,24 @@ const Navbar = () => {
                 {loginLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Entrar"}
               </button>
 
+              <div className="flex items-center my-3">
+                <div className="flex-1 border-t border-gray-200"></div>
+                <span className="px-3 text-xs text-gray-400 font-bold uppercase">ou</span>
+                <div className="flex-1 border-t border-gray-200"></div>
+              </div>
+
               <button
-                onClick={() => setLoginModal(false)}
-                className="w-full text-gray-500 hover:text-gray-900 text-sm font-medium"
+                type="button"
+                onClick={() => signIn("google", { callbackUrl: "/" })}
+                className="w-full bg-white border border-gray-300 text-gray-800 py-2.5 rounded-lg hover:bg-gray-50 transition font-bold mb-4 flex items-center justify-center gap-2 shadow-sm"
               >
-                Sair
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" className="w-5 h-5" />
+                Entrar com Google
               </button>
 
-              {/* Call-to-action para criar conta */}
-              <p className="text-gray-600 text-xs mb-0 text-center md:text-left">
-                Não tens uma conta?{" "}
-                <Link
-                  href="/assinatura"
-                  className="text-purple-600 hover:text-purple-800 font-bold"
-                >
-                  Clique aqui
-                </Link>{" "}
-                para assinar.
-              </p>
+              <button onClick={() => setLoginModal(false)} className="w-full text-gray-500 hover:text-gray-900 text-sm font-medium">
+                Sair
+              </button>
             </div>
           </div>
         </div>
@@ -564,12 +772,11 @@ const Navbar = () => {
       {deleteModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60]">
           <div className="bg-white rounded-lg p-6 w-[320px] space-y-4 shadow-2xl">
-            <h2 className="font-bold text-lg">Confirmar exclusão da conta</h2>
+            <h2 className="font-bold text-lg">Eliminar conta</h2>
             {!emailInput ? (
               <>
                 <p className="text-sm text-gray-600">
-                  Tem certeza que deseja eliminar sua conta? Digite{" "}
-                  <strong>SIM</strong> para continuar.
+                  Esta ação é <strong>irreversível</strong>. Digite <strong>SIM</strong> para continuar.
                 </p>
                 <input
                   type="text"
@@ -582,9 +789,7 @@ const Navbar = () => {
                   onClick={() =>
                     confirmText.toUpperCase() === "SIM"
                       ? setEmailInput(user?.email || "")
-                      : setDeleteMessage(
-                          "Você deve digitar 'SIM' para continuar.",
-                        )
+                      : setDeleteMessage("Você deve digitar 'SIM' para continuar.")
                   }
                   className="w-full bg-red-600 text-white py-2 rounded font-bold"
                 >
@@ -600,24 +805,32 @@ const Navbar = () => {
                   onChange={(e) => setEmailInput(e.target.value)}
                   className="w-full border p-2 rounded"
                   placeholder="Email"
+                  disabled={deleteLoading}
                 />
                 <button
                   onClick={confirmDelete}
-                  className="w-full bg-red-600 text-white py-2 rounded font-bold"
+                  disabled={deleteLoading}
+                  className="w-full bg-red-600 text-white py-2 rounded font-bold flex items-center justify-center gap-2 disabled:opacity-60"
                 >
-                  Confirmar Exclusão
+                  {deleteLoading
+                    ? <><Loader2 className="w-4 h-4 animate-spin" /> A eliminar...</>
+                    : "Confirmar Exclusão"}
                 </button>
               </>
             )}
             {deleteMessage && (
-              <p className="text-xs text-red-600 font-bold">{deleteMessage}</p>
+              <p className={`text-xs font-bold ${deleteMessage.startsWith("Conta eliminada") ? "text-green-600" : "text-red-600"}`}>
+                {deleteMessage}
+              </p>
             )}
-            <button
-              onClick={() => setDeleteModal(false)}
-              className="w-full text-gray-500 hover:text-gray-900 font-medium text-sm"
-            >
-              Cancelar
-            </button>
+            {!deleteLoading && (
+              <button
+                onClick={() => { setDeleteModal(false); setDeleteMessage(""); setConfirmText(""); setEmailInput(""); }}
+                className="w-full text-gray-500 hover:text-gray-900 font-medium text-sm"
+              >
+                Cancelar
+              </button>
+            )}
           </div>
         </div>
       )}
@@ -629,10 +842,7 @@ export default Navbar;
 
 /* Componentes auxiliares */
 const NavLink = ({
-  label,
-  href,
-  loading,
-  onClick,
+  label, href, loading, onClick,
 }: {
   label: string;
   href: string;
@@ -644,14 +854,12 @@ const NavLink = ({
     onClick={onClick}
     className="flex items-center gap-2 text-[13px] font-medium text-gray-600 hover:text-gray-900 transition focus:outline-none focus:ring-0 focus-visible:outline-none"
   >
-    {label} {loading && <Loader2 className="w-3 h-3 animate-spin"/>}
+    {label} {loading && <Loader2 className="w-3 h-3 animate-spin" />}
   </Link>
 );
 
 const MobileLink = ({
-  label,
-  href,
-  onClick,
+  label, href, onClick,
 }: {
   label: string;
   href: string;

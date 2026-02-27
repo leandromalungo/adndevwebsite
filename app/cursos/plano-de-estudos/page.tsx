@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MoveLeft, Search, ArrowRight, Loader2 } from "lucide-react";
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -25,15 +26,11 @@ export default function StudyPlanSelectionPage() {
     plan.role.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
+  const { triggerGoogleSignup, loading: googleLoading } = useGoogleSignup();
   const router = useRouter();
 
   const handleClick = () => {
-    setLoading(true);
-
-    // Navega para a página de assinatura após 0.5s
-    setTimeout(() => {
-      router.push("/assinatura");
-    }, 500);
+    triggerGoogleSignup();
   };
 
   return (
@@ -46,7 +43,7 @@ export default function StudyPlanSelectionPage() {
           {/* Imagem */}
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url('/fundo_1.jpg')` }}
+            style={{ backgroundImage: `url('/api/images/cursos')` }}
           />
 
           {/* Overlay melhorado */}
@@ -80,21 +77,20 @@ export default function StudyPlanSelectionPage() {
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
               <button
                 onClick={handleClick}
-                disabled={loading}
-                className={`w-full sm:w-auto inline-flex justify-center items-center gap-2 px-5 sm:px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
-                  loading
+                disabled={googleLoading}
+                className={`w-full sm:w-auto inline-flex justify-center items-center gap-2 px-5 sm:px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${googleLoading
                     ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                     : "bg-blue-500 hover:bg-blue-600 text-white"
-                }`}
+                  }`}
               >
-                {loading ? (
+                {googleLoading ? (
                   <>
                     <Loader2 size={18} className="animate-spin" />
                     Processando...
                   </>
                 ) : (
                   <>
-                    Subscreva-se ao nosso portal
+                    Inscrever-se no portal
                     <ArrowRight size={20} />
                   </>
                 )}

@@ -11,13 +11,116 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { sanitizeText, sanitizeEmail, isSafeString } from "@/lib/security";
-import { db } from "@/lib/firebase";
-import { onSnapshot, doc } from "firebase/firestore";
-import { signIn, getSession } from "next-auth/react";
-import { Landmark, CreditCard, Loader2, Eye, EyeOff } from "lucide-react";
+import { signIn, getSession, useSession } from "next-auth/react";
+import { Landmark, CreditCard, Loader2, Eye, EyeOff, CheckCircle } from "lucide-react";
 
-type PaymentMethod = "paypal" | "transfer";
+type PaymentMethod = "stripe" | "multicaixa";
+
+const IT_AREAS: Record<string, string[]> = {
+  "Desenvolvimento de Software": [
+    "Desenvolvedor Front-end",
+    "Desenvolvedor Back-end",
+    "Desenvolvedor Full Stack",
+    "Desenvolvedor Mobile",
+    "Desenvolvedor Desktop",
+    "Desenvolvedor de Jogos",
+    "Engenheiro de Software",
+    "Software Architect",
+    "QA Engineer",
+    "Test Automation Engineer",
+  ],
+  "Cibersegurança": [
+    "Analista de Segurança",
+    "Pentester (Ethical Hacker)",
+    "Security Engineer",
+    "SOC Analyst",
+    "Especialista em Resposta a Incidentes",
+    "Analista Forense Digital",
+    "GRC (Governança, Risco e Compliance)",
+    "Security Architect",
+    "Red Team",
+    "Blue Team",
+  ],
+  "Redes e Infraestrutura": [
+    "Administrador de Redes",
+    "Network Engineer",
+    "Técnico de Redes",
+    "Especialista em Firewall",
+    "Engenheiro de Infraestrutura",
+    "NOC Analyst",
+    "Administrador de Sistemas",
+    "DevOps Engineer",
+  ],
+  "Cloud Computing": [
+    "Cloud Engineer",
+    "Cloud Architect",
+    "Cloud Administrator",
+    "DevOps Cloud",
+    "Site Reliability Engineer (SRE)",
+    "Especialista AWS",
+    "Especialista Azure",
+    "Especialista Google Cloud",
+  ],
+  "Ciência de Dados e Inteligência Artificial": [
+    "Data Analyst",
+    "Data Scientist",
+    "Machine Learning Engineer",
+    "AI Engineer",
+    "Data Engineer",
+    "BI Analyst",
+    "Especialista em Big Data",
+  ],
+  "Suporte Técnico e Help Desk": [
+    "Técnico de Suporte",
+    "Help Desk Nível 1",
+    "Help Desk Nível 2",
+    "Help Desk Nível 3",
+    "Field Support",
+    "Técnico de Hardware",
+  ],
+  "Gestão e Governança de TI": [
+    "IT Manager",
+    "CIO",
+    "CTO",
+    "Product Manager",
+    "Project Manager",
+    "Scrum Master",
+    "IT Auditor",
+    "Analista de Processos",
+  ],
+  "UX/UI e Design Digital": [
+    "UX Designer",
+    "UI Designer",
+    "Product Designer",
+    "UX Researcher",
+    "Interaction Designer",
+  ],
+  "Banco de Dados": [
+    "DBA",
+    "Database Engineer",
+    "Database Administrator",
+    "Especialista SQL",
+    "Especialista NoSQL",
+  ],
+  "Automação e RPA": [
+    "RPA Developer",
+    "Automation Engineer",
+    "QA Automation",
+    "Especialista em Processos Automatizados",
+  ],
+  "Blockchain e Web3": [
+    "Blockchain Developer",
+    "Smart Contract Developer",
+    "Web3 Developer",
+    "Especialista em Criptografia",
+  ],
+  "IoT (Internet das Coisas)": [
+    "IoT Engineer",
+    "Embedded Systems Developer",
+    "Firmware Developer",
+    "Especialista em Sistemas Embarcados",
+  ],
+};
 
 interface ReferenceData {
   entityNumber: string;
@@ -35,11 +138,17 @@ interface ReferenceData {
  */
 const SubscriptionForm = () => {
   const router = useRouter();
+  // Lê dados do utilizador autenticado com Google — o backend valida tudo
+  const { data: session } = useSession();
+  const googleUser = session?.user;
+  const isGoogleUser = !!(googleUser?.email);
 
   const [name, setName] = useState("");
   const [telegram, setTelegram] = useState("");
   const [email, setEmail] = useState("");
   const [country, setCountry] = useState("Angola");
+  const [itArea, setItArea] = useState("");
+  const [itRole, setItRole] = useState("");
   const [telegramError, setTelegramError] = useState("");
   const [formError, setFormError] = useState("");
 
@@ -49,7 +158,7 @@ const SubscriptionForm = () => {
 
   const [alerts, setAlerts] = useState<string[]>([]);
   // Maps UI selection to internal payment provider logic
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("paypal");
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("stripe");
 
   const [loading, setLoading] = useState(false);
   const [showRefModal, setShowRefModal] = useState(false);
@@ -57,35 +166,23 @@ const SubscriptionForm = () => {
   const [subId, setSubId] = useState<string | null>(null);
   const [status, setStatus] = useState<string>("pending");
 
-  // Tempo de escuta de atualização de estados
+  // Pré-preenche nome e email com os dados do Google (sessão NextAuth)
+  // O backend é responsável por validar todos os dados — o frontend apenas coleta
   useEffect(() => {
-    if (!subId || !db) return;
-
-    const unsub = onSnapshot(doc(db, "subscriptions", subId), (docSnap) => {
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        if (data.status === "active") {
-          setStatus("active");
-          // Auto-close modal on success
-          if (showRefModal) {
-            setTimeout(() => {
-              setShowRefModal(false);
-              router.push("/perfil?success=true");
-            }, 2000);
-          }
-        }
-      }
-    });
-
-    return () => unsub();
-  }, [subId, db, showRefModal, router]);
+    if (googleUser) {
+      if (googleUser.name && !name) setName(googleUser.name);
+      if (googleUser.email && !email) setEmail(googleUser.email);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [googleUser]);
 
   // Geo-location based payment method pre-selection
+  // Angola uses Multicaixa (local bank reference), all other countries use Stripe
   useEffect(() => {
     if (country === "Angola") {
-      setPaymentMethod("transfer");
+      setPaymentMethod("multicaixa");
     } else {
-      setPaymentMethod("paypal");
+      setPaymentMethod("stripe");
     }
   }, [country]);
 
@@ -113,8 +210,20 @@ const SubscriptionForm = () => {
       return false;
     }
 
+    if (!itArea) {
+      showError("Selecione a sua área de atuação em T.I.");
+      return false;
+    }
+
+    if (!itRole) {
+      showError("Selecione a sua função dentro da área escolhida.");
+      return false;
+    }
+
     // Security validation - Detects XSS/Injection attempts
-    if ((name && !isSafeString(name)) || (telegram && !isSafeString(telegram))) {
+    const isSafe = (str: string) => !str.match(/[<>]/);
+
+    if ((name && !isSafe(name)) || (telegram && !isSafe(telegram))) {
       showError("Conteúdo inválido detectado nos campos.");
       return false;
     }
@@ -133,8 +242,12 @@ const SubscriptionForm = () => {
       return false;
     }
 
-    if (password.length < 8) {
-      showError("A senha deve ter no mínimo 8 caracteres.");
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+
+    if (password.length < 8 || !hasUpperCase || !hasLowerCase || !hasNumber) {
+      showError("A senha deve ter no mínimo 8 caracteres, com letras maiúsculas, minúsculas e números.");
       return false;
     }
 
@@ -160,26 +273,37 @@ const SubscriptionForm = () => {
 
     try {
       // Sanitize inputs (frontend básico - backend valida tudo)
-      const sName = sanitizeText(name);
-      const sTelegram = sanitizeText(telegram);
-      const sEmail = sanitizeEmail(email);
+      const sName = name.replace(/[<>]/g, '').trim();
+      const sTelegram = telegram.replace(/[<>]/g, '').trim();
+      const sEmail = email.replace(/[<>]/g, '').trim().toLowerCase();
 
       if (!sEmail) {
         throw new Error("Email inválido.");
       }
 
-      // STEP 1: Try to create user via Cloud Functions
-      try {
-        const { signupUser } = await import("@/lib/cloud-functions-client");
-        await signupUser(sEmail, password, sName);
-      } catch (signupError: any) {
-        // User might already exist - this is okay, we'll try to login
-        if (!signupError.message?.includes("already exists") && !signupError.message?.includes("já cadastrado")) {
-          throw signupError;
-        }
-      }
+      // STEP 1: Preparar payload para o backend (sem validação de priceId no frontend)
+      // O backend valida tudo: priceId, país, plano, moeda e inicializa o pagamento.
+      // O frontend apenas coleta os dados e aguarda a resposta.
+      const payload = {
+        name: sName,
+        telegram: sTelegram,
+        email: sEmail,
+        password: password,
+        country,
+        itArea,
+        itRole,
+        alerts,
+        plan: "premium",
+        paymentMethod,
+        priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID || "",
+        billingCycle: "monthly"
+      };
 
-      // STEP 2: Login via NextAuth to create session
+      // STEP 2: Chamada Atômica (Criação de user + Criação de pagamento backend)
+      const { submitSubscription } = await import("@/lib/cloud-functions-client");
+      const initResponse = await submitSubscription(payload);
+
+      // STEP 3: Login via NextAuth to create local session (Since user was just created by backend)
       const loginResult = await signIn("credentials", {
         email: sEmail,
         password: password,
@@ -187,76 +311,65 @@ const SubscriptionForm = () => {
       });
 
       if (loginResult?.error) {
-        throw new Error("Erro ao fazer login. Verifique suas credenciais.");
+        // O pagamento já foi inicializado e o user já foi criado no Firebase, o login next-auth
+        // é apenas para estabelecer a sessão via Cookie.
+        throw new Error("Sua conta e pagamento foram criados, mas ocorreu um erro no login local. Recarregue a página e tente fazer login.");
       }
 
-      // STEP 3: Get current session
-      const session = await getSession();
-      if (!session?.user) {
-        throw new Error("Sessão não criada. Tente novamente.");
-      }
-
-      // Prepare payload for payment
-      const payload = {
-        name: sName,
-        telegram: sTelegram,
-        email: sEmail,
-        country,
-        alerts,
-        plan: "premium"
-      };
-
-      // STEP 4: Process payment
-      if (paymentMethod === "paypal") {
-        // Stripe Logic - Call Cloud Function
-        try {
-          const { createCheckoutSession } = await import("@/lib/cloud-functions-client");
-          const response = await createCheckoutSession("price_monthly", "monthly");
-          
-          if (response?.url) {
-            setSubId(response.sessionId);
-            window.location.href = response.url;
-          } else {
-            throw new Error("Não foi possível iniciar o checkout.");
-          }
-        } catch (error: any) {
-          if (error.message?.includes("429")) {
-            throw new Error("Muitas tentativas. Aguarde.");
-          }
-          throw error;
+      // STEP 4: Processar a resposta do pagamento
+      // STEP 4: O frontend apenas reage à resposta do backend — sem autenticação ou lógica de pagamento aqui
+      if (initResponse.method === "stripe") {
+        if (initResponse.url) {
+          setSubId(initResponse.sessionId || "");
+          window.location.href = initResponse.url;
+          return;
+        } else {
+          throw new Error("A sessão de pagamento não retornou um URL válido.");
+        }
+      } else if (initResponse.method === "multicaixa") {
+        if (initResponse.refData) {
+          setSubId(initResponse.subscriptionId || "");
+          setRefData(initResponse.refData);
+          setShowRefModal(true);
+          return;
+        } else {
+          throw new Error("Nenhum dado de referência Multicaixa retornado.");
         }
       } else {
-        // Reference payment method
-        const res = await fetch("/api/create-ref", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-
-        if (res.status === 404) throw new Error("Integração Multicaixa indisponível no momento.");
-        if (res.status === 429) throw new Error(data.message || "Muitas tentativas. Aguarde.");
-
-        if (data.referenceNumber) {
-          setSubId(data.subscriptionId);
-          setRefData(data);
-          setShowRefModal(true);
-        } else {
-          throw new Error(data.message || "Não foi possível gerar a referência.");
-        }
+        throw new Error("Método de pagamento não reconhecido retornado pelo servidor.");
       }
 
     } catch (err: any) {
-      // Generic error handling - backend handles details
-      let userFriendlyMessage = "Ocorreu um erro inesperado. Por favor, tente novamente.";
+      // Erros com mensagens amigáveis do backend (4xx) — mostrar directamente ao utilizador
+      // Nunca expor detalhes internos, stack traces ou dados sensíveis
+      const backendMessage = err?.message || "";
 
-      if (err.message.includes("Email inválido")) {
-        userFriendlyMessage = "Email inválido.";
-      } else if (err.message.includes("senha")) {
-        userFriendlyMessage = err.message;
-      } else if (err.message.includes("Conta existente")) {
-        userFriendlyMessage = err.message;
-      }
+      // Mensagens seguras que vêm do backend (validação, incorrecção ou rede)
+      const isSafeBackendError =
+        backendMessage.includes("inha") ||
+        backendMessage.includes("Email") ||
+        backendMessage.includes("email") ||
+        backendMessage.includes("cadastrado") ||
+        backendMessage.includes("tentativas") ||
+        backendMessage.includes("Aguarde") ||
+        backendMessage.includes("Muitas") ||
+        backendMessage.includes("obrigatório") ||
+        backendMessage.includes("inválido") ||
+        backendMessage.includes("Inválido") ||
+        backendMessage.includes("Plano") ||
+        backendMessage.includes("sessão") ||
+        backendMessage.includes("Sessão") ||
+        backendMessage.includes("checkout") ||
+        backendMessage.includes("Multicaixa") ||
+        backendMessage.includes("referência") ||
+        backendMessage.includes("temporariamente") ||
+        backendMessage.includes("servidor") ||
+        backendMessage.includes("esperado") ||
+        backendMessage.includes("Timeout");
+
+      const userFriendlyMessage = isSafeBackendError
+        ? backendMessage
+        : "Ocorreu um erro inesperado. Por favor, tente novamente.";
 
       showError(userFriendlyMessage);
     } finally {
@@ -268,19 +381,45 @@ const SubscriptionForm = () => {
     <>
       <form onSubmit={handleSubmit} className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow" >
 
-         {/* Inputs */}
+        {/* Google Auth na Assinatura */}
+        <div className="mb-6 pb-6 border-b border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div>
+            <h4 className="text-sm font-bold text-gray-800">Já tem uma conta? </h4>
+            <p className="text-xs text-gray-500">Faça login com sua conta Google.</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => signIn("google", { callbackUrl: "/" })}
+            className="w-full md:w-auto px-5 py-2 md:py-2.5 bg-white border border-gray-300 text-gray-800 rounded-lg hover:bg-gray-50 transition font-bold flex items-center justify-center gap-2 shadow-sm whitespace-nowrap"
+          >
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" className="w-5 h-5" />
+            Continuar com Google
+          </button>
+        </div>
+
+        {/* Inputs */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Nome */}
           <label className="flex flex-col">
-            <span className="text-sm font-medium mb-1">Nome completo</span>
+            <span className="text-sm font-medium mb-1 flex items-center gap-1">
+              Nome completo
+              {isGoogleUser && <CheckCircle className="w-3 h-3 text-green-500" />}
+            </span>
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
               maxLength={100}
-              className="px-3 py-2 border rounded"
+              readOnly={isGoogleUser}
+              className={`px-3 py-2 rounded border border-transparent focus:outline-none transition-all ${isGoogleUser
+                  ? "bg-green-50 border-green-100 text-gray-700 cursor-not-allowed"
+                  : "bg-gray-50 focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200"
+                }`}
               placeholder="Digite seu nome completo"
             />
+            {isGoogleUser && (
+              <span className="text-[10px] text-green-600 mt-0.5 ml-1">Preenchido pela sua conta Google</span>
+            )}
           </label>
 
           {/* Telegram */}
@@ -293,7 +432,7 @@ const SubscriptionForm = () => {
                 setTelegramError("");
               }}
               maxLength={50}
-              className={`px-3 py-2 border rounded transition-colors ${telegramError ? "border-red-500 bg-red-50" : ""}`}
+              className={`px-3 py-2 rounded bg-gray-50 border border-transparent focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200 focus:outline-none transition-all ${telegramError ? "border-red-500 bg-red-50 focus:border-red-500 focus:ring-red-100" : ""}`}
               placeholder="seu @usuario"
             />
             {telegramError && (
@@ -309,7 +448,7 @@ const SubscriptionForm = () => {
             <select
               value={country}
               onChange={(e) => setCountry(e.target.value)}
-              className="px-3 py-2 border rounded"
+              className="px-3 py-2 rounded bg-gray-50 border border-transparent focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200 focus:outline-none transition-all"
             >
               <option>Angola</option>
               <option>Portugal</option>
@@ -321,18 +460,59 @@ const SubscriptionForm = () => {
             </select>
           </label>
 
+          {/* Área de TI */}
+          <label className="flex flex-col">
+            <span className="text-sm font-medium mb-1">Área de atuação em T.I</span>
+            <select
+              value={itArea}
+              onChange={(e) => { setItArea(e.target.value); setItRole(""); }}
+              className="px-3 py-2 rounded bg-gray-50 border border-transparent focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200 focus:outline-none transition-all"
+            >
+              <option value="">Selecione uma área</option>
+              {Object.keys(IT_AREAS).map((area) => (
+                <option key={area} value={area}>{area}</option>
+              ))}
+            </select>
+          </label>
+
+          {/* Função dentro da área */}
+          <label className="flex flex-col">
+            <span className="text-sm font-medium mb-1">Função</span>
+            <select
+              value={itRole}
+              onChange={(e) => setItRole(e.target.value)}
+              disabled={!itArea}
+              className="px-3 py-2 rounded bg-gray-50 border border-transparent focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200 focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <option value="">{itArea ? "Selecione uma função" : "Escolha a área primeiro"}</option>
+              {itArea && IT_AREAS[itArea].map((role) => (
+                <option key={role} value={role}>{role}</option>
+              ))}
+            </select>
+          </label>
+
           {/* Email */}
           <label className="flex flex-col">
-            <span className="text-sm font-medium mb-1">E-mail</span>
+            <span className="text-sm font-medium mb-1 flex items-center gap-1">
+              E-mail
+              {isGoogleUser && <CheckCircle className="w-3 h-3 text-green-500" />}
+            </span>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               maxLength={254}
-              className="px-3 py-2 border rounded"
+              readOnly={isGoogleUser}
+              className={`px-3 py-2 rounded border border-transparent focus:outline-none transition-all ${isGoogleUser
+                  ? "bg-green-50 border-green-100 text-gray-700 cursor-not-allowed"
+                  : "bg-gray-50 focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200"
+                }`}
               placeholder="seu@email.com"
             />
+            {isGoogleUser && (
+              <span className="text-[10px] text-green-600 mt-0.5 ml-1">Preenchido pela sua conta Google</span>
+            )}
           </label>
 
           {/* Senha */}
@@ -345,7 +525,7 @@ const SubscriptionForm = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={8}
-                className="px-3 py-2 border rounded w-full pr-10"
+                className="px-3 py-2 rounded bg-gray-50 border border-transparent focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200 focus:outline-none transition-all w-full pr-10"
                 placeholder="Digite sua senha"
               />
               <button
@@ -368,7 +548,7 @@ const SubscriptionForm = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 minLength={8}
-                className="px-3 py-2 border rounded w-full pr-10"
+                className="px-3 py-2 rounded bg-gray-50 border border-transparent focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200 focus:outline-none transition-all w-full pr-10"
                 placeholder="Digite a senha novamente"
               />
               <button
@@ -395,6 +575,7 @@ const SubscriptionForm = () => {
               { id: "roadmaps", label: "Cursos" },
               { id: "bolsas", label: "Bolsas de estudo" },
               { id: "startups", label: "Startups" },
+              { id: "ia", label: "Inteligência Artificial" },
             ].map((item) => (
               <label key={item.id} className="inline-flex items-center gap-2">
                 <input
@@ -416,18 +597,18 @@ const SubscriptionForm = () => {
           </h4>
 
           <div className="space-y-3">
-            {/* Referencia - Disponível apenas para Angola */}
+            {/* Referencia Multicaixa - Disponível apenas para Angola */}
             {country === "Angola" && (
-              <label className={`flex items-start gap-4 p-4 border rounded-lg cursor-pointer transition-all ${paymentMethod === "transfer" ? "border-indigo-600 bg-indigo-50" : "border-gray-100 hover:bg-gray-50"}`}>
+              <label className={`flex items-start gap-4 p-4 border rounded-lg cursor-pointer transition-all ${paymentMethod === "multicaixa" ? "border-indigo-600 bg-indigo-50" : "border-gray-100 hover:bg-gray-50"}`}>
                 <input
                   type="radio"
                   name="payment"
                   className="mt-3 flex-shrink-0"
-                  checked={paymentMethod === "transfer"}
-                  onChange={() => setPaymentMethod("transfer")}
+                  checked={paymentMethod === "multicaixa"}
+                  onChange={() => setPaymentMethod("multicaixa")}
                 />
                 <img
-                  src="/images.png"
+                  src="/api/images/multicaixa"
                   alt="Multicaixa"
                   className="h-10 w-10 rounded-lg object-contain bg-white p-1 border border-gray-100"
                 />
@@ -441,16 +622,16 @@ const SubscriptionForm = () => {
             )}
 
             {/* Stripe / Cartão */}
-            <label className={`flex items-start gap-4 p-4 border rounded-lg cursor-pointer transition-all ${paymentMethod === "paypal" ? "border-indigo-600 bg-indigo-50" : "border-gray-100 hover:bg-gray-50"}`}>
+            <label className={`flex items-start gap-4 p-4 border rounded-lg cursor-pointer transition-all ${paymentMethod === "stripe" ? "border-indigo-600 bg-indigo-50" : "border-gray-100 hover:bg-gray-50"}`}>
               <input
                 type="radio"
                 name="payment"
                 className="mt-3 flex-shrink-0"
-                checked={paymentMethod === "paypal"}
-                onChange={() => setPaymentMethod("paypal")}
+                checked={paymentMethod === "stripe"}
+                onChange={() => setPaymentMethod("stripe")}
               />
               <img
-                src="/stripe-logo-sq.jpg"
+                src="/api/images/stripe.webp"
                 alt="Cartão/Stripe"
                 className="h-10 w-10 rounded-lg object-contain bg-white p-1 border border-gray-100"
               />
@@ -475,10 +656,9 @@ const SubscriptionForm = () => {
 
         {/* Botões */}
         <div className="mt-6 flex gap-3">
-          <button  type="submit" disabled={loading}
-                    className={`px-4 py-2 rounded bg-indigo-600 text-white font-semibold 
-                              hover:bg-indigo-700 transition flex items-center gap-2 ${
-                                    loading ? "opacity-60 cursor-not-allowed" : "" }`}  >
+          <button type="submit" disabled={loading}
+            className={`px-4 py-2 rounded bg-indigo-600 text-white font-semibold 
+                              hover:bg-indigo-700 transition flex items-center gap-2 ${loading ? "opacity-60 cursor-not-allowed" : ""}`}  >
             {loading && <Loader2 className="w-4 h-4 animate-spin" />}
             {loading ? "Processando..." : "Confirmar Assinatura"}
           </button>
@@ -496,7 +676,7 @@ const SubscriptionForm = () => {
       {/* MODAL DE REFERÊNCIA (Indispensável para a lógica de 'transfer') */}
       {showRefModal && refData && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300">
+          <div className="bg-white rounded w-full max-w-sm overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300">
             <div className="bg-indigo-600 p-8 text-center text-white relative">
               <div className="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Landmark className="w-8 h-8" />
@@ -542,11 +722,11 @@ const SubscriptionForm = () => {
                     </ul>
                   </div>
 
-                  <button 
-                    onClick={() => router.push("/perfil")} 
+                  <button
+                    onClick={() => router.push("/")}
                     className="w-full py-4 bg-gray-900 text-white font-black rounded-2xl hover:bg-black transition shadow-lg active:scale-95"
                   >
-                    Entendi, Ver meu Perfil
+                    Entendi, Ir para o Início
                   </button>
                 </>
               )}

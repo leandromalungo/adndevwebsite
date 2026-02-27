@@ -13,9 +13,13 @@ export default async function CatchAllPage(props: { params: Promise<{ slug: stri
     // 1. Validar no Firestore se este "slug" existe como uma rota dinâmica autorizada
     const routeRef = adminDb.collection("dynamic_routes").doc(fullPath.replace(/\//g, "_"));
     routeDoc = await routeRef.get();
-  } catch (error) {
-    console.error("[INTERNAL] Catch-all Validation Error:", error);
-    // Em caso de erro técnico, não vaza detalhes, apenas dá 404 ou erro genérico
+  } catch (error: any) {
+    if (error.message?.includes("Could not load the default credentials")) {
+        console.warn("[INTERNAL] Firestore sem credenciais em modo local. Ignorando detecção de rota dinâmica.");
+    } else {
+        console.error("[INTERNAL] Catch-all Validation Error:", error);
+    }
+    // Em caso de erro técnico ou falta de credenciais, não vaza detalhes, apenas dá 404
     return notFound();
   }
 

@@ -54,9 +54,9 @@ export async function callCloudFunction<T = any>(
     options.body = JSON.stringify(body);
   }
 
-  // Define um tempo limite (Timeout) de 15 segundos
+  // Define um tempo limite (Timeout) de 30 segundos (acomoda Cold Starts pesados)
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 15000);
+  const timeoutId = setTimeout(() => controller.abort(), 30000);
   options.signal = controller.signal;
 
   try {
@@ -73,12 +73,23 @@ export async function callCloudFunction<T = any>(
     clearTimeout(timeoutId);
 
     if (error.name === "AbortError") {
-      console.error(`[CloudFunctions] Timeout ao chamar ${functionName} (RequestId: ${requestId})`);
-      throw new Error("O pedido expirou após 15 segundos");
+      // Timeout — não expõe URL ou dados internos
+      throw new Error("O servidor está a demorar mais que o esperado a responder (Timeout). Verifique a sua ligação ou tente novamente.");
     }
 
-    console.error(`[CloudFunctions] Erro ao chamar ${functionName} (RequestId: ${requestId}):`, error);
-    throw error;
+    // Erros de validação (4xx) — relança directamente para o UI sem logar
+    // Erros de rede inesperados — loga apenas o identificador, não a mensagem
+    if (error.message === "Failed to fetch") {
+      throw new Error("Não foi possível conectar ao servidor (CORS ou Backend offline). Verifique se as Cloud Functions estão a correr no Emulador ou se já foram deployadas na Produção.");
+    }
+
+    if (!error.message?.startsWith("Erro HTTP 5")) {
+      throw error;
+    }
+
+    // Só loga erros de servidor (500+) com o mínimo de informação
+    console.error(`[CF] Erro interno em ${functionName} [${requestId}]`);
+    throw new Error("Erro interno do servidor. Por favor, tente novamente.");
   }
 }
 
@@ -132,6 +143,18 @@ export async function signinAdmin(
 }
 
 /**
+ * Remove a conta de utilizador se o pagamento inicial falhar (Rollback)
+ */
+export async function deleteAccountOnPaymentFailure(): Promise<{ success: boolean; message: string }> {
+  return callCloudFunction<{ success: boolean; message: string }>(
+    "deleteAccountOnPaymentFailure",
+    "POST",
+    undefined,
+    true, // Usa o JWT do NextAuth para autorização no Backend
+  );
+}
+
+/**
  * Regista um novo utilizador
  */
 export async function signupUser(
@@ -175,6 +198,25 @@ export async function getSession() {
 }
 
 /**
+ * Verifica o estado da subscrição do utilizador autenticado
+ * Usado para polling em substituição do onSnapshot do Firestore
+ * (o onSnapshot requer Firebase Client Auth; o NextAuth usa JWT)
+ */
+export async function getSubscriptionStatus(): Promise<{
+  success: boolean;
+  isActive: boolean;
+  subscription: {
+    status: string;
+    priceId?: string;
+    currency?: string;
+    amount?: number;
+    billingCycle?: string;
+  } | null;
+}> {
+  return callCloudFunction("getSubscriptionStatus", "GET", undefined, true);
+}
+
+/**
  * Encerra a sessão do utilizador
  */
 export async function signout(): Promise<{
@@ -182,6 +224,46 @@ export async function signout(): Promise<{
   message: string;
 }> {
   return callCloudFunction("signout", "POST", {}, true);
+}
+
+/**
+ * Obtém o perfil completo do utilizador autenticado do Firestore
+ * Chamado pelo frontend quando o modal de perfil é aberto
+ */
+export async function getProfile(): Promise<{
+  success: boolean;
+  profile: {
+    name: string;
+    email: string;
+    country: string;
+    telegram: string;
+    itArea: string;
+    itRole: string;
+    alerts: string[];
+    subscription: any | null;
+    isActive: boolean;
+    photoURL: string | null;
+  };
+}> {
+  return callCloudFunction("getProfile", "GET", undefined, true);
+}
+
+/**
+ * Atualiza o perfil do utilizador autenticado
+ * O backend valida todos os campos e persiste no Firestore
+ */
+export async function updateProfile(payload: {
+  name?: string;
+  telegram?: string;
+  country?: string;
+  itArea?: string;
+  itRole?: string;
+  alerts?: string[];
+}): Promise<{
+  success: boolean;
+  message?: string;
+}> {
+  return callCloudFunction("updateProfile", "POST", payload, true);
 }
 
 // ==================== Funções do Stripe ====================
@@ -210,6 +292,29 @@ export async function createCheckoutSession(
   );
 }
 
+export interface SubmitSubscriptionResponse {
+  success: boolean;
+  method: "stripe" | "multicaixa";
+  sessionId?: string;
+  url?: string;
+  refData?: any;
+  subscriptionId?: string;
+}
+
+/**
+ * Atomic flow for creating user and initializing payment.
+ */
+export async function submitSubscription(
+  payload: any
+): Promise<SubmitSubscriptionResponse> {
+  return callCloudFunction<SubmitSubscriptionResponse>(
+    "submitSubscription",
+    "POST",
+    payload,
+    false, // No auth token required, as this handles signup
+  );
+}
+
 // ==================== Listeners de Webhook (Simulados/Frontend) ====================
 
 /**
@@ -225,9 +330,4 @@ export function onSubscriptionUpdate(
   console.log(`[CloudFunctions] Subscrevendo atualizações para o utilizador: ${userId}`);
 }
 
-/**
- * Obtém o estado atual da subscrição do utilizador
- */
-export async function getSubscriptionStatus() {
-  return callCloudFunction("getSubscriptionStatus", "GET", undefined, true);
-}
+

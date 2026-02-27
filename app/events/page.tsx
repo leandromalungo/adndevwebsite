@@ -20,6 +20,7 @@ import { Loader2, ArrowRight } from "lucide-react";
 import Head from "next/head";
 import AdvancedFilters from "@/components/events/AdvancedFilters";
 import { useRouter } from "next/navigation";
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
 import EventCard from "@/components/events/EventCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -40,10 +41,11 @@ const Page = () => {
   /**
    * MANIPULADOR DE CLIQUE
    */
+  const { triggerGoogleSignup, loading: googleLoading } = useGoogleSignup();
   const router = useRouter();
+
   const handleClick = () => {
-    setLoading(true);
-    setTimeout(() => router.push("/assinatura"), 1000);
+    triggerGoogleSignup();
   };
 
   /**
@@ -120,7 +122,7 @@ const Page = () => {
         {/* FUNDO COM IMAGEM */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/images/events.png')` }}
+          style={{ backgroundImage: `url('/api/images/events')` }}
         >
           {/* OVERLAY / GRADIENT */}
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
@@ -140,21 +142,20 @@ const Page = () => {
 
             <button
               onClick={handleClick}
-              disabled={loading}
-              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
-                loading
-                  ? "bg-blue-300 cursor-not-allowed text-zinc-800"
-                  : "bg-blue-400 hover:bg-blue-500 text-white"
-              }`}
+              disabled={googleLoading}
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${googleLoading
+                ? "bg-blue-300 cursor-not-allowed text-zinc-800"
+                : "bg-blue-400 hover:bg-blue-500 text-white"
+                }`}
             >
-              {loading ? (
+              {googleLoading ? (
                 <>
                   <Loader2 size={18} className="animate-spin" />
                   Processando...
                 </>
               ) : (
                 <>
-                  Subscreva-se ao nosso portal
+                  Inscrever-se no portal
                   <ArrowRight size={20} />
                 </>
               )}
@@ -186,15 +187,15 @@ const Page = () => {
             selectedState ||
             selectedCategory ||
             isOnline) && (
-            <div className="mt-4 flex justify-end">
-              <button
-                onClick={clearFilters}
-                className="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors"
-              >
-                Limpar todos os filtros
-              </button>
-            </div>
-          )}
+              <div className="mt-4 flex justify-end">
+                <button
+                  onClick={clearFilters}
+                  className="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+                >
+                  Limpar todos os filtros
+                </button>
+              </div>
+            )}
 
           {/* Contagem e grid de eventos */}
           <h2 className="text-2xl font-bold my-8">

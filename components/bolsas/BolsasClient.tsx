@@ -11,14 +11,14 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/navigation";
 import { Loader2, ArrowRight } from "lucide-react";
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
 
 export default function BolsasClient() {
-  const [loading, setLoading] = useState(false);
+  const { triggerGoogleSignup, loading: googleLoading } = useGoogleSignup();
   const router = useRouter();
 
   const handleClick = () => {
-    setLoading(true);
-    setTimeout(() => router.push("/assinatura"), 1000);
+    triggerGoogleSignup();
   };
 
   return (
@@ -30,7 +30,7 @@ export default function BolsasClient() {
         {/* FUNDO COM IMAGEM */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/images/bolsas.jpg')` }}
+          style={{ backgroundImage: `url('/api/images/bolsas')` }}
         >
           {/* OVERLAY / GRADIENT */}
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
@@ -52,21 +52,20 @@ export default function BolsasClient() {
 
             <button
               onClick={handleClick}
-              disabled={loading}
-              className={`inline-flex items-center gap-2 px-3 py-3 font-semibold transition-all active:scale-95 rounded-xl ${
-                loading
-                  ? "bg-blue-300 cursor-not-allowed text-zinc-800"
-                  : "bg-blue-400 hover:bg-blue-500 text-white"
-              }`}
+              disabled={googleLoading}
+              className={`inline-flex items-center gap-2 px-3 py-3 font-semibold transition-all active:scale-95 rounded-xl ${googleLoading
+                ? "bg-blue-300 cursor-not-allowed text-zinc-800"
+                : "bg-blue-400 hover:bg-blue-500 text-white"
+                }`}
             >
-              {loading ? (
+              {googleLoading ? (
                 <>
                   <Loader2 size={20} className="animate-spin" />
                   Processando...
                 </>
               ) : (
                 <>
-                  Assinar agora!
+                  Inscrever-se no portal
                   <ArrowRight size={20} />
                 </>
               )}

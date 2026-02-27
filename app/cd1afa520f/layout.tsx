@@ -6,16 +6,29 @@
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { Toaster } from "@/components/ui/toaster";
-import { useAdminAuth } from "@/hooks/useAdminAuth";
-import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { user, loading, logout } = useAdminAuth();
+  const { data: session, status } = useSession();
+  const user = session?.user;
+  const loading = status === "loading";
   const pathname = usePathname();
+  const router = useRouter();
+
+  // Redireciona para login se a sessão foi resolvida mas não é admin
+  useEffect(() => {
+    if (!loading && pathname !== "/cd1afa520f/login") {
+      if (!user || (user as any).role !== "admin") {
+        router.replace("/cd1afa520f/login");
+      }
+    }
+  }, [loading, user, pathname, router]);
 
   // Não aplica layout na página de login
   if (pathname === "/cd1afa520f/login") {
@@ -39,19 +52,19 @@ export default function AdminLayout({
     );
   }
 
-  // Se não está autenticado, não renderiza nada (o hook já redireciona)
-  if (!user) {
+  // Enquanto aguarda redirecionamento (sessão resolvida mas sem permissão)
+  if (!user || (user as any).role !== "admin") {
     return null;
   }
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       {/* Sidebar */}
-      <AdminSidebar onLogout={logout} />
+      <AdminSidebar onLogout={() => { import("next-auth/react").then(m => m.signOut()); }} />
 
       {/* Main Content */}
       <div className="flex flex-1 flex-col overflow-hidden lg:ml-64">
-        <AdminHeader userName={user?.name || user?.email} />
+        <AdminHeader userName={user?.name || user?.email || ""} />
         <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
 

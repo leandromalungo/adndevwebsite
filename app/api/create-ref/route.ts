@@ -1,107 +1,70 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
-import { checkRateLimit } from "@/lib/admin-api/rate-limit";
-import { logSecurityAction } from "@/lib/admin-api/audit";
-import { sanitizeText, sanitizeEmail, generateFingerprint, SECURITY_HEADERS } from "@/lib/security";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/next-auth.config";
 
 export const dynamic = 'force-dynamic';
 
-/**
- * Rota para criação de referências de pagamento (Multicaixa/Referência)
- * Executada no servidor para garantir segurança.
- */
-export async function POST(request: NextRequest) {
-    const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
-    const userAgent = request.headers.get("user-agent") || "unknown";
+const SECURITY_HEADERS = {
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'DENY',
+    'X-XSS-Protection': '1; mode=block',
+    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
+};
 
+const sanitizeText = (str: string) => str.replace(/[<>]/g, '').trim();
+const sanitizeEmail = (str: string) => str.replace(/[<>]/g, '').trim().toLowerCase();
+
+export async function POST(request: NextRequest) {
     try {
-        // 1. CAMADA: Controlo de Taxa (Rate Limiting)
-        const rateLimit = await checkRateLimit(ip, "subscription");
-        if (!rateLimit.allowed) {
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.email) {
             return NextResponse.json(
-                { message: "Muitas solicitações. Aguarde uma hora." },
-                { status: 429 }
+                { message: "Não autorizado." },
+                { status: 401, headers: SECURITY_HEADERS }
             );
         }
 
-        // 2. CAMADA: Verificação de Sessão (Apenas no servidor com NextAuth)
-        const session = await getServerSession(authOptions);
-
-        if (!session?.user?.id) {
-            return NextResponse.json({ message: "Não autorizado" }, { status: 401 });
-        }
-
-        const userId = session.user.id;
         const body = await request.json();
-        const { plan, email, name } = body;
+        const { plan, userId, country, userName, userEmail } = body;
 
-        if (!plan || !email) {
-            return NextResponse.json({ message: "Dados incompletos" }, { status: 400 });
+        const sName = sanitizeText(userName || session.user.name || "Unknown");
+        const sEmail = sanitizeEmail(userEmail || session.user.email);
+
+        if (!plan || !userId || !country || !sEmail) {
+            return NextResponse.json(
+                { message: "Dados incompletos ou mal formatados." },
+                { status: 400, headers: SECURITY_HEADERS }
+            );
         }
 
-        // 3. CAMADA: Sanitização de Dados
-        const sName = sanitizeText(name || "");
-        const sEmail = sanitizeEmail(email || session.user.email || "");
-        const sPlan = sanitizeText(plan);
-
-        if (!sEmail) {
-            return NextResponse.json({ message: "Email inválido" }, { status: 400 });
-        }
-
-        // 4. CAMADA: Impressão Digital (Fingerprinting) para segurança adicional
-        const fingerprint = await generateFingerprint(userAgent, ip);
-
-        const entityNumber = "00688";
-        const referenceNumber = Math.floor(100000000 + Math.random() * 900000000).toString();
-        const amount = sPlan === "premium" ? 5000 : 2500;
-
-        // 5. CAMADA: Persistência no Firestore
-        const subRef = adminDb.collection("subscriptions").doc();
-        await subRef.set({
-            userId,
-            name: sName,
-            email: sEmail,
-            plan: sPlan,
-            paymentMethod: "reference",
+        // Simulação / Criação real seria interligada ao Gateway BNA/Multicaixa via Proxy
+        const refData = {
+            entityNumber: "12345",
+            referenceNumber: Math.floor(100000000 + Math.random() * 900000000).toString(),
+            amount: plan === "premium_mensal" ? 2500 : 25000,
             status: "pending",
-            referenceNumber,
-            entityNumber,
-            amount,
-            fingerprint,
             createdAt: new Date().toISOString(),
-        });
+            userId: (session.user as any).id || userId,
+            customerName: sName,
+            customerEmail: sEmail,
+            plan: plan as string
+        };
 
-        // 6. CAMADA: Log de Auditoria
-        await logSecurityAction({
-            adminEmail: sEmail,
-            action: "SUBSCRIPTION_CREATE_REFERENCE",
-            entity: "Subscription",
-            entityId: subRef.id,
-            ip,
-            userAgent,
-            details: { plan: sPlan, fingerprint }
-        });
+        // Regista Subscrição e Referência Gerada
+        await adminDb.collection("subscriptions").doc(userId).set(refData, { merge: true });
 
-        const response = NextResponse.json({
-            entityNumber,
-            referenceNumber,
-            amount,
-            subscriptionId: subRef.id
-        });
+        return NextResponse.json({
+            message: "Referência gerada com sucesso",
+            ...refData
+        }, { status: 200, headers: SECURITY_HEADERS });
 
-        // Adiciona headers de segurança recomentados
-        Object.entries(SECURITY_HEADERS).forEach(([key, value]) => {
-            response.headers.set(key, value);
-        });
-
-        return response;
     } catch (error: any) {
-        console.error("[INTERNAL] Falha na criação de referência:", error.message);
+        console.error("[CreateRef API] Error:", error.message);
         return NextResponse.json(
-            { message: "Erro ao gerar referência de pagamento" },
-            { status: 500 }
+            { message: "Impossível processar pagamento multicaixa no momento." },
+            { status: 500, headers: SECURITY_HEADERS }
         );
     }
 }

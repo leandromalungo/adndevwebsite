@@ -11,7 +11,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Send, Upload, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { sanitizeText, sanitizeUrl, isSafeString } from "@/lib/security";
 import Image from "next/image";
 
 export default function MensagensPage() {
@@ -62,24 +61,17 @@ export default function MensagensPage() {
       return;
     }
 
-    // Validação de segurança
-    if (!isSafeString(formData.title) || !isSafeString(formData.subject)) {
-      toast({
-        title: "Erro",
-        description: "Conteúdo inválido detectado",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setLoading(true); // Keep as boolean, as `loading` state is boolean
+    // Validação de segurança foi movida para o backend (Cloud Functions)
+    // Conforme instrução, não fazer aqui no frontend.
+    
+    setLoading(true);
 
     try {
-      // Sanitiza dados antes de enviar
+      // Dados enviados diretamente - a Cloud Function irá sanitizar
       const sanitizedData = {
-        title: sanitizeText(formData.title),
-        subject: sanitizeText(formData.subject),
-        link: formData.link ? sanitizeUrl(formData.link) : "",
+        title: formData.title,
+        subject: formData.subject,
+        link: formData.link || "",
         // Image will be sent separately if it exists, not directly in JSON
         type, // Renamed from channel to type
       };

@@ -15,9 +15,9 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({ community }) => {
       {/* Cabeçalho */}
       <div className="flex items-start gap-3 mb-3">
         <div className="w-12 h-12 flex-shrink-0 bg-gray-50 rounded overflow-hidden flex items-center justify-center border border-gray-100">
-           <img 
-            src={community.logoUrl} 
-            alt={`${community.name} logo`} 
+          <img
+            src={community.logoUrl || '/api/images/cafelogo'}
+            alt={`${community.name} logo`}
             className="w-full h-full object-cover"
           />
         </div>
@@ -41,7 +41,7 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({ community }) => {
         <Badge label="membros" value={community.members} />
         {community.type && <Badge label="tipo" value={community.type} />}
       </div>
-      
+
       {/* Distintivo de categoria */}
       <div className="mb-4">
         <Badge label={community.category} className="inline-flex" />
@@ -59,14 +59,14 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({ community }) => {
             </button>
           )}
         </div>
-            <span className="text-[10px] text-gray-400">
-              Fonte: este comunidade tem as suas fontes devidamente mencionadas nesta postagem sem nenhuma alteração.
-            </span>
+        <span className="text-[10px] text-gray-400">
+          Fonte: este comunidade tem as suas fontes devidamente mencionadas nesta postagem sem nenhuma alteração.
+        </span>
         <div className="flex items-center justify-between">
-          
-          <a 
-            href={community.link || '#'} 
-            target="_blank" 
+
+          <a
+            href={community.link || '#'}
+            target="_blank"
             rel="noopener noreferrer"
             className="ml-auto inline-flex items-center gap-1 px-4 py-2 text-sm font-bold text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors"
           >

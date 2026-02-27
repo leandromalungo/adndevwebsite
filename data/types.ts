@@ -86,13 +86,13 @@ export interface Community {
   location: string;
   country: FilterTab;
   description: string;
-  logoUrl: string;
   members: number;
   type: string;
   category: string;
   tags: string[];
   imageSource?: string;
   link?: string;
+  logoUrl?: string;
 }
 
 export interface RoadmapItem {

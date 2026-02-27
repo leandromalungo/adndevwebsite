@@ -2,14 +2,19 @@ import type React from "react";
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
-import "@/styles/globals.css";
+import "@/app/globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { SessionProvider } from "@/components/SessionProvider";
 
 /**
  * Fonte padrão Geist com subset latim
+ * Fallback para sans-serif para evitar bloqueios em caso de erro de conexão com Google Fonts
  */
-const _geist = Geist({ subsets: ["latin"] });
+const _geist = Geist({ 
+  subsets: ["latin"],
+  display: 'swap',
+  variable: '--font-geist'
+});
 
 /**
  * URL base do ADN Developer para geração de meta-tags e sitemaps
@@ -60,7 +65,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.png",
+        url: "/api/images/logo",
         width: 1200,
         height: 630,
         alt: "ADN Developer",
@@ -71,16 +76,16 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "ADN Developer",
     description: "Maior repositório de informações sobre tecnologia na lusofonia.",
-    images: ["/og-image.png"],
+    images: ["/api/images/logo"],
     creator: "@adndeveloper",
   },
   manifest: "/manifest.json",
   icons: {
     icon: [
-      { url: "/icon-light-32x32.png", media: "(prefers-color-scheme: light)" },
-      { url: "/icon-dark-32x32.png", media: "(prefers-color-scheme: dark)" },
+      { url: "/api/images/icon-light-32x32", media: "(prefers-color-scheme: light)" },
+      { url: "/api/images/icon-dark-32x32", media: "(prefers-color-scheme: dark)" },
     ],
-    apple: "/apple-icon.png",
+    apple: "/api/images/apple-icon",
   },
 };
 

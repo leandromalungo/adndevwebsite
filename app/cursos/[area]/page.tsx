@@ -6,7 +6,20 @@ import { ArrowLeft, ExternalLink, Clock, BarChart, Star } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { MOCK_COURSES } from "@/data/mockCourses";
-import { slugify } from "@/lib/utils";
+
+// Função utilitária embutida de normalização de slugs em texto puro para Match de URLs
+const slugify = (text: string) => {
+  return text
+    .toString()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]+/g, "")
+    .replace(/--+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
+};
 
 export default function AreaCoursesPage() {
   const params = useParams();

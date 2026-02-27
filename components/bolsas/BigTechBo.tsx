@@ -1,42 +1,47 @@
 "use client";
 
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
+import { Loader2 } from "lucide-react";
+
 export const BigTechBo = () => {
+  const { triggerGoogleSignup, loading } = useGoogleSignup();
+
   const supporters = [
     {
       name: "M.I.T - Massachusetts Institute of Technology",
-      logo: "/images/bolsas/mit.jpg",
+      logo: "/api/images/mit",
     },
     {
       name: "Harvard University",
-      logo: "/images/bolsas/Hardvard.jpg",
+      logo: "/api/images/hardvard",
     },
     {
       name: "Universidade de Cambridge",
-      logo: "/images/bolsas/cambridge.jpg",
+      logo: "/api/images/cambridge",
     },
     {
       name: "Universidade de Oxford",
-      logo: "/images/bolsas/Oxford.jpg",
+      logo: "/api/images/oxford",
     },
     {
       name: "Imperial College London",
-      logo: "/images/bolsas/Imperial.jpg",
+      logo: "/api/images/imperial",
     },
     {
       name: "Universidade de Princeton",
-      logo: "/images/bolsas/Princeton.jpg",
+      logo: "/api/images/princeton",
     },
     {
       name: "Universidade de São Paulo (USP)",
-      logo: "/images/bolsas/Paulo.jpg",
+      logo: "/api/images/paulo",
     },
     {
       name: "Universidade Nacional de Singapura",
-      logo: "/images/bolsas/NUS.jpg",
+      logo: "/api/images/nus",
     },
     {
       name: "Universidade de Pequim (PKU ou Beida)",
-      logo: "/images/bolsas/china.jpg",
+      logo: "/api/images/china",
     },
   ];
 
@@ -61,8 +66,13 @@ export const BigTechBo = () => {
           </p>
 
           <div className="pt-4">
-            <button className="bg-[#006eff] hover:bg-[#0c69e3] text-white font-bold py-3 px-8 rounded transition-all duration-200 shadow-md active:scale-95">
-              Assinar agora
+            <button
+              onClick={triggerGoogleSignup}
+              disabled={loading}
+              className="flex items-center justify-center gap-2 bg-[#006eff] hover:bg-[#0c69e3] text-white font-bold py-3 px-8 rounded transition-all duration-200 shadow-md active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {loading && <Loader2 className="w-5 h-5 animate-spin" />}
+              {loading ? "Processando..." : "Assinar agora"}
             </button>
           </div>
         </div>

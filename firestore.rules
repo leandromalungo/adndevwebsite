@@ -2,62 +2,87 @@ rules_version = '2';
 
 /**
  * Regras de Segurança do Firestore - ADN Developer
- * 
- * Estratégia: 
+ *
+ * Estratégia:
  * 1. Bloqueio total por defeito.
- * 2. Utilizadores podem ler/escrever os seus próprios documentos básicos.
- * 3. Apenas administradores têm acesso a dados sensíveis e métricas.
- * 4. A lógica de escrita complexa é delegada para as Cloud Functions.
+ * 2. Utilizadores podem ler o seu próprio documento.
+ * 3. Utilizadores só podem atualizar campos seguros (nome, país, fotografia).
+ *    Campos protegidos (role, isActive, status, stripeCustomerId, subscription)
+ *    só podem ser escritos pelas Cloud Functions via Admin SDK (ignora regras).
+ * 4. Apenas administradores têm acesso a dados sensíveis e métricas.
  */
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // Função auxiliar para verificar se o utilizador é administrador via token
+
+    // Verifica se o utilizador é administrador via custom claim no token
     function isAdmin() {
       return request.auth != null && request.auth.token.role == 'admin';
     }
 
-    // Função para verificar se o ID do documento corresponde ao UID do utilizador
+    // Verifica se o documento pertence ao utilizador autenticado
     function isOwner(userId) {
       return request.auth != null && request.auth.uid == userId;
     }
 
+    // Verifica que o utilizador NÃO está a tentar alterar campos protegidos.
+    // Campos geridos exclusivamente pelas Cloud Functions (Admin SDK):
+    //   role, isActive, status, stripeCustomerId, subscription, lastPaymentDate, lastPaymentStatus
+    function onlySafeFieldsChanged() {
+      let protectedFields = ['role', 'isActive', 'status', 'stripeCustomerId',
+                             'subscription', 'lastPaymentDate', 'lastPaymentStatus',
+                             'lastPaymentError', 'admin'];
+      return !request.resource.data.diff(resource.data).affectedKeys()
+              .hasAny(protectedFields);
+    }
+
     // --- COLEÇÃO: users ---
+    // Nota: dados de subscrição ficam em users/{uid}.subscription (subcampo),
+    //       gerido exclusivamente pelo webhook do Stripe via Admin SDK.
     match /users/{userId} {
-      // Utilizadores podem ler o seu próprio perfil. Admins podem ler tudo.
+      // Leitura: apenas o próprio utilizador ou um admin
       allow read: if isOwner(userId) || isAdmin();
-      
-      // Escrita limitada: Utilizadores podem atualizar alguns campos (ex: nome, país)
-      // Nota: Roles e status são protegidos pelo backend.
-      allow write: if isOwner(userId) || isAdmin();
+
+      // Criação: bloqueada no cliente — feita pelas Cloud Functions (signupUser, signupWithGoogle)
+      allow create: if false;
+
+      // Atualização: o utilizador pode editar campos seguros (ex: nome, país, fotografia)
+      // mas NÃO pode alterar campos protegidos (role, isActive, stripeCustomerId, etc.)
+      allow update: if (isOwner(userId) && onlySafeFieldsChanged()) || isAdmin();
+
+      // Eliminação: apenas admins
+      allow delete: if isAdmin();
     }
 
     // --- COLEÇÃO: subscriptions ---
+    // Usada pelo fluxo de pagamento por referência (Multicaixa/Angola).
+    // O Admin SDK cria os documentos; o cliente ouve o estado para mostrar confirmação.
     match /subscriptions/{subId} {
-      // O Navbar precisa ler a subscrição para mostrar o estado em tempo real
-      // Permitimos leitura se o documento pertencer ao utilizador ou se for admin
-      allow read: if (request.auth != null && resource.data.userId == request.auth.uid) || isAdmin();
-      
-      // Apenas admins ou Cloud Functions podem criar/editar subscrições diretamente
-      allow write: if isAdmin();
+      // O utilizador pode ler o seu próprio documento de subscrição
+      // (necessário para o onSnapshot de confirmação de pagamento)
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+
+      // Escrita bloqueada no cliente — apenas o Admin SDK (Next.js API route) cria subscrições
+      allow write: if false;
     }
 
     // --- COLEÇÃO: metrics_global ---
+    // Métricas financeiras globais — geridas pelo Admin SDK no backend
     match /metrics_global/{docId} {
-      // Apenas administradores podem ver métricas financeiras globais
+      // Apenas administradores autenticados podem ler métricas
       allow read: if isAdmin();
-      
-      // Escrita proibida no client side (gerida por webhooks no backend)
+
+      // Escrita proibida no cliente (gerida por Cloud Functions)
       allow write: if false;
     }
 
     // --- COLEÇÃO: security_logs ---
+    // Logs de auditoria — escritos exclusivamente pelo Admin SDK
     match /security_logs/{logId} {
-      // Logs de auditoria não devem ser visíveis nem alteráveis pelo frontend
       allow read, write: if false;
     }
 
     // --- PROTEÇÃO PADRÃO ---
+    // Nega tudo o que não foi explicitamente permitido acima
     match /{document=**} {
       allow read, write: if false;
     }

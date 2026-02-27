@@ -4,8 +4,9 @@ import React, { useState, useCallback } from "react";
 import Image from "next/image";
 import { SLIDES, COUNTRY_DATA } from "@/components/wtm/constants";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import type { FilterTab } from "@/components/CountryFilter";
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
 
 interface HeroCarouselProps {
   selectedCountry?: FilterTab;
@@ -14,6 +15,7 @@ interface HeroCarouselProps {
 export const HeroCarousel: React.FC<HeroCarouselProps> = ({
   selectedCountry,
 }) => {
+  const { triggerGoogleSignup, loading: googleLoading } = useGoogleSignup();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   // Para swipe/touch
@@ -145,8 +147,13 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
             )}
           </p>
 
-          <button className="bg-[#1a73e8] hover:bg-blue-700 text-white font-bold py-3 px-8 rounded transition-colors shadow-sm">
-            ASSINAR AGORA
+          <button
+            onClick={triggerGoogleSignup}
+            disabled={googleLoading}
+            className="flex items-center gap-2 bg-[#1a73e8] hover:bg-blue-700 text-white font-bold py-3 px-8 rounded transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {googleLoading && <Loader2 className="w-5 h-5 animate-spin" />}
+            {googleLoading ? "Processando..." : "Inscrever-se no portal"}
           </button>
         </div>
 
@@ -180,11 +187,10 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
             <button
               key={idx}
               onClick={() => goToSlide(idx)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                currentIndex === idx
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${currentIndex === idx
                   ? "bg-gray-900 scale-125"
                   : "bg-gray-300 hover:bg-gray-400"
-              }`}
+                }`}
               aria-label={`Go to slide ${idx + 1}`}
             />
           ))}

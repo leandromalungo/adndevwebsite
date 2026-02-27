@@ -39,8 +39,8 @@ export function useAdminAuth() {
 
     // Mapeia dados da sessão para formato esperado
     const user: AdminUser | null = session?.user ? {
-        email: session.user.email,
-        name: session.user.name,
+        email: session.user.email ?? "",
+        name: session.user.name ?? "",
     } : null;
 
     useEffect(() => {

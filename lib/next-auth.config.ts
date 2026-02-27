@@ -12,6 +12,7 @@
  */
 
 import { NextAuthOptions } from "next-auth";
+
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -32,12 +33,15 @@ export const authOptions: NextAuthOptions = {
   // Utiliza a estratégia JWT para gestão de sessões
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 dias de validade
+    maxAge: 24 * 60 * 60, // 24 horas — minimiza janela de replay attack
   },
 
   // Páginas personalizadas para fluxos de autenticação
+  // NOTA: signIn aponta para "/" para que o callback do Google OAuth
+  // nunca aterrissse na rota de admin (/cd1afa520f/login).
+  // O login de admin usa o provider "admin-credentials" diretamente na sua própria página.
   pages: {
-    signIn: "/cd1afa520f/login",
+    signIn: "/",
     error: "/auth/error",
   },
 
@@ -148,7 +152,15 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-      allowDangerousEmailAccountLinking: true,
+      // allowDangerousEmailAccountLinking REMOVIDO — previne account takeover.
+      // Um atacante com acesso ao email de outra pessoa não pode fazer merge de contas.
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
     }),
   ],
 
@@ -159,7 +171,7 @@ export const authOptions: NextAuthOptions = {
     /**
      * Callback de JWT: Executado quando um token JWT é criado ou atualizado
      */
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, profile }) {
       // No primeiro login, popula o token com os dados retornados pelo backend
       if (user) {
         token.uid = user.id;
@@ -167,6 +179,11 @@ export const authOptions: NextAuthOptions = {
         token.name = user.name;
         token.role = (user as any).role || "user";
         token.cloudFunctionToken = (user as any).token;
+      }
+
+      // Guarda a foto do perfil Google (NextAuth popula `profile.picture` automaticamente)
+      if (profile) {
+        token.picture = (profile as any).picture || (profile as any).image || token.picture;
       }
 
       // Se for login via Google, troca o ID Token do Google por um token do nosso backend
@@ -209,7 +226,9 @@ export const authOptions: NextAuthOptions = {
           email: token.email as string,
           name: token.name as string,
           role: token.role as string,
-        };
+          // Inclui a foto do perfil Google para o Navbar a exibir
+          image: (token.picture as string) || (token.image as string) || null,
+        } as any;
         // Armazena o token do backend para chamadas de API futuras
         (session as any).token = token.cloudFunctionToken;
       }

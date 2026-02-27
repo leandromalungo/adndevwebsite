@@ -6,6 +6,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,44 +18,22 @@ import { signIn } from "next-auth/react";
 export default function AdminLoginPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [attempts, setAttempts] = useState(0);
-  const [blockedUntil, setBlockedUntil] = useState<number | null>(null);
+
+  // Se já está autenticado como admin, redireciona para o painel
+  useEffect(() => {
+    if (status === "authenticated" && (session?.user as any)?.role === "admin") {
+      router.replace("/cd1afa520f");
+    }
+  }, [session, status, router]);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
-  // Rate limiting: máximo 5 tentativas por hora
-  const MAX_ATTEMPTS = 5;
-  const BLOCK_DURATION = 60 * 60 * 1000; // 1 hora em ms
-
-  useEffect(() => {
-    // Carrega tentativas do localStorage
-    const storedAttempts = localStorage.getItem("adminLoginAttempts");
-    const storedBlockedUntil = localStorage.getItem("adminLoginBlockedUntil");
-
-    if (storedAttempts) {
-      setAttempts(parseInt(storedAttempts, 10));
-    }
-
-    if (storedBlockedUntil) {
-      const blockedTime = parseInt(storedBlockedUntil, 10);
-      if (Date.now() < blockedTime) {
-        setBlockedUntil(blockedTime);
-      } else {
-        // Reset se o tempo passou
-        localStorage.removeItem("adminLoginBlockedUntil");
-        localStorage.removeItem("adminLoginAttempts");
-        setAttempts(0);
-        setBlockedUntil(null);
-      }
-    }
-  }, []);
-
-  const isBlocked = !!(blockedUntil && Date.now() < blockedUntil);
 
   /**
    * FRONTEND: Apenas envia dados para o backend.
@@ -63,12 +42,6 @@ export default function AdminLoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
-    // Check rate limiting
-    if (isBlocked) {
-      setError(`Muitas tentativas. Tente novamente em ${Math.ceil((blockedUntil! - Date.now()) / 60000)} minutos.`);
-      return;
-    }
 
     // Validação mínima apenas para UX - backend valida tudo
     if (!formData.email || !formData.password) {
@@ -88,25 +61,9 @@ export default function AdminLoginPage() {
       });
 
       if (result?.error) {
-        // Increment attempts on failure
-        const newAttempts = attempts + 1;
-        setAttempts(newAttempts);
-        localStorage.setItem("adminLoginAttempts", newAttempts.toString());
-
-        if (newAttempts >= MAX_ATTEMPTS) {
-          const blockTime = Date.now() + BLOCK_DURATION;
-          setBlockedUntil(blockTime);
-          localStorage.setItem("adminLoginBlockedUntil", blockTime.toString());
-          setError("Muitas tentativas falhadas. Conta bloqueada por 1 hora.");
-        } else {
-          setError("Credenciais inválidas");
-        }
+        // Backend retornou erro - mostrar mensagem genérica
+        setError("Credenciais inválidas");
       } else if (result?.ok) {
-        // Reset attempts on success
-        setAttempts(0);
-        localStorage.removeItem("adminLoginAttempts");
-        localStorage.removeItem("adminLoginBlockedUntil");
-
         // Login bem-sucedido - backend validou tudo
         toast({
           title: "Sucesso",
@@ -177,7 +134,7 @@ export default function AdminLoginPage() {
                   value={formData.password}
                   onChange={(e) => {
                     setFormData({ ...formData, password: e.target.value });
-                    setError(""); 
+                    setError("");
                   }}
                   disabled={loading}
                 />
@@ -195,8 +152,8 @@ export default function AdminLoginPage() {
               </div>
             </div>
 
-            <Button type="submit" className="w-full" disabled={loading || isBlocked}>
-              {loading ? "Entrando..." : isBlocked ? "Bloqueado" : "Entrar"}
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Entrando..." : "Entrar"}
             </Button>
           </form>
         </CardContent>

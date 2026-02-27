@@ -21,7 +21,7 @@ export default function SuccessPage() {
           <div className="space-y-4">
             <h1 className="text-3xl font-black text-gray-900 tracking-tight">Obrigado pela Confiança!</h1>
             <p className="text-gray-500 text-lg leading-relaxed">
-              Sua intenção de assinatura foi registrada com sucesso. 
+              Sua intenção de assinatura foi registrada com sucesso.
             </p>
           </div>
 
@@ -43,11 +43,11 @@ export default function SuccessPage() {
             </ul>
           </div>
 
-          <Link 
-            href="/perfil"
+          <Link
+            href="/"
             className="group w-full py-4 bg-gray-900 text-white font-bold rounded-xl hover:bg-black transition shadow-xl flex items-center justify-center gap-2"
           >
-            Ir para Meu Perfil
+            Ir para o Início
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>

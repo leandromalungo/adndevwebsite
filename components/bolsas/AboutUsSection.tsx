@@ -1,6 +1,11 @@
 "use client";
 
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
+import { Loader2 } from "lucide-react";
+
 export const AboutUsSection = () => {
+  const { triggerGoogleSignup, loading } = useGoogleSignup();
+
   return (
     <section className="max-w-7xl mx-auto py-12">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
@@ -50,21 +55,26 @@ export const AboutUsSection = () => {
                 </h3>
               </div>
               <p className="text-[#666666] leading-relaxed">
-              Todas as informações partilhadas aqui são coletadas de fontes públicas e
-              verificadas. Nosso objetivo é fornecer um repositório confiável e
-              atualizado de oportunidades educacionais globais para jovens talentos. 
-              Dai nós por simplesmente não somos responsáveis por quaisquer mudanças ou atualizações
-              feitas pelas instituições que oferecem as bolsas de estudo.
+                Todas as informações partilhadas aqui são coletadas de fontes públicas e
+                verificadas. Nosso objetivo é fornecer um repositório confiável e
+                atualizado de oportunidades educacionais globais para jovens talentos.
+                Dai nós por simplesmente não somos responsáveis por quaisquer mudanças ou atualizações
+                feitas pelas instituições que oferecem as bolsas de estudo.
               </p>
               <span className="text-[9px] text-gray-400">
-              Fonte: fontes devidamente mencionadas nesta postagem sem nenhuma alteração.
-            </span>
+                Fonte: fontes devidamente mencionadas nesta postagem sem nenhuma alteração.
+              </span>
             </div>
           </div>
 
           <div>
-            <button className="bg-[#1c7ae0] hover:bg-[#1d69ba] text-[#ffffff] font-bold py-4 px-8 rounded transition-all duration-200 shadow-sm hover:shadow-md active:scale-95">
-              Assine agora
+            <button
+              onClick={triggerGoogleSignup}
+              disabled={loading}
+              className="flex items-center gap-2 bg-[#1c7ae0] hover:bg-[#1d69ba] text-[#ffffff] font-bold py-4 px-8 rounded transition-all duration-200 shadow-sm hover:shadow-md active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {loading && <Loader2 className="w-4 h-4 animate-spin" />}
+              {loading ? "Agrade..." : "Assine agora"}
             </button>
           </div>
         </div>
