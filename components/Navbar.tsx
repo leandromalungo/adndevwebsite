@@ -86,14 +86,16 @@ const Navbar = () => {
   const [telegram, setTelegram] = useState("");
   const [itArea, setItArea] = useState("");
   const [itRole, setItRole] = useState("");
+  // Notificações — todas a false por defeito.
+  // Apenas são marcadas após o backend (getProfile) confirmar as escolhas do utilizador.
   const [notificacoes, setNotificacoes] = useState<Record<string, boolean>>({
-    Eventos: true,
-    Comunidade: true,
-    "Mulheres na T.I": true,
+    Eventos: false,
+    Comunidade: false,
+    "Mulheres na T.I": false,
     Cursos: false,
-    "Bolsas de estudo": true,
-    Startups: true,
-    "Inteligência Artificial": true,
+    "Bolsas de estudo": false,
+    Startups: false,
+    "Inteligência Artificial": false,
   });
 
   // Estados de save
@@ -294,23 +296,39 @@ const Navbar = () => {
     }
   };
 
-  const confirmDelete = () => {
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
+  /**
+   * Elimina a conta do utilizador via Cloud Function.
+   * BACKEND: valida identidade e elimina dados. Frontend apenas envia o pedido.
+   */
+  const confirmDelete = async () => {
     if (confirmText.toUpperCase() !== "SIM") {
       setDeleteMessage("Você deve digitar 'SIM' para continuar.");
       setTimeout(() => setDeleteMessage(""), 3000);
       return;
     }
     const sanitizedEmailInput = emailInput.trim().toLowerCase();
-    if (!sanitizedEmailInput || sanitizedEmailInput !== (user?.email || "")) {
+    if (!sanitizedEmailInput || sanitizedEmailInput !== (user?.email || "").toLowerCase()) {
       setDeleteMessage("Email incorrecto.");
       setTimeout(() => setDeleteMessage(""), 3000);
       return;
     }
-    setDeleteMessage("Solicitação de exclusão enviada.");
-    setTimeout(() => {
-      setDeleteModal(false);
-      setDeleteMessage("");
-    }, 1500);
+    setDeleteLoading(true);
+    setDeleteMessage("");
+    try {
+      const { deleteAccountOnPaymentFailure } = await import("@/lib/cloud-functions-client");
+      await deleteAccountOnPaymentFailure();
+      setDeleteMessage("Conta eliminada. A encerrar sessão...");
+      setTimeout(async () => {
+        await signOut({ redirect: true, callbackUrl: "/" });
+      }, 1500);
+    } catch (err: any) {
+      setDeleteMessage("Erro ao eliminar conta. Tente novamente.");
+      setTimeout(() => setDeleteMessage(""), 4000);
+    } finally {
+      setDeleteLoading(false);
+    }
   };
 
   /**
@@ -754,11 +772,11 @@ const Navbar = () => {
       {deleteModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60]">
           <div className="bg-white rounded-lg p-6 w-[320px] space-y-4 shadow-2xl">
-            <h2 className="font-bold text-lg">Confirmar exclusão da conta</h2>
+            <h2 className="font-bold text-lg">Eliminar conta</h2>
             {!emailInput ? (
               <>
                 <p className="text-sm text-gray-600">
-                  Tem certeza que deseja eliminar sua conta? Digite <strong>SIM</strong> para continuar.
+                  Esta ação é <strong>irreversível</strong>. Digite <strong>SIM</strong> para continuar.
                 </p>
                 <input
                   type="text"
@@ -787,16 +805,32 @@ const Navbar = () => {
                   onChange={(e) => setEmailInput(e.target.value)}
                   className="w-full border p-2 rounded"
                   placeholder="Email"
+                  disabled={deleteLoading}
                 />
-                <button onClick={confirmDelete} className="w-full bg-red-600 text-white py-2 rounded font-bold">
-                  Confirmar Exclusão
+                <button
+                  onClick={confirmDelete}
+                  disabled={deleteLoading}
+                  className="w-full bg-red-600 text-white py-2 rounded font-bold flex items-center justify-center gap-2 disabled:opacity-60"
+                >
+                  {deleteLoading
+                    ? <><Loader2 className="w-4 h-4 animate-spin" /> A eliminar...</>
+                    : "Confirmar Exclusão"}
                 </button>
               </>
             )}
-            {deleteMessage && <p className="text-xs text-red-600 font-bold">{deleteMessage}</p>}
-            <button onClick={() => setDeleteModal(false)} className="w-full text-gray-500 hover:text-gray-900 font-medium text-sm">
-              Cancelar
-            </button>
+            {deleteMessage && (
+              <p className={`text-xs font-bold ${deleteMessage.startsWith("Conta eliminada") ? "text-green-600" : "text-red-600"}`}>
+                {deleteMessage}
+              </p>
+            )}
+            {!deleteLoading && (
+              <button
+                onClick={() => { setDeleteModal(false); setDeleteMessage(""); setConfirmText(""); setEmailInput(""); }}
+                className="w-full text-gray-500 hover:text-gray-900 font-medium text-sm"
+              >
+                Cancelar
+              </button>
+            )}
           </div>
         </div>
       )}
