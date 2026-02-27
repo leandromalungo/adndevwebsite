@@ -376,7 +376,7 @@ const Navbar = () => {
       <div className="flex items-center justify-between px-6 py-4">
         <Link href="/" className="focus:outline-none focus:ring-0 focus-visible:outline-none">
           <Image
-            src="/api/images/logoNavbar"
+            src="/logoNavbar.png"
             alt="ADN Developer Logo"
             width={60}
             height={40}
