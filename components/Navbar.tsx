@@ -1,8 +1,6 @@
 "use client";
 
 /**
- * 
- * 
  * Navbar: componente de navegação global do site.
  * 
  * FRONTEND: Apenas exibe dados e envia requisições.
@@ -657,14 +655,6 @@ const Navbar = () => {
               <button onClick={() => setLoginModal(false)} className="w-full text-gray-500 hover:text-gray-900 text-sm font-medium">
                 Sair
               </button>
-
-              <p className="text-gray-600 text-xs mb-0 text-center md:text-left">
-                Não tens uma conta?{" "}
-                <Link href="/assinatura" className="text-purple-600 hover:text-purple-800 font-bold">
-                  Clique aqui
-                </Link>{" "}
-                para assinar.
-              </p>
             </div>
           </div>
         </div>
