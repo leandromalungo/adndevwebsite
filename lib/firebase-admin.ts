@@ -15,9 +15,9 @@ function initializeAdmin() {
   if (!admin.apps.length) {
     // Tenta obter as variáveis de servidor ou fallback para as públicas
     const projectId = process.env.FIREBASE_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
-    const clientEmail = process.env.FIREBASE_CLIENT_EMAIL || process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL;
-    // O privateKey é crítico e geralmente não existe em versão pública por segurança
-    const privateKey = (process.env.FIREBASE_PRIVATE_KEY || process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY)?.replace(/\\n/g, "\n");
+    const clientEmail = process.env.FIREBASE_CLIENT_EMAIL; // Nunca usar NEXT_PUBLIC_ para credenciais
+    // O privateKey é crítico — nunca deve existir em variáveis públicas
+    const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
 
     if (!projectId) {
       console.error("[Firebase Admin] ERRO CRÍTICO: FIREBASE_PROJECT_ID não definido.");

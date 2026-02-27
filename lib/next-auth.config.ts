@@ -33,12 +33,15 @@ export const authOptions: NextAuthOptions = {
   // Utiliza a estratégia JWT para gestão de sessões
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 dias de validade
+    maxAge: 24 * 60 * 60, // 24 horas — minimiza janela de replay attack
   },
 
   // Páginas personalizadas para fluxos de autenticação
+  // NOTA: signIn aponta para "/" para que o callback do Google OAuth
+  // nunca aterrissse na rota de admin (/cd1afa520f/login).
+  // O login de admin usa o provider "admin-credentials" diretamente na sua própria página.
   pages: {
-    signIn: "/cd1afa520f/login",
+    signIn: "/",
     error: "/auth/error",
   },
 

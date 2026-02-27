@@ -10,7 +10,8 @@ import { LeadershipSection } from "@/components/wtm/LeadershipSection";
 import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
 import ActivitiesSection from "@/components/wtm/activity/ActivitiesSection";
 import ReviewsSection from "@/components/wtm/ReviewsSection";
-import {Programs} from "@/components/wtm/Programs";
+import { Programs } from "@/components/wtm/Programs";
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
 
 const App = () => {
   // --- REFERÊNCIA DO VÍDEO ---
@@ -18,16 +19,11 @@ const App = () => {
   const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
 
   // --- ESTADO DO BOTÃO QUIZ ---
-  const [loading, setLoading] = useState(false);
+  const { triggerGoogleSignup, loading: googleLoading } = useGoogleSignup();
   const router = useRouter();
 
-  const handleClick = async () => {
-    setLoading(true);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-    } finally {
-      setLoading(false);
-    }
+  const handleClick = () => {
+    triggerGoogleSignup();
   };
 
   return (
@@ -68,14 +64,13 @@ const App = () => {
 
             <button
               onClick={handleClick}
-              disabled={loading}
-              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
-                loading
+              disabled={googleLoading}
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${googleLoading
                   ? "bg-rose-300 cursor-not-allowed text-zinc-800"
                   : "bg-rose-400 hover:bg-rose-500 text-white"
-              }`}
+                }`}
             >
-              {loading ? (
+              {googleLoading ? (
                 <>
                   <Loader2 size={18} className="animate-spin" />
                   Processando...
@@ -98,7 +93,7 @@ const App = () => {
         className="bg-white border-b border-gray-200"
       />
       <ReviewsSection selectedCountry={selectedCountry} />
-      <LeadershipSection selectedCountry={selectedCountry} />      
+      <LeadershipSection selectedCountry={selectedCountry} />
       <Programs selectedCountry={selectedCountry} />
       <ActivitiesSection selectedCountry={selectedCountry} />
 

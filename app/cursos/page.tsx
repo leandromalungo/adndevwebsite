@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Funcao } from "@/data/types";
@@ -34,7 +35,7 @@ import {
 
 const Page = () => {
   const { toast } = useToast();
-  const [loadingAssinar, setLoadingAssinar] = useState(false);
+  const { triggerGoogleSignup, loading: googleLoading } = useGoogleSignup();
 
   const router = useRouter();
 
@@ -134,8 +135,7 @@ const Page = () => {
   const ITEMS_PER_PAGE = 6;
 
   const handleClickAssinar = () => {
-    setLoadingAssinar(true);
-    setTimeout(() => router.push("/assinatura"), 1000);
+    triggerGoogleSignup();
   };
 
 
@@ -191,14 +191,13 @@ const Page = () => {
             <div className="flex flex-nowrap gap-2 sm:gap-4">
               <button
                 onClick={handleClickAssinar}
-                disabled={loadingAssinar}
-                className={`inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
-                  loadingAssinar
+                disabled={googleLoading}
+                className={`inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${googleLoading
                     ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                     : "bg-blue-400 hover:bg-blue-500 text-white"
-                }`}
+                  }`}
               >
-                {loadingAssinar ? (
+                {googleLoading ? (
                   <>
                     <Loader2 size={16} className="animate-spin sm:size-auto" />
                     <span>Processando...</span>

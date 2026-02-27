@@ -1,6 +1,11 @@
+"use client";
+
 import Image from "next/image";
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
+import { Loader2 } from "lucide-react";
 
 const CardHero = () => {
+  const { triggerGoogleSignup, loading } = useGoogleSignup();
   return (
     <div className="relative w-full min-h-[450px] rounded overflow-hidden flex items-center px-8 md:px-20 py-16">
       {/* Imagem de fundo */}
@@ -32,8 +37,10 @@ const CardHero = () => {
 
         <div className="pt-4">
           <button
+            onClick={triggerGoogleSignup}
+            disabled={loading}
             className=" inline-flex items-center justify-center
-                border border-violet-600
+                border border-violet-600 gap-2
                 bg-violet-550 hover:bg-violet-600/90
                 text-white
                 px-4 sm:px-10 lg:px-12
@@ -45,7 +52,8 @@ const CardHero = () => {
                 disabled:opacity-70 disabled:cursor-not-allowed
                 uppercase tracking-wide"
           >
-            Junte-se a nós
+            {loading && <Loader2 className="w-5 h-5 animate-spin" />}
+            {loading ? "Processando..." : "Junte-se a nós"}
           </button>
         </div>
       </div>

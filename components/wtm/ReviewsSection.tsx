@@ -3,6 +3,8 @@
 import ReviewCard from "@/components/wtm/ReviewCard";
 import { FilterTab } from "@/components/CountryFilter";
 import { COUNTRY_DATA } from "@/components/wtm/constants";
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
+import { Loader2 } from "lucide-react";
 
 
 interface ReviewsSectionProps {
@@ -10,11 +12,12 @@ interface ReviewsSectionProps {
 }
 
 const ReviewsSection: React.FC<ReviewsSectionProps> = ({ selectedCountry }) => {
+  const { triggerGoogleSignup, loading } = useGoogleSignup();
   const reviews = COUNTRY_DATA[selectedCountry]?.reviews || COUNTRY_DATA["Angola"].reviews;
-  
+
   // Dynamic text based on country
   const title = selectedCountry === "Angola" ? "60,000 bootcamp and course reviews" : `Avaliações de cursos no ${selectedCountry}`;
-  const description = selectedCountry === "Angola" 
+  const description = selectedCountry === "Angola"
     ? "We have bootcamps, short courses, and certification prep. Whether you’re changing careers or up-skilling in your current role, Course Report gives you the tools to compare programs and find the best fit—backed by thousands of verified student reviews."
     : `Temos bootcamps, cursos de curta duração e preparação para certificações. Quer esteja a mudar de carreira ou a aperfeiçoar-se na sua função atual, o Course Report em ${selectedCountry} dá-lhe as ferramentas para comparar programas e encontrar o que melhor se adapta a si.`;
 
@@ -28,8 +31,13 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ selectedCountry }) => {
         <p className="text-[#4a5568] text-lg leading-relaxed max-w-md">
           {description}
         </p>
-        <button className="bg-[#1a73e8] hover:bg-blue-700 text-white font-bold py-3 px-8 rounded transition-colors shadow-sm">
-          ASSINAR AGORA
+        <button
+          onClick={triggerGoogleSignup}
+          disabled={loading}
+          className="flex items-center gap-2 bg-[#1a73e8] hover:bg-blue-700 text-white font-bold py-3 px-8 rounded transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
+        >
+          {loading && <Loader2 className="w-5 h-5 animate-spin" />}
+          {loading ? "Processando..." : "ASSINAR AGORA"}
         </button>
 
       </div>

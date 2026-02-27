@@ -7,18 +7,14 @@ import Footer from "@/components/Footer";
 import { CommunityGrid } from "@/components/community/CommunityGrid";
 import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
 import { Loader2, ArrowRight } from "lucide-react";
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
 
 export default function Page() {
-  const [loading, setLoading] = useState(false);
+  const { triggerGoogleSignup, loading: googleLoading } = useGoogleSignup();
   const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
 
-  const handleClick = async () => {
-    setLoading(true);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-    } finally {
-      setLoading(false);
-    }
+  const handleClick = () => {
+    triggerGoogleSignup();
   };
 
   return (
@@ -57,20 +53,20 @@ export default function Page() {
 
             <button
               onClick={handleClick}
-              disabled={loading}
-              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${loading
-                  ? "bg-blue-300 cursor-not-allowed text-zinc-800"
-                  : "bg-blue-400 hover:bg-blue-500 text-white"
+              disabled={googleLoading}
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${googleLoading
+                ? "bg-blue-300 cursor-not-allowed text-zinc-800"
+                : "bg-blue-400 hover:bg-blue-500 text-white"
                 }`}
             >
-              {loading ? (
+              {googleLoading ? (
                 <>
                   <Loader2 size={18} className="animate-spin" />
                   Processando...
                 </>
               ) : (
                 <>
-                  Assinar agora!
+                  Subscreva-se ao nosso portal!
                   <ArrowRight size={20} />
                 </>
               )}

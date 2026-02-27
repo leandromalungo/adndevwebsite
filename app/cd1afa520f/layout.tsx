@@ -7,7 +7,8 @@ import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { Toaster } from "@/components/ui/toaster";
 import { useSession } from "next-auth/react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function AdminLayout({
   children,
@@ -18,6 +19,16 @@ export default function AdminLayout({
   const user = session?.user;
   const loading = status === "loading";
   const pathname = usePathname();
+  const router = useRouter();
+
+  // Redireciona para login se a sessão foi resolvida mas não é admin
+  useEffect(() => {
+    if (!loading && pathname !== "/cd1afa520f/login") {
+      if (!user || (user as any).role !== "admin") {
+        router.replace("/cd1afa520f/login");
+      }
+    }
+  }, [loading, user, pathname, router]);
 
   // Não aplica layout na página de login
   if (pathname === "/cd1afa520f/login") {
@@ -41,8 +52,8 @@ export default function AdminLayout({
     );
   }
 
-  // Se não está autenticado, não renderiza nada (o hook já redireciona)
-  if (!user) {
+  // Enquanto aguarda redirecionamento (sessão resolvida mas sem permissão)
+  if (!user || (user as any).role !== "admin") {
     return null;
   }
 

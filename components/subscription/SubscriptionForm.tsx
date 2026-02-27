@@ -16,6 +16,112 @@ import { Landmark, CreditCard, Loader2, Eye, EyeOff } from "lucide-react";
 
 type PaymentMethod = "paypal" | "transfer";
 
+const IT_AREAS: Record<string, string[]> = {
+  "Desenvolvimento de Software": [
+    "Desenvolvedor Front-end",
+    "Desenvolvedor Back-end",
+    "Desenvolvedor Full Stack",
+    "Desenvolvedor Mobile",
+    "Desenvolvedor Desktop",
+    "Desenvolvedor de Jogos",
+    "Engenheiro de Software",
+    "Software Architect",
+    "QA Engineer",
+    "Test Automation Engineer",
+  ],
+  "Cibersegurança": [
+    "Analista de Segurança",
+    "Pentester (Ethical Hacker)",
+    "Security Engineer",
+    "SOC Analyst",
+    "Especialista em Resposta a Incidentes",
+    "Analista Forense Digital",
+    "GRC (Governança, Risco e Compliance)",
+    "Security Architect",
+    "Red Team",
+    "Blue Team",
+  ],
+  "Redes e Infraestrutura": [
+    "Administrador de Redes",
+    "Network Engineer",
+    "Técnico de Redes",
+    "Especialista em Firewall",
+    "Engenheiro de Infraestrutura",
+    "NOC Analyst",
+    "Administrador de Sistemas",
+    "DevOps Engineer",
+  ],
+  "Cloud Computing": [
+    "Cloud Engineer",
+    "Cloud Architect",
+    "Cloud Administrator",
+    "DevOps Cloud",
+    "Site Reliability Engineer (SRE)",
+    "Especialista AWS",
+    "Especialista Azure",
+    "Especialista Google Cloud",
+  ],
+  "Ciência de Dados e Inteligência Artificial": [
+    "Data Analyst",
+    "Data Scientist",
+    "Machine Learning Engineer",
+    "AI Engineer",
+    "Data Engineer",
+    "BI Analyst",
+    "Especialista em Big Data",
+  ],
+  "Suporte Técnico e Help Desk": [
+    "Técnico de Suporte",
+    "Help Desk Nível 1",
+    "Help Desk Nível 2",
+    "Help Desk Nível 3",
+    "Field Support",
+    "Técnico de Hardware",
+  ],
+  "Gestão e Governança de TI": [
+    "IT Manager",
+    "CIO",
+    "CTO",
+    "Product Manager",
+    "Project Manager",
+    "Scrum Master",
+    "IT Auditor",
+    "Analista de Processos",
+  ],
+  "UX/UI e Design Digital": [
+    "UX Designer",
+    "UI Designer",
+    "Product Designer",
+    "UX Researcher",
+    "Interaction Designer",
+  ],
+  "Banco de Dados": [
+    "DBA",
+    "Database Engineer",
+    "Database Administrator",
+    "Especialista SQL",
+    "Especialista NoSQL",
+  ],
+  "Automação e RPA": [
+    "RPA Developer",
+    "Automation Engineer",
+    "QA Automation",
+    "Especialista em Processos Automatizados",
+  ],
+  "Blockchain e Web3": [
+    "Blockchain Developer",
+    "Smart Contract Developer",
+    "Web3 Developer",
+    "Especialista em Criptografia",
+  ],
+  "IoT (Internet das Coisas)": [
+    "IoT Engineer",
+    "Embedded Systems Developer",
+    "Firmware Developer",
+    "Especialista em Sistemas Embarcados",
+  ],
+};
+
 interface ReferenceData {
   entityNumber: string;
   referenceNumber: string;
@@ -37,6 +143,8 @@ const SubscriptionForm = () => {
   const [telegram, setTelegram] = useState("");
   const [email, setEmail] = useState("");
   const [country, setCountry] = useState("Angola");
+  const [itArea, setItArea] = useState("");
+  const [itRole, setItRole] = useState("");
   const [telegramError, setTelegramError] = useState("");
   const [formError, setFormError] = useState("");
 
@@ -86,6 +194,16 @@ const SubscriptionForm = () => {
     // Basic fields check
     if (!name.trim() || !email.trim()) {
       showError("Preencha todos os campos obrigatórios.");
+      return false;
+    }
+
+    if (!itArea) {
+      showError("Selecione a sua área de atuação em T.I.");
+      return false;
+    }
+
+    if (!itRole) {
+      showError("Selecione a sua função dentro da área escolhida.");
       return false;
     }
 
@@ -166,6 +284,8 @@ const SubscriptionForm = () => {
         email: sEmail,
         password: password,
         country,
+        itArea,
+        itRole,
         alerts,
         plan: "premium",
         paymentMethod,
@@ -262,7 +382,7 @@ const SubscriptionForm = () => {
           </div>
           <button
             type="button"
-            onClick={() => signIn("google", { callbackUrl: "/assinatura" })}
+            onClick={() => signIn("google", { callbackUrl: "/" })}
             className="w-full md:w-auto px-5 py-2 md:py-2.5 bg-white border border-gray-300 text-gray-800 rounded-lg hover:bg-gray-50 transition font-bold flex items-center justify-center gap-2 shadow-sm whitespace-nowrap"
           >
             <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" className="w-5 h-5" />
@@ -320,6 +440,37 @@ const SubscriptionForm = () => {
               <option>Cabo Verde</option>
               <option>Guiné-Bissau</option>
               <option>São Tomé e Príncipe</option>
+            </select>
+          </label>
+
+          {/* Área de TI */}
+          <label className="flex flex-col">
+            <span className="text-sm font-medium mb-1">Área de atuação em T.I</span>
+            <select
+              value={itArea}
+              onChange={(e) => { setItArea(e.target.value); setItRole(""); }}
+              className="px-3 py-2 rounded bg-gray-50 border border-transparent focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200 focus:outline-none transition-all"
+            >
+              <option value="">Selecione uma área</option>
+              {Object.keys(IT_AREAS).map((area) => (
+                <option key={area} value={area}>{area}</option>
+              ))}
+            </select>
+          </label>
+
+          {/* Função dentro da área */}
+          <label className="flex flex-col">
+            <span className="text-sm font-medium mb-1">Função</span>
+            <select
+              value={itRole}
+              onChange={(e) => setItRole(e.target.value)}
+              disabled={!itArea}
+              className="px-3 py-2 rounded bg-gray-50 border border-transparent focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200 focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <option value="">{itArea ? "Selecione uma função" : "Escolha a área primeiro"}</option>
+              {itArea && IT_AREAS[itArea].map((role) => (
+                <option key={role} value={role}>{role}</option>
+              ))}
             </select>
           </label>
 
@@ -397,6 +548,7 @@ const SubscriptionForm = () => {
               { id: "roadmaps", label: "Cursos" },
               { id: "bolsas", label: "Bolsas de estudo" },
               { id: "startups", label: "Startups" },
+              { id: "ia", label: "Inteligência Artificial" },
             ].map((item) => (
               <label key={item.id} className="inline-flex items-center gap-2">
                 <input
@@ -497,7 +649,7 @@ const SubscriptionForm = () => {
       {/* MODAL DE REFERÊNCIA (Indispensável para a lógica de 'transfer') */}
       {showRefModal && refData && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300">
+          <div className="bg-white rounded w-full max-w-sm overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300">
             <div className="bg-indigo-600 p-8 text-center text-white relative">
               <div className="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Landmark className="w-8 h-8" />
@@ -544,10 +696,10 @@ const SubscriptionForm = () => {
                   </div>
 
                   <button
-                    onClick={() => router.push("/perfil")}
+                    onClick={() => router.push("/")}
                     className="w-full py-4 bg-gray-900 text-white font-black rounded-2xl hover:bg-black transition shadow-lg active:scale-95"
                   >
-                    Entendi, Ver meu Perfil
+                    Entendi, Ir para o Início
                   </button>
                 </>
               )}

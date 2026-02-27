@@ -4,8 +4,9 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,9 +18,18 @@ import { signIn } from "next-auth/react";
 export default function AdminLoginPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  // Se já está autenticado como admin, redireciona para o painel
+  useEffect(() => {
+    if (status === "authenticated" && (session?.user as any)?.role === "admin") {
+      router.replace("/cd1afa520f");
+    }
+  }, [session, status, router]);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -124,7 +134,7 @@ export default function AdminLoginPage() {
                   value={formData.password}
                   onChange={(e) => {
                     setFormData({ ...formData, password: e.target.value });
-                    setError(""); 
+                    setError("");
                   }}
                   disabled={loading}
                 />

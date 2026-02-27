@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { Tag } from "./Tag";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
 
 type LoadingButton = "assinar" | "area" | null;
 
@@ -12,14 +13,19 @@ export const Hero = () => {
   const [loadingButton, setLoadingButton] = useState<LoadingButton>(null);
   const router = useRouter();
 
+  const { triggerGoogleSignup, loading: googleLoading } = useGoogleSignup();
+
   const handleClick = (button: LoadingButton) => {
     setLoadingButton(button);
+
+    if (button === "assinar") {
+      triggerGoogleSignup().finally(() => setLoadingButton(null));
+      return;
+    }
 
     setTimeout(() => {
       if (button === "area") {
         router.push("/quiz");
-      } else {
-        router.push("/assinatura");
       }
     }, 900);
   };
@@ -47,7 +53,7 @@ export const Hero = () => {
         <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-4 sm:mb-5 md:mb-6 lg:mb-8 leading-relaxed max-w-3xl">
           O maior repositorio de conteúdo tecnológico da lusofonia com tudo o
           que precisas para entrar na área de tecnologia, desde cursos
-          e muito mais. Um espaço feito para desenvolver a tua 
+          e muito mais. Um espaço feito para desenvolver a tua
           carreira no sector tecnologico. Conte com a nossa ajuda.
         </p>
 
@@ -64,7 +70,7 @@ export const Hero = () => {
             {/* Botão Assinar */}
             <button
               onClick={() => handleClick("assinar")}
-              disabled={loadingButton !== null}
+              disabled={loadingButton !== null || googleLoading}
               className="
                 inline-flex items-center justify-center
                 border border-violet-600

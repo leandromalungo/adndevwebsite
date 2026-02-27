@@ -2,6 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
+import { Loader2 } from "lucide-react";
 import type { FilterTab } from "@/components/CountryFilter";
 
 interface CategoryCardProps {
@@ -35,9 +37,9 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
         <p className="text-white text-sm leading-relaxed mb-6 flex-grow">
           {description}
         </p>
-           <span className="text-[10px] text-gray-100 mb-4">
-              Fonte: Esta bolsa tem as suas fontes devidamente mencionadas nesta postagem sem nenhuma alteração.
-            </span>
+        <span className="text-[10px] text-gray-100 mb-4">
+          Fonte: Esta bolsa tem as suas fontes devidamente mencionadas nesta postagem sem nenhuma alteração.
+        </span>
         <div>
           <Link
             href={href}
@@ -58,6 +60,8 @@ interface RecentSectionProps {
 export const RecentSection: React.FC<RecentSectionProps> = ({
   selectedCountry,
 }) => {
+  const { triggerGoogleSignup, loading } = useGoogleSignup();
+
   const categories = [
     {
       image: "/api/images/europeu",
@@ -167,8 +171,13 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
               "Explore as bolsas de estudo mais recentes e populares disponíveis para você, independentemente do país Assine a plataforma e receba alertas durante o mês."}
           </p>
 
-          <button className="bg-[#620fe7] hover:bg-[#5815c4] text-white py-3 px-8 rounded transition-all duration-200 shadow-md active:scale-95">
-            Assinar agora
+          <button
+            onClick={triggerGoogleSignup}
+            disabled={loading}
+            className="flex items-center gap-2 bg-[#620fe7] hover:bg-[#5815c4] text-white py-3 px-8 rounded transition-all duration-200 shadow-md active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {loading && <Loader2 className="w-5 h-5 animate-spin" />}
+            {loading ? "Processando..." : "Assinar agora"}
           </button>
         </header>
 

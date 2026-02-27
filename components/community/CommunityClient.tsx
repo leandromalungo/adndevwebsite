@@ -6,18 +6,14 @@ import Footer from "@/components/Footer";
 import { CommunityGrid } from "@/components/community/CommunityGrid";
 import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
 import { Loader2, ArrowRight } from "lucide-react";
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
 
 export default function CommunityClient() {
-  const [loading, setLoading] = useState(false);
+  const { triggerGoogleSignup, loading: googleLoading } = useGoogleSignup();
   const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
 
-  const handleClick = async () => {
-    setLoading(true);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-    } finally {
-      setLoading(false);
-    }
+  const handleClick = () => {
+    triggerGoogleSignup();
   };
 
   return (
@@ -49,13 +45,13 @@ export default function CommunityClient() {
 
             <button
               onClick={handleClick}
-              disabled={loading}
-              className={`inline-flex items-center gap-2 px-3 py-3 mb-4 font-semibold transition-all active:scale-95 rounded-xl ${loading
+              disabled={googleLoading}
+              className={`inline-flex items-center gap-2 px-3 py-3 mb-4 font-semibold transition-all active:scale-95 rounded-xl ${googleLoading
                 ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                 : "bg-blue-400 hover:bg-blue-500 text-white"
                 }`}
             >
-              {loading ? (
+              {googleLoading ? (
                 <>
                   <Loader2 size={20} className="animate-spin" />
                   Processando...

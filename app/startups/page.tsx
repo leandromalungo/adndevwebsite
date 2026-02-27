@@ -3,6 +3,7 @@
 import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
 import Features from "@/components/startups/Features";
 import AccessSection from "@/components/startups/AccessSection";
 import Matchmaking from "@/components/startups/Matchmaking";
@@ -14,12 +15,11 @@ import Footer from "@/components/Footer";
 import { Loader2, ArrowRight } from "lucide-react";
 
 const App = () => {
-  const [loading, setLoading] = useState(false);
-
+  const { triggerGoogleSignup, loading: googleLoading } = useGoogleSignup();
   const router = useRouter();
+
   const handleClick = () => {
-    setLoading(true);
-    setTimeout(() => router.push("/assinatura"), 1000);
+    triggerGoogleSignup();
   };
 
   return (
@@ -59,14 +59,13 @@ const App = () => {
 
             <button
               onClick={handleClick}
-              disabled={loading}
-              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${
-                loading
+              disabled={googleLoading}
+              className={`inline-flex items-center gap-2 px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${googleLoading
                   ? "bg-blue-300 cursor-not-allowed text-zinc-800"
                   : "bg-blue-400 hover:bg-blue-500 text-white"
-              }`}
+                }`}
             >
-              {loading ? (
+              {googleLoading ? (
                 <>
                   <Loader2 size={18} className="animate-spin" />
                   Processando...

@@ -1,6 +1,11 @@
 "use client";
 
+import { useGoogleSignup } from "@/hooks/useGoogleSignup";
+import { Loader2 } from "lucide-react";
+
 export const BigTechBo = () => {
+  const { triggerGoogleSignup, loading } = useGoogleSignup();
+
   const supporters = [
     {
       name: "M.I.T - Massachusetts Institute of Technology",
@@ -61,8 +66,13 @@ export const BigTechBo = () => {
           </p>
 
           <div className="pt-4">
-            <button className="bg-[#006eff] hover:bg-[#0c69e3] text-white font-bold py-3 px-8 rounded transition-all duration-200 shadow-md active:scale-95">
-              Assinar agora
+            <button
+              onClick={triggerGoogleSignup}
+              disabled={loading}
+              className="flex items-center justify-center gap-2 bg-[#006eff] hover:bg-[#0c69e3] text-white font-bold py-3 px-8 rounded transition-all duration-200 shadow-md active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {loading && <Loader2 className="w-5 h-5 animate-spin" />}
+              {loading ? "Processando..." : "Assinar agora"}
             </button>
           </div>
         </div>

@@ -226,6 +226,24 @@ export async function signout(): Promise<{
   return callCloudFunction("signout", "POST", {}, true);
 }
 
+/**
+ * Atualiza o perfil do utilizador autenticado
+ * O backend valida todos os campos e persiste no Firestore
+ */
+export async function updateProfile(payload: {
+  name?: string;
+  telegram?: string;
+  country?: string;
+  itArea?: string;
+  itRole?: string;
+  alerts?: string[];
+}): Promise<{
+  success: boolean;
+  message?: string;
+}> {
+  return callCloudFunction("updateProfile", "POST", payload, true);
+}
+
 // ==================== Funções do Stripe ====================
 
 export interface CheckoutSession {
