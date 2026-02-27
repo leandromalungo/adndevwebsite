@@ -1,6 +1,8 @@
 "use client";
 
 /**
+ * 
+ * 
  * Navbar: componente de navegação global do site.
  * 
  * FRONTEND: Apenas exibe dados e envia requisições.
