@@ -22,9 +22,9 @@ export default function Error({
           <AlertCircle className="w-8 h-8" />
         </div>
         
-        <h2 className="text-2xl font-black text-gray-900 mb-2">Ops! Algo correu mal.</h2>
+        <h2 className="text-2xl font-black text-gray-900 mb-2">Ops! algo correu mal.</h2>
         <p className="text-gray-500 mb-8 leading-relaxed">
-          Ocorreu um erro inesperado na aplicação. Não se preocupe, os nossos engenheiros já foram notificados.
+          Ocorreu um erro inesperado na aplicação. 
         </p>
 
         <div className="flex flex-col gap-3">
@@ -44,10 +44,7 @@ export default function Error({
             Voltar ao Início
           </a>
         </div>
-        
-        <p className="mt-8 text-[10px] text-gray-400 font-mono">
-          ID do Erro: {error.digest || "N/A"}
-        </p>
+      
       </div>
     </div>
   );

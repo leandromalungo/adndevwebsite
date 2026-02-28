@@ -1,13 +1,22 @@
+import type { Metadata } from 'next';
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link"; // Import Link component
 
+export const metadata: Metadata = {
+  title: "Termos de Uso | ADN Developer",
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
+
 export default function TermosDeUsoPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
-      
+
       <main className="flex-grow container mx-auto px-4 py-12 max-w-4xl">
         <div className="bg-white rounded-2xl shadow-sm p-8 md:p-12">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Termos de Uso</h1>

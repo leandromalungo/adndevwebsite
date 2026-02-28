@@ -392,7 +392,7 @@ const Navbar = () => {
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-100">
       <div className="flex items-center justify-between px-6 py-4">
-        <Link href="/" className="focus:outline-none focus:ring-0 focus-visible:outline-none">
+        <Link href="/" className="focus:outline-none focus:ring-0 focus-visible:outline-none" aria-label="Página Inicial da ADN Developer">
           <Image
             src="/logoNavbar.png"
             alt="ADN Developer Logo"
@@ -400,6 +400,7 @@ const Navbar = () => {
             height={40}
             className="cursor-pointer object-contain"
             priority
+            title="ADN Developer"
           />
         </Link>
 

@@ -33,6 +33,7 @@ const staticRoutes: StaticRoute[] = [
   { path: "community", priority: 0.8, changeFrequency: "weekly" },
   { path: "wtm", priority: 0.7, changeFrequency: "weekly" },
   { path: "cursos", priority: 0.8, changeFrequency: "weekly" },
+  { path: "sobre-nos", priority: 0.8, changeFrequency: "monthly" },
   { path: "bolsas", priority: 0.7, changeFrequency: "monthly" },
   { path: "startups", priority: 0.7, changeFrequency: "monthly" },
   { path: "projectos", priority: 0.7, changeFrequency: "weekly" },

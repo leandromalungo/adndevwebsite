@@ -25,7 +25,7 @@ export const Hero = () => {
 
     setTimeout(() => {
       if (button === "area") {
-        router.push("/quiz");
+        router.push("/sobre-nos");
       }
     }, 900);
   };

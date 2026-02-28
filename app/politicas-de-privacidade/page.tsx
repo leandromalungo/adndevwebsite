@@ -1,12 +1,21 @@
+import type { Metadata } from 'next';
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
+export const metadata: Metadata = {
+  title: "Políticas de Privacidade | ADN Developer",
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
 
 export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
-      
+
       <main className="flex-grow container mx-auto px-4 py-12 max-w-4xl">
         <div className="bg-white rounded-2xl shadow-sm p-8 md:p-12">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Políticas de Privacidade</h1>
@@ -50,7 +59,7 @@ export default function PrivacyPolicyPage() {
               </p>
             </section>
 
-             <section>
+            <section>
               <h2 className="text-xl font-semibold text-gray-900 mb-4">4. Isenção de Responsabilidade e Afiliação</h2>
               <div className="bg-blue-50 border-l-4 border-blue-500 p-4">
                 <p className="text-gray-700">
