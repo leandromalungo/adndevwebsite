@@ -14,15 +14,17 @@ interface ServicesSectionProps {
   services: Service[];
 }
 
-export const SectionHero: React.FC<ServicesSectionProps> = ({ services,}) => {
+export const SectionHero: React.FC<ServicesSectionProps> = ({ services, }) => {
   return (
     <section className="w-full py-2 pt-6">
-      <h2 className="text-2xl font-bold text-[#444] mb-8 uppercase">
-        Nós somos o caminho para o teu fututo
-        <p className="text-xs text-gray-400 font-medium">
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-[#444] uppercase">
+          Nós somos o caminho para o teu futuro
+        </h2>
+        <p className="text-xs text-gray-400 font-medium mt-2">
           Explora nossos serviços e descubra como podemos ajudar você a alcançar seus objetivos na área de tecnologia.
         </p>
-      </h2>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {services.map((service) => (
@@ -41,7 +43,7 @@ export const SectionHero: React.FC<ServicesSectionProps> = ({ services,}) => {
               <p className="text-gray-600 text-sm leading-relaxed mb-8 flex-grow">
                 {service.description}
               </p>
-            
+
             </div>
           </div>
         ))}
