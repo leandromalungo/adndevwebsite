@@ -60,11 +60,15 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Email e senha são obrigatórios");
+          throw new Error("Credenciais inválidas ou acesso negado");
         }
 
         try {
-          // Chamada segura ao backend para autenticação de admin
+          // Timeout de 10s — previne ataques de delay/slow-loris
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 10_000);
+
+          // Chamada segura ao backend — TODA a validação ocorre na Cloud Function
           const response = await fetch(`${CLOUD_FUNCTIONS_URL}/signinAdmin`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -72,16 +76,18 @@ export const authOptions: NextAuthOptions = {
               email: credentials.email,
               password: credentials.password,
             }),
+            signal: controller.signal,
           });
 
+          clearTimeout(timeoutId);
+
           if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error || "Falha na autenticação");
+            // Não expõe o erro real do backend — mensagem genérica
+            throw new Error("Credenciais inválidas ou acesso negado");
           }
 
           const data = await response.json();
 
-          // Retorna o objeto do utilizador com o token gerado pelo backend
           return {
             id: data.user.id,
             email: data.user.email,
@@ -90,7 +96,7 @@ export const authOptions: NextAuthOptions = {
             token: data.token,
           };
         } catch (error: any) {
-          console.error("[NextAuth] Erro no login admin:", error.message);
+          // Nenhum detalhe técnico é propagado ao frontend
           throw new Error("Credenciais inválidas ou acesso negado");
         }
       },
@@ -109,11 +115,15 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Email e senha são obrigatórios");
+          throw new Error("Credenciais inválidas");
         }
 
         try {
-          // Chamada segura ao backend para login de utilizador
+          // Timeout de 10s — previne ataques de delay/slow-loris
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 10_000);
+
+          // Chamada segura ao backend — TODA a validação ocorre na Cloud Function
           const response = await fetch(`${CLOUD_FUNCTIONS_URL}/signinUser`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -121,16 +131,18 @@ export const authOptions: NextAuthOptions = {
               email: credentials.email,
               password: credentials.password,
             }),
+            signal: controller.signal,
           });
 
+          clearTimeout(timeoutId);
+
           if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error || "Falha na autenticação");
+            // Mensagem genérica — não expõe detalhes do backend
+            throw new Error("Credenciais inválidas");
           }
 
           const data = await response.json();
 
-          // Retorna o utilizador com o JWT de sessão do backend
           return {
             id: data.user.id,
             email: data.user.email,
@@ -139,7 +151,7 @@ export const authOptions: NextAuthOptions = {
             token: data.token,
           };
         } catch (error: any) {
-          console.error("[NextAuth] Erro no login utilizador:", error.message);
+          // Nenhum detalhe técnico é propagado ao frontend
           throw new Error("Credenciais inválidas");
         }
       },
@@ -208,8 +220,8 @@ export const authOptions: NextAuthOptions = {
             token.role = data.user.role;
             token.cloudFunctionToken = data.token;
           }
-        } catch (error) {
-          console.error("[NextAuth] Erro no callback do Google:", error);
+        } catch {
+          // Silencia o erro — não expõe detalhes ao browser
         }
       }
 
@@ -240,6 +252,6 @@ export const authOptions: NextAuthOptions = {
   // Segredo usado para assinar os cookies do NextAuth
   secret: process.env.NEXTAUTH_SECRET,
 
-  // Ativa logs de detalhados em ambiente de desenvolvimento
-  debug: process.env.NODE_ENV === "development",
+  // Debug APENAS em desenvolvimento — nunca em produção
+  debug: false,
 };

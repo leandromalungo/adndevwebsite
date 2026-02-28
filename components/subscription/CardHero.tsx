@@ -8,7 +8,7 @@ const CardHero = () => {
         className="absolute inset-0 bg-cover bg-center"
         style={{
           backgroundImage:
-            "url('/api/images/assinatura')",
+            "url('/assinatura.webp')",
         }}
       />
 

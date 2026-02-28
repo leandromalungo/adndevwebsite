@@ -11,7 +11,7 @@ const CardHero = () => {
       {/* Imagem de fundo */}
       <div className="absolute inset-0">
         <Image
-          src="/api/images/cardheroo"
+          src="/CardHeroo.webp"
           alt="Card Hero Background"
           fill
           className="object-cover object-center"

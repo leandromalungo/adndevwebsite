@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
 import { logSecurityAction } from "@/lib/admin-api/audit";
+import { checkRateLimit } from "@/lib/admin-api/rate-limit";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/next-auth.config";
 
@@ -15,7 +16,13 @@ export async function GET(request: NextRequest) {
     const userAgent = request.headers.get("user-agent") || "unknown";
 
     try {
-        // 1. Verificar Autenticação Admin via NextAuth
+        // CAMADA 1: Controlo de Taxa (Rate Limiting)
+        const rateLimit = await checkRateLimit(ip, "api");
+        if (!rateLimit.allowed) {
+            return NextResponse.json({ message: "Muitas solicitações" }, { status: 429 });
+        }
+
+        // 2. Verificar Autenticação Admin via NextAuth
         const session = await getServerSession(authOptions);
 
         if (session?.user?.role !== "admin") {

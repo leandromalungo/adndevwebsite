@@ -1,99 +1,158 @@
+/**
+ * proxy.ts — Middleware de Segurança ADN Developer
+ *
+ * IMPORTANTE: No Next.js 16+ com Turbopack, o ficheiro de middleware chama-se "proxy.ts".
+ * O Next.js procura por este ficheiro especificamente na raiz do projeto.
+ *
+ * Camadas de proteção (Edge Runtime — executa antes de qualquer HTML ser gerado):
+ *
+ *  CAMADA 1 — /cd1afa520f/*       → Apenas administradores (role: "admin")
+ *  CAMADA 1 — /api/cd1afa520f/*   → Apenas administradores (API backend)
+ *  CAMADA 2 — /perfil/*           → Utilizadores autenticados (qualquer role)
+ *  CAMADA 3 — /api/images/*       → Público, com rate limit via Upstash Redis
+ *  CAMADA 4 — /cd1afa520f/*       → Headers de obscuridade (X-Robots-Tag: noindex)
+ */
+
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
-/**
- * Middleware de Segurança ADN Developer — proxy.ts
- *
- * No Next.js 16+ (Turbopack), o ficheiro de middleware chama-se "proxy.ts".
- * Protege rotas baseadas em autenticação e papéis (roles) no nível do servidor (Edge Runtime).
- *
- * Rotas protegidas:
- * - /cd1afa520f/*       — Apenas administradores (role: "admin")
- * - /api/cd1afa520f/*   — Apenas administradores (proteção adicional de API)
- * - /perfil/*           — Utilizadores autenticados (qualquer role)
- * - /api/images/*       — Público, mas com rate limit via Upstash Redis
- */
+// ── Constantes de Rate Limit ───────────────────────────────────────────────────
+// Imagens: máx 60 pedidos por IP por minuto
+const IMG_RATE_LIMIT_MAX = 60;
+const IMG_RATE_LIMIT_WINDOW = 60; // segundos
 
-// Rate limit: max pedidos por IP por janela de tempo (imagens)
-const RATE_LIMIT_MAX = 60;
-const RATE_LIMIT_WINDOW = 60; // segundos
+// Login admin: máx 5 tentativas por IP por 15 minutos (anti-brute-force)
+const ADMIN_LOGIN_RATE_LIMIT_MAX = 5;
+const ADMIN_LOGIN_RATE_LIMIT_WINDOW = 900; // 15 minutos em segundos
+
+/**
+ * Utilitário de rate limit via Upstash REST API (compatível com Edge Runtime)
+ */
+async function checkRedisRateLimit(
+    key: string,
+    maxRequests: number,
+    windowSeconds: number,
+    redisUrl: string,
+    redisToken: string
+): Promise<{ allowed: boolean; count: number }> {
+    try {
+        const incrRes = await fetch(`${redisUrl}/incr/${encodeURIComponent(key)}`, {
+            headers: { Authorization: `Bearer ${redisToken}` },
+        });
+        if (!incrRes.ok) return { allowed: true, count: 0 };
+        const incrData = await incrRes.json();
+        const count = incrData.result as number;
+
+        if (count === 1) {
+            await fetch(
+                `${redisUrl}/expire/${encodeURIComponent(key)}/${windowSeconds}`,
+                { headers: { Authorization: `Bearer ${redisToken}` } }
+            ).catch(() => { });
+        }
+
+        return { allowed: count <= maxRequests, count };
+    } catch {
+        // Fail-open: não bloqueia se o Redis falhar
+        return { allowed: true, count: 0 };
+    }
+}
+
+/**
+ * Adiciona headers de segurança restritivos às respostas do painel admin
+ */
+function addAdminSecurityHeaders(response: NextResponse): NextResponse {
+    // Previne indexação por motores de busca (obscuridade)
+    response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
+    // Previne clickjacking — mais restritivo que SAMEORIGIN
+    response.headers.set("X-Frame-Options", "DENY");
+    // Sem cache de páginas admin
+    response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+    response.headers.set("Pragma", "no-cache");
+    response.headers.set("Expires", "0");
+    return response;
+}
 
 export default withAuth(
     async function middleware(req) {
         const token = req.nextauth.token;
         const path = req.nextUrl.pathname;
+        // IP extraído de forma segura — nunca falha
         const ip =
-            req.headers.get("x-forwarded-for")?.split(",")[0].trim() || "unknown";
+            req.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+            req.headers.get("x-real-ip") ||
+            "unknown";
+
+        const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
+        const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
 
         // ─── 1. PROTEÇÃO DAS ROTAS ADMINISTRATIVAS ──────────────────────────────
-        if (path.startsWith("/cd1afa520f") || path.startsWith("/api/cd1afa520f")) {
-            // A página de login é sempre pública
+        if (
+            path.startsWith("/cd1afa520f") ||
+            path.startsWith("/api/cd1afa520f")
+        ) {
+            // Página de login pública — rate limit anti-brute-force
             if (path === "/cd1afa520f/login") {
-                return NextResponse.next();
+                if (redisUrl && redisToken) {
+                    const result = await checkRedisRateLimit(
+                        `rl:admin_login:${ip}`,
+                        ADMIN_LOGIN_RATE_LIMIT_MAX,
+                        ADMIN_LOGIN_RATE_LIMIT_WINDOW,
+                        redisUrl,
+                        redisToken
+                    );
+                    if (!result.allowed) {
+                        // Resposta 429 sem corpo JSON — minimiza informação para atacantes
+                        const blockedRes = new NextResponse(null, { status: 429 });
+                        blockedRes.headers.set("Retry-After", String(ADMIN_LOGIN_RATE_LIMIT_WINDOW));
+                        return addAdminSecurityHeaders(blockedRes);
+                    }
+                }
+                const loginRes = NextResponse.next();
+                return addAdminSecurityHeaders(loginRes);
             }
 
-            // Verifica se o token tem a role de administrador
+            // Verifica role de administrador — bloqueia sem revelar informação
             if (token?.role !== "admin") {
-                console.warn(
-                    `[SECURITY] Acesso não autorizado a ${path} por ${token?.email || "Anónimo"
-                    } (IP: ${ip}) em ${new Date().toISOString()}`
-                );
+                // Redirect silencioso: sem ?error= na URL (previne enumeração)
                 const loginUrl = new URL("/cd1afa520f/login", req.url);
-                loginUrl.searchParams.set("error", "AccessDenied");
-                return NextResponse.redirect(loginUrl);
+                const redirectRes = NextResponse.redirect(loginUrl);
+                return addAdminSecurityHeaders(redirectRes);
             }
+
+            // Admin autenticado — continua com headers de segurança
+            const adminRes = NextResponse.next();
+            return addAdminSecurityHeaders(adminRes);
         }
 
         // ─── 2. PROTEÇÃO DO PERFIL DE UTILIZADOR ────────────────────────────────
         if (path.startsWith("/perfil")) {
             if (!token) {
+                // Redirect silencioso para homepage
                 return NextResponse.redirect(new URL("/", req.url));
             }
         }
 
-        // ─── 3. RATE LIMIT NAS IMAGENS (via Upstash Redis) ───────────────────────
+        // ─── 3. RATE LIMIT NAS IMAGENS ───────────────────────────────────────────
         if (path.startsWith("/api/images")) {
-            try {
-                const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
-                const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+            if (redisUrl && redisToken) {
+                const { allowed } = await checkRedisRateLimit(
+                    `rl:img:${ip}`,
+                    IMG_RATE_LIMIT_MAX,
+                    IMG_RATE_LIMIT_WINDOW,
+                    redisUrl,
+                    redisToken
+                );
 
-                if (redisUrl && redisToken) {
-                    const key = `rl:img:${ip}`;
-
-                    const incrRes = await fetch(`${redisUrl}/incr/${key}`, {
-                        headers: { Authorization: `Bearer ${redisToken}` },
+                if (!allowed) {
+                    return new NextResponse(null, {
+                        status: 429,
+                        headers: {
+                            "Retry-After": String(IMG_RATE_LIMIT_WINDOW),
+                            "X-RateLimit-Limit": String(IMG_RATE_LIMIT_MAX),
+                            "X-RateLimit-Remaining": "0",
+                        },
                     });
-                    const incrData = await incrRes.json();
-                    const count = incrData.result as number;
-
-                    // Na primeira chamada da janela, define o TTL
-                    if (count === 1) {
-                        await fetch(`${redisUrl}/expire/${key}/${RATE_LIMIT_WINDOW}`, {
-                            headers: { Authorization: `Bearer ${redisToken}` },
-                        });
-                    }
-
-                    if (count > RATE_LIMIT_MAX) {
-                        console.warn(
-                            `[RATE LIMIT] IP ${ip} atingiu o limite de imagens (${count}/${RATE_LIMIT_MAX}) em ${new Date().toISOString()}`
-                        );
-                        return new NextResponse(
-                            JSON.stringify({ error: "Demasiados pedidos. Tente mais tarde." }),
-                            {
-                                status: 429,
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    "Retry-After": String(RATE_LIMIT_WINDOW),
-                                    "X-RateLimit-Limit": String(RATE_LIMIT_MAX),
-                                    "X-RateLimit-Remaining": "0",
-                                },
-                            }
-                        );
-                    }
                 }
-            } catch (e) {
-                // Rate limit não bloqueia se o Redis falhar
-                console.error("[RATE LIMIT] Erro ao verificar rate limit:", e);
             }
         }
 
@@ -102,37 +161,33 @@ export default withAuth(
     {
         callbacks: {
             /**
-             * Determina se o pedido é entregue ao middleware acima ou redirecionado
-             * automaticamente pelo withAuth para a página de signIn.
+             * Controla se o pedido entra no middleware ou é redirecionado pelo withAuth.
+             * true = entra no middleware acima, false = withAuth redireciona para signIn.
              */
             authorized: ({ token, req }) => {
                 const path = req.nextUrl.pathname;
 
-                // Rotas sempre públicas
+                // Rotas públicas — não requerem token
                 if (
                     path === "/" ||
                     path.startsWith("/_next") ||
                     path.startsWith("/api/auth") ||
-                    path === "/cd1afa520f/login"
+                    path === "/cd1afa520f/login" ||
+                    path.startsWith("/api/images")
                 ) {
                     return true;
                 }
 
-                // Imagens são públicas mas passam pelo middleware (para rate limit)
-                if (path.startsWith("/api/images")) {
-                    return true;
-                }
-
-                // Rotas que requerem autenticação
+                // Admin, perfil e API admin — entram no middleware para verificação granular
                 if (
                     path.startsWith("/cd1afa520f") ||
                     path.startsWith("/perfil") ||
                     path.startsWith("/api/cd1afa520f")
                 ) {
-                    return !!token;
+                    return true; // O middleware decide o que fazer
                 }
 
-                // Por defeito, permite rotas públicas
+                // Todas as outras rotas são públicas
                 return true;
             },
         },
@@ -144,8 +199,8 @@ export default withAuth(
 );
 
 /**
- * Matcher — define quais rotas passam pelo middleware.
- * Exclui automaticamente _next/static, _next/image, favicons, etc.
+ * Matcher — define quais rotas passam pelo Edge Middleware.
+ * Next.js exclui automaticamente _next/static, _next/image, favicons, etc.
  */
 export const config = {
     matcher: [

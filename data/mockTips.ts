@@ -14,7 +14,7 @@ export const MOCK_TIPS: Tip[] = [
         slug: "como-criar-curriculum-vitae-ideal",
         title: "Como criar um curriculum vitae ideal para T.I.",
         date: "10 Fev 2026",
-        image: "/api/images/logo",
+        image: "/logoNavbar.png",
         readTime: "5 min de leitura"
     },
     {

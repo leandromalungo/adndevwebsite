@@ -169,7 +169,7 @@ const Page = () => {
         {/* FUNDO COM IMAGEM */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/api/images/cursos')` }}
+          style={{ backgroundImage: `url('/images-cursos.webp')` }}
         >
           {/* OVERLAY / GRADIENT */}
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
@@ -193,8 +193,8 @@ const Page = () => {
                 onClick={handleClickAssinar}
                 disabled={googleLoading}
                 className={`inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${googleLoading
-                    ? "bg-blue-300 cursor-not-allowed text-zinc-800"
-                    : "bg-blue-400 hover:bg-blue-500 text-white"
+                  ? "bg-blue-300 cursor-not-allowed text-zinc-800"
+                  : "bg-blue-400 hover:bg-blue-500 text-white"
                   }`}
               >
                 {googleLoading ? (

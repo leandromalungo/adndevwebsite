@@ -10,7 +10,7 @@ import { SessionProvider } from "@/components/SessionProvider";
  * Fonte padrão Geist com subset latim
  * Fallback para sans-serif para evitar bloqueios em caso de erro de conexão com Google Fonts
  */
-const _geist = Geist({ 
+const _geist = Geist({
   subsets: ["latin"],
   display: 'swap',
   variable: '--font-geist'
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   description:
     "Maior repositório de informações sobre tecnologia na lusofonia. Saiba de tudo o que se passa sobre tecnologia na C.P.L.P. (Angola, Brasil, Portugal, Moçambique e mais).",
   keywords: [
-    "tecnologia", "programação", "lusofonia", "CPLP", "dev", 
+    "tecnologia", "programação", "lusofonia", "CPLP", "dev",
     "desenvolvimento de software", "cursos de tecnologia", "bolsas de estudo",
     "ADN Developer", "Angola", "Portugal", "Brasil", "Moçambique"
   ],
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/api/images/logo",
+        url: "/logoNavbar.png",
         width: 1200,
         height: 630,
         alt: "ADN Developer",
@@ -76,16 +76,16 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "ADN Developer",
     description: "Maior repositório de informações sobre tecnologia na lusofonia.",
-    images: ["/api/images/logo"],
+    images: ["/logoNavbar.png"],
     creator: "@adndeveloper",
   },
   manifest: "/manifest.json",
   icons: {
     icon: [
-      { url: "/api/images/icon-light-32x32", media: "(prefers-color-scheme: light)" },
-      { url: "/api/images/icon-dark-32x32", media: "(prefers-color-scheme: dark)" },
+      { url: "/icon-light-32x32.webp", media: "(prefers-color-scheme: light)" },
+      { url: "/icon-dark-32x32.webp", media: "(prefers-color-scheme: dark)" },
     ],
-    apple: "/api/images/apple-icon",
+    apple: "/apple-icon.webp",
   },
 };
 

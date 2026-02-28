@@ -80,17 +80,17 @@ const TeamMemberSection = () => {
     {
       name: "Leandro Malungo",
       location: "Africa / Angola",
-      imageUrl: "/api/images/lm",
+      imageUrl: "/images-lm.webp",
     },
     {
       name: "Neuza Nascimento",
       location: "Europa / Portugal",
-      imageUrl: "/api/images/nn",
+      imageUrl: "/images-nn.webp",
     },
     {
       name: "Filipe Mafuila",
       location: "Africa / Angola",
-      imageUrl: "/api/images/fl?v=1",
+      imageUrl: "/fl.jpg",
     },
   ];
 

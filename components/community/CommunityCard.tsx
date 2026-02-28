@@ -16,7 +16,7 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({ community }) => {
       <div className="flex items-start gap-3 mb-3">
         <div className="w-12 h-12 flex-shrink-0 bg-gray-50 rounded overflow-hidden flex items-center justify-center border border-gray-100">
           <img
-            src={community.logoUrl || '/api/images/cafelogo'}
+            src={community.logoUrl || '/cafelogo.png'}
             alt={`${community.name} logo`}
             className="w-full h-full object-cover"
           />

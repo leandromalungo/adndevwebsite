@@ -11,7 +11,7 @@ export const Hero = () => {
 
       {/* Imagem de fundo */}
       <Image
-        src="/api/images/bolsas"
+        src="/images-bolsas.webp"
         alt="Hero background"
         fill
         priority

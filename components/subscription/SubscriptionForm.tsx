@@ -412,8 +412,8 @@ const SubscriptionForm = () => {
               maxLength={100}
               readOnly={isGoogleUser}
               className={`px-3 py-2 rounded border border-transparent focus:outline-none transition-all ${isGoogleUser
-                  ? "bg-green-50 border-green-100 text-gray-700 cursor-not-allowed"
-                  : "bg-gray-50 focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200"
+                ? "bg-green-50 border-green-100 text-gray-700 cursor-not-allowed"
+                : "bg-gray-50 focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200"
                 }`}
               placeholder="Digite seu nome completo"
             />
@@ -505,8 +505,8 @@ const SubscriptionForm = () => {
               maxLength={254}
               readOnly={isGoogleUser}
               className={`px-3 py-2 rounded border border-transparent focus:outline-none transition-all ${isGoogleUser
-                  ? "bg-green-50 border-green-100 text-gray-700 cursor-not-allowed"
-                  : "bg-gray-50 focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200"
+                ? "bg-green-50 border-green-100 text-gray-700 cursor-not-allowed"
+                : "bg-gray-50 focus:bg-white focus:border-violet-400 focus:ring-1 focus:ring-violet-200"
                 }`}
               placeholder="seu@email.com"
             />
@@ -608,7 +608,7 @@ const SubscriptionForm = () => {
                   onChange={() => setPaymentMethod("multicaixa")}
                 />
                 <img
-                  src="/api/images/multicaixa"
+                  src="/multicaixa.png"
                   alt="Multicaixa"
                   className="h-10 w-10 rounded-lg object-contain bg-white p-1 border border-gray-100"
                 />
@@ -631,7 +631,7 @@ const SubscriptionForm = () => {
                 onChange={() => setPaymentMethod("stripe")}
               />
               <img
-                src="/api/images/stripe.webp"
+                src="/stripe.webp"
                 alt="Cartão/Stripe"
                 className="h-10 w-10 rounded-lg object-contain bg-white p-1 border border-gray-100"
               />

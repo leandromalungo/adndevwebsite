@@ -382,8 +382,8 @@ const Navbar = () => {
   };
   const subStatusLabel = () => {
     switch (subStatus) {
-      case "active": return "✅ Ativa";
-      case "pending": return "⏳ Pendente de pagamento";
+      case "active": return " Ativa";
+      case "pending": return " Pendente de pagamento";
       case "none": return "Sem assinatura";
       default: return "Erro ao verificar";
     }
@@ -410,7 +410,6 @@ const Navbar = () => {
           <NavLink label="Cursos" href="/cursos" loading={loadingLink === "/cursos"} onClick={() => setLoadingLink("/cursos")} />
           <NavLink label="Bolsas de estudo" href="/bolsas" loading={loadingLink === "/bolsas"} onClick={() => setLoadingLink("/bolsas")} />
           <NavLink label="Startups" href="/startups" loading={loadingLink === "/startups"} onClick={() => setLoadingLink("/startups")} />
-          <NavLink label="Inteligência Artificial" href="/ia" loading={loadingLink === "/ia"} onClick={() => setLoadingLink("/ia")} />
         </div>
 
         <div className="flex items-center gap-3 relative">
@@ -687,7 +686,6 @@ const Navbar = () => {
           <MobileLink label="Cursos" href="/cursos" onClick={() => { closeMobileMenu(); }} />
           <MobileLink label="Bolsas de estudo" href="/bolsas" onClick={() => { closeMobileMenu(); }} />
           <MobileLink label="Startups" href="/startups" onClick={() => { closeMobileMenu(); }} />
-          <MobileLink label="Inteligência Artificial" href="/ia" onClick={() => { closeMobileMenu(); }} />
         </div>
       </div>
 
@@ -697,7 +695,7 @@ const Navbar = () => {
           <div className="bg-white rounded-lg overflow-hidden w-full max-w-[700px] h-[500px] flex shadow-lg relative">
             {/* Lado da Imagem */}
             <div className="hidden md:flex md:w-1/2 relative bg-gray-200">
-              <Image src="/api/images/login-bg" alt="Login Image" fill className="object-cover" />
+              <Image src="/images-login.jpg" alt="Login Image" fill className="object-cover" />
               <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/90 to-transparent p-4 flex flex-col justify-end text-white">
                 <h2 className="text-3xl font-bold mb-1">Bem-vindo de Volta!</h2>
                 <p className="text-sm">Acesse conteúdos exclusivos e fique por dentro das últimas tendências em tecnologia.</p>

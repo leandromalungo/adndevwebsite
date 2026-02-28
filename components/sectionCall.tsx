@@ -21,7 +21,7 @@ export default function App() {
               A da esquerda contém o grupo conversando e o grupo dançando com as linhas decorativas.
             */}
                         <img
-                            src="/api/images/hero-right-2.webp"
+                            src="/hero-right-2.webp"
                             alt="Comunidade esquerda"
                             className="max-w-full max-h-full object-contain drop-shadow-2xl"
                             referrerPolicy="no-referrer"
@@ -46,8 +46,8 @@ export default function App() {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="text-lg md:text-xl text-gray-600 mb-10 leading-relaxed font-medium"
                     >
-                        Não perca tempo! Junte-se a nós e esteja com profissionais de tecnologia que já estão a 
-                        transformar suas carreiras com nossos recursos exclusivos. Fornecemos informações sobre o 
+                        Não perca tempo! Junte-se a nós e esteja com profissionais de tecnologia que já estão a
+                        transformar suas carreiras com nossos recursos exclusivos. Fornecemos informações sobre o
                         sector tecnologia e muito mais na lusofonia. Para qualquer esclarecimento, entre em contacto connosco.
                     </motion.p>
 
@@ -65,7 +65,7 @@ export default function App() {
               Nota: A da direita contém o grupo do selfie e o grupo do jantar com as linhas decorativas.
             */}
                         <img
-                            src="/api/images/hero-left-2.webp"
+                            src="/hero-left-2.webp"
                             alt="Comunidade direita"
                             className="max-w-full max-h-full object-contain drop-shadow-2xl"
                             referrerPolicy="no-referrer"

@@ -43,7 +43,7 @@ export default function StudyPlanSelectionPage() {
           {/* Imagem */}
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url('/api/images/cursos')` }}
+            style={{ backgroundImage: `url('/images-cursos.webp')` }}
           />
 
           {/* Overlay melhorado */}
@@ -79,8 +79,8 @@ export default function StudyPlanSelectionPage() {
                 onClick={handleClick}
                 disabled={googleLoading}
                 className={`w-full sm:w-auto inline-flex justify-center items-center gap-2 px-5 sm:px-6 py-3 font-semibold transition-all active:scale-95 rounded hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] ${googleLoading
-                    ? "bg-blue-300 cursor-not-allowed text-zinc-800"
-                    : "bg-blue-500 hover:bg-blue-600 text-white"
+                  ? "bg-blue-300 cursor-not-allowed text-zinc-800"
+                  : "bg-blue-500 hover:bg-blue-600 text-white"
                   }`}
               >
                 {googleLoading ? (

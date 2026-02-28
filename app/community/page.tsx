@@ -33,7 +33,7 @@ export default function Page() {
         {/* FUNDO */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/api/images/community?v=1')` }}
+          style={{ backgroundImage: `url('/images-community.jpg')` }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
         </div>

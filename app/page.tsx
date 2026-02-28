@@ -28,7 +28,7 @@ const Page = () => {
       title: "Workshops",
       description:
         "Workshops práticos liderados por especialistas da indústria para desenvolver habilidades técnicas de forma dinâmica.",
-      imageUrl: "/api/images/images-card1",
+      imageUrl: "/images-card1.jpg",
       link: "#",
     },
     {
@@ -36,7 +36,7 @@ const Page = () => {
       title: "Palestras",
       description:
         "Palestras com profissionais da área trazendo insights, tendências e networking estratégico.",
-      imageUrl: "/api/images/images-card2?v=1",
+      imageUrl: "/images-card2.webp",
       link: "#",
     },
     {
@@ -44,7 +44,7 @@ const Page = () => {
       title: "Bolsas de estudos",
       description:
         "Oportunidades de bolsas com suporte financeiro e mentoria para impulsionar carreiras em tecnologia.",
-      imageUrl: "/api/images/images-card3?v=1",
+      imageUrl: "/images-card3.webp",
       link: "#",
     },
     {
@@ -52,7 +52,7 @@ const Page = () => {
       title: "Hackathon",
       description:
         "Desafios colaborativos para criar soluções inovadoras e acelerar aprendizado prático.",
-      imageUrl: "/api/images/card4",
+      imageUrl: "/images-card4.webp",
       link: "#",
     },
     {
