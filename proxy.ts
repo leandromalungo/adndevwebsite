@@ -9,17 +9,13 @@
  *  CAMADA 1 — /cd1afa520f/*       → Apenas administradores (role: "admin")
  *  CAMADA 1 — /api/cd1afa520f/*   → Apenas administradores (API backend)
  *  CAMADA 2 — /perfil/*           → Utilizadores autenticados (qualquer role)
- *  CAMADA 3 — /api/images/*       → Público, com rate limit via Upstash Redis
- *  CAMADA 4 — /cd1afa520f/*       → Headers de obscuridade (X-Robots-Tag: noindex)
+ *  CAMADA 3 — /cd1afa520f/*       → Headers de obscuridade (X-Robots-Tag: noindex)
  */
 
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
 // ── Constantes de Rate Limit ───────────────────────────────────────────────────
-// Imagens: máx 60 pedidos por IP por minuto
-const IMG_RATE_LIMIT_MAX = 60;
-const IMG_RATE_LIMIT_WINDOW = 60; // segundos
 
 // Login admin: máx 5 tentativas por IP por 15 minutos (anti-brute-force)
 const ADMIN_LOGIN_RATE_LIMIT_MAX = 5;
@@ -132,29 +128,7 @@ export default withAuth(
             }
         }
 
-        // ─── 3. RATE LIMIT NAS IMAGENS ───────────────────────────────────────────
-        if (path.startsWith("/api/images")) {
-            if (redisUrl && redisToken) {
-                const { allowed } = await checkRedisRateLimit(
-                    `rl:img:${ip}`,
-                    IMG_RATE_LIMIT_MAX,
-                    IMG_RATE_LIMIT_WINDOW,
-                    redisUrl,
-                    redisToken
-                );
 
-                if (!allowed) {
-                    return new NextResponse(null, {
-                        status: 429,
-                        headers: {
-                            "Retry-After": String(IMG_RATE_LIMIT_WINDOW),
-                            "X-RateLimit-Limit": String(IMG_RATE_LIMIT_MAX),
-                            "X-RateLimit-Remaining": "0",
-                        },
-                    });
-                }
-            }
-        }
 
         return NextResponse.next();
     },
@@ -172,8 +146,7 @@ export default withAuth(
                     path === "/" ||
                     path.startsWith("/_next") ||
                     path.startsWith("/api/auth") ||
-                    path === "/cd1afa520f/login" ||
-                    path.startsWith("/api/images")
+                    path === "/cd1afa520f/login"
                 ) {
                     return true;
                 }
@@ -207,6 +180,5 @@ export const config = {
         "/cd1afa520f/:path*",
         "/perfil/:path*",
         "/api/cd1afa520f/:path*",
-        "/api/images/:path*",
     ],
 };
