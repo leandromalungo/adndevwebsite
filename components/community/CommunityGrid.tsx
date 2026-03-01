@@ -7,12 +7,26 @@ import type { FilterTab } from '@/components/CountryFilter';
 
 interface CommunityGridProps {
   selectedCountry: FilterTab;
+  searchQuery?: string;
 }
 
-export const CommunityGrid: React.FC<CommunityGridProps> = ({ selectedCountry }) => {
+export const CommunityGrid: React.FC<CommunityGridProps> = ({ selectedCountry, searchQuery = "" }) => {
   const filteredCommunities = useMemo(() => {
-    return mockCommunities.filter(community => community.country === selectedCountry);
-  }, [selectedCountry]);
+    return mockCommunities.filter(community => {
+      const matchesCountry = community.country === selectedCountry;
+      if (!matchesCountry) return false;
+
+      if (!searchQuery.trim()) return true;
+
+      const query = searchQuery.toLowerCase().trim();
+      const matchesName = community.name?.toLowerCase().includes(query) || false;
+      const matchesCategory = community.category?.toLowerCase().includes(query) || false;
+      const matchesTags = community.tags?.some(tag => tag.toLowerCase().includes(query)) || false;
+      const matchesDescription = community.description?.toLowerCase().includes(query) || false;
+
+      return matchesName || matchesCategory || matchesTags || matchesDescription;
+    });
+  }, [selectedCountry, searchQuery]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">

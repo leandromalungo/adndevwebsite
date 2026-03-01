@@ -6,12 +6,13 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CommunityGrid } from "@/components/community/CommunityGrid";
 import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
-import { Loader2, ArrowRight } from "lucide-react";
+import { Loader2, ArrowRight, Search } from "lucide-react";
 import { useGoogleSignup } from "@/hooks/useGoogleSignup";
 
 export default function Page() {
   const { triggerGoogleSignup, loading: googleLoading } = useGoogleSignup();
   const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleClick = () => {
     triggerGoogleSignup();
@@ -78,24 +79,40 @@ export default function Page() {
       {/* SEÇÃO COMUNIDADES */}
       <div className="min-h-screen bg-[#f9fafb]">
         <header className="bg-white border-b border-gray-200 py-6">
-          <div className="max-w-7xl mx-auto px-4">
+          <div className="max-w-7xl mx-auto px-4 pl-7">
             <h1 className="text-2xl font-bold text-gray-900 pl-3">Comunidades</h1>
-            <p className="text-gray-500 text-sm pl-3">
+            <p className="text-gray-500 text-sm pl-3 mb-6">
               Descubra grupos e comunidades de tecnologia na lusofonia e
               participe.
             </p>
 
-            {/* FILTRO POR PAÍS */}
-            <CountryFilter
-              selectedCountry={selectedCountry}
-              onCountryChange={setSelectedCountry}
-              className="bg-white border-gray-200"
-            />
+            {/* BARRA DE PESQUISA DESTACADA */}
+            <div className="px-3 mb-8 w-full max-w-3xl">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  placeholder="Pesquisar por nome da comunidade, assunto ou tecnologia (ex: React, AWS, Data Science)..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 bg-gray-50 focus:bg-white transition-colors shadow-sm"
+                />
+                <Search className="absolute left-4 top-3.5 text-gray-400 w-5 h-5" />
+              </div>
+            </div>
+
+            {/* FILTROS */}
+            <div className="pl-3">
+              <CountryFilter
+                selectedCountry={selectedCountry}
+                onCountryChange={setSelectedCountry}
+                className="bg-white border-gray-200"
+              />
+            </div>
           </div>
         </header>
 
         <main className="max-w-7xl mx-auto px-4">
-          <CommunityGrid selectedCountry={selectedCountry} />
+          <CommunityGrid selectedCountry={selectedCountry} searchQuery={searchQuery} />
         </main>
 
         <Footer />

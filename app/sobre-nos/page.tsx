@@ -59,13 +59,13 @@ export default function SobreNosPage() {
                                 em realidade, tudo na sua língua nativa.
                             </p>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="bg-[#111111] p-8 rounded-2xl border border-white/5 hover:border-violet-500/30 transition-colors">
                                 <Globe className="w-10 h-10 text-violet-500 mb-6" />
                                 <h3 className="text-xl font-bold mb-2">Comunidade Global</h3>
                                 <p className="text-gray-500 text-sm">Mais de 7 países conectados num só lugar.</p>
                             </div>
-                            <div className="bg-[#111111] p-8 rounded-2xl border border-white/5 hover:border-fuchsia-500/30 transition-colors translate-y-8">
+                            <div className="bg-[#111111] p-8 rounded-2xl border border-white/5 hover:border-fuchsia-500/30 transition-colors sm:translate-y-8">
                                 <Zap className="w-10 h-10 text-fuchsia-500 mb-6" />
                                 <h3 className="text-xl font-bold mb-2">Inovação Direta</h3>
                                 <p className="text-gray-500 text-sm">Acesso a workshops, hackathons e conteúdo de ponta.</p>
@@ -75,7 +75,7 @@ export default function SobreNosPage() {
                                 <h3 className="text-xl font-bold mb-2">Mentalidade Dev</h3>
                                 <p className="text-gray-500 text-sm">Focado 100% no ecossistema de desenvolvimento de software.</p>
                             </div>
-                            <div className="bg-[#111111] p-8 rounded-2xl border border-white/5 hover:border-rose-500/30 transition-colors translate-y-8">
+                            <div className="bg-[#111111] p-8 rounded-2xl border border-white/5 hover:border-rose-500/30 transition-colors sm:translate-y-8">
                                 <Users className="w-10 h-10 text-rose-500 mb-6" />
                                 <h3 className="text-xl font-bold mb-2">Para Todos</h3>
                                 <p className="text-gray-500 text-sm">Iniciativas especiais como WTM para inclusão tecnológica.</p>
