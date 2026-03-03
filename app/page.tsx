@@ -17,6 +17,9 @@ import CardHero from "@/components/home/CardHero";
 import GradientBackground from "@/components/home/GradientBackground";
 import SectionCall from "@/components/sectionCall";
 import CardVideo from "@/components/home/cardVideo";
+import PartnersCarousel from "@/components/home/PartnersCarousel";
+import OpportunitiesSection from "@/components/home/OpportunitiesSection";
+import { FadeIn } from "@/components/ui/fade-in";
 
 const Page = () => {
   /**
@@ -95,31 +98,44 @@ const Page = () => {
 
       {/* ÁREA DE CONTEÚDO E SERVIÇOS */}
       <section className="relative z-10 bg-[#f7f8f9] flex flex-col items-center py-5 px-4 md:px-10 space-y-24">
-        <div className="w-full max-w-7xl">
+
+        <FadeIn className="w-full max-w-7xl">
           <ServiceSection services={servicesData} />
-        </div>
+        </FadeIn>
 
-        <div className="w-full max-w-7xl">
+        <FadeIn className="w-full max-w-7xl">
           <SectionCall />
-        </div>
+        </FadeIn>
 
-        <div className="w-full px-4 md:px-8">
+        <FadeIn className="w-full px-4 md:px-8">
           <CardVideo />
-        </div>
+        </FadeIn>
 
-        <div className="w-full max-w-7xl">
+        <FadeIn className="w-full max-w-7xl">
           <CardHero />
-        </div>
+        </FadeIn>
 
-        <div className="w-full max-w-7xl">
+        <FadeIn className="w-full max-w-7xl">
           <Vision />
-        </div>
+        </FadeIn>
       </section>
 
-      <div className="relative z-10 bg-white w-full">
-        <CTACardsContainer />
-        <TeamMemberSection />
-        <FAQSection />
+      <div className="relative z-10 bg-white w-full overflow-hidden">
+        <FadeIn delay={0.1}>
+          <OpportunitiesSection />
+        </FadeIn>
+        <FadeIn delay={0.2}>
+          <CTACardsContainer />
+        </FadeIn>
+        <FadeIn className="w-full" delay={0.1}>
+          <PartnersCarousel />
+        </FadeIn>
+        <FadeIn delay={0.2}>
+          <TeamMemberSection />
+        </FadeIn>
+        <FadeIn delay={0.2}>
+          <FAQSection />
+        </FadeIn>
         <Footer />
       </div>
     </div>

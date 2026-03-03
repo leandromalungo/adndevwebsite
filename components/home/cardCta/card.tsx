@@ -30,7 +30,7 @@ const CTACard = ({ label, title, buttonText, backgroundImage }: CTACardProps) =>
           </p>
 
           {/* Título */}
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-snug text-balance">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl text-white leading-snug text-balance">
             {title}
           </h2>
         </div>

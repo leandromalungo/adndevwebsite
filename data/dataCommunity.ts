@@ -521,6 +521,9 @@ export const mockCommunities: Community[] = [
     "imageSource": "Portuguese Women in Tech",
     "link": "https://portuguesewomenintech.com"
   },
+
+    //Brasileioras
+
   {
     "id": "32",
     "name": "WoMakersCode",
@@ -786,5 +789,153 @@ export const mockCommunities: Community[] = [
     "tags": [".NET", "C#", "Microsoft", "Backend"],
     "imageSource": "DotNet Brasil",
     "link": "https://github.com/dotnet-br"
+  },
+
+    // Angolanas
+
+  {
+    "id": "51",
+    "name": "DotNet Brasil",
+    "location": "Brasil (online)",
+    "country": "Angola",
+    "description": "Comunidade de pessoas desenvolvedoras .NET no Brasil, com foco em C#, plataforma .NET, Azure e tecnologias Microsoft.",
+    "logoUrl": "https://iili.io/qfsm0Ob.png",
+    "members": 6000,
+    "type": "Comunidade",
+    "category": "Backend",
+    "tags": [".NET", "C#", "Microsoft", "Backend"],
+    "imageSource": "DotNet Brasil",
+    "link": "https://github.com/dotnet-br"
+  },{
+    "id": "52",
+    "name": "DotNet Brasil",
+    "location": "Brasil (online)",
+    "country": "Angola",
+    "description": "Comunidade de pessoas desenvolvedoras .NET no Brasil, com foco em C#, plataforma .NET, Azure e tecnologias Microsoft.",
+    "logoUrl": "https://iili.io/qfsm0Ob.png",
+    "members": 6000,
+    "type": "Comunidade",
+    "category": "Backend",
+    "tags": [".NET", "C#", "Microsoft", "Backend"],
+    "imageSource": "DotNet Brasil",
+    "link": "https://github.com/dotnet-br"
+  },{
+    "id": "53",
+    "name": "DotNet Brasil",
+    "location": "Brasil (online)",
+    "country": "Angola",
+    "description": "Comunidade de pessoas desenvolvedoras .NET no Brasil, com foco em C#, plataforma .NET, Azure e tecnologias Microsoft.",
+    "logoUrl": "https://iili.io/qfsm0Ob.png",
+    "members": 6000,
+    "type": "Comunidade",
+    "category": "Backend",
+    "tags": [".NET", "C#", "Microsoft", "Backend"],
+    "imageSource": "DotNet Brasil",
+    "link": "https://github.com/dotnet-br"
+  },{
+    "id": "54",
+    "name": "DotNet Brasil",
+    "location": "Brasil (online)",
+    "country": "Angola",
+    "description": "Comunidade de pessoas desenvolvedoras .NET no Brasil, com foco em C#, plataforma .NET, Azure e tecnologias Microsoft.",
+    "logoUrl": "https://iili.io/qfsm0Ob.png",
+    "members": 6000,
+    "type": "Comunidade",
+    "category": "Backend",
+    "tags": [".NET", "C#", "Microsoft", "Backend"],
+    "imageSource": "DotNet Brasil",
+    "link": "https://github.com/dotnet-br"
+  },{
+    "id": "55",
+    "name": "DotNet Brasil",
+    "location": "Brasil (online)",
+    "country": "Angola",
+    "description": "Comunidade de pessoas desenvolvedoras .NET no Brasil, com foco em C#, plataforma .NET, Azure e tecnologias Microsoft.",
+    "logoUrl": "https://iili.io/qfsm0Ob.png",
+    "members": 6000,
+    "type": "Comunidade",
+    "category": "Backend",
+    "tags": [".NET", "C#", "Microsoft", "Backend"],
+    "imageSource": "DotNet Brasil",
+    "link": "https://github.com/dotnet-br"
+  },{
+    "id": "56",
+    "name": "DotNet Brasil",
+    "location": "Brasil (online)",
+    "country": "Angola",
+    "description": "Comunidade de pessoas desenvolvedoras .NET no Brasil, com foco em C#, plataforma .NET, Azure e tecnologias Microsoft.",
+    "logoUrl": "https://iili.io/qfsm0Ob.png",
+    "members": 6000,
+    "type": "Comunidade",
+    "category": "Backend",
+    "tags": [".NET", "C#", "Microsoft", "Backend"],
+    "imageSource": "DotNet Brasil",
+    "link": "https://github.com/dotnet-br"
+  },{
+    "id": "57",
+    "name": "DotNet Brasil",
+    "location": "Brasil (online)",
+    "country": "Angola",
+    "description": "Comunidade de pessoas desenvolvedoras .NET no Brasil, com foco em C#, plataforma .NET, Azure e tecnologias Microsoft.",
+    "logoUrl": "https://iili.io/qfsm0Ob.png",
+    "members": 6000,
+    "type": "Comunidade",
+    "category": "Backend",
+    "tags": [".NET", "C#", "Microsoft", "Backend"],
+    "imageSource": "DotNet Brasil",
+    "link": "https://github.com/dotnet-br"
+  },{
+    "id": "58",
+    "name": "DotNet Brasil",
+    "location": "Brasil (online)",
+    "country": "Angola",
+    "description": "Comunidade de pessoas desenvolvedoras .NET no Brasil, com foco em C#, plataforma .NET, Azure e tecnologias Microsoft.",
+    "logoUrl": "https://iili.io/qfsm0Ob.png",
+    "members": 6000,
+    "type": "Comunidade",
+    "category": "Backend",
+    "tags": [".NET", "C#", "Microsoft", "Backend"],
+    "imageSource": "DotNet Brasil",
+    "link": "https://github.com/dotnet-br"
+  },{
+    "id": "59",
+    "name": "DotNet Brasil",
+    "location": "Brasil (online)",
+    "country": "Angola",
+    "description": "Comunidade de pessoas desenvolvedoras .NET no Brasil, com foco em C#, plataforma .NET, Azure e tecnologias Microsoft.",
+    "logoUrl": "https://iili.io/qfsm0Ob.png",
+    "members": 6000,
+    "type": "Comunidade",
+    "category": "Backend",
+    "tags": [".NET", "C#", "Microsoft", "Backend"],
+    "imageSource": "DotNet Brasil",
+    "link": "https://github.com/dotnet-br"
+  },{
+    "id": "60",
+    "name": "DotNet Brasil",
+    "location": "Brasil (online)",
+    "country": "Angola",
+    "description": "Comunidade de pessoas desenvolvedoras .NET no Brasil, com foco em C#, plataforma .NET, Azure e tecnologias Microsoft.",
+    "logoUrl": "https://iili.io/qfsm0Ob.png",
+    "members": 6000,
+    "type": "Comunidade",
+    "category": "Backend",
+    "tags": [".NET", "C#", "Microsoft", "Backend"],
+    "imageSource": "DotNet Brasil",
+    "link": "https://github.com/dotnet-br"
+  },{
+    "id": "61",
+    "name": "DotNet Brasil",
+    "location": "Brasil (online)",
+    "country": "Angola",
+    "description": "Comunidade de pessoas desenvolvedoras .NET no Brasil, com foco em C#, plataforma .NET, Azure e tecnologias Microsoft.",
+    "logoUrl": "https://iili.io/qfsm0Ob.png",
+    "members": 6000,
+    "type": "Comunidade",
+    "category": "Backend",
+    "tags": [".NET", "C#", "Microsoft", "Backend"],
+    "imageSource": "DotNet Brasil",
+    "link": "https://github.com/dotnet-br"
   }
 ];
+

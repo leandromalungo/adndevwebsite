@@ -13,6 +13,7 @@ import NewsletterSection from "@/components/startups/NewsletterSection";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Loader2, ArrowRight } from "lucide-react";
+import { FadeIn } from "@/components/ui/fade-in";
 
 const App = () => {
   const { triggerGoogleSignup, loading: googleLoading } = useGoogleSignup();
@@ -81,14 +82,14 @@ const App = () => {
         </div>
       </section>
 
-      <div className="min-h-screen bg-black">
-        <main>
-          <Features />
-          <HubShowcase />
-          <AccessSection />
-          <Matchmaking />
-          <ChallengesSection />
-          <NewsletterSection />
+      <div className="min-h-screen bg-white">
+        <main className="overflow-hidden">
+          <FadeIn><Features /></FadeIn>
+          <FadeIn><HubShowcase /></FadeIn>
+          <FadeIn><AccessSection /></FadeIn>
+          <FadeIn><Matchmaking /></FadeIn>
+          <FadeIn><ChallengesSection /></FadeIn>
+          <FadeIn><NewsletterSection /></FadeIn>
           <Footer />
         </main>
       </div>

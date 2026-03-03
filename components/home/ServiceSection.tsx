@@ -14,38 +14,41 @@ interface ServicesSectionProps {
   services: Service[];
 }
 
+import { FadeIn } from "@/components/ui/fade-in";
+
 export const SectionHero: React.FC<ServicesSectionProps> = ({ services, }) => {
   return (
     <section className="w-full py-2 pt-6">
-      <div className="mb-8">
+      <FadeIn className="mb-8" direction="up">
         <h2 className="text-2xl font-bold text-[#444] uppercase">
           Nós somos o caminho para o teu futuro
         </h2>
         <p className="text-xs text-gray-400 font-medium mt-2">
           Explora nossos serviços e descubra como podemos ajudar você a alcançar seus objetivos na área de tecnologia.
         </p>
-      </div>
+      </FadeIn>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {services.map((service) => (
-          <div key={service.id} className="flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300 group" >
-            {/* Contentor de imagem */}
-            <div className="aspect-[16/9] overflow-hidden">
-              <img src={service.imageUrl} alt={service.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
+        {services.map((service, index) => (
+          <FadeIn key={service.id} delay={index * 0.15} direction="up" className="h-full">
+            <div className="h-full flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300 group" >
+              {/* Contentor de imagem */}
+              <div className="aspect-[16/9] overflow-hidden">
+                <img src={service.imageUrl} alt={service.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
 
-            {/* Área de conteúdo */}
-            <div className="p-8 flex flex-col flex-grow">
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                {service.title}
-              </h3>
-              <p className="text-gray-600 text-sm leading-relaxed mb-8 flex-grow">
-                {service.description}
-              </p>
-
+              {/* Área de conteúdo */}
+              <div className="p-8 flex flex-col flex-grow">
+                <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                  {service.title}
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed mb-8 flex-grow">
+                  {service.description}
+                </p>
+              </div>
             </div>
-          </div>
+          </FadeIn>
         ))}
       </div>
     </section>
