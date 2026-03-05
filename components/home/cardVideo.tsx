@@ -38,14 +38,13 @@ export default function App() {
             className="lg:col-span-4 space-y-6 pt-2"
           >
             <h1 className="text-2xl md:text-3xl tracking-tight text-[#1A1A1A] font-sans uppercase">
-              Construindo um caminho facilitador
+              Documentario Tech Journey 
             </h1>
 
             <p className="text-lg md:text-xl leading-relaxed text-[#4A4A4A]">
-              Viemos para facilitar o caminho de quem quer entrar no mercado de tecnologia,
-              oferecendo cursos, workshops, palestras, bolsas de estudos, hackathons,
-              desafios nacionais e testes de codificação.
-              E dar acesso a quem nunca teve, a dizer "eu também posso".
+              Proccuramos mostrar a jornada de profissionais de tecnologia, desde o início até o sucesso, inspirando a 
+              próxima geração de talentos. Se você tem uma história única para contar, queremos ouvir de você! Seja um 
+              protagonista da nossa série e compartilhe sua trajetória, desafios e conquistas no mundo da tecnologia. Junte-se a nós nessa jornada inspiradora e ajude a moldar o futuro da indústria tech.
             </p>
 
             {/* Button */}

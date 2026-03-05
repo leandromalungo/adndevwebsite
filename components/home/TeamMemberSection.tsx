@@ -47,7 +47,8 @@ const TeamMemberSection = () => {
   const team: TeamMemberProps[] = [
     { name: "Leandro Malungo", location: "África / Angola", imageUrl: "/images-lm.webp" },
     { name: "Neuza Nascimento", location: "Europa / Portugal", imageUrl: "/images-nn.webp" },
-    { name: "Filipe Mafuila", location: "África / Angola", imageUrl: "/fl.jpg" },
+    { name: "Whitny Velasco", location: "Europa / Portugal", imageUrl: "/wv.jpg" },
+    { name: "Filipe P. Mafuila", location: "África / Angola", imageUrl: "/fl.jpg" },
   ];
 
   return (
@@ -61,7 +62,7 @@ const TeamMemberSection = () => {
         </div>
 
         {/* Layout responsivo: todos na mesma linha em mobile */}
-        <div className="flex justify-between md:grid md:grid-cols-3 gap-4">
+        <div className="flex justify-between md:grid md:grid-cols-4 gap-4">
           {team.map((member, index) => (
             <TeamMember key={index} {...member} />
           ))}

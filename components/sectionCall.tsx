@@ -21,7 +21,7 @@ export default function App() {
               A da esquerda contém o grupo conversando e o grupo dançando com as linhas decorativas.
             */}
                         <img
-                            src="/hero-right-2.webp"
+                            src="/hero-right-2.png"
                             alt="Comunidade esquerda"
                             className="max-w-full max-h-full object-contain drop-shadow-2xl"
                             referrerPolicy="no-referrer"
@@ -65,7 +65,7 @@ export default function App() {
               Nota: A da direita contém o grupo do selfie e o grupo do jantar com as linhas decorativas.
             */}
                         <img
-                            src="/hero-left-2.webp"
+                            src="/hero-left-2.png"
                             alt="Comunidade direita"
                             className="max-w-full max-h-full object-contain drop-shadow-2xl"
                             referrerPolicy="no-referrer"
