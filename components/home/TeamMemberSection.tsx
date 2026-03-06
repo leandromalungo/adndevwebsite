@@ -62,7 +62,7 @@ const TeamMemberSection = () => {
         </div>
 
         {/* Layout responsivo: todos na mesma linha em mobile */}
-        <div className="flex justify-between md:grid md:grid-cols-4 gap-4">
+        <div className="grid justify-between grid-cols-2 md:grid md:grid-cols-4 gap-4">
           {team.map((member, index) => (
             <TeamMember key={index} {...member} />
           ))}

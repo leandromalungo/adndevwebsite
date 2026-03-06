@@ -90,23 +90,23 @@ export default function SobreNosPage() {
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-white/5">
                         <div className="flex flex-col items-center justify-center text-center p-4">
-                            <span className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-600 mb-2">
-                                10+
+                            <span className="text-5xl md:text-7xl  text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-600 mb-2">
+                                10.000+
                             </span>
                             <span className="text-sm md:text-base text-gray-400 font-medium uppercase tracking-widest">
                                 Comunidades
                             </span>
                         </div>
                         <div className="flex flex-col items-center justify-center text-center p-4">
-                            <span className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-600 mb-2">
-                                500+
+                            <span className="text-5xl md:text-7xl  text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-600 mb-2">
+                                5000+
                             </span>
                             <span className="text-sm md:text-base text-gray-400 font-medium uppercase tracking-widest">
                                 Eventos Mapeados
                             </span>
                         </div>
                         <div className="flex flex-col items-center justify-center text-center p-4">
-                            <span className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-600 mb-2">
+                            <span className="text-5xl md:text-7xl  text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-600 mb-2">
                                 7
                             </span>
                             <span className="text-sm md:text-base text-gray-400 font-medium uppercase tracking-widest">
@@ -114,8 +114,8 @@ export default function SobreNosPage() {
                             </span>
                         </div>
                         <div className="flex flex-col items-center justify-center text-center p-4">
-                            <span className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-600 mb-2">
-                                24/7
+                            <span className="text-5xl md:text-7xl  text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-600 mb-2">
+                                24/24
                             </span>
                             <span className="text-sm md:text-base text-gray-400 font-medium uppercase tracking-widest">
                                 Acesso Gratuito
@@ -129,7 +129,7 @@ export default function SobreNosPage() {
             <section className="py-24 md:py-32 bg-[#0a0a0a]">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center mb-20">
-                        <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-4 uppercase">
+                        <h2 className="text-4xl md:text-6x tracking-tight mb-4 uppercase">
                             As Mentes por Trás
                         </h2>
                         <p className="text-xl text-gray-400 max-w-2xl mx-auto">
@@ -137,18 +137,18 @@ export default function SobreNosPage() {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-4 md:grid-cols-4 lg:grid-cols-4 gap-8">
                         {/* Leandro */}
                         <div className="group relative rounded overflow-hidden aspect-[4/5] bg-[#111]">
                             <Image
                                 src="/images-lm.webp"
                                 alt="Leandro Malungo"
                                 fill
-                                className="object-cover filter grayscale hover:grayscale-0"
+                                className="object-cover"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
                             <div className="absolute bottom-0 left-0 p-8 w-full translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <span className="text-violet-400 text-sm font-bold uppercase tracking-wider mb-2 block">
+                                <span className="text-gray-100 text-sm font-bold uppercase tracking-wider mb-2 block">
                                     Fundador
                                 </span>
                                 <h3 className="text-3xl font-bold text-white mb-1">Leandro Malungo</h3>
@@ -162,11 +162,11 @@ export default function SobreNosPage() {
                                 src="/nz.webp"
                                 alt="Neuza Nascimento"
                                 fill
-                                className="object-cover filter grayscale hover:grayscale-0"
+                                className="object-cover"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
                             <div className="absolute bottom-0 left-0 p-8 w-full translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <span className="text-fuchsia-400 text-sm font-bold uppercase tracking-wider mb-2 block">
+                                <span className="text-gray-100 text-sm font-bold uppercase tracking-wider mb-2 block">
                                     Co - fundador
                                 </span>
                                 <h3 className="text-3xl font-bold text-white mb-1">Neuza Nascimento</h3>
@@ -177,15 +177,33 @@ export default function SobreNosPage() {
                         {/* Filipe */}
                         <div className="group relative rounded overflow-hidden bg-[#111]">
                             <Image
-                                src="/fl.jpg"   // TODO: Atualizar se existir um fm.jpg ou semelhante no repositório. O footer antigo usa nn.jpg para o Filipe também por agora.
+                                src="/wv.jpg"   // TODO: Atualizar se existir um fm.jpg ou semelhante no repositório. O footer antigo usa nn.jpg para o Filipe também por agora.
                                 alt="Filipe Mafuila"
                                 fill
-                                className="object-cover filter grayscale hover:grayscale-0"
+                                className="object-cover"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
                             <div className="absolute bottom-0 left-0 p-8 w-full translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <span className="text-blue-400 text-sm font-bold uppercase tracking-wider mb-2 block">
-                                    Co - fundador
+                                <span className="text-gray-100 text-sm font-bold uppercase tracking-wider mb-2 block">
+                                    Engenheira Informática
+                                </span>
+                                <h3 className="text-3xl font-bold text-white mb-1">Whitney Velasco</h3>
+                                <p className="text-gray-400 text-sm">Europa / Portugal</p>
+                            </div>
+                        </div>
+                        
+                        {/* Filipe */}
+                        <div className="group relative rounded overflow-hidden bg-[#111]">
+                            <Image
+                                src="/fl.jpg"   // TODO: Atualizar se existir um fm.jpg ou semelhante no repositório. O footer antigo usa nn.jpg para o Filipe também por agora.
+                                alt="Filipe Mafuila"
+                                fill
+                                className="object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
+                            <div className="absolute bottom-0 left-0 p-8 w-full translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                <span className="text-gray-100 text-sm font-bold uppercase tracking-wider mb-2 block">
+                                    Desenvolvedor Front-end
                                 </span>
                                 <h3 className="text-3xl font-bold text-white mb-1">Filipe Mafuila</h3>
                                 <p className="text-gray-400 text-sm">África / Angola</p>
@@ -199,7 +217,7 @@ export default function SobreNosPage() {
             <section className="py-24 border-t border-white/5 bg-[#0a0a0a]">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center mb-16">
-                        <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4 uppercase">
+                        <h2 className="text-4xl md:text-5xl  tracking-tight mb-4 uppercase">
                             Fale Connosco
                         </h2>
                         <p className="text-gray-400 text-lg max-w-2xl mx-auto">

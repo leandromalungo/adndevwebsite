@@ -688,7 +688,6 @@ const Navbar = () => {
           <MobileLink label="Cursos" href="/cursos" onClick={() => { closeMobileMenu(); }} />
           <MobileLink label="Bolsas de estudo" href="/bolsas" onClick={() => { closeMobileMenu(); }} />
           <MobileLink label="Startups" href="/startups" onClick={() => { closeMobileMenu(); }} />
-          <MobileLink label="Startups" href="/startups" onClick={() => { closeMobileMenu(); }} />
           <MobileLink label="Inteligência Artificial" href="/ia" onClick={() => { closeMobileMenu(); }} />
         </div>
       </div>
