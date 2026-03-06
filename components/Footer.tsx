@@ -4,7 +4,7 @@
  * COMPONENTE FOOTER
 */
 
-import { Facebook, Twitter, Linkedin, Youtube, Instagram, Github } from "lucide-react";
+import { Facebook, Linkedin, Youtube, Instagram, Github } from "lucide-react";
 import Link from "next/link";
 
 const Footer = () => {

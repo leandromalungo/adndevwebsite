@@ -2,6 +2,7 @@
 
 import { useGoogleSignup } from "@/hooks/useGoogleSignup";
 import { Loader2 } from "lucide-react";
+import { FadeIn } from "@/components/ui/fade-in";
 
 export const BigTechBo = () => {
   const { triggerGoogleSignup, loading } = useGoogleSignup();
@@ -81,24 +82,25 @@ export const BigTechBo = () => {
         <div className="lg:col-span-7">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {supporters.map((item, index) => (
-              <div
-                key={index}
-                className="group relative bg-white rounded-lg h-28 md:h-32 shadow-sm overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-md cursor-pointer"
-              >
-                {/* Imagem */}
-                <img
-                  src={item.logo}
-                  alt={item.name}
-                  className="w-full h-full object-cover"
-                />
+              <FadeIn key={index} delay={index * 0.1} direction="up">
+                <div
+                  className="group relative bg-white rounded-lg h-28 md:h-32 shadow-sm overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-md cursor-pointer"
+                >
+                  {/* Imagem */}
+                  <img
+                    src={item.logo}
+                    alt={item.name}
+                    className="w-full h-full object-cover"
+                  />
 
-                {/* Sobreposição */}
-                <div className="absolute inset-0 bg-black/70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-white text-sm md:text-base font-semibold text-center px-3">
-                    {item.name}
-                  </p>
+                  {/* Sobreposição */}
+                  <div className="absolute inset-0 bg-black/70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <p className="text-white text-sm md:text-base font-semibold text-center px-3">
+                      {item.name}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </FadeIn>
             ))}
           </div>
         </div>

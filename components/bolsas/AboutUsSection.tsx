@@ -2,6 +2,7 @@
 
 import { useGoogleSignup } from "@/hooks/useGoogleSignup";
 import { Loader2 } from "lucide-react";
+import { FadeIn } from "@/components/ui/fade-in";
 
 export const AboutUsSection = () => {
   const { triggerGoogleSignup, loading } = useGoogleSignup();
@@ -10,7 +11,7 @@ export const AboutUsSection = () => {
     <section className="max-w-7xl mx-auto py-12">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
         {/* Left Column: Text Content */}
-        <div className="flex flex-col">
+        <FadeIn direction="right" className="flex flex-col">
           <span className="text-[#666666] font-bold text-sm tracking-widest uppercase mb-4">
             Como funciona?
           </span>
@@ -77,10 +78,10 @@ export const AboutUsSection = () => {
               {loading ? "Agrade..." : "Assine agora"}
             </button>
           </div>
-        </div>
+        </FadeIn>
 
         {/* Right Column: Image Stack */}
-        <div className="flex flex-col gap-6">
+        <FadeIn direction="left" delay={0.2} className="flex flex-col gap-6">
           <div className="rounded overflow-hidden shadow-lg h-[350px] lg:h-[400px]">
             <img
               src="https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=1200&auto=format&fit=crop"
@@ -95,7 +96,7 @@ export const AboutUsSection = () => {
               className="w-full h-full object-cover"
             />
           </div>
-        </div>
+        </FadeIn>
       </div>
     </section>
   );

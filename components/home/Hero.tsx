@@ -52,9 +52,9 @@ export const Hero = () => {
         {/* Descrição */}
         <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-4 sm:mb-5 md:mb-6 lg:mb-8 leading-relaxed max-w-3xl">
           O maior repositorio de conteúdo tecnológico da lusofonia com tudo o
-          que precisas para entrar na área de tecnologia, desde cursos
-          e muito mais. Um espaço feito para desenvolver a tua
-          carreira no sector tecnologico. Conte com a nossa ajuda.
+          que precisas para entrar na área de tecnologia, desde cursos e muito
+          mais. Um espaço feito para desenvolver a tua carreira no sector
+          tecnologico. Conte com a nossa ajuda.
         </p>
 
         {/* Tags */}
@@ -72,29 +72,58 @@ export const Hero = () => {
               onClick={() => handleClick("assinar")}
               disabled={loadingButton !== null || googleLoading}
               className="
+                group relative
                 inline-flex items-center justify-center
-                border border-violet-600
-                bg-violet-550 hover:bg-violet-600/90
+                px-6 sm:px-10 lg:px-12
+                py-4 sm:py-5
+                rounded-2xl
+                border-2 border-violet-500/30
+                bg-gradient-to-br from-violet-900/40 via-black/60 to-black/80
                 text-white
-                px-5 sm:px-10 lg:px-12
-                py-3 sm:py-4 lg:py-5
-                rounded-xl
-                text-sm sm:text-lg lg:text-xl
                 font-bold
-                transition-all transform
-                shadow-xl shadow-violet-500/40
+                text-sm sm:text-lg lg:text-xl
+                backdrop-blur-xl
+                shadow-2xl
+                transition-all duration-500 ease-out
+                hover:shadow-violet-500/30
+                hover:shadow-2xl
+                hover:border-violet-400/60
                 active:scale-95
                 disabled:opacity-70 disabled:cursor-not-allowed
+                overflow-hidden
               "
             >
-              {loadingButton === "assinar" ? (
-                <span className="inline-flex items-center gap-2">
-                  <Loader2 size={18} className="animate-spin" />
-                  Carregando...
-                </span>
-              ) : (
-                "Inscrever-se no portal"
-              )}
+              {/* Efeito de brilho animado */}
+              <div
+                className="
+                  absolute inset-0
+                  bg-gradient-to-r from-transparent via-violet-400/30 to-transparent
+                  -translate-x-full
+                  group-hover:translate-x-full
+                  transition-transform duration-1000 ease-out
+                "
+              />
+
+              {/* Glow interno */}
+              <div
+                className="
+                  absolute inset-0 rounded-2xl
+                  bg-gradient-to-r from-violet-500/10 via-violet-400/20 to-violet-500/10
+                  opacity-0 group-hover:opacity-100
+                  transition-opacity duration-500
+                "
+              />
+
+              <span className="relative z-10 flex items-center gap-2">
+                {loadingButton === "assinar" ? (
+                  <span className="inline-flex items-center gap-2">
+                    <Loader2 size={18} className="animate-spin" />
+                    Carregando...
+                  </span>
+                ) : (
+                  "Inscrever-se no portal"
+                )}
+              </span>
             </button>
 
             {/* Botão Área */}
@@ -130,10 +159,11 @@ export const Hero = () => {
           <p className="text-xs md:text-sm lg:text-[10px] text-gray-100 font-medium max-w-2xl lg:max-w-3xl mt-3 lg:mt-1">
             Não perca tempo! Junte-se a nós e esteja com profissionais de
             tecnologia que já estão a transformar suas carreiras com nossos
-            recursos exclusivos. Este site não possui parceria oficial
-            com os eventos, cursos, comunidades, projectos, bolsas e entidades aqui divulgadas.
-            Fornecemos informações sobre o sector tecnologia e muito mais na lusofonia.
-            Para qualquer esclarecimento, entre em contacto connosco.
+            recursos exclusivos. Este site não possui parceria oficial com os
+            eventos, cursos, comunidades, projectos, bolsas e entidades aqui
+            divulgadas. Fornecemos informações sobre o sector tecnologia e muito
+            mais na lusofonia. Para qualquer esclarecimento, entre em contacto
+            connosco.
           </p>
         </div>
       </div>

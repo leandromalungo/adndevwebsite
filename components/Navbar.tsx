@@ -411,6 +411,7 @@ const Navbar = () => {
           <NavLink label="Cursos" href="/cursos" loading={loadingLink === "/cursos"} onClick={() => setLoadingLink("/cursos")} />
           <NavLink label="Bolsas de estudo" href="/bolsas" loading={loadingLink === "/bolsas"} onClick={() => setLoadingLink("/bolsas")} />
           <NavLink label="Startups" href="/startups" loading={loadingLink === "/startups"} onClick={() => setLoadingLink("/startups")} />
+          <NavLink label="Inteligência Artificial" href="/ia" loading={loadingLink === "/ia"} onClick={() => setLoadingLink("/ia")} />
         </div>
 
         <div className="flex items-center gap-3 relative">
@@ -687,6 +688,7 @@ const Navbar = () => {
           <MobileLink label="Cursos" href="/cursos" onClick={() => { closeMobileMenu(); }} />
           <MobileLink label="Bolsas de estudo" href="/bolsas" onClick={() => { closeMobileMenu(); }} />
           <MobileLink label="Startups" href="/startups" onClick={() => { closeMobileMenu(); }} />
+          <MobileLink label="Inteligência Artificial" href="/ia" onClick={() => { closeMobileMenu(); }} />
         </div>
       </div>
 

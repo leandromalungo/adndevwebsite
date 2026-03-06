@@ -1,6 +1,7 @@
 "use client";
 
 import { WorkCard } from "./WorkCard";
+import { FadeIn } from "@/components/ui/fade-in";
 
 export const LeaderBo = () => {
   const workItems = [
@@ -47,12 +48,14 @@ export const LeaderBo = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {workItems.map((item, index) => (
-          <WorkCard
-            key={index}
-            image={item.image}
-            title={item.title}
-            description={item.description}
-          />
+          <FadeIn key={index} delay={index * 0.15} direction="up" className="h-full">
+            <WorkCard
+              key={index}
+              image={item.image}
+              title={item.title}
+              description={item.description}
+            />
+          </FadeIn>
         ))}
       </div>
     </section>

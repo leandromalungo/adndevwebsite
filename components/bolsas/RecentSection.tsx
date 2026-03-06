@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useGoogleSignup } from "@/hooks/useGoogleSignup";
 import { Loader2 } from "lucide-react";
+import { FadeIn } from "@/components/ui/fade-in";
 import type { FilterTab } from "@/components/CountryFilter";
 
 interface CategoryCardProps {
@@ -183,7 +184,9 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((cat, index) => (
-            <CategoryCard key={index} {...cat} />
+            <FadeIn key={index} delay={index * 0.15} direction="up" className="h-full">
+              <CategoryCard {...cat} />
+            </FadeIn>
           ))}
         </div>
       </div>

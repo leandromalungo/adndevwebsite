@@ -13,6 +13,7 @@ import Footer from "@/components/Footer";
 import { useRouter } from "next/navigation";
 import { Loader2, ArrowRight } from "lucide-react";
 import { useGoogleSignup } from "@/hooks/useGoogleSignup";
+import { FadeIn } from "@/components/ui/fade-in";
 
 const Page = () => {
   const { triggerGoogleSignup, loading: googleLoading } = useGoogleSignup();
@@ -81,21 +82,21 @@ const Page = () => {
           </div>
         </div>
       </section>
-      <CarroselBo />
-      <main className="min-h-screen bg-white">
-        <Preview />
+      <FadeIn><CarroselBo /></FadeIn>
+      <main className="min-h-screen bg-white overflow-hidden">
+        <FadeIn><Preview /></FadeIn>
         <div className="space-y-0">
-          <RecentSection />
+          <FadeIn><RecentSection /></FadeIn>
 
-          <BigTechBo />
+          <FadeIn><BigTechBo /></FadeIn>
 
-          <div className="py-12 px-4 md:px-8">
+          <FadeIn className="py-12 px-4 md:px-8">
             <LeaderBo />
-          </div>
+          </FadeIn>
 
-          <div className="py-12 px-4 md:px-8">
+          <FadeIn className="py-12 px-4 md:px-8">
             <AboutUsSection />
-          </div>
+          </FadeIn>
           <Footer />
         </div>
       </main>
