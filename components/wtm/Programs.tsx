@@ -17,11 +17,15 @@ const CourseItem: React.FC<CourseItemProps> = ({
     <div
       className={`w-10 h-10 flex-shrink-0 rounded flex items-center justify-center overflow-hidden border border-gray-100 shadow-sm ${color}`}
     >
-      {typeof logo === "string" ? (
-        <span className="text-xs font-bold text-gray-600">{logo}</span>
-      ) : (
-        logo
-      )}
+          {typeof logo === "string" ? (
+            <img
+              src={logo}
+              alt={name}
+              className="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-300"
+            />
+          ) : (
+            logo
+          )}
     </div>
     <span className="text-sm font-medium text-gray-700 group-hover:text-gray-800 transition-colors truncate">
       {name}

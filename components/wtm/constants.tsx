@@ -23,13 +23,13 @@ export interface ReviewData {
 export interface ProgramItem {
   logo: string;
   name: string;
-  color: string;
+  color?: string;
+  link?: string;
 }
 
 export interface CountryContent {
   slides: SlideData[];
   leadership: LeadershipCardData[];
-  reviews: ReviewData[];
   activities: Activity[];
   programs: {
     universities: ProgramItem[];
@@ -40,69 +40,40 @@ export interface CountryContent {
 
 const DEFAULT_PROGRAMS = {
   universities: [
-    { logo: "H", name: "Harvard University", color: "bg-red-800 text-white" },
-    { logo: "Y", name: "Yale University", color: "bg-blue-900 text-white" },
-    { logo: "IIT", name: "IIT Kharagpur", color: "bg-indigo-100" },
-    { logo: "MIT", name: "MIT", color: "bg-gray-900 text-white" },
-    { logo: "R", name: "Rice University", color: "bg-blue-800 text-white" },
-    { logo: "M", name: "IIT Madras", color: "bg-orange-100" },
-    { logo: "C", name: "Columbia University", color: "bg-blue-50" },
-    { logo: "CU", name: "Cornell University", color: "bg-red-50" },
-    { logo: "E", name: "U. of Edinburgh", color: "bg-blue-900 text-white" },
-    { logo: "P", name: "Purdue University", color: "bg-yellow-100" },
-    { logo: "UP", name: "U. of Pennsylvania", color: "bg-red-100" },
-    { logo: "D", name: "Duke University", color: "bg-blue-950 text-white" },
-    { logo: "M", name: "U. of Michigan", color: "bg-blue-900 text-white" },
-    { logo: "O", name: "The Open University", color: "bg-blue-600 text-white" },
+      {
+        name: "Women Who Tech",
+        link: "https://womenwhotech.com/",
+        logo: "https://iili.io/qxCs7S4.png",
+      },
+      {
+        name: "AnitaB.org (Girls in Tech)",
+        link: "https://anitab.org/",
+        logo: "https://iili.io/qxCmnrF.webp",
+      },
+      {
+        name: "Women Techmakers (Google)",
+        link: "https://wtm.tech/",
+        logo: "https://iili.io/qxnHkPV.png",
+      }
+    
   ],
   platforms: [
-    { logo: "C", name: "Coursera", color: "bg-blue-600 text-white" },
-    { logo: "U", name: "Udacity", color: "bg-blue-700 text-white" },
-    { logo: "in", name: "LinkedIn Learning", color: "bg-blue-500 text-white" },
-    { logo: "N", name: "Noble Desktop", color: "bg-black text-white" },
-    { logo: "fcc", name: "freeCodeCamp", color: "bg-gray-950 text-white" },
-    { logo: "CS", name: "CodeSignal", color: "bg-blue-100" },
-    { logo: "B", name: "Boot.dev", color: "bg-amber-100" },
+    { logo: "https://iili.io/qxJ3sx1.png", name: "Coursera", color: "bg-blue-600 text-white" },
+    { logo: "https://iili.io/qxfzm8l.png", name: "Udacity", color: "bg-blue-700 text-white" },
+    { logo: "https://iili.io/qxfEorB.png", name: "LinkedIn Learning", color: "bg-blue-500 text-white" },
+    { logo: "https://iili.io/qxfSpwv.png", name: "Noble Desktop", color: "bg-black text-white" },
+    { logo: "https://iili.io/qxq3L8X.png", name: "freeCodeCamp", color: "bg-gray-950 text-white" },
+    { logo: "https://iili.io/qxqocmP.png", name: "CodeSignal", color: "bg-blue-100" },
+    { logo: "https://iili.io/qxqAAEF.jpg", name: "Boot.dev", color: "bg-amber-100" },
   ],
   bigTech: [
-    { logo: "G", name: "Google", color: "bg-white" },
-    { logo: "a", name: "Amazon", color: "bg-black text-white" },
-    { logo: "MS", name: "Microsoft", color: "bg-white" },
-    { logo: "IBM", name: "IBM", color: "bg-blue-50" },
-    { logo: "S", name: "Smithsonian", color: "bg-blue-400 text-white" },
-    { logo: "UN", name: "United Nations", color: "bg-sky-100" },
-    { logo: "N", name: "NPTEL", color: "bg-orange-50" },
+    { logo: "https://iili.io/qopdnlS.webp", name: "Google", color: "bg-white" },
+    { logo: "https://iili.io/qoyHrOu.png", name: "Amazon", color: "bg-black text-white" },
+    { logo: "https://iili.io/qoyBzKb.png", name: "Microsoft", color: "bg-white" },
+    { logo: "https://iili.io/qoyRg6B.jpg", name: "Meta", color: "bg-blue-50" },
+    { logo: "https://iili.io/qx9dIbn.png", name: "Web Summit", color: "bg-gray-900 text-white" },
   ],
 };
-
-const DEFAULT_REVIEWS: ReviewData[] = [
-  {
-    name: "Joseph Myers",
-    school: "BrainStation",
-    text: "Having now worked as a data scientist in industry for a few months, I can really appreciate how well the course content was aligned with the skills required ...",
-    initials: "JM",
-  },
-  {
-    name: "Aleyna Acar",
-    school: "Le Wagon",
-    text: "My experience at Le Wagon was incredible and enriching. I really appreciated the mutual support among students, the kindness and patience of the entire teach...",
-    initials: "AA",
-    iconColor: "bg-[#71d9d9]",
-  },
-  {
-    name: "Michael Garber",
-    school: "Springboard",
-    text: "I signed up for Springboard's Data Science program and it was definitely the best career-related decision I've made in many years. I've had an interest in Da...",
-    initials: "MG",
-    iconColor: "bg-[#91e2b5]",
-  },
-  {
-    name: "Brenda Salas",
-    school: "Nucamp",
-    text: "I decided to learn HTML and CSS to initiate my software development skills. I had a hard time finding a course I actually felt that I was advancing in, and I...",
-    initials: "BS",
-  },
-];
 
 const DEFAULT_ACTIVITIES: Activity[] = [
   {
@@ -302,45 +273,61 @@ export const COUNTRY_DATA: Record<FilterTab, CountryContent> = {
           "Eleve a sua liderança com a nossa série imersiva projetada para capacitá-la com competências essenciais em Angola.",
       },
       {
-        id: "person-ao-1",
-        type: "person",
-        name: "LIDIA CABRAL",
-        role: "Cloud Engineer",
-        image: "/images/1765478356516.jpg",
-        timeAgo: "HÁ 1 ANO",
-        sessionTitle: "Cloud Computing em Angola",
-        status: "On demand",
+        "id": "cftic-angola-intro",
+        "type": "leader",
+        "title": "Comunidade Feminina de Tecnologia de Angola (CFTIC/CFTIA)",
+        "subtitle": "Associação para inclusão de mulheres em TI",
+        "description": "Organização angolana sem fins lucrativos que promove a participação de mulheres e meninas nas Tecnologias de Informação e Comunicação através de formações técnicas, mentorias, estágios e eventos.",
+        "status": "ativa",
+        "link": "https://www.cftic.ao",
+        "image": "/images/initiatives/cftic-angola.jpg"
       },
       {
-        id: "person-ao-2",
-        type: "person",
-        name: "ANA SILVA",
-        role: "DevOps Engineer",
-        image: "/images/1722976279688.jpg",
-        timeAgo: "HÁ 2 ANOS",
-        sessionTitle: "Automação e Futuro",
-        status: "On demand",
+        "id": "women-techmakers-luanda-intro",
+        "type": "leader",
+        "title": "Women Techmakers Luanda",
+        "subtitle": "Capítulo local do programa da Google para mulheres em tecnologia",
+        "description": "Comunidade em Luanda que organiza meetups, workshops e bootcamps para apoiar e dar visibilidade a mulheres desenvolvedoras e profissionais de tecnologia.",
+        "status": "ativa",
+        "link": "https://wtmluanda.netlify.app",
+        "image": "/images/initiatives/wtm-luanda.jpg"
       },
       {
-        id: "person-ao-3",
-        type: "person",
-        name: "MARIA BENTO",
-        role: "Product Manager",
-        image: "/images/1756913513983.jpg",
-        timeAgo: "HÁ 6 MESES",
-        sessionTitle: "Liderança Feminina em Tech",
-        status: "On demand",
+        "id": "women-in-tech-angola-intro",
+        "type": "leader",
+        "title": "Women in Tech Angola – Programa UJUMO",
+        "subtitle": "Capacitação em literacia digital e cibersegurança",
+        "description": "Capítulo angolano da rede Women in Tech com programa focado em competências técnicas e comportamentais para jovens mulheres interessadas em literacia digital, segurança e cibersegurança.",
+        "status": "ativa",
+        "link": "https://women-in-tech.org/women-in-tech-angola",
+        "image": "/images/initiatives/women-in-tech-angola.jpg"
       },
     ],
-    reviews: DEFAULT_REVIEWS.map((r) => ({
-      ...r,
-      school: r.school + " Luanda",
-    })),
     activities: DEFAULT_ACTIVITIES.map((a) => ({
       ...a,
       location: a.location + " (ANGOLA)",
     })),
-    programs: DEFAULT_PROGRAMS,
+    programs: {
+      universities: [
+        {
+          name: "WTM Luanda",
+          link: "https://wtmluanda.netlify.app",
+          logo: "https://iili.io/qxH8z4R.png"
+        },
+        {
+          name: "Women in Tech Angola",
+          link: "https://freeimage.host/a/adndeveloper.mASyl",
+          logo: "https://iili.io/qxHLPJs.png"
+        },
+        {
+          name: "CFTIC Angola",
+          link: "https://www.cftic.ao",
+          logo: "https://iili.io/qxJ3sx1.png"
+        }
+      ],
+      platforms: DEFAULT_PROGRAMS.platforms,
+      bigTech: DEFAULT_PROGRAMS.bigTech,
+    },
   },
   Brasil: {
     slides: [
@@ -388,45 +375,67 @@ export const COUNTRY_DATA: Record<FilterTab, CountryContent> = {
           "Impulsione sua carreira com mentorias exclusivas para brasileiras na tecnologia.",
       },
       {
-        id: "person-br-1",
-        type: "person",
-        name: "LARA FERNANDES",
-        role: "AI Lead",
-        image: "/images/1722976279688.jpg",
-        timeAgo: "HÁ 3 MESES",
-        sessionTitle: "IA no Cotidiano Brasileiro",
-        status: "On demand",
+        id: "br-reprograma-intro",
+        type: "leader",
+        title: "{reprograma}",
+        subtitle: "Formação em programação para mulheres",
+        description: "Iniciativa de impacto social que oferece cursos gratuitos e bolsas em programação para mulheres cis e trans, com foco em reduzir a lacuna de gênero em TI.",
+        status: "ativa",
+        image: "",
+        link: "https://www.reprograma.com.br"
       },
       {
-        id: "person-br-2",
-        type: "person",
-        name: "BEATRIZ COSTA",
-        role: "Software Architect",
-        image: "/images/1756913513983.jpg",
-        timeAgo: "HÁ 1 ANO",
-        sessionTitle: "Sistemas em Escala",
-        status: "On demand",
+        id: "br-womakerscode-intro",
+        type: "leader",
+        title: "WoMakersCode",
+        subtitle: "Educação e mentoria para mulheres na tecnologia",
+        description: "Comunidade que oferece bootcamps, cursos e mentorias em áreas como back-end Python, back-end Java e outras carreiras digitais, impulsionando mulheres diversas na tecnologia.",
+        status: "ativa",
+        image: "",
+        link: "https://womakerscode.org"
       },
       {
-        id: "person-br-3",
-        type: "person",
-        name: "CARLA MOURA",
-        role: "CTO",
-        image: "/images/1765478356516.jpg",
-        timeAgo: "HÁ 8 MESES",
-        sessionTitle: "Liderando com Propósito",
-        status: "On demand",
-      },
+        id: "br-programaria-intro",
+        type: "leader",
+        title: "PrograMaria",
+        subtitle: "Primeiros passos na programação para mulheres",
+        description: "Startup que desenvolve cursos online introdutórios de programação e dados para mulheres, com bolsas e valores acessíveis, visando ampliar a diversidade na tecnologia.",
+        status: "ativa",
+        image: "",
+        link: "https://www.programaria.org"
+      }
     ],
-    reviews: DEFAULT_REVIEWS.map((r) => ({
-      ...r,
-      school: r.school + " Brasil",
-    })),
     activities: DEFAULT_ACTIVITIES.map((a) => ({
       ...a,
       location: a.location + " (BRASIL)",
     })),
-    programs: DEFAULT_PROGRAMS,
+    programs: {
+      universities:
+        [
+          {
+            "name": "PyLadies Brasil",
+            "link": "http://brasil.pyladies.com/",
+            "logo": "https://iili.io/qxBE1kP.png",
+          },
+          { 
+            "name": "Ladies in Tech",
+            "link": "https://ladiesintech.com.br",
+            "logo": "https://iili.io/qxBWMSR.png",
+
+          },
+          {
+            "name": "Women Techmakers Brasil",
+            "link": "https://www.instagram.com/wtmbrasil/",
+            "logo": "https://iili.io/qxBeTsS.jpg",
+          },
+          {
+            "name": "SysAdminas",
+            "link": "https://sysadminas.com.br/",
+            "logo": "https://iili.io/qxBrhnj.png",
+          }],
+      platforms: DEFAULT_PROGRAMS.platforms,
+      bigTech: DEFAULT_PROGRAMS.bigTech,
+    },
   },
   Portugal: {
     slides: [
@@ -470,56 +479,38 @@ export const COUNTRY_DATA: Record<FilterTab, CountryContent> = {
         type: "intro",
         subtitle: "Programas Portugal",
         title: "Tecnologia em Portugal",
-        description: "O futuro das mulheres em tech na Europa.",
+        description: "O futuro das mulheres em tech na Europa. Descubra as iniciativas que estão a transformar o cenário tecnológico português e a criar oportunidades para mulheres em todo o país.",
       },
       {
-        id: "person-pt-1",
-        type: "person",
-        name: "RITA MENDES",
-        role: "Software Engineer",
-        image: "/images/1722976279688.jpg",
-        timeAgo: "HÁ 2 MESES",
-        sessionTitle: "Backend em PT",
-        status: "On demand",
+        id: "pt-women-in-tech-pt-intro",
+        type: "leader",
+        title: "Women in Tech Portugal",
+        subtitle: "Comunidade global de mulheres em tecnologia",
+        description: "Capítulo português de movimento global presente em 60+ países, com eventos, workshops, mentorias e formação para capacitar mulheres e raparigas em TI até 2030.",
+        status: "ativa",
+        image: "",
+        link: "https://www.womenintech.pt"
       },
       {
-        id: "person-pt-2",
-        type: "person",
-        name: "SARA LOPES",
-        role: "Data Scientist",
-        image: "/images/1756913513983.jpg",
-        timeAgo: "HÁ 5 MESES",
-        sessionTitle: "Data em Lisboa",
-        status: "On demand",
-      },
-    ],
-    reviews: [
-      {
-        name: "Joseph Myers",
-        school: "BrainStation (Portugal)",
-        text: "Having now worked as a data scientist in industry for a few months, I can really appreciate how well the course content was aligned with the skills required ...",
-        initials: "JM",
+        id: "pt-raparigas-do-codigo-intro",
+        type: "leader",
+        title: "Raparigas do Código",
+        subtitle: "Comunidade para inclusão digital feminina",
+        description: "Comunidade jovem que promove programação para raparigas (ensino básico a superior) através de clubes, hackatons, webinars e encontros presenciais para desmistificar TI.",
+        status: "ativa",
+        image: "",
+        link: "https://raparigasdocodigo.pt"
       },
       {
-        name: "Aleyna Acar",
-        school: "Le Wagon (Portugal)",
-        text: "My experience at Le Wagon was incredible and enriching. I really appreciated the mutual support among students, the kindness and patience of the entire teach...",
-        initials: "AA",
-        iconColor: "bg-[#71d9d9]",
-      },
-      {
-        name: "Michael Garber",
-        school: "Springboard (Portugal)",
-        text: "I signed up for Springboard's Data Science program and it was definitely the best career-related decision I've made in many years. I've had an interest in Da...",
-        initials: "MG",
-        iconColor: "bg-[#91e2b5]",
-      },
-      {
-        name: "Brenda Salas",
-        school: "Nucamp (Portugal)",
-        text: "I decided to learn HTML and CSS to initiate my software development skills. I had a hard time finding a course I actually felt that I was advancing in, and I...",
-        initials: "BS",
-      },
+        id: "pt-programa-raparigas-stem-intro",
+        type: "leader",
+        title: "Programa Nacional das Raparigas nas STEM",
+        subtitle: "Iniciativa governamental para STEM feminina",
+        description: "Programa nacional para atrair e reter raparigas/mulheres em STEM (incluindo TIC), com mentoras, formação contínua e ações em educação, superior e mercado de trabalho.",
+        status: "ativa",
+        image: "",
+        link: "https://digital.gov.pt/estrategias/estrategia-digital-nacional/as-pessoas/02-programa-nacional-raparigas-nas-stem"
+      }
     ],
     activities: [
       {
@@ -715,30 +706,39 @@ export const COUNTRY_DATA: Record<FilterTab, CountryContent> = {
         type: "intro",
         subtitle: "Programas Moçambique",
         title: "Impacto Moçambique",
-        description: "Crescendo em Maputo.",
+        description: "Crescendo em Maputo. Descubra as iniciativas que estão a transformar o cenário tecnológico moçambicano e a criar oportunidades para mulheres em todo o país.",
       },
       {
-        id: "person-mz-1",
-        type: "person",
-        name: "ELSA BIÉ",
-        role: "Frontend Dev",
-        image: "/images/1765478356516.jpg",
-        timeAgo: "HÁ 1 ANO",
-        sessionTitle: "Web em Maputo",
-        status: "On demand",
+        id: "mz-coding-girls-uem-intro",
+        type: "leader",
+        title: "Coding Girls – As Mulheres do Amanhã na Economia Digital",
+        subtitle: "Projeto da Universidade Eduardo Mondlane para raparigas em tecnologia",
+        description: "Iniciativa do Espaço de Inovação da Universidade Eduardo Mondlane que formou mais de mil raparigas moçambicanas em programação e desenvolvimento de soluções tecnológicas entre 2022 e 2025.",
+        status: "encerrada/legado",
+        image: "",
+        link: "https://uem.mz"
       },
       {
-        id: "person-mz-2",
-        type: "person",
-        name: "JOANA TIMANA",
-        role: "UX Designer",
-        image: "/images/1722976279688.jpg",
-        timeAgo: "HÁ 6 MESES",
-        sessionTitle: "Design Thinking",
-        status: "On demand",
+        id: "mz-african-girls-can-code-intro",
+        type: "leader",
+        title: "African Girls Can Code Initiative (AGCCI) – ONU Mulheres Moçambique",
+        subtitle: "Campus de literacia digital e programação para raparigas",
+        description: "Programa da ONU Mulheres em colaboração com o Ministério da Ciência, Tecnologia e Ensino Superior que capacita raparigas moçambicanas em literacia digital, codificação e programação para carreiras em TIC.",
+        status: "ativa",
+        image: "",
+        link: "https://www.unwomen.org"
       },
+      {
+        id: "mz-economic-linkages-women-intro",
+        type: "leader",
+        title: "Economic Linkages for Diversification – Empoderamento Feminino Digital",
+        subtitle: "Projeto do Ministério da Economia e Finanças de Moçambique",
+        description: "Iniciativa apoiada pelo Banco Mundial que inclui ações específicas para empreendedorismo feminino, com foco em capacitação e fortalecimento digital de negócios liderados por mulheres.",
+        status: "ativa",
+        image: "",
+        link: "https://www.mef.gov.mz"
+      }
     ],
-    reviews: DEFAULT_REVIEWS,
     activities: [
       {
         id: "mz-1",
@@ -832,28 +832,7 @@ export const COUNTRY_DATA: Record<FilterTab, CountryContent> = {
         description:
           "Eleve a sua liderança com a nossa série imersiva projetada para capacitá-la com competências essenciais em STP.",
       },
-      {
-        id: "person-st-1",
-        type: "person",
-        name: "INES GOMES",
-        role: "Network Admin",
-        image: "/images/1756913513983.jpg",
-        timeAgo: "HÁ 1 ANO",
-        sessionTitle: "Redes na Ilha",
-        status: "On demand",
-      },
-      {
-        id: "person-st-2",
-        type: "person",
-        name: "ROSA CRUZ",
-        role: "Web Dev",
-        image: "/images/1765478356516.jpg",
-        timeAgo: "HÁ 9 MESES",
-        sessionTitle: "E-commerce local",
-        status: "On demand",
-      },
     ],
-    reviews: DEFAULT_REVIEWS,
     activities: [
       {
         id: "stp-1",
@@ -944,30 +923,9 @@ export const COUNTRY_DATA: Record<FilterTab, CountryContent> = {
         type: "intro",
         subtitle: "Programas Guiné",
         title: "Guiné-Bissau em Foco",
-        description: "Mentoria e crescimento tecnológico.",
-      },
-      {
-        id: "person-gw-1",
-        type: "person",
-        name: "HABIBA DJALÓ",
-        role: "Data Analyst",
-        image: "/images/1722976279688.jpg",
-        timeAgo: "HÁ 11 MESES",
-        sessionTitle: "Dados e Impacto",
-        status: "On demand",
-      },
-      {
-        id: "person-gw-2",
-        type: "person",
-        name: "FATIMA BALDÉ",
-        role: "Security Spec",
-        image: "/images/1756913513983.jpg",
-        timeAgo: "HÁ 1 ANO",
-        sessionTitle: "Cybersegurança",
-        status: "On demand",
+        description: "Mentoria e crescimento tecnológico. Descubra as iniciativas que estão a transformar o cenário tecnológico guineense e a criar oportunidades para mulheres em todo o país.",
       },
     ],
-    reviews: DEFAULT_REVIEWS,
     activities: [
       {
         id: "gw-1",
@@ -1061,27 +1019,16 @@ export const COUNTRY_DATA: Record<FilterTab, CountryContent> = {
           "Workshops na Praia e Mindelo projetados para capacitá-la.",
       },
       {
-        id: "person-cv-1",
-        type: "person",
-        name: "CATIA LOPES",
-        role: "System Architect",
-        image: "/images/1765478356516.jpg",
-        timeAgo: "HÁ 4 MESES",
-        sessionTitle: "Nuvem no Mindelo",
-        status: "On demand",
-      },
-      {
-        id: "person-cv-2",
-        type: "person",
-        name: "SONIA VARELA",
-        role: "Product Designer",
-        image: "/images/1722976279688.jpg",
-        timeAgo: "HÁ 1 ANO",
-        sessionTitle: "Design Inclusivo",
-        status: "On demand",
-      },
+        id: "cv-women-in-tech-cv-intro",
+        type: "leader",
+        title: "Women in Tech Cabo Verde (WIT-CV)",
+        subtitle: "Capítulo cabo-verdiano para empoderamento feminino em TIC",
+        description: "Organização dedicada a aumentar a representação feminina na tecnologia através de summits internacionais, workshops, mentoria e redes de apoio para mulheres e raparigas nas TIC.",
+        status: "ativa",
+        image: "",
+        link: "https://www.facebook.com/womenintechcv/"
+      }
     ],
-    reviews: DEFAULT_REVIEWS,
     activities: [
       {
         id: "cv-1",

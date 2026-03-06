@@ -162,12 +162,12 @@ export interface SlideData {
 
 export interface LeadershipCardData {
   id: string;
-  type: 'intro' | 'person';
+  type: 'intro' | 'leader';
   title?: string;
   subtitle?: string;
   description?: string;
   name?: string;
-  role?: string;
+  link?: string;
   image?: string;
   timeAgo?: string;
   sessionTitle?: string;
@@ -321,3 +321,16 @@ export interface AlumniRole {
 export interface SearchState {
   query: string;
 }
+
+export interface Bootcamp {
+  id: string;
+  title: string;
+  description: string;
+  logoUrl: string;
+  link: string;
+  startDate: string;
+  endDate: string;
+  country: string;
+  tags: string[];
+}
+

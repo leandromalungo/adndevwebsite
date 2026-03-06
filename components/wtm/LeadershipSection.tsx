@@ -1,7 +1,8 @@
 import React from 'react';
-import { LEADERSHIP_CARDS, WTMLogoColored, COUNTRY_DATA } from '@/components/wtm/constants';
+import { COUNTRY_DATA, LEADERSHIP_CARDS } from '@/components/wtm/constants';
 
 import type { FilterTab } from '@/components/CountryFilter';
+import { ExternalLink } from 'lucide-react';
 
 interface LeadershipSectionProps {
   selectedCountry?: FilterTab;
@@ -11,7 +12,7 @@ export const LeadershipSection: React.FC<LeadershipSectionProps> = ({ selectedCo
   const cards = selectedCountry ? (COUNTRY_DATA[selectedCountry]?.leadership?.length > 0 ? COUNTRY_DATA[selectedCountry].leadership : LEADERSHIP_CARDS) : LEADERSHIP_CARDS;
 
   return (
-    <section className="container md:mx-28 max-w-7xl py-16 px-4">
+    <section className="container md:mx-10 max-w-6xl py-16 px-2">
       {/* Título da secção */}
       <h2 className="text-2xl md:text-3xl font-medium text-gray-700 mb-10 uppercase">
         Mulheres na tecnologia {selectedCountry && <span className="text-2xl md:text-3xl font-medium">em {selectedCountry}</span>}
@@ -38,41 +39,35 @@ export const LeadershipSection: React.FC<LeadershipSectionProps> = ({ selectedCo
             ) : (
               /* Cartão de Líder Padrão */
               <div className="bg-white border border-gray-100 rounded-lg shadow-sm flex flex-col h-full overflow-hidden relative group">
-                
+
+                {/* Background image */}
+                <div
+                  className="absolute inset-0 bg-cover bg-center opacity-20 z-0"
+                  style={{ backgroundImage: `url(${"https://iili.io/qomO0f1.jpg"})` }}
+                />
+
                 {/* Canto turquesa */}
-                <div className="absolute top-0 right-0 w-16 h-10 bg-[#00CBA9] rounded-bl-3xl" />
+                <div className="absolute top-0 right-0 w-16 h-8 bg-[#00CBA9] rounded-bl-3xl z-20" />
 
-                <div className="p-4 md:p-6 flex flex-col h-full">
-                  <div className="flex gap-4 mb-4">
-                    
-                    {/* Nome + informação */}
-                    <div className="flex-1 flex flex-col justify-between">
-                      <div>
-                        <h4 className="font-bold text-gray-900 text-lg md:text-xl leading-tight mb-1">
-                          {card.name}
-                        </h4>
-                        <p className="text-[10px] md:text-sm text-gray-500 font-medium leading-tight mb-2 md:mb-3">
-                          {card.role}
-                        </p>
-                        <span className="bg-[#ff6d6d] text-white text-[9px] md:text-[10px] font-bold px-2 py-1 rounded-sm uppercase inline-block">
-                          Líderes em ascensão
-                        </span>
-                      </div>
+                {/* Conteúdo */}
+                <div className="relative z-10 bg-white/35 backdrop-blur-sm border-b border-l border-r border-gray-100 rounded-lg shadow-sm p-6 md:p-8 flex flex-col h-full">
+                  <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">
+                    {card.subtitle}
+                  </span>
 
-                      <div className="mt-4 flex items-center gap-1">
-                        <WTMLogoColored />
-                        <span className="text-[9px] md:text-[10px] font-medium text-gray-400">
-                          Rostos femeninos em T.I
-                        </span>
-                      </div>
-                    </div>
+                  <h3 className="text-lg font-bold text-gray-800 mb-4 md:mb-6">
+                    {card.title}
+                  </h3>
+
+                  <p className="text-gray-600 leading-relaxed text-sm md:sm">
+                    {card.description}
+                  </p>
+                  <div className="flex items-center gap-1 text-[#440bd6] font-semibold text-xs mt-auto pt-2">
+                    <a href={card.link} target="_blank" rel="noopener noreferrer">Ver Mais</a>
+                    <ExternalLink className="w-3 h-3" />
                   </div>
-
-                  {/* Título da sessão */}
-                  <h5 className="text-lg md:text-xl font-bold text-gray-800 leading-tight mt-auto">
-                    {card.sessionTitle}
-                  </h5>
                 </div>
+
               </div>
             )}
           </div>

@@ -39,7 +39,7 @@ const App = () => {
       <Navbar />
 
       {/* HERO / CTA */}
-      <section className="relative w-full h-[50vh] overflow-hidden bg-zinc-900">
+      <section className="relative w-full h-[60vh] overflow-hidden bg-zinc-900">
         {/* FUNDO */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
