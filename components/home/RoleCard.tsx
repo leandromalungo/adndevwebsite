@@ -1,0 +1,82 @@
+
+import React from 'react';
+import Image from 'next/image';
+import { AlumniRole } from '@/data/types';
+
+interface RoleCardProps {
+  role: AlumniRole;
+  isFirst: boolean;
+}
+
+const RoleCard: React.FC<RoleCardProps> = ({ role, isFirst }) => {
+  return (
+    <div className="bg-white rounded overflow-hidden flex flex-col md:flex-row shadow-sm min-h-[400px]">
+      {/* Lado Esquerdo: Imagem com Info básica */}
+      <div className="relative w-full md:w-1/2 h-[350px] md:h-auto overflow-hidden bg-gray-100">
+        <Image
+          src={role.imageUrl}
+          alt={role.name}
+          fill
+          quality={75}
+          className="object-cover"
+          loading="lazy"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          placeholder="empty"
+        />
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
+          <div className="flex flex-col gap-1">
+            <span className="font-bold text-sm tracking-wide">{role.name}</span>
+            <p className="text-[11px] font-medium leading-tight opacity-90">
+              Switched from {role.originalRole} to <br />
+              {role.newRole}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Lado Direito: Depoimento e Redes Sociais */}
+      <div className="w-full md:w-1/2 p-8 flex flex-col justify-between bg-white">
+        <div>
+          <p className="text-[#1a1a1a] text-[15px] leading-[1.6] font-normal italic">
+            &ldquo;{role.testimonial}&rdquo;
+          </p>
+        </div>
+        
+        <div className="mt-8 flex flex-col gap-6">
+          {/* Ícones Sociais P&B na parte branca */}
+          <div className="flex items-center gap-2">
+            {role.linkedInUrl && (
+              <a href={role.linkedInUrl} className="bg-black p-1.5 rounded-md hover:bg-gray-800 transition-colors">
+                <svg className="w-4 h-4 text-white fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+              </a>
+            )}
+            {role.instagramUrl && (
+              <a href={role.instagramUrl} className="bg-black p-1.5 rounded-md hover:bg-gray-800 transition-colors">
+                <svg className="w-4 h-4 text-white fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              </a>
+            )}
+            {role.githubUrl && (
+              <a href={role.githubUrl} className="bg-black p-1.5 rounded-md hover:bg-gray-800 transition-colors">
+                <svg className="w-4 h-4 text-white fill-current" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+              </a>
+            )}
+            {role.facebookUrl && (
+              <a href={role.facebookUrl} className="bg-black p-1.5 rounded-md hover:bg-gray-800 transition-colors">
+                <svg className="w-4 h-4 text-white fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </a>
+            )}
+          </div>
+
+          <a href="#" className="inline-flex items-center gap-2 text-[#1a1a1a] font-bold text-sm hover:underline underline-offset-4 decoration-1">
+            <span>{isFirst ? 'Watch the story' : 'Read the story'}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default RoleCard;
