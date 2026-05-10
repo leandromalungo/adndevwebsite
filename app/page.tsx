@@ -8,6 +8,7 @@
 import Navbar from "@/components/auth/Navbar";
 import Hero from "@/components/home/Hero";
 import FAQSection from "@/components/home/FAQSection";
+import PartnersSection from "@/components/home/PartnersSection";
 import Footer from "@/components/Footer";
 import { SectionHero as ServiceSection } from "@/components/home/ServiceSection";
 import { CTACardsContainer } from "@/components/home/cardCta/Content";
@@ -109,8 +110,10 @@ const Page = () => {
           <OpportunitiesSection />
           
           <CTACardsContainer />
-                    
+          
           <FAQSection />
+
+          <PartnersSection />
           
           <Footer />
         </div>
