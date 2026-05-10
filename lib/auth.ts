@@ -1,5 +1,5 @@
 import 'server-only';
-import { NextAuthOptions, DefaultSession } from "next-auth";
+import NextAuth, { type NextAuthOptions, type DefaultSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import bcrypt from "bcryptjs";
@@ -10,7 +10,7 @@ import { isAdminEmail } from "@/lib/admin-auth";
 import { trackEvent } from "@/lib/analytics";
 
 // -----------------------------------------------------------------------
-// SEGURANÇA: Busca utilizador para autenticação. 
+// SEGURANÇA: Busca utilizador para autenticação.
 // -----------------------------------------------------------------------
 const getPasswordHash = async (email: string): Promise<string | null> => {
   try {
@@ -216,3 +216,5 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
+
+

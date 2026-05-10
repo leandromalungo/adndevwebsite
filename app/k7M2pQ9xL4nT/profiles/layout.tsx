@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
-import { getServerSession } from "next-auth";
+import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "@/lib/auth";
 import { AdminPanelShell } from "@/components/admin/AdminPanelShell";
 import { adminPath } from "@/lib/admin-routes";
 import { trackEvent } from "@/lib/analytics";
@@ -11,7 +10,7 @@ export default async function AdminProfilesLayout({
 }: {
   children: ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session?.user) redirect(adminPath("/login"));
   if (!session.user.isAdmin) redirect("/");
 

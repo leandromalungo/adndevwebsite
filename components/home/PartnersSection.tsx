@@ -18,31 +18,24 @@ const partners: PartnerItem[] = [
   },
    {
     name: "GDG Luanda",
-    href: "https://saturno.software/",
+    href: "https://gdg.community.dev/gdg-luanda/",
     logoSrc: "/gdg.png",
-    description: "Desenvolvimento autoral e colaboração com estúdios e equipes.",
-    initials: "S",
+    description: "Uma comunidade inclusiva em Angola voltada para desenvolvedores, estudantes e entusiastas interessados nas tecnologias do Google.",
+    initials: "GdgL",
   },
    {
-    name: "Open Source Angola Community",
-    href: "https://saturno.software/",
+    name: "Angola Open Source Community",
+    href: "https://angolaosc.org/",
     logoSrc: "/aosp.png",
-    description: "Desenvolvimento autoral e colaboração com estúdios e equipes.",
-    initials: "S",
-  },
-   {
-    name: "Quebrando Controle",
-    href: "https://saturno.software/",
-    logoSrc: "/qoc.png",
-    description: "Desenvolvimento autoral e colaboração com estúdios e equipes.",
-    initials: "S",
+    description: "Uma comunidade dedicada a promover o uso e desenvolvimento de software de código aberto.",
+    initials: "AosP",
   },
    {
     name: "Elas no Code",
     href: "https://saturno.software/",
     logoSrc: "/enc.png",
-    description: "Desenvolvimento autoral e colaboração com estúdios e equipes.",
-    initials: "S",
+    description: "Dedica-se a capacitar mulheres no universo do desenvolvimento sem código, promovendo a inclusão e diversidade na tecnologia.",
+    initials: "EnC",
   }
 ];
 
@@ -59,7 +52,7 @@ export default function PartnersSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {partners.map((partner) => (
             <a
               key={partner.name}
@@ -68,7 +61,7 @@ export default function PartnersSection() {
               rel="noopener noreferrer"
               className="group block p-6 text-center"
             >
-              <div className="mx-auto mb-2 flex items-center justify-center bg-slate-100">
+              <div className="mx-auto mb-2 flex items-center justify-center">
                 {partner.logoSrc ? (
                   <Image
                     src={partner.logoSrc}
