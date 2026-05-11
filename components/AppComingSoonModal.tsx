@@ -29,14 +29,6 @@ export function AppComingSoonModal({ open, onClose }: AppComingSoonModalProps) {
   return createPortal(
     <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto bg-black/60 backdrop-blur-sm p-4">
       <div className="relative w-full max-w-2xl max-h-[calc(100vh-4rem)] overflow-hidden rounded border border-white/10 bg-zinc-950/95 p-8 shadow-2xl shadow-black/50">
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Fechar modal"
-          className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/5 text-white transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-violet-500"
-        >
-          <X className="h-4 w-4" />
-        </button>
 
         <div className="mb-6 flex flex-col gap-4 sm:gap-6">
           <span className="inline-flex px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-violet-300">
