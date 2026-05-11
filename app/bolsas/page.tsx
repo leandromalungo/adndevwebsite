@@ -9,7 +9,7 @@ import { RecentSection } from "@/components/bolsas/RecentSection";
 import Navbar from "@/components/auth/Navbar";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Smartphone, Apple } from "lucide-react";
+import { ArrowRight, Smartphone } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 const App = () => {
@@ -75,37 +75,20 @@ const App = () => {
           </p>
 
           {isLoggedIn ? (
-            <div className="flex gap-2 md:gap-3">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.adndeveloper"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-green-900 px-4 sm:px-5 md:px-6 lg:px-7 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base text-white active:scale-95 transition-transform shadow-lg w-fit border border-green-600 hover:border-green-500"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  <Smartphone size={16} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
-                  Android
-                </span>
-                <span className="absolute inset-0 overflow-hidden rounded-md">
-                  <span className="absolute left-0 aspect-square w-full origin-center -translate-x-full rounded-full bg-green-600 transition-all duration-500 group-hover:-translate-x-0 group-hover:scale-150"></span>
-                </span>
-              </a>
-
-              <a
-                href="https://apps.apple.com/app/adn-developer/id1234567890"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-gray-800 px-4 sm:px-5 md:px-6 lg:px-7 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base text-white active:scale-95 transition-transform shadow-lg w-fit border border-gray-600 hover:border-gray-500"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  <Apple size={16} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
-                  iPhone
-                </span>
-                <span className="absolute inset-0 overflow-hidden rounded-md">
-                  <span className="absolute left-0 aspect-square w-full origin-center -translate-x-full rounded-full bg-gray-600 transition-all duration-500 group-hover:-translate-x-0 group-hover:scale-150"></span>
-                </span>
-              </a>
-            </div>
+            <a
+              href="https://play.google.com/store/apps/details?id=com.adndeveloper"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-green-900 px-4 sm:px-5 md:px-6 lg:px-7 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base text-white active:scale-95 transition-transform shadow-lg w-fit border border-green-600 hover:border-green-500"
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                <Smartphone size={16} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
+                Baixar aplicativo
+              </span>
+              <span className="absolute inset-0 overflow-hidden rounded-md">
+                <span className="absolute left-0 aspect-square w-full origin-center -translate-x-full rounded-full bg-green-600 transition-all duration-500 group-hover:-translate-x-0 group-hover:scale-150"></span>
+              </span>
+            </a>
           ) : (
             <button
               onClick={handleClick}
