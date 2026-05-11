@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { MoveLeft, Search, ArrowRight, Smartphone, Apple } from "lucide-react";
+import { MoveLeft, Search, ArrowRight, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { STUDY_PLANS } from "@/data/study-plans";

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Tag } from "./Tag";
 import { useState } from "react";
-import { Loader2, Smartphone, Apple } from "lucide-react";
+import { Loader2, Smartphone } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 type LoadingButton = "assinar" | "area" | null;

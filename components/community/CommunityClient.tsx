@@ -7,7 +7,7 @@ import Navbar from "@/components/auth/Navbar";
 import Footer from "@/components/Footer";
 import { CommunityGrid } from "@/components/community/CommunityGrid";
 import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
-import { Loader2, ArrowRight, Smartphone, Apple } from "lucide-react";
+import { Loader2, ArrowRight, Smartphone } from "lucide-react";
 
 export default function CommunityClient() {
   const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");

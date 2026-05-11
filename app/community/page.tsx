@@ -6,7 +6,7 @@ import Navbar from "@/components/auth/Navbar";
 import Footer from "@/components/Footer";
 import { CommunityGrid } from "@/components/community/CommunityGrid";
 import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
-import { ArrowRight, Search, Smartphone, Apple } from "lucide-react";
+import { ArrowRight, Search, Smartphone } from "lucide-react";
 import type { Community } from "@/data/types";
 import { useSession } from "next-auth/react";
 

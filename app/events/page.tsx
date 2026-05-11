@@ -16,7 +16,7 @@
  */
 
 import { useState, useMemo, useEffect } from "react";
-import { Loader2, ArrowRight, Smartphone, Apple } from "lucide-react";
+import { Loader2, ArrowRight, Smartphone } from "lucide-react";
 import Head from "next/head";
 import AdvancedFilters from "@/components/events/AdvancedFilters";
 import { useRouter } from "next/navigation";
