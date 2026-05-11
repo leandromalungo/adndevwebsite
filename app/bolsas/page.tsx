@@ -79,14 +79,14 @@ const App = () => {
               href="https://play.google.com/store/apps/details?id=com.adndeveloper"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-green-900 px-4 sm:px-5 md:px-6 lg:px-7 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base text-white active:scale-95 transition-transform shadow-lg w-fit border border-green-600 hover:border-green-500"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-neutral-950 px-4 sm:px-5 md:px-6 lg:px-7 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base text-neutral-50 active:scale-95 transition-transform shadow-lg w-fit border border-violet-700"
             >
               <span className="relative z-10 flex items-center gap-2">
                 <Smartphone size={16} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
                 Baixar aplicativo
               </span>
               <span className="absolute inset-0 overflow-hidden rounded-md">
-                <span className="absolute left-0 aspect-square w-full origin-center -translate-x-full rounded-full bg-green-600 transition-all duration-500 group-hover:-translate-x-0 group-hover:scale-150"></span>
+                <span className="absolute left-0 aspect-square w-full origin-center -translate-x-full rounded-full bg-violet-600 transition-all duration-500 group-hover:-translate-x-0 group-hover:scale-150"></span>
               </span>
             </a>
           ) : (
