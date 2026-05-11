@@ -17,7 +17,9 @@ function revalidateContentPaths() {
   revalidatePath("/bolsas");
   revalidatePath("/community");
   revalidatePath("/k7M2pQ9xL4nT/content");
-  revalidatePath("/k7M2pQ9xL4nT/content/ver");
+  revalidatePath("/api/public/events");
+  revalidatePath("/api/public/scholarships");
+  revalidatePath("/api/public/communities");
 }
 
 export async function createAdminEvent(formData: FormData) {

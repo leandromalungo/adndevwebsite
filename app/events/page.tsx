@@ -45,7 +45,7 @@ const Page = () => {
   const isLoggedIn = !!session;
   const [showAppComingSoon, setShowAppComingSoon] = useState(false);
   useEffect(() => {
-    fetch("/api/public/events")
+    fetch("/api/public/events", { cache: "no-store" })
       .then((res) => res.json())
       .then((payload) => {
         setDbEvents(Array.isArray(payload?.events) ? payload.events : []);
@@ -174,7 +174,7 @@ const Page = () => {
             >
               <span className="relative z-10 flex items-center gap-2">
                 <Smartphone size={16} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
-                Baixar aplicativo
+                Baixar o aplicativo
               </span>
               <span className="absolute inset-0 overflow-hidden rounded-md">
                 <span className="absolute left-0 aspect-square w-full origin-center -translate-x-full rounded-full bg-violet-600 transition-all duration-500 group-hover:-translate-x-0 group-hover:scale-150"></span>

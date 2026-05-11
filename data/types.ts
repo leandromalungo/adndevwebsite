@@ -333,4 +333,3 @@ export interface Bootcamp {
   country: string;
   tags: string[];
 }
-

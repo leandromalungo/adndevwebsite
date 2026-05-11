@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export type FilterTab =
+  | "Todos"
   | "Angola"
   | "Brasil"
   | "Moçambique"
@@ -14,6 +15,7 @@ export type FilterTab =
   | "Timor-Leste";
 
 export const LUSOPHONE_COUNTRIES: FilterTab[] = [
+  "Todos",
   "Angola",
   "Brasil",
   "Moçambique",

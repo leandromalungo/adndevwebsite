@@ -9,7 +9,8 @@ export async function generateStaticParams() {
 
 /**
  * Gera metadata dinâmica com canonical URL para cada evento
- */
+ **/
+
 export async function generateMetadata({
   params,
 }: {

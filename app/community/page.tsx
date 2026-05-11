@@ -15,14 +15,14 @@ import { useSession } from "next-auth/react";
 export default function Page() {
   const router = useRouter();
   const pathname = usePathname();
-  const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
+  const [selectedCountry, setSelectedCountry] = useState<FilterTab | "Todos">("Todos");
   const [searchQuery, setSearchQuery] = useState("");
   const [dbCommunities, setDbCommunities] = useState<Community[]>([]);
   const { data: session } = useSession();
   const isLoggedIn = !!session;
   const [showAppComingSoon, setShowAppComingSoon] = useState(false);
   useEffect(() => {
-    fetch("/api/public/communities")
+    fetch("/api/public/communities", { cache: "no-store" })
       .then((res) => res.json())
       .then((payload) => {
         setDbCommunities(Array.isArray(payload?.communities) ? payload.communities : []);
@@ -79,7 +79,7 @@ export default function Page() {
             >
               <span className="relative z-10 flex items-center gap-2">
                 <Smartphone size={16} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
-                Baixar aplicativo
+                Baixar o aplicativo
               </span>
               <span className="absolute inset-0 overflow-hidden rounded-md">
                 <span className="absolute left-0 aspect-square w-full origin-center -translate-x-full rounded-full bg-violet-600 transition-all duration-500 group-hover:-translate-x-0 group-hover:scale-150"></span>

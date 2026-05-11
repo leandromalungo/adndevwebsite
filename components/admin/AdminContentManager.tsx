@@ -291,7 +291,7 @@ export function AdminContentManager({
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <Select name="country" label="Pais" options={LUSOPHONE_COUNTRIES} required />
-                <MultiSelect name="categories" label="Categorias" options={COMMUNITY_CATEGORIES} required={false} />
+                <MultiSelect name="categories" label="Categorias" options={COMMUNITY_CATEGORIES} required={true} />
                 <Input name="location" label="Localizacao" placeholder="Ex: Lisboa, Portugal" required />
                 <Input name="link" label="Link" placeholder="https://..." required />
                 <Input name="logo_url" label="Logo URL" placeholder="https://..." required />

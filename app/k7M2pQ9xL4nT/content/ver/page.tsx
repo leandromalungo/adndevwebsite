@@ -284,6 +284,8 @@ export default async function AdminContentViewPage() {
                   ID #{item.id}
                 </span>
               </div>
+
+              
               <form action={updateAdminCommunity} className="space-y-2">
                 <input type="hidden" name="id" value={item.id} />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">

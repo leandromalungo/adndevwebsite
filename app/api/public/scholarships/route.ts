@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
+import { unstable_noStore as noStore } from "next/cache";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+
+export const dynamic = "force-dynamic";
 
 type AdminScholarshipRow = {
   id: number;
@@ -13,6 +16,7 @@ type AdminScholarshipRow = {
 };
 
 export async function GET() {
+  noStore();
   try {
     const { data } = await supabaseAdmin
       .from("admin_scholarships")

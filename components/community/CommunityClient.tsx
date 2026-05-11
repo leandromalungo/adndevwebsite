@@ -59,7 +59,7 @@ export default function CommunityClient() {
               {isLoggedIn ? (
                 <>
                   <Smartphone size={20} />
-                  Baixar aplicativo
+                  Baixar o aplicativo
                 </>
               ) : (
                 <>

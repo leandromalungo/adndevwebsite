@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
+import { unstable_noStore as noStore } from "next/cache";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import type { Community } from "@/data/types";
+
+export const dynamic = "force-dynamic";
 
 const ALLOWED_COUNTRIES = new Set([
   "Angola",
@@ -25,6 +28,7 @@ type AdminCommunityRow = {
 };
 
 export async function GET() {
+  noStore();
   try {
     const { data } = await supabaseAdmin
       .from("admin_communities")

@@ -115,12 +115,12 @@ export async function registerUser(formData: FormData) {
         const { success: emailSent } = await sendVerificationEmail(validData.email, verificationTokenData);
         
         if (!emailSent) {
-          console.warn("⚠️ Email de verificação não foi enviado.");
+          console.warn(" Email de verificação não foi enviado.");
           // Continuamos mesmo assim - o utilizador pode solicitar reenvio depois
         }
       }
     } catch (emailError) {
-      console.error("❌ Erro ao enviar email de verificação:", emailError);
+      console.error(" Erro ao enviar email de verificação:", emailError);
       // Não retornamos erro aqui - o utilizador já foi criado
     }
 

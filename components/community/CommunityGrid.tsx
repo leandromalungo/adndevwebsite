@@ -20,8 +20,10 @@ export const CommunityGrid: React.FC<CommunityGridProps> = ({
   const filteredCommunities = useMemo(() => {
     const allCommunities = [...extraCommunities, ...mockCommunities];
     return allCommunities.filter(community => {
-      const matchesCountry = community.country === selectedCountry;
-      if (!matchesCountry) return false;
+      if (selectedCountry !== "Todos") {
+        const matchesCountry = community.country === selectedCountry;
+        if (!matchesCountry) return false;
+      }
 
       if (!searchQuery.trim()) return true;
 
