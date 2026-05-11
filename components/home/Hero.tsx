@@ -1,16 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Tag } from "./Tag";
 import { useState } from "react";
 import { Loader2, Smartphone } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { AppComingSoonModal } from "@/components/AppComingSoonModal";
 
 type LoadingButton = "assinar" | "area" | null;
 
 export const Hero = () => {
-  const tags = ["Eventos", "Bolsas de Estudo", "Newsletters", "E muito mais"];
   const [loadingButton, setLoadingButton] = useState<LoadingButton>(null);
+  const [showAppComingSoon, setShowAppComingSoon] = useState(false);
   const router = useRouter();
   const { data: session } = useSession();
   const isLoggedIn = !!session;
@@ -57,25 +57,16 @@ export const Hero = () => {
           que precisas para entrar na área de tecnologia, desde cursos e muito
           mais. Um espaço feito para desenvolver a tua carreira no sector
           tecnologico. Conte com a nossa ajuda.
-        </p>
-
-        {/* Etiquetas de categorias - Exibe os principais tópicos cobertos pelo ecossistema */}
-        <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4 lg:gap-5 mb-5 sm:mb-6 md:mb-7 lg:mb-10">
-          {tags.map((tag) => (
-            <Tag key={tag} label={tag} />
-          ))}
-        </div>
+        </p>     
 
         {/* Chamadas para Ação (CTAs) - Botões principais de interação com o utilizador */}
         <div className="flex flex-col items-start gap-4 sm:gap-5 md:gap-6 lg:gap-8">
           <div className="flex flex-row gap-2 md:gap-3 lg:gap-4 items-center w-full sm:w-auto">
             {/* Botão de Inscrição / Baixar App - Inclui efeito de brilho animado e gestão de estados de carregamento */}
             {isLoggedIn ? (
-              // Quando logado: mostra botão de download
-              <a
-                href="https://play.google.com/store/apps/details?id=com.adndeveloper"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => setShowAppComingSoon(true)}
                 className="
                   group relative
                   inline-flex items-center justify-center
@@ -119,7 +110,7 @@ export const Hero = () => {
                   <span className="hidden sm:inline">Baixar aplicativo</span>
                   <span className="sm:hidden">Download</span>
                 </span>
-              </a>
+              </button>
             ) : (
               // Quando não logado: mostra botão de inscrição (original)
               <button
@@ -215,6 +206,7 @@ export const Hero = () => {
           </p>
         </div>
       </div>
+      <AppComingSoonModal open={showAppComingSoon} onClose={() => setShowAppComingSoon(false)} />
     </section>
   );
 };

@@ -18,6 +18,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { Loader2, ArrowRight, Smartphone } from "lucide-react";
 import Head from "next/head";
+import { AppComingSoonModal } from "@/components/AppComingSoonModal";
 import AdvancedFilters from "@/components/events/AdvancedFilters";
 import { useRouter } from "next/navigation";
 import EventCard from "@/components/events/EventCard";
@@ -42,6 +43,7 @@ const Page = () => {
   const [dbEvents, setDbEvents] = useState<Event[]>([]);
   const { data: session } = useSession();
   const isLoggedIn = !!session;
+  const [showAppComingSoon, setShowAppComingSoon] = useState(false);
   useEffect(() => {
     fetch("/api/public/events")
       .then((res) => res.json())
@@ -162,10 +164,9 @@ const Page = () => {
           </p>
 
           {isLoggedIn ? (
-            <a
-              href="https://play.google.com/store/apps/details?id=com.adndeveloper"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => setShowAppComingSoon(true)}
               className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-neutral-950 px-4 sm:px-5 md:px-6 lg:px-7 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base text-neutral-50 active:scale-95 transition-transform shadow-lg w-fit border border-violet-700"
             >
               <span className="relative z-10 flex items-center gap-2">
@@ -175,7 +176,7 @@ const Page = () => {
               <span className="absolute inset-0 overflow-hidden rounded-md">
                 <span className="absolute left-0 aspect-square w-full origin-center -translate-x-full rounded-full bg-violet-600 transition-all duration-500 group-hover:-translate-x-0 group-hover:scale-150"></span>
               </span>
-            </a>
+            </button>
           ) : (
             <button
               onClick={handleClick}
@@ -257,6 +258,7 @@ const Page = () => {
       </div>
 
       <Footer />
+      <AppComingSoonModal open={showAppComingSoon} onClose={() => setShowAppComingSoon(false)} />
     </>
   );
 };

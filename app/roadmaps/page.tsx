@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MoveLeft, Search, ArrowRight, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AppComingSoonModal } from "@/components/AppComingSoonModal";
 import { Input } from "@/components/ui/input";
 import { STUDY_PLANS } from "@/data/study-plans";
 import Navbar from "@/components/auth/Navbar";
@@ -17,6 +18,7 @@ export default function StudyPlanSelectionPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const { data: session } = useSession();
   const isLoggedIn = !!session;
+  const [showAppComingSoon, setShowAppComingSoon] = useState(false);
 
   const filteredPlans = STUDY_PLANS.filter((plan) =>
     plan.role.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -53,10 +55,9 @@ export default function StudyPlanSelectionPage() {
           </p>
 
           {isLoggedIn ? (
-            <a
-              href="https://play.google.com/store/apps/details?id=com.adndeveloper"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => setShowAppComingSoon(true)}
               className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-neutral-950 px-4 sm:px-5 md:px-6 lg:px-7 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base text-neutral-50 active:scale-95 transition-transform shadow-lg w-fit border border-violet-700"
             >
               <span className="relative z-10 flex items-center gap-2">
@@ -66,7 +67,7 @@ export default function StudyPlanSelectionPage() {
               <span className="absolute inset-0 overflow-hidden rounded-md">
                 <span className="absolute left-0 aspect-square w-full origin-center -translate-x-full rounded-full bg-violet-600 transition-all duration-500 group-hover:-translate-x-0 group-hover:scale-150"></span>
               </span>
-            </a>
+            </button>
           ) : (
             <button
               onClick={handleClick}
@@ -168,6 +169,7 @@ export default function StudyPlanSelectionPage() {
       </div>
 
       <Footer />
+      <AppComingSoonModal open={showAppComingSoon} onClose={() => setShowAppComingSoon(false)} />
     </>
   );
 }

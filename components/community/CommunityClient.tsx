@@ -8,12 +8,14 @@ import Footer from "@/components/Footer";
 import { CommunityGrid } from "@/components/community/CommunityGrid";
 import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
 import { Loader2, ArrowRight, Smartphone } from "lucide-react";
+import { AppComingSoonModal } from "@/components/AppComingSoonModal";
 
 export default function CommunityClient() {
   const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
   const { data: session } = useSession();
   const router = useRouter();
   const isLoggedIn = !!session;
+  const [showAppComingSoon, setShowAppComingSoon] = useState(false);
 
   const handleClick = () => {
     if (!isLoggedIn) {
@@ -49,27 +51,21 @@ export default function CommunityClient() {
             </p>
 
             <button
-              onClick={handleClick}
-              className={`inline-flex items-center gap-2 px-3 py-3 mb-4 font-semibold transition-all active:scale-95 rounded-xl bg-blue-400 hover:bg-blue-500 text-white`}
+              type="button"
+              onClick={isLoggedIn ? () => setShowAppComingSoon(true) : handleClick}
+              className={`inline-flex items-center gap-2 px-3 py-3 mb-4 font-semibold transition-all active:scale-95 rounded-xl ${isLoggedIn ? 'bg-neutral-950 hover:bg-neutral-800 text-neutral-50 border border-violet-700' : 'bg-blue-400 hover:bg-blue-500 text-white'}`}
             >
-              <>
-                {isLoggedIn ? (
-                  <a
-                    href="https://play.google.com/store/apps/details?id=com.adndeveloper"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-3 py-3 font-semibold transition-all active:scale-95 rounded-xl bg-neutral-950 hover:bg-neutral-800 text-neutral-50 border border-violet-700"
-                  >
-                    <Smartphone size={20} />
-                    Baixar aplicativo
-                  </a>
-                ) : (
-                  <>
-                    Inscrever-se no portal
-                    <ArrowRight size={20} />
-                  </>
-                )}
-              </>
+              {isLoggedIn ? (
+                <>
+                  <Smartphone size={20} />
+                  Baixar aplicativo
+                </>
+              ) : (
+                <>
+                  Inscrever-se no portal
+                  <ArrowRight size={20} />
+                </>
+              )}
             </button>
           </div>
         </div>
@@ -100,6 +96,7 @@ export default function CommunityClient() {
 
         <Footer />
       </div>
+      <AppComingSoonModal open={showAppComingSoon} onClose={() => setShowAppComingSoon(false)} />
     </>
   );
 }

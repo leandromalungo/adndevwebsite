@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { CommunityGrid } from "@/components/community/CommunityGrid";
 import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
 import { ArrowRight, Search, Smartphone } from "lucide-react";
+import { AppComingSoonModal } from "@/components/AppComingSoonModal";
 import type { Community } from "@/data/types";
 import { useSession } from "next-auth/react";
 
@@ -16,6 +17,7 @@ export default function Page() {
   const [dbCommunities, setDbCommunities] = useState<Community[]>([]);
   const { data: session } = useSession();
   const isLoggedIn = !!session;
+  const [showAppComingSoon, setShowAppComingSoon] = useState(false);
   useEffect(() => {
     fetch("/api/public/communities")
       .then((res) => res.json())
@@ -65,10 +67,9 @@ export default function Page() {
           </p>
 
           {isLoggedIn ? (
-            <a
-              href="https://play.google.com/store/apps/details?id=com.adndeveloper"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => setShowAppComingSoon(true)}
               className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-neutral-950 px-4 sm:px-5 md:px-6 lg:px-7 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base text-neutral-50 active:scale-95 transition-transform shadow-lg w-fit border border-violet-700"
             >
               <span className="relative z-10 flex items-center gap-2">
@@ -78,7 +79,7 @@ export default function Page() {
               <span className="absolute inset-0 overflow-hidden rounded-md">
                 <span className="absolute left-0 aspect-square w-full origin-center -translate-x-full rounded-full bg-violet-600 transition-all duration-500 group-hover:-translate-x-0 group-hover:scale-150"></span>
               </span>
-            </a>
+            </button>
           ) : (
             <button
               onClick={handleClick}
@@ -141,6 +142,7 @@ export default function Page() {
 
         <Footer />
       </div>
+      <AppComingSoonModal open={showAppComingSoon} onClose={() => setShowAppComingSoon(false)} />
     </>
   );
 }
