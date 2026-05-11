@@ -54,26 +54,15 @@ export default function CommunityClient() {
             >
               <>
                 {isLoggedIn ? (
-                  <div className="flex gap-2">
-                    <a
-                      href="https://play.google.com/store/apps/details?id=com.adndeveloper"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-3 py-3 font-semibold transition-all active:scale-95 rounded-xl bg-green-600 hover:bg-green-700 text-white"
-                    >
-                      <Smartphone size={20} />
-                      Android
-                    </a>
-                    <a
-                      href="https://apps.apple.com/app/adn-developer/id1234567890"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-3 py-3 font-semibold transition-all active:scale-95 rounded-xl bg-gray-700 hover:bg-gray-800 text-white"
-                    >
-                      <Apple size={20} />
-                      iPhone
-                    </a>
-                  </div>
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.adndeveloper"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-3 py-3 font-semibold transition-all active:scale-95 rounded-xl bg-neutral-950 hover:bg-neutral-800 text-neutral-50 border border-violet-700"
+                  >
+                    <Smartphone size={20} />
+                    Baixar aplicativo
+                  </a>
                 ) : (
                   <>
                     Inscrever-se no portal

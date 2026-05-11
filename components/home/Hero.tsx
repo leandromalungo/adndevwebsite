@@ -72,105 +72,54 @@ export const Hero = () => {
             {/* Botão de Inscrição / Baixar App - Inclui efeito de brilho animado e gestão de estados de carregamento */}
             {isLoggedIn ? (
               // Quando logado: mostra botão de download
-              <div className="flex gap-3 w-full sm:w-auto">
-                <a
-                  href="https://play.google.com/store/apps/details?id=com.adndeveloper"
-                  target="_blank"
-                  rel="noopener noreferrer"
+              <a
+                href="https://play.google.com/store/apps/details?id=com.adndeveloper"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="
+                  group relative
+                  inline-flex items-center justify-center
+                  px-3 sm:px-8 lg:px-10
+                  py-3 sm:py-5
+                  rounded-2xl
+                  border-2 border-violet-700
+                  bg-gradient-to-br from-neutral-950/80 via-neutral-900/90 to-black/90
+                  text-white
+                  font-bold
+                  text-[11px] sm:text-base lg:text-lg
+                  shadow-xl
+                  transition-all duration-300 ease-out
+                  hover:shadow-violet-600/40
+                  hover:shadow-xl
+                  hover:border-violet-600/70
+                  active:scale-95
+                  overflow-hidden
+                  flex-1 sm:flex-none
+                "
+              >
+                <div
                   className="
-                    group relative
-                    inline-flex items-center justify-center
-                    px-3 sm:px-8 lg:px-10
-                    py-3 sm:py-5
-                    rounded-2xl
-                    border-2 border-green-500/50
-                    bg-gradient-to-br from-green-900/80 via-emerald-950/90 to-black/90
-                    text-white
-                    font-bold
-                    text-[11px] sm:text-base lg:text-lg
-                    shadow-xl
-                    transition-all duration-300 ease-out
-                    hover:shadow-green-500/40
-                    hover:shadow-xl
-                    hover:border-green-400/70
-                    active:scale-95
-                    overflow-hidden
-                    flex-1 sm:flex-none
+                    absolute inset-0
+                    bg-gradient-to-r from-transparent via-violet-400/30 to-transparent
+                    -translate-x-full
+                    group-hover:translate-x-full
+                    transition-transform duration-1000 ease-out
                   "
-                >
-                  <div
-                    className="
-                      absolute inset-0
-                      bg-gradient-to-r from-transparent via-green-400/30 to-transparent
-                      -translate-x-full
-                      group-hover:translate-x-full
-                      transition-transform duration-1000 ease-out
-                    "
-                  />
-                  <div
-                    className="
-                      absolute inset-0 rounded-2xl
-                      bg-gradient-to-r from-green-500/10 via-green-400/20 to-green-500/10
-                      opacity-0 group-hover:opacity-100
-                      transition-opacity duration-500
-                    "
-                  />
-                  <span className="relative z-10 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
-                    <Smartphone size={16} />
-                    <span className="hidden sm:inline">Android</span>
-                    <span className="sm:hidden">App</span>
-                  </span>
-                </a>
-
-                <a
-                  href="https://apps.apple.com/app/adn-developer/id1234567890"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                />
+                <div
                   className="
-                    group relative
-                    inline-flex items-center justify-center
-                    px-3 sm:px-8 lg:px-10
-                    py-3 sm:py-5
-                    rounded-2xl
-                    border-2 border-gray-400/50
-                    bg-gradient-to-br from-gray-800/80 via-gray-900/90 to-black/90
-                    text-white
-                    font-bold
-                    text-[11px] sm:text-base lg:text-lg
-                    shadow-xl
-                    transition-all duration-300 ease-out
-                    hover:shadow-gray-400/40
-                    hover:shadow-xl
-                    hover:border-gray-300/70
-                    active:scale-95
-                    overflow-hidden
-                    flex-1 sm:flex-none
+                    absolute inset-0 rounded-2xl
+                    bg-gradient-to-r from-violet-600/10 via-violet-400/20 to-violet-600/10
+                    opacity-0 group-hover:opacity-100
+                    transition-opacity duration-500
                   "
-                >
-                  <div
-                    className="
-                      absolute inset-0
-                      bg-gradient-to-r from-transparent via-gray-300/30 to-transparent
-                      -translate-x-full
-                      group-hover:translate-x-full
-                      transition-transform duration-1000 ease-out
-                    "
-                  />
-                  <div
-                    className="
-                      absolute inset-0 rounded-2xl
-                      bg-gradient-to-r from-gray-400/10 via-gray-300/20 to-gray-400/10
-                      opacity-0 group-hover:opacity-100
-                      transition-opacity duration-500
-                    "
-                  />
-                  <span className="relative z-10 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
-                    <Apple size={16} />
-                    <span className="hidden sm:inline">iPhone</span>
-                    <span className="sm:hidden">App</span>
-                  </span>
-                </a>
-              </div>
+                />
+                <span className="relative z-10 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
+                  <Smartphone size={16} />
+                  <span className="hidden sm:inline">Baixar aplicativo</span>
+                  <span className="sm:hidden">Download</span>
+                </span>
+              </a>
             ) : (
               // Quando não logado: mostra botão de inscrição (original)
               <button
