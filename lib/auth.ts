@@ -1,5 +1,5 @@
 import 'server-only';
-import NextAuth, { type NextAuthOptions, type DefaultSession } from "next-auth";
+import NextAuth, { type NextAuthOptions, type DefaultSession, getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import bcrypt from "bcryptjs";
@@ -217,4 +217,5 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-export const { auth, handlers } = NextAuth(authOptions);
+export const auth = NextAuth(authOptions);
+export const getCurrentSession = () => getServerSession(authOptions);

@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { auth } from "@/lib/auth";
+import { getCurrentSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { AdminPanelShell } from "@/components/admin/AdminPanelShell";
 import { adminPath } from "@/lib/admin-routes";
@@ -10,7 +10,7 @@ export default async function AdminSecurityLayout({
 }: {
   children: ReactNode;
 }) {
-  const session = await auth();
+  const session = await getCurrentSession();
 
   if (!session?.user) redirect(adminPath("/login"));
   if (!session.user.isAdmin) redirect("/");
