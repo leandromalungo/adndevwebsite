@@ -7,7 +7,7 @@ import Navbar from "@/components/auth/Navbar";
 import Footer from "@/components/Footer";
 import { CommunityGrid } from "@/components/community/CommunityGrid";
 import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
-import { Loader2, ArrowRight } from "lucide-react";
+import { Loader2, ArrowRight, Smartphone, Apple } from "lucide-react";
 
 export default function CommunityClient() {
   const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
@@ -53,8 +53,33 @@ export default function CommunityClient() {
               className={`inline-flex items-center gap-2 px-3 py-3 mb-4 font-semibold transition-all active:scale-95 rounded-xl bg-blue-400 hover:bg-blue-500 text-white`}
             >
               <>
-                Inscrever-se no portal
-                <ArrowRight size={20} />
+                {isLoggedIn ? (
+                  <div className="flex gap-2">
+                    <a
+                      href="https://play.google.com/store/apps/details?id=com.adndeveloper"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-3 py-3 font-semibold transition-all active:scale-95 rounded-xl bg-green-600 hover:bg-green-700 text-white"
+                    >
+                      <Smartphone size={20} />
+                      Android
+                    </a>
+                    <a
+                      href="https://apps.apple.com/app/adn-developer/id1234567890"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-3 py-3 font-semibold transition-all active:scale-95 rounded-xl bg-gray-700 hover:bg-gray-800 text-white"
+                    >
+                      <Apple size={20} />
+                      iPhone
+                    </a>
+                  </div>
+                ) : (
+                  <>
+                    Inscrever-se no portal
+                    <ArrowRight size={20} />
+                  </>
+                )}
               </>
             </button>
           </div>

@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 import { Tag } from "./Tag";
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Smartphone, Apple } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 type LoadingButton = "assinar" | "area" | null;
 
@@ -11,6 +12,8 @@ export const Hero = () => {
   const tags = ["Eventos", "Bolsas de Estudo", "Newsletters", "E muito mais"];
   const [loadingButton, setLoadingButton] = useState<LoadingButton>(null);
   const router = useRouter();
+  const { data: session } = useSession();
+  const isLoggedIn = !!session;
 
   const handleClick = (button: LoadingButton) => {
     setLoadingButton(button);
@@ -66,66 +69,170 @@ export const Hero = () => {
         {/* Chamadas para Ação (CTAs) - Botões principais de interação com o utilizador */}
         <div className="flex flex-col items-start gap-4 sm:gap-5 md:gap-6 lg:gap-8">
           <div className="flex flex-row gap-2 md:gap-3 lg:gap-4 items-center w-full sm:w-auto">
-            {/* Botão de Inscrição - Inclui efeito de brilho animado e gestão de estados de carregamento */}
-            <button
-              type="button"
-              onClick={() => handleClick("assinar")}
-              disabled={loadingButton !== null}
-              className="
-                group relative
-                inline-flex items-center justify-center
-                px-3 sm:px-10 lg:px-12
-                py-3 sm:py-5
-                rounded-2xl
-                border-2 border-violet-500/50
-                bg-gradient-to-br from-violet-900/80 via-indigo-950/90 to-black/90
-                text-white
-                font-bold
-                text-[11px] sm:text-lg lg:text-xl
-                shadow-xl
-                transition-all duration-300 ease-out
-                hover:shadow-violet-500/40
-                hover:shadow-xl
-                hover:border-violet-400/70
-                active:scale-95
-                disabled:opacity-70 disabled:cursor-not-allowed
-                overflow-hidden
-                w-1/2 sm:w-auto
-              "
-            >
-              {/* Efeito de brilho animado que percorre o botão ao passar o cursor (hover) */}
-              <div
-                className="
-                  absolute inset-0
-                  bg-gradient-to-r from-transparent via-violet-400/30 to-transparent
-                  -translate-x-full
-                  group-hover:translate-x-full
-                  transition-transform duration-1000 ease-out
-                "
-              />
+            {/* Botão de Inscrição / Baixar App - Inclui efeito de brilho animado e gestão de estados de carregamento */}
+            {isLoggedIn ? (
+              // Quando logado: mostra botão de download
+              <div className="flex gap-3 w-full sm:w-auto">
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.adndeveloper"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="
+                    group relative
+                    inline-flex items-center justify-center
+                    px-3 sm:px-8 lg:px-10
+                    py-3 sm:py-5
+                    rounded-2xl
+                    border-2 border-green-500/50
+                    bg-gradient-to-br from-green-900/80 via-emerald-950/90 to-black/90
+                    text-white
+                    font-bold
+                    text-[11px] sm:text-base lg:text-lg
+                    shadow-xl
+                    transition-all duration-300 ease-out
+                    hover:shadow-green-500/40
+                    hover:shadow-xl
+                    hover:border-green-400/70
+                    active:scale-95
+                    overflow-hidden
+                    flex-1 sm:flex-none
+                  "
+                >
+                  <div
+                    className="
+                      absolute inset-0
+                      bg-gradient-to-r from-transparent via-green-400/30 to-transparent
+                      -translate-x-full
+                      group-hover:translate-x-full
+                      transition-transform duration-1000 ease-out
+                    "
+                  />
+                  <div
+                    className="
+                      absolute inset-0 rounded-2xl
+                      bg-gradient-to-r from-green-500/10 via-green-400/20 to-green-500/10
+                      opacity-0 group-hover:opacity-100
+                      transition-opacity duration-500
+                    "
+                  />
+                  <span className="relative z-10 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
+                    <Smartphone size={16} />
+                    <span className="hidden sm:inline">Android</span>
+                    <span className="sm:hidden">App</span>
+                  </span>
+                </a>
 
-              {/* Brilho interno suave que aumenta a visibilidade do botão no hover */}
-              <div
+                <a
+                  href="https://apps.apple.com/app/adn-developer/id1234567890"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="
+                    group relative
+                    inline-flex items-center justify-center
+                    px-3 sm:px-8 lg:px-10
+                    py-3 sm:py-5
+                    rounded-2xl
+                    border-2 border-gray-400/50
+                    bg-gradient-to-br from-gray-800/80 via-gray-900/90 to-black/90
+                    text-white
+                    font-bold
+                    text-[11px] sm:text-base lg:text-lg
+                    shadow-xl
+                    transition-all duration-300 ease-out
+                    hover:shadow-gray-400/40
+                    hover:shadow-xl
+                    hover:border-gray-300/70
+                    active:scale-95
+                    overflow-hidden
+                    flex-1 sm:flex-none
+                  "
+                >
+                  <div
+                    className="
+                      absolute inset-0
+                      bg-gradient-to-r from-transparent via-gray-300/30 to-transparent
+                      -translate-x-full
+                      group-hover:translate-x-full
+                      transition-transform duration-1000 ease-out
+                    "
+                  />
+                  <div
+                    className="
+                      absolute inset-0 rounded-2xl
+                      bg-gradient-to-r from-gray-400/10 via-gray-300/20 to-gray-400/10
+                      opacity-0 group-hover:opacity-100
+                      transition-opacity duration-500
+                    "
+                  />
+                  <span className="relative z-10 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
+                    <Apple size={16} />
+                    <span className="hidden sm:inline">iPhone</span>
+                    <span className="sm:hidden">App</span>
+                  </span>
+                </a>
+              </div>
+            ) : (
+              // Quando não logado: mostra botão de inscrição (original)
+              <button
+                type="button"
+                onClick={() => handleClick("assinar")}
+                disabled={loadingButton !== null}
                 className="
-                  absolute inset-0 rounded-2xl
-                  bg-gradient-to-r from-violet-500/10 via-violet-400/20 to-violet-500/10
-                  opacity-0 group-hover:opacity-100
-                  transition-opacity duration-500
+                  group relative
+                  inline-flex items-center justify-center
+                  px-3 sm:px-10 lg:px-12
+                  py-3 sm:py-5
+                  rounded-2xl
+                  border-2 border-violet-500/50
+                  bg-gradient-to-br from-violet-900/80 via-indigo-950/90 to-black/90
+                  text-white
+                  font-bold
+                  text-[11px] sm:text-lg lg:text-xl
+                  shadow-xl
+                  transition-all duration-300 ease-out
+                  hover:shadow-violet-500/40
+                  hover:shadow-xl
+                  hover:border-violet-400/70
+                  active:scale-95
+                  disabled:opacity-70 disabled:cursor-not-allowed
+                  overflow-hidden
+                  w-1/2 sm:w-auto
                 "
-              />
+              >
+                {/* Efeito de brilho animado que percorre o botão ao passar o cursor (hover) */}
+                <div
+                  className="
+                    absolute inset-0
+                    bg-gradient-to-r from-transparent via-violet-400/30 to-transparent
+                    -translate-x-full
+                    group-hover:translate-x-full
+                    transition-transform duration-1000 ease-out
+                  "
+                />
 
-              <span className="relative z-10 flex items-center gap-1 sm:gap-2 whitespace-nowrap">
-                {loadingButton === "assinar" ? (
-                  <>
-                    <Loader2 size={16} className="animate-spin" />
-                    <span className="hidden sm:inline">Carregando...</span>
-                    <span className="sm:hidden">Aguarde...</span>
-                  </>
-                ) : (
-                  "Inscrever-se no portal"
-                )}
-              </span>
-            </button>
+                {/* Brilho interno suave que aumenta a visibilidade do botão no hover */}
+                <div
+                  className="
+                    absolute inset-0 rounded-2xl
+                    bg-gradient-to-r from-violet-500/10 via-violet-400/20 to-violet-500/10
+                    opacity-0 group-hover:opacity-100
+                    transition-opacity duration-500
+                  "
+                />
+
+                <span className="relative z-10 flex items-center gap-1 sm:gap-2 whitespace-nowrap">
+                  {loadingButton === "assinar" ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      <span className="hidden sm:inline">Carregando...</span>
+                      <span className="sm:hidden">Aguarde...</span>
+                    </>
+                  ) : (
+                    "Inscrever-se no portal"
+                  )}
+                </span>
+              </button>
+            )}
 
             {/* Botão Saber Mais - Redireciona o utilizador para a secção institucional */}
             <button

@@ -1,220 +1,336 @@
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, Code2, Globe, Users, Zap } from "lucide-react";
-import { accountCreationRateLimit } from './../../lib/rate-limit';
 
 export default function SobreNosPage() {
+    const teamMembers = [
+        {
+            name: "Leandro Malungo",
+            role: "Founder & Manager",
+            image: "/leandro.jpg",
+            description:
+                "Fundador e gestor do ADN Developer, com uma visão estratégica para conectar talentos, comunidades e oportunidades no ecossistema tecnológico lusófono.",
+            instagram: "#",
+            linkedin: "#",
+            github: "#",
+        },
+        {
+            name: "Neuza Nascimento",
+            role: "Co-Founder",
+            image: "/neuza.jpg",
+            description:
+                "Co-fundadora e estrategista de parcerias, dedicada a construir pontes entre comunidades, startups e oportunidades tecnológicas.",
+            instagram: "https://www.instagram.com/neuza_nascimento02/",
+            linkedin: "https://www.linkedin.com/in/neuza-nascimento-aa81bb324/",
+        },
+        {
+            name: "Whitney Velasco",
+            role: "Content Creator",
+            image: "/whitiney.jpg",
+            description:
+                "Estudante de engenharia informática, responsável por desenvolver materiais educativos e garantir uma experiência de utilizador envolvente e intuitiva.",
+            instagram: "https://www.instagram.com/whitney_velascoo/",
+            linkedin: "https://www.linkedin.com/in/whitney-velasco-furruma-5169092b9/?skipRedirect=true",
+        },
+        {
+            name: "Fernanda Sehn",
+            role: "Content Creator",
+            image: "/fernanda.jpg",
+            description:
+                "Estudante de historia e criadora de conteúdo, responsável por parcerias estratégicas e produção de material educativo.",
+            instagram: "https://www.instagram.com/fe.sehn/",
+            linkedin: "https://www.linkedin.com/in/fernanda-sehn-069b092b9/?skipRedirect=true",
+        },
+        {
+            name: "Filipe Mafuila",
+            role: "Frontend Developer",
+            image: "/filipe.jpg",
+            description:
+                "Desenvolvedor frontend, focado em criar interfaces modernas, responsivas e centradas no utilizador.",
+            instagram: "https://www.instagram.com/filipemafuila/",
+            linkedin: "https://www.linkedin.com/in/filipe-mafuila/",
+        },
+    ];
+
     return (
-        <div className="min-h-screen bg-[#0a0a0a] text-gray-50 selection:bg-violet-500/30 font-sans">
-            {/* 
-        HERO SECTION (Blender/Unity Vibe)
-        Dark background, dramatic typography, very clean.
-      */}
-            <section className="relative w-full h-[85vh] md:h-[90vh] flex flex-col justify-center overflow-hidden">
-                <div className="absolute inset-0 z-0">
+        <div className="min-h-screen bg-[#0a0a0a] text-white overflow-hidden">
+            {/* HERO + TEAM */}
+            <section className="relative overflow-hidden">
+                {/* Background */}
+                <div className="absolute inset-0">
                     <Image
-                        src="https://images.unsplash.com/photo-1"
-                        alt="ADN Developer DNA"
+                        src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop"
+                        alt="Background"
                         fill
-                        className="object-cover opacity-30 mix-blend-luminosity"
                         priority
+                        className="object-cover opacity-20"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-transparent to-[#0a0a0a]/50" />
+
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-[#0a0a0a]/90 to-[#050505]" />
                 </div>
 
-                <div className="relative z-10 max-w-7xl mx-auto px-6 w-full mt-20">
-                    <div className="max-w-4xl animate-in fade-in slide-in-from-bottom-8 duration-1000">
-                        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl tracking-tighter uppercase mb-6 leading-[0.9]">
-                            Impulsionando <br />
-                            <span className="text-transparent animate-gradient bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-600">
-                                A Lusofonia
-                            </span>
+                <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-28">
+                    {/* Hero */}
+                    <div className="text-center max-w-5xl mx-auto">
+                        <h1 className="mt-1 text-2xl sm:text-4xl md:text-5xl lg:text-7xl tracking-tight leading-none uppercase">
+                            Conectando Talentos, Impulsionando Inovação
                         </h1>
-                        <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-gray-400 max-w-2xl font-medium leading-relaxed">
-                            O ADN Developer não é apenas uma plataforma. É o código-fonte que
-                            coneta criadores, visionários e desenvolvedores em todos os países de língua portuguesa.
+
+                        <p className="mt-8 text-gray-400 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+                            Construindo a maior plataforma lusófona focada em
+                            tecnologia, oportunidades e crescimento para
+                            desenvolvedores, startups e comunidades.
                         </p>
                     </div>
-                </div>
-            </section>
 
-            {/* VALUES & MISSION (Large Typography, Clean Grid) */}
-            <section className="py-24 md:py-32 relative z-10 bg-[#0a0a0a]">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                        <div>
-                            <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl mb-6 sm:mb-8 tracking-tight">
-                                Democratizar o acesso ao conhecimento tecnológico.
+                    {/* Goals */}
+                    <div className="mt-24">
+                        <div className="text-center mb-14">
+                            <span className="uppercase tracking-[0.3em] text-violet-400 text-sm font-semibold">
+                                Nossas Metas
+                            </span>
+
+                            <h2 className="mt-4 text-3xl md:text-5xl tracking-tight">
+                                O ecossistema que queremos construir
                             </h2>
-                            <div className="h-1 w-16 sm:w-20 bg-violet-600 mb-6 sm:mb-8" />
-                            <p className="text-gray-400 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl leading-relaxed mb-4 sm:mb-6">
-                                Acreditamos que o talento está distribuído de forma igual pelo mundo,
-                                mas as oportunidades não. A nossa missão é construir a ponte que falta,
-                                fornecendo recursos consolidados, partilha de eventos reais e networking
-                                absoluto.
-                            </p>
-                            <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed">
-                                Nascemos para ajudar pessoas e comunidades a construírem o próximo
-                                grande salto tecnológico, capacitando indivíduos a transformarem ideias
-                                em realidade, tudo na sua língua nativa.
+
+                            <p className="mt-6 text-gray-500 text-base md:text-lg max-w-3xl mx-auto">
+                                O ADN Developer nasce com o objetivo de
+                                centralizar oportunidades, comunidades e
+                                conhecimento tecnológico num único lugar.
                             </p>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div className="bg-[#111111] p-8 rounded-2xl border border-white/5 hover:border-violet-500/30 transition-colors">
-                                <Globe className="w-10 h-10 text-violet-500 mb-6" />
-                                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold mb-2">Comunidade Global</h3>
-                                <p className="text-gray-500 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">Mais de 7 países conectados num só lugar.</p>
-                            </div>
-                            <div className="bg-[#111111] p-8 rounded-2xl border border-white/5 hover:border-fuchsia-500/30 transition-colors sm:translate-y-8">
-                                <Zap className="w-10 h-10 text-fuchsia-500 mb-6" />
-                                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold mb-2">Inovação Direta</h3>
-                                <p className="text-gray-500 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">Acesso a workshops, hackathons e conteúdo de ponta.</p>
-                            </div>
-                            <div className="bg-[#111111] p-8 rounded-2xl border border-white/5 hover:border-blue-500/30 transition-colors">
-                                <Code2 className="w-10 h-10 text-blue-500 mb-6" />
-                                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold mb-2">Mentalidade Dev</h3>
-                                <p className="text-gray-500 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">Focado 100% no ecossistema de desenvolvimento de software.</p>
-                            </div>
-                            <div className="bg-[#111111] p-8 rounded-2xl border border-white/5 hover:border-rose-500/30 transition-colors sm:translate-y-8">
-                                <Users className="w-10 h-10 text-rose-500 mb-6" />
-                                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold mb-2">Para Todos</h3>
-                                <p className="text-gray-500 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">Iniciativas especiais como WTM para inclusão tecnológica.</p>
-                            </div>
+
+                        <div className="grid grid-cols-2 lg:grid-cols-5 gap-5">
+                            {[
+                                {
+                                    number: "10K+",
+                                    title: "Comunidades",
+                                    color: "text-violet-400",
+                                    border: "hover:border-violet-500/30",
+                                    description:
+                                        "Comunidades tech integradas e mapeadas dentro da plataforma.",
+                                },
+                                {
+                                    number: "5K+",
+                                    title: "Eventos",
+                                    color: "text-fuchsia-400",
+                                    border: "hover:border-fuchsia-500/30",
+                                    description:
+                                        "Hackathons, workshops e conferências tecnológicas.",
+                                },
+                                {
+                                    number: "2K+",
+                                    title: "Bolsas",
+                                    color: "text-cyan-400",
+                                    border: "hover:border-cyan-500/30",
+                                    description:
+                                        "Oportunidades de estudo e aceleração profissional.",
+                                },
+                                {
+                                    number: "500+",
+                                    title: "Startups",
+                                    color: "text-emerald-400",
+                                    border: "hover:border-emerald-500/30",
+                                    description:
+                                        "Programas de apoio, incubação e networking.",
+                                },
+                                {
+                                    number: "300+",
+                                    title: "Roadmaps",
+                                    color: "text-orange-400",
+                                    border: "hover:border-orange-500/30",
+                                    description:
+                                        "Trilhas completas para diferentes carreiras tech.",
+                                },
+                            ].map((item, index) => (
+                                <div
+                                    key={index}
+                                    className={`rounded border border-white/5 bg-white/[0.03] backdrop-blur-xl p-8 text-center transition-all duration-500 ${item.border}`}
+                                >
+                                    <h3 className="text-4xl md:text-5xl font-black text-white">
+                                        {item.number}
+                                    </h3>
+
+                                    <p
+                                        className={`mt-4 uppercase tracking-[0.2em] text-xs ${item.color}`}
+                                    >
+                                        {item.title}
+                                    </p>
+
+                                    <span className="block mt-4 text-sm text-gray-500 leading-relaxed">
+                                        {item.description}
+                                    </span>
+                                </div>
+                            ))}
                         </div>
                     </div>
-                </div>
-            </section>
 
-            {/* BIG STATS SECTION (Industrial/High-Tech) */}
-            <section className="py-24 border-y border-white/10 bg-[#050505]">
-                <div className="max-w-7xl mx-auto px-6">Nossas metas até 2027
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-white/5">
-                        <div className="flex flex-col items-center justify-center text-center p-4">
-                            <span className="text-5xl md:text-7xl  text-transparent animate-gradient bg-clip-text bg-gradient-to-b from-white to-gray-600 mb-2">
-                                10.000+
-                            </span>
-                            <span className="text-sm md:text-base text-gray-400 font-medium uppercase tracking-widest">
-                                Comunidades
-                            </span>
-                        </div>
-                        <div className="flex flex-col items-center justify-center text-center p-4">
-                            <span className="text-5xl md:text-7xl  text-transparent animate-gradient bg-clip-text bg-gradient-to-b from-white to-gray-600 mb-2">
-                                5000+
-                            </span>
-                            <span className="text-sm md:text-base text-gray-400 font-medium uppercase tracking-widest">
-                                Eventos Mapeados
-                            </span>
-                        </div>
-                        <div className="flex flex-col items-center justify-center text-center p-4">
-                            <span className="text-5xl md:text-7xl  text-transparent animate-gradient bg-clip-text bg-gradient-to-b from-white to-gray-600 mb-2">
-                                7
-                            </span>
-                            <span className="text-sm md:text-base text-gray-400 font-medium uppercase tracking-widest">
-                                Países CPLP
-                            </span>
-                        </div>
-                        <div className="flex flex-col items-center justify-center text-center p-4">
-                            <span className="text-5xl md:text-7xl  text-transparent animate-gradient bg-clip-text bg-gradient-to-b from-white to-gray-600 mb-2">
-                                24/24
-                            </span>
-                            <span className="text-sm md:text-base text-gray-400 font-medium uppercase tracking-widest">
-                                Acesso Gratuito
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                    {/* Divider */}
+                    <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-24" />
 
-    
+                    {/* Team Heading */}
+                    <div className="text-center mb-16">
+                        <span className="text-violet-400 uppercase tracking-[0.3em] text-sm font-semibold">
+                            Nossa Equipa
+                        </span>
 
-            {/* CONTACT SECTION */}
-            <section className="py-24 border-t border-white/5 bg-[#0a0a0a]">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="text-center mb-12 sm:mb-16">
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight mb-3 sm:mb-4 uppercase">
-                            Fale Connosco
-                        </h2>
-                        <p className="text-gray-400 text-sm sm:text-base md:text-lg max-w-2xl mx-auto">
-                            Tens uma dúvida, queres ser parceiro ou apenas deixar um alô? <br />
-                            Estamos à distância de um clique.
+                        <p className="mt-6 text-gray-400 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
+                            Uma equipa focada em criar impacto tecnológico,
+                            conectar talentos e desenvolver oportunidades reais.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-[#111111] rounded overflow-hidden border border-white/5">
-                        {/* Contact Info (Left Side) */}
-                        <div className="p-10 md:p-14 flex flex-col justify-between bg-gradient-to-br from-violet-900/40 to-[#111111] relative overflow-hidden">
-                            <div className="relative z-10">
-                                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold mb-6 text-white">
-                                    Informações de Contacto
-                                </h3>
-                                <p className="text-gray-400 mb-12 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">
-                                    A nossa equipa procurará responder o mais breve possível. O seu feedback é
-                                    o motor que move a nossa comunidade.
-                                </p>
+                    {/* Team Cards */}
+                    <div className="flex flex-wrap justify-center gap-6">
+                        {teamMembers.map((member, index) => (
+                            <div
+                                key={index}
+                                className="
+                                group relative
+                                w-full
+                                sm:w-[280px]
+                                md:w-[240px]
+                                lg:w-[210px]
+                                xl:w-[220px]
+                                overflow-hidden
+                                rounded
+                                border border-white/5
+                                bg-[#111111]/80
+                                backdrop-blur-xl
+                                hover:border-violet-500/30
+                                transition-all duration-500
+                                "
+                            >
+                                {/* Image */}
+                                <div className="relative h-[320px] overflow-hidden">
+                                    <Image
+                                        src={member.image}
+                                        alt={member.name}
+                                        fill
+                                        className="
+                                        object-cover
+                                        transition-transform duration-700 ease-out
+                                        group-hover:scale-105
+                                        "
+                                    />
 
-                                <div className="space-y-8">
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-12 h-12 rounded-full bg-violet-500/20 flex items-center justify-center flex-shrink-0">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-violet-400"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
-                                        </div>
-                                        <div>
-                                            <span className="block text-gray-400 text-sm font-medium uppercase tracking-wider mb-1">Email Geral / Parcerias</span>
-                                            <a href="mailto:geral.adndeveloper@gmail.com" className="text-white font-bold text-lg hover:text-violet-400 transition-colors">geral.adndeveloper@gmail.com</a>
-                                        </div>
+                                    {/* Gradient */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent z-10" />
+
+                                    {/* Default Info */}
+                                    <div
+                                        className="
+                                        absolute bottom-0 left-0 w-full p-5 z-20
+                                        transition-all duration-500 ease-out
+                                        group-hover:opacity-0
+                                        group-hover:translate-y-4
+                                        "
+                                    >
+                                        <h3 className="text-lg xl:text-xl font-bold text-white leading-tight">
+                                            {member.name}
+                                        </h3>
+
+                                        <p className="text-[11px] xl:text-xs uppercase tracking-[0.2em] text-violet-400 mt-2">
+                                            {member.role}
+                                        </p>
                                     </div>
 
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-12 h-12 rounded-full bg-fuchsia-500/20 flex items-center justify-center flex-shrink-0">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-fuchsia-400"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                                        </div>
-                                        <div>
-                                            <span className="block text-gray-400 text-sm font-medium uppercase tracking-wider mb-1">Suporte Telefônico</span>
-                                            <a href="tel:+244900000000" className="text-white font-bold text-lg hover:text-fuchsia-400 transition-colors">(+244) --- --- ---</a>
+                                    {/* Hover Overlay */}
+                                    <div
+                                        className="
+                                        absolute inset-0 z-30
+                                        flex flex-col justify-end
+                                        p-5
+                                        bg-black/75 backdrop-blur-sm
+                                        opacity-0
+                                        transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]
+                                        group-hover:opacity-100
+                                        "
+                                    >
+                                        <div
+                                            className="
+                                            translate-y-6
+                                            opacity-0
+                                            transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]
+                                            group-hover:translate-y-0
+                                            group-hover:opacity-100
+                                            "
+                                        >
+                                            <p className="text-sm text-gray-300 leading-relaxed mb-6">
+                                                {member.description}
+                                            </p>
+
+                                            {/* Socials */}
+                                            <div className="flex items-center gap-3">
+                                                {/* Instagram */}
+                                                <a
+                                                    href={member.instagram}
+                                                    className="w-10 h-10 rounded-full bg-white/10 hover:bg-violet-500 transition-colors duration-300 flex items-center justify-center"
+                                                >
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="18"
+                                                        height="18"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                        className="text-white"
+                                                    >
+                                                        <rect
+                                                            x="2"
+                                                            y="2"
+                                                            width="20"
+                                                            height="20"
+                                                            rx="5"
+                                                        />
+                                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                                                        <line
+                                                            x1="17.5"
+                                                            y1="6.5"
+                                                            x2="17.51"
+                                                            y2="6.5"
+                                                        />
+                                                    </svg>
+                                                </a>
+
+                                                {/* LinkedIn */}
+                                                <a
+                                                    href={member.linkedin}
+                                                    className="w-10 h-10 rounded-full bg-white/10 hover:bg-blue-500 transition-colors duration-300 flex items-center justify-center"
+                                                >
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="18"
+                                                        height="18"
+                                                        fill="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                        className="text-white"
+                                                    >
+                                                        <path d="M4.98 3.5C4.98 4.88 3.86 6 2.48 6S0 4.88 0 3.5 1.12 1 2.48 1s2.5 1.12 2.5 2.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.1c.5-.9 1.8-2.2 3.9-2.2 4.2 0 5 2.7 5 6.3V24h-4v-7.3c0-1.8 0-4-2.5-4s-2.9 1.9-2.9 3.9V24h-4V8z" />
+                                                    </svg>
+                                                </a>
+
+                                                {/* GitHub */}
+                                                <a
+                                                    href={member.github}
+                                                    className="w-10 h-10 rounded-full bg-white/10 hover:bg-gray-700 transition-colors duration-300 flex items-center justify-center"
+                                                >
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="18"
+                                                        height="18"
+                                                        fill="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                        className="text-white"
+                                                    >
+                                                        <path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.93c.58.1.79-.25.79-.56v-2.16c-3.2.7-3.88-1.38-3.88-1.38-.52-1.3-1.27-1.64-1.27-1.64-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.17 1.75 1.17 1.02 1.75 2.67 1.24 3.32.95.1-.74.4-1.24.72-1.52-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.3 1.17-3.11-.12-.3-.5-1.47.11-3.06 0 0 .96-.31 3.15 1.19a10.9 10.9 0 0 1 5.74 0c2.18-1.5 3.14-1.19 3.14-1.19.62 1.59.24 2.76.12 3.06.73.81 1.17 1.85 1.17 3.11 0 4.43-2.7 5.4-5.27 5.68.41.36.77 1.07.77 2.16v3.2c0 .31.2.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z" />
+                                                    </svg>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            {/* Decorative shapes behind text */}
-                            <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-violet-600/30 rounded-full blur-3xl" />
-                            <div className="absolute top-12 -left-12 w-32 h-32 bg-fuchsia-600/20 rounded-full blur-2xl" />
-                        </div>
-
-                        {/* Image Side (Right) */}
-                        <div className="relative w-full min-h-[400px] lg:min-h-full">
-                            <Image
-                                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2670&auto=format&fit=crop"
-                                alt="ADN Developer Parceiros"
-                                fill
-                                className="object-cover"
-                            />
-                            {/* Overlay de gradiente para combinar com o tema escuro na esquerda */}
-                            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#111111]/30 to-[#111111] pointer-events-none" />
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* FINAL CTA (Massive block, similar to Blender/Unity 'Get Started' sections) */}
-            <section className="py-32 relative overflow-hidden bg-violet-900 flex items-center justify-center">
-                <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a] to-transparent z-0" />
-                <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-8 tracking-tighter mix-blend-overlay">
-                        PRONTO PARA CODAR O FUTURO?
-                    </h2>
-                    <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-violet-200 mb-8 sm:mb-12 max-w-2xl mx-auto font-medium">
-                        Junte-se a milhares de outros profissionais e comece a descobrir
-                        conteúdos, bolsas e eventos de alto valor.
-                    </p>
-                    <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-                        <Link
-                            href="/"
-                            className="px-10 py-5 bg-white text-violet-950 hover:bg-gray-100 rounded text-lg font-bold transition-transform hover:scale-105 active:scale-95 flex items-center gap-2"
-                        >
-                            Explorar a Plataforma
-                            <ArrowRight className="w-5 h-5" />
-                        </Link>
+                        ))}
                     </div>
                 </div>
             </section>

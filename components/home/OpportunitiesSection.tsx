@@ -47,7 +47,7 @@ export default function OpportunitiesSection() {
                     transition={{ duration: 0.8, ease: "easeOut" }}
                 >
                     <img
-                        src="/professional resume.jpg"
+                        src="/professional resume.webp"
                         alt="Professional Resume"
                         className="absolute inset-0 w-full h-full object-contain"
                     />
