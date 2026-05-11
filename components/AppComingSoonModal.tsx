@@ -12,18 +12,10 @@ export function AppComingSoonModal({ open, onClose }: AppComingSoonModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="relative w-full max-w-2xl overflow-hidden rounded-[28px] border border-white/10 bg-zinc-950/95 p-8 shadow-2xl shadow-black/50">
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute right-4 top-4 rounded-full border border-white/10 bg-white/10 p-2 text-white transition hover:bg-white/15"
-          aria-label="Fechar"
-        >
-          <X size={18} />
-        </button>
+      <div className="relative w-full max-w-2xl overflow-hidden rounded border border-white/10 bg-zinc-950/95 p-8 shadow-2xl shadow-black/50">
 
         <div className="mb-6 flex flex-col gap-4 sm:gap-6">
-          <span className="inline-flex rounded-full bg-violet-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-violet-300">
+          <span className="inline-flex px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-violet-300">
             Lançamento
           </span>
           <div>

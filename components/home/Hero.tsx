@@ -108,7 +108,7 @@ export const Hero = () => {
                 <span className="relative z-10 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
                   <Smartphone size={16} />
                   <span className="hidden sm:inline">Baixar aplicativo</span>
-                  <span className="sm:hidden">Download</span>
+                  <span className="sm:hidden">Baixar o Aplicativo</span>
                 </span>
               </button>
             ) : (
