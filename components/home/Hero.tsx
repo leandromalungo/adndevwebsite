@@ -53,10 +53,7 @@ export const Hero = () => {
 
         {/* Descrição do Ecossistema - Texto persuasivo que detalha a proposta de valor do portal */}
         <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-4 sm:mb-5 md:mb-6 lg:mb-8 leading-relaxed max-w-3xl">
-          Um Hub de conteúdo tecnológico da Lusofonia com tudo o
-          que precisas para entrar na área de tecnologia, desde cursos e muito
-          mais. Um espaço feito para desenvolver a tua carreira no sector
-          tecnologico. Conte com a nossa ajuda.
+             O hub de conteúdo tecnológico lusófono definitivo para a sua carreira. Encontre cursos, dicas e o suporte necessário para ingressar no setor. Conte com a nossa ajuda para crescer.
         </p>     
 
         {/* Chamadas para Ação (CTAs) - Botões principais de interação com o utilizador */}

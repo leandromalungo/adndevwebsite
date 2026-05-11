@@ -473,14 +473,14 @@ export default function StudyPlanDetailsPage() {
         
 
         {/* ── HERO com imagem de fundo ─────────────────── */}
-        <div className="relative w-full h-[50vh] overflow-hidden">
+        <div className="relative w-full min-h-[60vh] md:min-h-[70vh]">
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url('/images-cursos.webp')` }}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent z-10" />
 
-          <div className="relative z-20 max-w-5xl mx-auto px-6 py-12 flex flex-col justify-center h-full">
+          <div className="relative z-20 max-w-5xl mx-auto px-6 py-20 md:py-24 flex flex-col justify-center h-full">
             <Link href="/roadmaps">
               <Button variant="ghost" className="mb-6 text-zinc-100 hover:text-white pl-0 hover:bg-transparent">
                 <ArrowLeft className="w-4 h-4 mr-2" />
