@@ -107,6 +107,7 @@ export const Hero = () => {
                 />
                 <span className="relative z-10 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
                   <Smartphone size={16} />
+                  <span className="hidden sm:inline">Baixar o aplicativo</span>
                   <span className="sm:hidden">Baixar o Aplicativo</span>
                 </span>
               </button>
@@ -121,7 +122,7 @@ export const Hero = () => {
                   inline-flex items-center justify-center
                   px-3 sm:px-10 lg:px-12
                   py-3 sm:py-5
-                  rounded-2xl
+                  rounded
                   border-2 border-violet-500/50
                   bg-gradient-to-br from-violet-900/80 via-indigo-950/90 to-black/90
                   text-white
