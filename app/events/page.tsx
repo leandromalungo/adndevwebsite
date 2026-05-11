@@ -20,7 +20,7 @@ import { Loader2, ArrowRight, Smartphone } from "lucide-react";
 import Head from "next/head";
 import { AppComingSoonModal } from "@/components/AppComingSoonModal";
 import AdvancedFilters from "@/components/events/AdvancedFilters";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import EventCard from "@/components/events/EventCard";
 import Navbar from "@/components/auth/Navbar";
 import Footer from "@/components/Footer";
@@ -62,10 +62,11 @@ const Page = () => {
    * MANIPULADOR DE CLIQUE
    */
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleClick = () => {
     if (!isLoggedIn) {
-      router.push("/?auth=register");
+      router.push(`${pathname}?auth=register`);
     }
   };
 

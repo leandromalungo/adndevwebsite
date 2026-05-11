@@ -8,13 +8,14 @@ import { Preview } from "@/components/bolsas/Preview";
 import { RecentSection } from "@/components/bolsas/RecentSection";
 import Navbar from "@/components/auth/Navbar";
 import Footer from "@/components/Footer";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ArrowRight, Smartphone } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { AppComingSoonModal } from "@/components/AppComingSoonModal";
 
 const App = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const { data: session } = useSession();
   const isLoggedIn = !!session;
   const [showAppComingSoon, setShowAppComingSoon] = useState(false);
@@ -31,7 +32,7 @@ const App = () => {
 
   const handleClick = () => {
     if (!isLoggedIn) {
-      router.push("/?auth=register");
+      router.push(`${pathname}?auth=register`);
     }
   };
 

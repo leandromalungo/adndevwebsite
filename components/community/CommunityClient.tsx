@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Navbar from "@/components/auth/Navbar";
 import Footer from "@/components/Footer";
 import { CommunityGrid } from "@/components/community/CommunityGrid";
@@ -14,12 +14,13 @@ export default function CommunityClient() {
   const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
   const { data: session } = useSession();
   const router = useRouter();
+  const pathname = usePathname();
   const isLoggedIn = !!session;
   const [showAppComingSoon, setShowAppComingSoon] = useState(false);
 
   const handleClick = () => {
     if (!isLoggedIn) {
-      router.push("/?auth=register");
+      router.push(`${pathname}?auth=register`);
     }
   };
 

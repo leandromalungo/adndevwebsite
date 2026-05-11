@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { MoveLeft, Search, ArrowRight, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AppComingSoonModal } from "@/components/AppComingSoonModal";
@@ -16,6 +16,7 @@ import { useSession } from "next-auth/react";
 
 export default function StudyPlanSelectionPage() {
   const router = useRouter();
+  const pathname = usePathname();
   const [searchTerm, setSearchTerm] = useState("");
   const { data: session } = useSession();
   const isLoggedIn = !!session;
@@ -27,7 +28,7 @@ export default function StudyPlanSelectionPage() {
 
   const handleClick = () => {
     if (!isLoggedIn) {
-      router.push("/?auth=register");
+      router.push(`${pathname}?auth=register`);
     }
   };
 

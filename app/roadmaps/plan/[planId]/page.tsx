@@ -473,7 +473,7 @@ export default function StudyPlanDetailsPage() {
         
 
         {/* ── HERO com imagem de fundo ─────────────────── */}
-        <div className="relative w-full min-h-[60vh] md:min-h-[70vh]">
+        <div className="relative w-full overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url('/images-cursos.webp')` }}
