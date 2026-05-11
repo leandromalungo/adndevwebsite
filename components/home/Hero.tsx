@@ -122,7 +122,7 @@ export const Hero = () => {
                   inline-flex items-center justify-center
                   px-3 sm:px-10 lg:px-12
                   py-3 sm:py-5
-                  rounded
+                  rounded-lg
                   border-2 border-violet-500/50
                   bg-gradient-to-br from-violet-900/80 via-indigo-950/90 to-black/90
                   text-white
