@@ -15,6 +15,7 @@ import { useSession } from "next-auth/react";
 
 
 export default function StudyPlanSelectionPage() {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const { data: session } = useSession();
   const isLoggedIn = !!session;
@@ -25,7 +26,9 @@ export default function StudyPlanSelectionPage() {
   );
 
   const handleClick = () => {
-    // Auth Removed
+    if (!isLoggedIn) {
+      router.push("/?auth=register");
+    }
   };
 
   return (

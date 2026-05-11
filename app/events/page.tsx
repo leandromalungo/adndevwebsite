@@ -64,7 +64,9 @@ const Page = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    // Auth Removed
+    if (!isLoggedIn) {
+      router.push("/?auth=register");
+    }
   };
 
   /**

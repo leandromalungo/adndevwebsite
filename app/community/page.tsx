@@ -2,6 +2,7 @@
 
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/auth/Navbar";
 import Footer from "@/components/Footer";
 import { CommunityGrid } from "@/components/community/CommunityGrid";
@@ -12,6 +13,7 @@ import type { Community } from "@/data/types";
 import { useSession } from "next-auth/react";
 
 export default function Page() {
+  const router = useRouter();
   const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
   const [searchQuery, setSearchQuery] = useState("");
   const [dbCommunities, setDbCommunities] = useState<Community[]>([]);
@@ -29,7 +31,9 @@ export default function Page() {
 
 
   const handleClick = () => {
-    // Auth Removed
+    if (!isLoggedIn) {
+      router.push("/?auth=register");
+    }
   };
 
   return (

@@ -30,7 +30,9 @@ const App = () => {
   >([]);
 
   const handleClick = () => {
-    // Auth Removed
+    if (!isLoggedIn) {
+      router.push("/?auth=register");
+    }
   };
 
   useEffect(() => {
