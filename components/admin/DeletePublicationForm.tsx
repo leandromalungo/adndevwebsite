@@ -33,7 +33,7 @@ export function DeletePublicationForm({
       <input type="hidden" name="id" value={id} />
       <button
         type="submit"
-        className="w-full rounded-md bg-red-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-700"
+        className="w-full rounded-md bg-red-600 px-3 py-1.5 text-sm font-medium text-white transition duration-200 active:scale-95 hover:bg-red-700"
       >
         Eliminar {type === 'event' ? 'Evento' : type === 'scholarship' ? 'Bolsa' : 'Comunidade'}
       </button>

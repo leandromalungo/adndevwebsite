@@ -6,8 +6,8 @@ export default function AdminSettingsPage() {
   return (
     <main className="space-y-4">
       <header className="rounded-2xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
-        <h1 className="text-2xl font-bold text-gray-900">Configuracoes</h1>
-        <p className="mt-1 text-sm text-gray-600">Definicoes e estado do painel administrativo.</p>
+        <h1 className="text-2xl font-bold text-gray-900">Configurações</h1>
+        <p className="mt-1 text-sm text-gray-600">Definições e estado do painel administrativo.</p>
       </header>
 
       <section className="rounded-2xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">

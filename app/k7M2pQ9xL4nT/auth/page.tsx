@@ -70,13 +70,13 @@ export default async function AdminAuthPage() {
   return (
     <main className="space-y-4">
       <header className="rounded-lg border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
-        <h1 className="text-2xl font-bold text-gray-900">Autenticacao</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Autenticação</h1>
         <p className="mt-1 text-sm text-gray-600">Controlo de logins e registos.</p>
       </header>
 
       <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-6 gap-4">
         <div>
-          <p className="mb-1 text-sm font-medium text-gray-600">Logins com sucesso (7 dias)</p>
+          <p className="mb-1 text-sm font-medium text-gray-600">Logins (7 dias)</p>
           <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
             <p className="text-2xl font-semibold text-gray-900">{data.loginSuccess}</p>
           </div>
@@ -165,7 +165,7 @@ export default async function AdminAuthPage() {
       </section>
 
       <section className="rounded-lg border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-gray-900">Eventos de autenticacao</h2>
+        <h2 className="text-lg font-semibold text-gray-900">Eventos de autenticação</h2>
         <div className="mt-4 overflow-auto">
           <table className="w-full text-sm">
             <thead>
@@ -187,7 +187,7 @@ export default async function AdminAuthPage() {
               ) : (
                 <tr>
                   <td className="py-3 text-gray-500" colSpan={3}>
-                    Sem eventos de autenticacao.
+                    Sem eventos de autenticações.
                   </td>
                 </tr>
               )}

@@ -19,6 +19,7 @@ type Program = {
 };
 
 const PROGRAMS_BY_COUNTRY: Record<FilterTab, Program[]> = {
+    Todos: [],
     Angola: [
         {
             id: "ao-1",

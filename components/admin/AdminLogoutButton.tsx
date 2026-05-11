@@ -13,7 +13,7 @@ export function AdminLogoutButton({ collapsed = false }: AdminLogoutButtonProps)
     <button
       type="button"
       onClick={() => signOut({ callbackUrl: adminPath("/login") })}
-      className={`rounded-lg border border-gray-200 text-sm font-medium text-gray-700 transition hover:bg-gray-100 hover:text-red-600 ${
+      className={`rounded-lg border border-gray-200 text-sm font-medium text-gray-700 transition duration-200 active:scale-95 hover:bg-gray-100 hover:text-red-600 ${
         collapsed ? "flex h-10 w-full items-center justify-center px-0 py-0" : "w-full px-3 py-2"
       }`}
       aria-label="Terminar sessao"

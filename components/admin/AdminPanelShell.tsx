@@ -31,11 +31,12 @@ const navItems = [
   { key: "security", label: "Segurança", href: adminPath("/security"), icon: ShieldAlert },
   { key: "users", label: "Utilizadores", href: adminPath("/users"), icon: Users },
   { key: "profiles", label: "Perfis", href: adminPath("/profiles"), icon: CircleUserRound },
-  { key: "auth", label: "Autenticacao", href: adminPath("/auth"), icon: ShieldCheck },
+  { key: "auth", label: "Autenticação", href: adminPath("/auth"), icon: ShieldCheck },
   { key: "emails", label: "Emails", href: adminPath("/emails"), icon: Mail },
   { key: "events", label: "Eventos", href: adminPath("/events"), icon: Activity },
-  { key: "content", label: "Publicacoes", href: adminPath("/content"), icon: Database },
-  { key: "settings", label: "Configuracoes", href: adminPath("/settings"), icon: Settings },
+  { key: "content", label: "Publicações", href: adminPath("/content"), icon: Database },
+  { key: "settings", label: "Configurações", href: adminPath("/settings"), icon: Settings },
+  
 ] as const;
 
 export function AdminPanelShell({ children, active }: AdminPanelShellProps) {
@@ -60,7 +61,7 @@ export function AdminPanelShell({ children, active }: AdminPanelShellProps) {
             <button
               type="button"
               onClick={() => setCollapsed((prev) => !prev)}
-              className="hidden rounded-md p-1 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700 lg:block"
+              className="hidden rounded-md p-1 text-gray-500 transition duration-200 active:scale-95 hover:bg-gray-100 hover:text-gray-700 lg:block"
               aria-label={collapsed ? "Expandir menu lateral" : "Encolher menu lateral"}
               title={collapsed ? "Expandir" : "Encolher"}
             >
@@ -69,7 +70,7 @@ export function AdminPanelShell({ children, active }: AdminPanelShellProps) {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
-              className="rounded-md p-1 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700 lg:hidden"
+              className="rounded-md p-1 text-gray-500 transition duration-200 active:scale-95 hover:bg-gray-100 hover:text-gray-700 lg:hidden"
               aria-label="Fechar menu lateral"
               title="Fechar menu"
             >
@@ -86,7 +87,7 @@ export function AdminPanelShell({ children, active }: AdminPanelShellProps) {
                   key={item.key}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition ${
+                  className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition duration-200 active:scale-95 ${
                     isActive
                       ? "bg-violet-100 text-violet-800"
                       : "text-gray-700 hover:bg-gray-100 hover:text-violet-700"
@@ -120,7 +121,7 @@ export function AdminPanelShell({ children, active }: AdminPanelShellProps) {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
-            className="rounded-md p-2 text-gray-600 transition hover:bg-gray-100 hover:text-gray-800"
+            className="rounded-md p-2 text-gray-600 transition duration-200 active:scale-95 hover:bg-gray-100 hover:text-gray-800"
             aria-label="Abrir menu lateral"
           >
             <Menu className="h-5 w-5" />

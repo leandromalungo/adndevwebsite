@@ -153,7 +153,7 @@ function AlertBadge({ level }: { level: string }) {
   };
 
   return (
-    <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold ${colors[level as keyof typeof colors]}`}>
+    <span className={`inline-flex rounded border px-3 py-1 text-xs font-semibold ${colors[level as keyof typeof colors]}`}>
       {labels[level as keyof typeof labels]}
     </span>
   );

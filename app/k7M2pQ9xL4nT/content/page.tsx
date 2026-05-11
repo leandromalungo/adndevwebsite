@@ -37,7 +37,7 @@ export default async function AdminContentPage() {
       <header className="rounded-lg border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Publicacoes</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Publicações</h1>
             <p className="mt-1 text-sm text-gray-600">
               Cadastre eventos, bolsas e comunidades. Ao salvar, vai automaticamente para o banco.
             </p>

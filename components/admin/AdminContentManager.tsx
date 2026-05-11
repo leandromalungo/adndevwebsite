@@ -22,6 +22,8 @@ type LatestItem = {
   country?: string | null;
 };
 
+const buttonBase = "rounded-lg px-3 py-2 text-sm font-medium transition duration-200 active:scale-95";
+
 function Input({
   name,
   label,
@@ -164,25 +166,28 @@ export function AdminContentManager({
         <h2 className="text-lg font-semibold text-gray-900">Metodo de postagem</h2>
         <p className="mt-1 text-sm text-gray-600">Selecione o tipo e publique manualmente no banco de dados.</p>
         <div className="mt-4 flex flex-wrap gap-2">
-          <button
+            <button
+            type="button"
             onClick={() => setPostType("event")}
-            className={`rounded-lg px-3 py-2 text-sm font-medium ${
+            className={`${buttonBase} ${
               postType === "event" ? "bg-violet-700 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
           >
             Evento
           </button>
           <button
+            type="button"
             onClick={() => setPostType("scholarship")}
-            className={`rounded-lg px-3 py-2 text-sm font-medium ${
+            className={`${buttonBase} ${
               postType === "scholarship" ? "bg-violet-700 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
           >
             Bolsa
           </button>
           <button
+            type="button"
             onClick={() => setPostType("community")}
-            className={`rounded-lg px-3 py-2 text-sm font-medium ${
+            className={`${buttonBase} ${
               postType === "community" ? "bg-violet-700 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
           >
@@ -210,7 +215,7 @@ export function AdminContentManager({
                   name="description"
                   required
                   placeholder="Descreva o evento em detalhe..."
-                  className="min-h-24 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-violet-700"
+                  className="min-h-[10rem] w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-violet-700"
                 />
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -226,7 +231,7 @@ export function AdminContentManager({
                 <Input name="link" label="Link" placeholder="https://..." required />
                 <Input name="image_url" label="Imagem URL" placeholder="https://..." required />
               </div>
-              <button className="rounded-lg bg-violet-700 px-4 py-2.5 text-sm font-bold text-white hover:bg-violet-600">
+              <button type="submit" className="rounded-lg bg-violet-700 px-4 py-2.5 text-sm font-bold text-white transition duration-200 active:scale-95 hover:bg-violet-600">
                 Publicar Evento
               </button>
             </form>
@@ -249,7 +254,7 @@ export function AdminContentManager({
                   name="description"
                   required
                   placeholder="Descreva a bolsa, requisitos e benefícios..."
-                  className="min-h-24 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-violet-700"
+                  className="min-h-[10rem] w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-violet-700"
                 />
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -263,7 +268,7 @@ export function AdminContentManager({
                 <Input name="link" label="Link" placeholder="https://..." required />
                 <Input name="image_url" label="Imagem URL" placeholder="https://..." required />
               </div>
-              <button className="rounded-lg bg-violet-700 px-4 py-2.5 text-sm font-bold text-white hover:bg-violet-600">
+              <button type="submit" className="rounded-lg bg-violet-700 px-4 py-2.5 text-sm font-bold text-white transition duration-200 active:scale-95 hover:bg-violet-600">
                 Publicar Bolsa
               </button>
             </form>
@@ -286,7 +291,7 @@ export function AdminContentManager({
                   name="description"
                   required
                   placeholder="Descreva a comunidade, objetivos e atividades..."
-                  className="min-h-24 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-violet-700"
+                  className="min-h-[10rem] w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-violet-700"
                 />
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -296,7 +301,7 @@ export function AdminContentManager({
                 <Input name="link" label="Link" placeholder="https://..." required />
                 <Input name="logo_url" label="Logo URL" placeholder="https://..." required />
               </div>
-              <button className="rounded-lg bg-violet-700 px-4 py-2.5 text-sm font-bold text-white hover:bg-violet-600">
+              <button type="submit" className="rounded-lg bg-violet-700 px-4 py-2.5 text-sm font-bold text-white transition duration-200 active:scale-95 hover:bg-violet-600">
                 Publicar Comunidade
               </button>
             </form>
