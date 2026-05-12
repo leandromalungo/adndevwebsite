@@ -5,6 +5,7 @@ export default function SobreNosPage() {
         {
             name: "Leandro Malungo",
             role: "Founder & Manager",
+            country: "Angola",
             image: "/leandro.jpg",
             description:
                 "Fundador e gestor do ADN Developer, com uma visão estratégica para conectar talentos, comunidades e oportunidades no ecossistema tecnológico lusófono.",
@@ -15,38 +16,49 @@ export default function SobreNosPage() {
         {
             name: "Neuza Nascimento",
             role: "Co-Founder",
+            country: "Portugal",
             image: "/neuza.jpg",
             description:
                 "Co-fundadora e estrategista de parcerias, dedicada a construir pontes entre comunidades, startups e oportunidades tecnológicas.",
             instagram: "https://www.instagram.com/neuza_nascimento02/",
-            linkedin: "https://www.linkedin.com/in/neuza-nascimento-aa81bb324/",
+            linkedin:
+                "https://www.linkedin.com/in/neuza-nascimento-aa81bb324/",
+            github: "#",
         },
         {
             name: "Whitney Velasco",
-            role: "Content Creator",
+            role: "Content Lead",
+            country: "Portugal",
             image: "/whitiney.jpg",
             description:
                 "Estudante de engenharia informática, responsável por desenvolver materiais educativos e garantir uma experiência de utilizador envolvente e intuitiva.",
             instagram: "https://www.instagram.com/whitney_velascoo/",
-            linkedin: "https://www.linkedin.com/in/whitney-velasco-furruma-5169092b9/?skipRedirect=true",
+            linkedin:
+                "https://www.linkedin.com/in/whitney-velasco-furruma-5169092b9/?skipRedirect=true",
+            github: "#",
         },
         {
             name: "Fernanda Sehn",
-            role: "Content Creator",
+            role: "Designer & Content Creator",
+            country: "Brasil",
             image: "/fernanda.jpg",
             description:
-                "Estudante de historia e criadora de conteúdo, responsável por parcerias estratégicas e produção de material educativo.",
+                "Estudante de história e criadora de conteúdo, responsável por parcerias estratégicas e produção de material educativo.",
             instagram: "https://www.instagram.com/fe.sehn/",
-            linkedin: "https://www.linkedin.com/in/fernanda-sehn-069b092b9/?skipRedirect=true",
+            linkedin:
+                "https://www.linkedin.com/in/fernanda-sehn-069b092b9/?skipRedirect=true",
+            github: "#",
         },
         {
             name: "Filipe Mafuila",
             role: "Frontend Developer",
+            country: "Angola",
             image: "/filipe.jpg",
             description:
                 "Desenvolvedor frontend, focado em criar interfaces modernas, responsivas e centradas no utilizador.",
             instagram: "https://www.instagram.com/filipemafuila/",
             linkedin: "https://www.linkedin.com/in/filipe-mafuila/",
+            github: "#",
         },
     ];
 
@@ -192,7 +204,7 @@ export default function SobreNosPage() {
                                 lg:w-[210px]
                                 xl:w-[220px]
                                 overflow-hidden
-                                rounded
+                                rounded-2xl
                                 border border-white/5
                                 bg-[#111111]/80
                                 backdrop-blur-xl
@@ -214,7 +226,7 @@ export default function SobreNosPage() {
                                     />
 
                                     {/* Gradient */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent z-10" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-10" />
 
                                     {/* Default Info */}
                                     <div
@@ -232,6 +244,14 @@ export default function SobreNosPage() {
                                         <p className="text-[11px] xl:text-xs uppercase tracking-[0.2em] text-violet-400 mt-2">
                                             {member.role}
                                         </p>
+
+                                        {/* COUNTRY */}
+                                        <div className="mt-3 inline-flex items-center gap-2 rounded border border-white/10 bg-white/5 px-3 py-1">
+
+                                            <span className="text-[11px] uppercase tracking-[0.15em] text-gray-300">
+                                                {member.country}
+                                            </span>
+                                        </div>
                                     </div>
 
                                     {/* Hover Overlay */}
@@ -255,6 +275,7 @@ export default function SobreNosPage() {
                                             group-hover:opacity-100
                                             "
                                         >
+
                                             <p className="text-sm text-gray-300 leading-relaxed mb-6">
                                                 {member.description}
                                             </p>
@@ -264,6 +285,8 @@ export default function SobreNosPage() {
                                                 {/* Instagram */}
                                                 <a
                                                     href={member.instagram}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
                                                     className="w-10 h-10 rounded-full bg-white/10 hover:bg-violet-500 transition-colors duration-300 flex items-center justify-center"
                                                 >
                                                     <svg
@@ -295,6 +318,8 @@ export default function SobreNosPage() {
                                                 {/* LinkedIn */}
                                                 <a
                                                     href={member.linkedin}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
                                                     className="w-10 h-10 rounded-full bg-white/10 hover:bg-blue-500 transition-colors duration-300 flex items-center justify-center"
                                                 >
                                                     <svg
@@ -312,6 +337,8 @@ export default function SobreNosPage() {
                                                 {/* GitHub */}
                                                 <a
                                                     href={member.github}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
                                                     className="w-10 h-10 rounded-full bg-white/10 hover:bg-gray-700 transition-colors duration-300 flex items-center justify-center"
                                                 >
                                                     <svg
