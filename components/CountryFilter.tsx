@@ -30,12 +30,14 @@ interface CountryFilterProps {
   selectedCountry: FilterTab;
   onCountryChange: (country: FilterTab) => void;
   className?: string;
+  countries?: FilterTab[];
 }
 
 export const CountryFilter: React.FC<CountryFilterProps> = ({
   selectedCountry,
   onCountryChange,
   className = "",
+  countries,
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -113,7 +115,7 @@ export const CountryFilter: React.FC<CountryFilterProps> = ({
             onScroll={checkScroll}
             className="flex gap-2 sm:gap-3 overflow-x-auto scrollbar-hide px-2 sm:px-4"
           >
-            {LUSOPHONE_COUNTRIES.map((country) => (
+            {(countries ?? LUSOPHONE_COUNTRIES).map((country) => (
               <button
                 key={country}
                 onClick={() => onCountryChange(country)}

@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Navbar from "@/components/auth/Navbar";
 import Footer from "@/components/Footer";
 import { CommunityGrid } from "@/components/community/CommunityGrid";
-import { CountryFilter, type FilterTab } from "@/components/CountryFilter";
+import { CountryFilter, LUSOPHONE_COUNTRIES, type FilterTab } from "@/components/CountryFilter";
 import { ArrowRight, Search, Smartphone } from "lucide-react";
 import { AppComingSoonModal } from "@/components/AppComingSoonModal";
 import type { Community } from "@/data/types";
@@ -15,7 +15,7 @@ import { useSession } from "next-auth/react";
 export default function Page() {
   const router = useRouter();
   const pathname = usePathname();
-  const [selectedCountry, setSelectedCountry] = useState<FilterTab | "Todos">("Todos");
+  const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
   const [searchQuery, setSearchQuery] = useState("");
   const [dbCommunities, setDbCommunities] = useState<Community[]>([]);
   const { data: session } = useSession();
@@ -131,6 +131,7 @@ export default function Page() {
               <CountryFilter
                 selectedCountry={selectedCountry}
                 onCountryChange={setSelectedCountry}
+                countries={LUSOPHONE_COUNTRIES.filter((country) => country !== "Todos")}
                 className="bg-white border-gray-200"
               />
             </div>
