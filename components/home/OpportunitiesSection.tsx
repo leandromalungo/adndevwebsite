@@ -1,21 +1,21 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Briefcase, GraduationCap, ArrowRight } from "lucide-react";
+import { Briefcase, GraduationCap, ArrowRight, Bookmark } from "lucide-react";
 import Link from "next/link";
 
 const opportunities = [
     {
-        id: "colaborador",
-        title: "Tornar-se um colaborador",
-        description: "Seja um colaborador de um dos conteúdos da ADN Developer. Partilhe o seu conhecimento, escreva artigos, crie vídeos ou organize eventos para ajudar a comunidade a crescer e aprender.",
-        icon: Briefcase,
+        id: "Mentoria",
+        title: "Mentoria e Desenvolvimento Profissional",
+        description: "Oferecemos programas de mentoria personalizados para ajudar os membros a desenvolver suas habilidades técnicas e de carreira, conectando-os com profissionais experientes da indústria.",
+        icon: GraduationCap,
         href: "#",
     },
     {
-        id: "estagio",
-        title: "Crie um currículo online",
-        description: "Destaque suas habilidades e experiências com um currículo online profissional, fácil de compartilhar e acessível a recrutadores e empresas de tecnologia.",
+        id: "hackathon",
+        title: "Participar em Hackathons",
+        description: "Participe em hackathons organizados pela ADN Developer, onde pode colaborar com outros desenvolvedores, aprender novas habilidades e competir por prêmios emocionantes.",
         icon: GraduationCap,
         href: "#",
     },
@@ -88,7 +88,7 @@ export default function OpportunitiesSection() {
                             >
                                 <Link
                                     href={item.href}
-                                    className="relative overflow-hidden group flex flex-col md:flex-row items-start md:items-center gap-5 p-5 md:p-6 rounded-2xl border border-violet-200/30 bg-gradient-to-br from-violet-50 to-indigo-50 hover:from-violet-100 hover:to-indigo-100 dark:from-violet-950/20 dark:to-indigo-950/20 transition-all duration-300 hover:shadow-md hover:border-violet-300/60 dark:hover:border-violet-700/40"
+                                    className="relative overflow-hidden group flex flex-col md:flex-row items-start md:items-center gap-5 p-5 md:p-6 rounded-lg border border-violet-200/30 bg-gradient-to-br from-violet-50 to-indigo-50 hover:from-violet-100 hover:to-indigo-100 dark:from-violet-950/20 dark:to-indigo-950/20 transition-all duration-300 hover:shadow-md hover:border-violet-300/60 dark:hover:border-violet-700/40"
                                 >
                                     {/* Conteúdo do Cartão - Composto por ícone, título e descrição com efeitos de hover
                                         Nota: imagem de fundo externa removida — era pedida 3x a servidor externo lento */}

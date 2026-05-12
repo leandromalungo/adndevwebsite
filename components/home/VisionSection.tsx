@@ -17,7 +17,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   onClick,
 }) => {
   return (
-    <div className="bg-[#efefef] rounded-2xl overflow-hidden mb-4 border border-transparent transition-all duration-300">
+    <div className="bg-[#efefef] rounded-lg overflow-hidden mb-4 border border-transparent transition-all duration-300">
       {/* Cabeçalho do Acordeão - Botão que alterna entre os estados aberto/fechado */}
       <button
         type="button"
