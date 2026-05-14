@@ -391,8 +391,8 @@ const NavbarContent = () => {
                 </h2>
                 <p className="mb-2 text-sm text-gray-600">
                   {isRegistering
-                    ? "Crie uma conta para acessar recursos exclusivos, personalizar seu perfil e participar da nossa comunidade."
-                    : "Entre com suas credenciais para acessar sua conta e explorar nossos conteúdos exclusivos."}
+                    ? "Para acessar recursos exclusivos, personalizar seu perfil e participar da nossa comunidade."
+                    : "Entre e acesse sua conta para explorar nossos conteúdos exclusivos, personalizar seu perfil e participar da nossa comunidade."}
                 </p>
 
                 <div className="space-y-4">
