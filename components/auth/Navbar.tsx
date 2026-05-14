@@ -387,12 +387,12 @@ const NavbarContent = () => {
 
               <div className="w-full overflow-y-auto p-5 sm:p-8 md:w-1/2 md:flex md:flex-col md:justify-center">
                 <h2 className="mb-1 text-2xl font-bold uppercase text-gray-800">
-                  {isRegistering ? "Crie uma conta" : "Entrar"}
+                  {isRegistering ? "Crie uma conta" : "Inicie sessão"}
                 </h2>
                 <p className="mb-2 text-sm text-gray-600">
                   {isRegistering
-                    ? "Acesse aos recursos oferecidos pela nossa plataforma, crie uma conta gratuita agora."
-                    : "Entre para ter acesso ao seu perfil."}
+                    ? "Crie uma conta para acessar recursos exclusivos, personalizar seu perfil e participar da nossa comunidade."
+                    : "Entre com suas credenciais para acessar sua conta e explorar nossos conteúdos exclusivos."}
                 </p>
 
                 <div className="space-y-4">
@@ -470,7 +470,7 @@ const NavbarContent = () => {
                     disabled={loginLoading}
                     className="flex w-full items-center justify-center gap-2 rounded-lg bg-violet-700 py-2.5 font-bold text-white transition hover:bg-violet-600 disabled:cursor-not-allowed disabled:opacity-70"
                   >
-                    {loginLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : isRegistering ? "Criar Conta" : "Entrar"}
+                    {loginLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : isRegistering ? "Criar Conta" : "Iniciar Sessão"}
                   </button>
 
                   <div className="flex flex-col items-center gap-2 pt-2">
