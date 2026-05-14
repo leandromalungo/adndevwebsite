@@ -2,6 +2,8 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { MapPin, Globe } from 'lucide-react';
 import type { Event } from '@/data/types';
 
@@ -10,6 +12,13 @@ interface EventCardProps {
 }
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
+  const { data: session } = useSession();
+  const pathname = usePathname();
+  const isLoggedIn = !!session;
+  const actionHref = isLoggedIn ? event.link || '#' : `${pathname}?auth=login`;
+  const actionTarget = isLoggedIn ? '_blank' : undefined;
+  const actionRel = isLoggedIn ? 'noopener noreferrer' : undefined;
+
   return (
     <div className="bg-white rounded shadow-sm border border-gray-100 overflow-hidden flex flex-col hover:shadow-md transition-all duration-300 h-full group">
       {/* Secção de imagem */}
@@ -68,9 +77,9 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
               Fonte: este evento tem as suas fontes devidamente mencionadas nesta postagem sem nenhuma alteração.
             </span>
           <a 
-            href={event.link || '#'} 
-            target="_blank" 
-            rel="noopener noreferrer"
+            href={actionHref}
+            target={actionTarget}
+            rel={actionRel}
             className="w-full text-center py-2 rounded-lg bg-violet-50 text-violet-600 font-semibold text-sm hover:bg-violet-100 transition-colors"
           >
             Acessar

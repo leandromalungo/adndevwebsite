@@ -2,6 +2,8 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { Community } from '@/data/types';
 import { Badge } from './Badge';
 import { Tag } from './Tag';
@@ -11,6 +13,13 @@ interface CommunityCardProps {
 }
 
 export const CommunityCard: React.FC<CommunityCardProps> = ({ community }) => {
+  const { data: session } = useSession();
+  const pathname = usePathname();
+  const isLoggedIn = !!session;
+  const actionHref = isLoggedIn ? community.link || '#' : `${pathname}?auth=login`;
+  const actionTarget = isLoggedIn ? '_blank' : undefined;
+  const actionRel = isLoggedIn ? 'noopener noreferrer' : undefined;
+
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-5 flex flex-col h-full hover:shadow-md transition-shadow">
       {/* Cabeçalho */}
@@ -68,9 +77,9 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({ community }) => {
         <div className="flex items-center justify-between">
 
           <a
-            href={community.link || '#'}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={actionHref}
+            target={actionTarget}
+            rel={actionRel}
             className="ml-auto inline-flex items-center gap-1 px-4 py-2 text-sm text-blue-700 hover:text-blue-200 transition-colors"
           >
             Ver mais

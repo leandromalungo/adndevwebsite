@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { FadeIn } from "@/components/ui/fade-in";
 import type { FilterTab } from "@/components/CountryFilter";
 
@@ -23,9 +25,12 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   secondaryHref,
   secondaryLabel,
 }) => {
+  const { data: session } = useSession();
+  const pathname = usePathname();
+  const isLoggedIn = !!session;
   const buttons = [
-    { href, label: buttonLabel ?? "Inscrever" },
-    secondaryHref && { href: secondaryHref, label: secondaryLabel ?? "Detalhes" },
+    { href: isLoggedIn ? href : `${pathname}?auth=login`, label: buttonLabel ?? "Inscrever" },
+    secondaryHref && { href: isLoggedIn ? secondaryHref : `${pathname}?auth=login`, label: secondaryLabel ?? "Detalhes" },
   ].filter(Boolean) as Array<{ href: string; label: string }>;
 
   return (
@@ -55,8 +60,8 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
             <a
               key={button.href}
               href={button.href}
-              target="_blank"
-              rel="noreferrer"
+              target={isLoggedIn ? "_blank" : undefined}
+              rel={isLoggedIn ? "noreferrer" : undefined}
               className="inline-block border-2 border-white text-white font-bold py-2 px-6 rounded hover:bg-[#0d9488] hover:text-white transition duration-200 text-sm"
             >
               {button.label}

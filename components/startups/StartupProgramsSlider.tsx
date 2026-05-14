@@ -3,6 +3,8 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { ExternalLink, Users, MapPin, Tag, ChevronLeft, ChevronRight } from "lucide-react";
 import { CountryFilter, FilterTab, LUSOPHONE_COUNTRIES } from "@/components/CountryFilter";
 
@@ -1621,6 +1623,10 @@ const TYPE_COLORS: Record<Program["type"], string> = {
 export default function StartupProgramsSlider() {
     const [selectedCountry, setSelectedCountry] = useState<FilterTab>(LUSOPHONE_COUNTRIES[0]);
     const sliderRef = useRef<HTMLDivElement>(null);
+    const { data: session } = useSession();
+    const pathname = usePathname();
+    const isLoggedIn = !!session;
+    const getActionHref = (href: string) => (isLoggedIn ? href : `${pathname}?auth=login`);
 
     const programs = PROGRAMS_BY_COUNTRY[selectedCountry] ?? [];
 
@@ -1713,9 +1719,9 @@ export default function StartupProgramsSlider() {
                                         </div>
 
                                         <Link
-                                            href={program.link}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
+                                            href={getActionHref(program.link)}
+                                            target={isLoggedIn ? "_blank" : undefined}
+                                            rel={isLoggedIn ? "noopener noreferrer" : undefined}
                                             className="flex items-center justify-center gap-2 text-sm font-semibold text-white bg-zinc-900 hover:bg-zinc-700 transition-colors rounded py-2.5"
                                         >
                                             Ver programa
