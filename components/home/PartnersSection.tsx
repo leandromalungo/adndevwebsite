@@ -4,7 +4,6 @@ interface PartnerItem {
   name: string;
   href: string;
   logoSrc?: string;
-  description: string;
   initials: string;
 }
 
@@ -13,28 +12,24 @@ const partners: PartnerItem[] = [
     name: "Saturno Software",
     href: "https://saturno.software/",
     logoSrc: "/saturno.png",
-    description: "Desenvolvimento autoral e colaboração com estúdios e equipes.",
     initials: "S",
   },
    {
     name: "GDG Luanda",
     href: "https://gdg.community.dev/gdg-luanda/",
     logoSrc: "/gdg.png",
-    description: "Uma comunidade inclusiva em Angola voltada para desenvolvedores, estudantes e entusiastas interessados nas tecnologias do Google.",
     initials: "GdgL",
   },
    {
-    name: "Angola Open Source Community",
-    href: "https://angolaosc.org/",
-    logoSrc: "/aosp.png",
-    description: "Uma comunidade dedicada a promover o uso e desenvolvimento de software de código aberto.",
-    initials: "AosP",
+    name: "Querando o Controle",
+    href: "https://quebrandoocontrole.com",
+    logoSrc: "/qoc.png",
+    initials: "QoC",
   },
    {
     name: "Elas no Code",
     href: "https://saturno.software/",
     logoSrc: "/enc.png",
-    description: "Dedica-se a capacitar mulheres no universo do desenvolvimento sem código, promovendo a inclusão e diversidade na tecnologia.",
     initials: "EnC",
   }
 ];
@@ -52,7 +47,7 @@ export default function PartnersSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {partners.map((partner) => (
             <a
               key={partner.name}
@@ -80,9 +75,6 @@ export default function PartnersSection() {
               <h3 className="text-sm font-semibold text-slate-900 mb-2">
                 {partner.name}
               </h3>
-              <p className="text-[10px] text-slate-600 leading-relaxed">
-                {partner.description}
-              </p>
             </a>
           ))}
         </div>
