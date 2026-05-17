@@ -3,20 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { DeletePublicationForm } from "@/components/admin/DeletePublicationForm";
-import {
-  updateAdminCommunity,
-  updateAdminEvent,
-  updateAdminScholarship,
-  deleteAdminCommunity,
-  deleteAdminEvent,
-  deleteAdminScholarship,
-} from "@/app/k7M2pQ9xL4nT/content/actions";
-import {
-  LUSOPHONE_COUNTRIES,
-  EVENT_CATEGORIES,
-  SCHOLARSHIP_LEVELS,
-  COMMUNITY_CATEGORIES,
-} from "@/data/admin-form-data";
+import { updateAdminCommunity, updateAdminEvent, updateAdminScholarship, deleteAdminCommunity, deleteAdminEvent, deleteAdminScholarship } from "@/app/k7M2pQ9xL4nT/content/actions";
+import { LUSOPHONE_COUNTRIES, EVENT_CATEGORIES, SCHOLARSHIP_LEVELS, COMMUNITY_CATEGORIES } from "@/data/admin-form-data";
 import { adminPath } from "@/lib/admin-routes";
 
 type EventItem = {
@@ -206,7 +194,7 @@ export function AdminContentView({ events, scholarships, communities }: AdminCon
       </header>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <section id="admin-events" className="rounded-2xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
+        <section id="admin-events" className="rounded-lg border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
           <CardSectionHeader title="Eventos" count={events.length} />
           <div className="space-y-3">
             {events.map((item) => {
@@ -289,7 +277,7 @@ export function AdminContentView({ events, scholarships, communities }: AdminCon
           </div>
         </section>
 
-        <section id="admin-scholarships" className="rounded-2xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
+        <section id="admin-scholarships" className="rounded-lg border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
           <CardSectionHeader title="Bolsas" count={scholarships.length} />
           <div className="space-y-3">
             {scholarships.map((item) => {
@@ -370,7 +358,7 @@ export function AdminContentView({ events, scholarships, communities }: AdminCon
           </div>
         </section>
 
-        <section id="admin-communities" className="rounded-2xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
+        <section id="admin-communities" className="rounded-lg border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
           <CardSectionHeader title="Comunidades" count={communities.length} />
           <div className="space-y-3">
             {communities.map((item) => {

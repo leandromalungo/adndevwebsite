@@ -3,21 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ReactNode, useState } from "react";
-import {
-  Activity,
-  CircleUserRound,
-  ChevronLeft,
-  ChevronRight,
-  Database,
-  LayoutDashboard,
-  Mail,
-  Menu,
-  Settings,
-  ShieldCheck,
-  ShieldAlert,
-  Users,
-  X,
-} from "lucide-react";
+import { Activity, CircleUserRound, ChevronLeft, ChevronRight, Database, LayoutDashboard, Mail, Menu, Settings, ShieldCheck, ShieldAlert, Users, X } from "lucide-react";
 import { AdminLogoutButton } from "@/components/admin/AdminLogoutButton";
 import { adminPath } from "@/lib/admin-routes";
 

@@ -55,5 +55,6 @@ export const COMMUNITY_CATEGORIES = [
   'Web Development',
   'DevOps',
   'Segurança',
+  'Jogos',
   'Outro',
 ];

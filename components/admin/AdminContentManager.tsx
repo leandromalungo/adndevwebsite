@@ -248,7 +248,7 @@ export function AdminContentManager({
               />
               <label className="block">
                 <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-600">
-                  Descricao <span className="text-red-500">*</span>
+                  Descrição <span className="text-red-500">*</span>
                 </span>
                 <textarea
                   name="description"
@@ -285,7 +285,7 @@ export function AdminContentManager({
               />
               <label className="block">
                 <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-600">
-                  Descricao <span className="text-red-500">*</span>
+                  Descrição <span className="text-red-500">*</span>
                 </span>
                 <textarea
                   name="description"
@@ -296,10 +296,11 @@ export function AdminContentManager({
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <Select name="country" label="Pais" options={LUSOPHONE_COUNTRIES} required />
-                <MultiSelect name="categories" label="Categorias" options={COMMUNITY_CATEGORIES} required={true} />
-                <Input name="location" label="Localizacao" placeholder="Ex: Lisboa, Portugal" required />
+                <Input name="location" label="Localização" placeholder="Ex: Lisboa, Portugal" required />
                 <Input name="link" label="Link" placeholder="https://..." required />
                 <Input name="logo_url" label="Logo URL" placeholder="https://..." required />
+                <MultiSelect name="categories" label="Categorias" options={COMMUNITY_CATEGORIES} required={true} />
+
               </div>
               <button type="submit" className="rounded-lg bg-violet-700 px-4 py-2.5 text-sm font-bold text-white transition duration-200 active:scale-95 hover:bg-violet-600">
                 Publicar Comunidade
