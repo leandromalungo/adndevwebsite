@@ -61,7 +61,12 @@ export async function createAdminEvent(formData: FormData) {
     throw new Error("URL da imagem deve ser uma URL valida.");
   }
 
-  await supabaseAdmin.from("admin_events").insert([payload]);
+  const { error: eventError } = await supabaseAdmin.from("admin_events").insert([payload]);
+  if (eventError) {
+    console.error("[createAdminEvent] Supabase insert error:", eventError);
+    throw new Error("Falha ao criar evento: " + eventError.message);
+  }
+
   revalidateContentPaths();
 }
 
@@ -100,7 +105,12 @@ export async function createAdminScholarship(formData: FormData) {
     throw new Error("URL da imagem deve ser uma URL valida.");
   }
 
-  await supabaseAdmin.from("admin_scholarships").insert([payload]);
+  const { error: scholarshipError } = await supabaseAdmin.from("admin_scholarships").insert([payload]);
+  if (scholarshipError) {
+    console.error("[createAdminScholarship] Supabase insert error:", scholarshipError);
+    throw new Error("Falha ao criar bolsa: " + scholarshipError.message);
+  }
+
   revalidateContentPaths();
 }
 
@@ -142,7 +152,12 @@ export async function createAdminCommunity(formData: FormData) {
     throw new Error("URL do logo deve ser uma URL valida.");
   }
 
-  await supabaseAdmin.from("admin_communities").insert([payload]);
+  const { error: communityError } = await supabaseAdmin.from("admin_communities").insert([payload]);
+  if (communityError) {
+    console.error("[createAdminCommunity] Supabase insert error:", communityError);
+    throw new Error("Falha ao criar comunidade: " + communityError.message);
+  }
+
   revalidateContentPaths();
 }
 

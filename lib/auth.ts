@@ -8,6 +8,7 @@ import { loginRateLimit, checkLoginAttempts, recordFailedLogin, clearLoginAttemp
 import { headers } from "next/headers";
 import { isAdminEmail } from "@/lib/admin-auth";
 import { trackEvent } from "@/lib/analytics";
+import { isEmailVerified } from "@/lib/email-verification";
 
 // -----------------------------------------------------------------------
 // SEGURANÇA: Busca utilizador para autenticação.
@@ -141,6 +142,17 @@ export const authOptions: NextAuthOptions = {
               metadata: { reason: "session_load_error" },
             });
             throw new Error("Erro ao carregar sessão.");
+          }
+
+          const verified = await isEmailVerified(credentials.email);
+          if (!verified) {
+            await recordFailedLogin(identifier);
+            await trackEvent({
+              eventType: "login_failed",
+              userEmail: credentials.email,
+              metadata: { reason: "email_not_verified" },
+            });
+            throw new Error("Conta não verificada. Verifique seu email antes de entrar.");
           }
 
           const userIsAdmin = isAdminEmail(user.email);
