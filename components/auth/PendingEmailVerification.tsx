@@ -99,7 +99,7 @@ export default function PendingEmailVerification({
               </p>
 
               {/* Passos (UI Melhorado estilo Stepper/Timeline) */}
-              <div className="bg-white/40 border border-gray-200/50 rounded-lg p-6 space-y-4 mb-8 backdrop-blur-sm">
+              <div className="bg-white/40 border-t-2 border-violet-400 rounded-lg p-6 space-y-4 mb-8 backdrop-blur-sm">
                 <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
                   Próximos passos:
                 </p>

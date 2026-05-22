@@ -11,8 +11,9 @@ import {
   Eye,
   EyeOff,
   Link as LinkIcon,
-  Check, 
-  Users, LogOut } from "lucide-react";
+  Check,
+  Users, LogOut
+} from "lucide-react";
 import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -175,22 +176,22 @@ const NavbarContent = () => {
   // Verifica parâmetros de retorno de autenticação
   useEffect(() => {
     const searchParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
-    
+
     // Mostra feedback de sucesso no fluxo de confirmação de conta
     if (searchParams.get('verified') === 'true') {
       setLoginModal(true);
       setIsRegistering(false);
       setLoginSuccess('Email verificado com sucesso! Agora pode fazer login.');
       setLoginError('');
-      
+
       // Limpar o parâmetro da URL
       window.history.replaceState({}, document.title, window.location.pathname);
-      
+
       // Limpar mensagem após 5 segundos
       const timer = setTimeout(() => setLoginSuccess(''), 5000);
       return () => clearTimeout(timer);
     }
-    
+
     // Se houve erro na verificação
     const errorParam = searchParams.get('error');
     if (errorParam) {
@@ -198,7 +199,7 @@ const NavbarContent = () => {
       setIsRegistering(false);
       setLoginError(`${decodeURIComponent(errorParam)}`);
       setLoginSuccess('');
-      
+
       // Limpar o parâmetro da URL
       window.history.replaceState({}, document.title, window.location.pathname);
     }
@@ -241,13 +242,13 @@ const NavbarContent = () => {
         alert("Por favor, configure um nome de utilizador no seu perfil antes de partilhar.");
         return;
       }
-      
+
       // Construir o link de compartilhamento com o username
       const shareLink = `${window.location.origin}/u/${encodeURIComponent(username.replace(/\s+/g, "").toLowerCase())}`;
-      
+
       // Copiar para clipboard
       await navigator.clipboard.writeText(shareLink);
-      
+
       // Mostrar feedback
       setShareLinkCopied(true);
       setTimeout(() => setShareLinkCopied(false), 2000);
@@ -384,7 +385,17 @@ const NavbarContent = () => {
               </div>
 
               <div className="w-full overflow-y-auto p-5 sm:p-8 md:w-1/2 md:flex md:flex-col md:justify-center">
-                <h2 className="mb-1 mt-6 text-2xl text-center font-bold uppercase text-gray-800">
+
+                {/* Logo / Ícone da Empresa */}
+                <div className="flex justify-center mb-2">
+                  <img
+                    src="/logoNavbar.png" // Substitua pelo caminho correto do seu logo (ex: /logo.png)
+                    alt="Logo Adn Developer"
+                    className="h-14 w-auto object-contain" // Controla a altura de forma proporcional
+                  />
+                </div>
+
+                <h2 className="mb-1 mt-2 text-2xl text-center font-bold uppercase text-gray-800">
                   {isRegistering ? "Crie uma conta" : "Inicie sessão"}
                 </h2>
                 <p className="mb-6 text-sm text-center text-gray-600">
@@ -499,7 +510,7 @@ const NavbarContent = () => {
         </div>
       )}
 
-     {/* Modal de boas-vindas após login ou registo bem-sucedido */}
+      {/* Modal de boas-vindas após login ou registo bem-sucedido */}
 
       <Dialog open={showWelcomeDialog} onOpenChange={setShowWelcomeDialog}>
         <DialogContent className="max-w-lg bg-white px-0 py-0 overflow-hidden">
@@ -599,7 +610,7 @@ const NavbarContent = () => {
                       <UserIcon className="w-4 h-4" />
                       <span>O meu perfil</span>
                     </Link>
-                    
+
                     <button
                       type="button"
                       onClick={handleCopyShareLink}
@@ -608,7 +619,7 @@ const NavbarContent = () => {
                       <LinkIcon className="w-4 h-4" />
                       <span>{shareLinkCopied ? "✓ Copiado!" : "Partilhar perfil"}</span>
                     </button>
-                    
+
                     <Link href="/" onClick={() => setUserDropdown(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-violet-700 transition">
                       <Users className="w-4 h-4" />
                       <span>Contribuidores</span>
