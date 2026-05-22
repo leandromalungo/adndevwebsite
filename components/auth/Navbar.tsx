@@ -11,10 +11,8 @@ import {
   Eye,
   EyeOff,
   Link as LinkIcon,
-  Check,
-  Users,
-  LogOut,
-} from "lucide-react";
+  Check, 
+  Users, LogOut } from "lucide-react";
 import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -182,7 +180,7 @@ const NavbarContent = () => {
     if (searchParams.get('verified') === 'true') {
       setLoginModal(true);
       setIsRegistering(false);
-      setLoginSuccess('✅ Email verificado com sucesso! Agora pode fazer login.');
+      setLoginSuccess('Email verificado com sucesso! Agora pode fazer login.');
       setLoginError('');
       
       // Limpar o parâmetro da URL
@@ -198,7 +196,7 @@ const NavbarContent = () => {
     if (errorParam) {
       setLoginModal(true);
       setIsRegistering(false);
-      setLoginError(`❌ ${decodeURIComponent(errorParam)}`);
+      setLoginError(`${decodeURIComponent(errorParam)}`);
       setLoginSuccess('');
       
       // Limpar o parâmetro da URL
@@ -386,10 +384,10 @@ const NavbarContent = () => {
               </div>
 
               <div className="w-full overflow-y-auto p-5 sm:p-8 md:w-1/2 md:flex md:flex-col md:justify-center">
-                <h2 className="mb-1 text-2xl font-bold uppercase text-gray-800">
+                <h2 className="mb-1 mt-6 text-2xl text-center font-bold uppercase text-gray-800">
                   {isRegistering ? "Crie uma conta" : "Inicie sessão"}
                 </h2>
-                <p className="mb-2 text-sm text-gray-600">
+                <p className="mb-6 text-sm text-center text-gray-600">
                   {isRegistering
                     ? "Para acessar recursos exclusivos, personalizar seu perfil e participar da nossa comunidade."
                     : "Acesse sua conta para explorar nossos conteúdos exclusivos, personalizar seu perfil e participar da nossa comunidade."}
@@ -622,7 +620,7 @@ const NavbarContent = () => {
 
 
                     <div className="border-t border-gray-100 mt-2 pt-2">
-                      <button type="button" onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-800 hover:bg-gray-50 transition">
+                      <button type="button" onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-800 hover:text-red-200 transition">
                         <LogOut className="w-4 h-4" />
                         <span>Terminar sessão</span>
                       </button>

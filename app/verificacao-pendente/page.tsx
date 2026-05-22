@@ -19,7 +19,7 @@ export default async function PendingVerificationPage({
           </p>
           <a
             href="/"
-            className="inline-block px-4 sm:px-6 py-2 sm:py-2.5 bg-blue-600 text-white text-sm sm:text-base rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-block px-4 sm:px-6 py-2 sm:py-2.5 bg-violet-600 text-white text-sm sm:text-base rounded hover:bg-violet-700 transition-colors"
           >
             Voltar
           </a>
