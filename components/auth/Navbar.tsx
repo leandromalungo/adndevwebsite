@@ -379,7 +379,7 @@ const NavbarContent = () => {
                 <Image src="/images-login.jpg" alt="Login Image" fill className="object-cover" />
                 <div className="absolute bottom-0 left-0 flex h-1/2 w-full flex-col justify-end bg-gradient-to-t from-black/90 to-transparent p-4 text-white">
                   <h2 className="mb-1 text-3xl font-bold">{isRegistering ? "Junte-se a Nós!" : "Bem-vindo!"}</h2>
-                  <p className="text-sm">Acesse conteúdos exclusivos e tendências em tecnologia.</p>
+                  <p className="text-sm">Ao hub que une as sector tecnológico lusofóno, acesse a sua conta e disfrute dos recursos disponíveis.</p>
                 </div>
               </div>
 
