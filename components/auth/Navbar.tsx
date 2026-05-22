@@ -376,7 +376,7 @@ const NavbarContent = () => {
               </button>
 
               <div className="relative hidden bg-gray-200 md:flex md:w-1/2">
-                <Image src="/images-login.png" alt="Login Image" fill className="object-cover" />
+                <Image src="/images-login.jpg" alt="Login Image" fill className="object-cover" />
                 <div className="absolute bottom-0 left-0 flex h-1/2 w-full flex-col justify-end bg-gradient-to-t from-black/90 to-transparent p-4 text-white">
                   <h2 className="mb-1 text-3xl font-bold">{isRegistering ? "Junte-se a Nós!" : "Bem-vindo!"}</h2>
                   <p className="text-sm">Acesse conteúdos exclusivos e tendências em tecnologia.</p>
