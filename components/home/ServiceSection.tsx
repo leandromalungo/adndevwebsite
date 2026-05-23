@@ -41,7 +41,7 @@ export const SectionHero: React.FC<ServicesSectionProps> = ({ services, }) => {
         />
 
         {services.map((service, index) => (
-          <FadeIn key={service.id} delay={index * 0.50} direction="up" className="h-full">
+          <FadeIn key={service.id} delay={index * 0.30} direction="up" className="h-full">
             <div className="h-full flex flex-col bg-[#111215]/85 backdrop-blur-md rounded-2xl border border-neutral-800/60 hover:border-violet-500/40 overflow-hidden shadow-lg hover:shadow-violet-500/10 transition-all duration-300 group relative">
 
               {/* TEXTURA EM XADREZ INTERNA (Opcional - caso queiras reforçar o efeito dentro do card) */}

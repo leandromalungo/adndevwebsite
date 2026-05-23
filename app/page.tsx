@@ -96,16 +96,16 @@ const Page = () => {
 
         {/* ÁREA DE CONTEÚDO E SERVIÇOS: Layout principal com serviços, visões e componentes de contacto */}
         <section className="relative z-10 bg-[#000000] flex flex-col items-center py-5 px-4 md:px-10 space-y-24">
-
           <ServiceSection services={servicesData} />
+        </section>
 
-
+        {/* ÁREA DE CONTEÚDO E SERVIÇOS: Layout principal com serviços, visões e componentes de contacto */}
+        <section className="relative z-10 bg-[#ffffff] flex flex-col items-center py-5 px-4 md:px-10 space-y-24">
+          <CardVideo />
         </section>
 
         <div className="relative z-10 bg-white w-full overflow-hidden">
           <SectionCall />
-
-          <CardVideo />
 
           <OpportunitiesSection />
 
