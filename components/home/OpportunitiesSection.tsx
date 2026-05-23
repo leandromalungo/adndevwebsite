@@ -99,7 +99,7 @@ export default function OpportunitiesSection() {
                                     </div>
 
                                     <div className="flex-grow">
-                                        <h3 className="text-xl font-semibold text-foreground group-hover:text-violet-600 transition-colors duration-300 flex items-center gap-2">
+                                        <h3 className="text-lG font-semibold text-foreground group-hover:text-violet-600 transition-colors duration-300 flex items-center gap-2">
                                             {item.title}
                                         </h3>
                                         <p className="mt-1 text-sm text-muted-foreground">

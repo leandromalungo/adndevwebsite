@@ -32,6 +32,7 @@ export default function App() {
 
                 {/* Center Content */}
                 <div className="z-10 text-center max-w-2xl px-4">
+                    
                     <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -39,7 +40,7 @@ export default function App() {
                         transition={{ duration: 0.6 }}
                         className="text-2xl md:text-4xl tracking-tight mb-6 leading-[1.1] text-[#212121] uppercase"
                     >
-                      transforme sua carreira!
+                        transforme sua carreira!
                     </motion.h1>
 
                     <motion.p

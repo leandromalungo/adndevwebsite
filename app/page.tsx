@@ -29,7 +29,7 @@ const Page = () => {
       description:
         "Workshops práticos liderados por especialistas da indústria para desenvolver habilidades técnicas de forma dinâmica.",
       imageUrl: "/images-card1.jpg",
-      link: "#",
+      link: "/events",
     },
     {
       id: 2,
@@ -37,7 +37,7 @@ const Page = () => {
       description:
         "Palestras com profissionais da área trazendo insights, tendências e networking estratégico.",
       imageUrl: "/images-card2.webp",
-      link: "#",
+      link: "/events",
     },
     {
       id: 3,
@@ -45,7 +45,7 @@ const Page = () => {
       description:
         "Oportunidades de bolsas com suporte financeiro e mentoria para impulsionar carreiras em tecnologia.",
       imageUrl: "/images-card3.webp",
-      link: "#",
+      link: "/bolsas",
     },
     {
       id: 4,
@@ -53,7 +53,7 @@ const Page = () => {
       description:
         "Desafios colaborativos para criar soluções inovadoras e acelerar aprendizado prático.",
       imageUrl: "/images-card4.webp",
-      link: "#",
+      link: "/events",
     },
     {
       id: 5,
@@ -62,7 +62,7 @@ const Page = () => {
         "Competições para testar habilidades e conquistar reconhecimento no cenário tecnológico.",
       imageUrl:
         "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop",
-      link: "#",
+      link: "/events",
     },
     {
       id: 6,
@@ -71,7 +71,7 @@ const Page = () => {
         "Avaliação técnica para desenvolver raciocínio lógico e solução de problemas em código.",
       imageUrl:
         "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop",
-      link: "#",
+      link: "/events",
     },
   ];
 
@@ -86,7 +86,7 @@ const Page = () => {
             <Hero />
           </div>
 
-        {/* Background ShaderGradient Absoluto: Contido dentro da secção hero, não afecta o scroll */}
+          {/* Background ShaderGradient Absoluto: Contido dentro da secção hero, não afecta o scroll */}
           <div className="absolute inset-0 z-0 pointer-events-none bg-black">
             <GradientBackground />
             {/* Camadas de Sobreposição (Overlays): Melhoram a legibilidade do texto sobre o fundo dinâmico */}
@@ -95,26 +95,28 @@ const Page = () => {
         </section>
 
         {/* ÁREA DE CONTEÚDO E SERVIÇOS: Layout principal com serviços, visões e componentes de contacto */}
-        <section className="relative z-10 bg-[#f7f8f9] flex flex-col items-center py-5 px-4 md:px-10 space-y-24">
+        <section className="relative z-10 bg-[#000000] flex flex-col items-center py-5 px-4 md:px-10 space-y-24">
 
           <ServiceSection services={servicesData} />
 
+
+        </section>
+
+        <div className="relative z-10 bg-white w-full overflow-hidden">
           <SectionCall />
 
           <CardVideo />
 
-          <Vision />
-        </section>
-
-        <div className="relative z-10 bg-white w-full overflow-hidden">
           <OpportunitiesSection />
-          
+
           <CTACardsContainer />
-          
+
+          <Vision />
+
           <FAQSection />
 
           <PartnersSection />
-          
+
           <Footer />
         </div>
       </main>

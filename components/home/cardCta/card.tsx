@@ -10,14 +10,8 @@ interface CTACardProps {
 
 const CTACard = ({ label, title, buttonText, backgroundImage, href }: CTACardProps) => {
   return (
-    <div
-      className="relative w-full h-80 md:h-96 lg:h-96 rounded-2xl overflow-hidden group cursor-pointer"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
+    <div className="relative w-full h-80 md:h-96 lg:h-96 rounded-2xl overflow-hidden group cursor-pointer"
+      style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       {/* Overlay escuro */}
       <div className="absolute inset-0 bg-black/75 transition-colors duration-300" />
 
