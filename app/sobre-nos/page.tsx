@@ -64,8 +64,9 @@ export default function SobreNosPage() {
 
     return (
         <div className="min-h-screen bg-[#0a0a0a] text-white overflow-hidden">
+
             {/* HERO + TEAM */}
-            <section className="relative overflow-hidden">
+            <section className="relative overfljow-hidden">
                 {/* Background */}
                 <div className="absolute inset-0">
                     <Image
@@ -80,6 +81,9 @@ export default function SobreNosPage() {
                 </div>
 
                 <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-28">
+                    {/* TEXTURA EM XADREZ INTERNA (Opcional - caso queiras reforçar o efeito dentro do card) */}
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:24px_24px] opacity-[0.07] pointer-events-none" />
+
                     {/* Hero */}
                     <div className="text-center max-w-5xl mx-auto">
                         <h1 className="mt-1 text-2xl sm:text-4xl md:text-5xl lg:text-7xl tracking-tight leading-none uppercase">

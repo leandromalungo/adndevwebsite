@@ -106,7 +106,7 @@ const Page = () => {
 
         <div className="relative z-10 bg-white w-full overflow-hidden">
           <SectionCall />
-
+        
           <OpportunitiesSection />
 
           <CTACardsContainer />
