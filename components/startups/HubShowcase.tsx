@@ -1,12 +1,8 @@
 "use client";
 
-import Image from 'next/image';
 import React, { useState } from 'react';
-import type { FilterTab } from '@/components/CountryFilter';
-
-interface HubShowcaseProps {
-  selectedCountry?: FilterTab;
-}
+import Image from 'next/image';
+import { ChevronDown } from 'lucide-react';
 
 interface AccordionItem {
   title: string;
@@ -28,7 +24,7 @@ const accordionData: AccordionItem[] = [
   },
   {
     title: "Acesse apoio e parcerias reais",
-    description: "Busque incubadoras, aceleradoras e redes como BAI Incuba, Startup Brasil, InovAtiva Brasil e Beta-i para mentoria, investimento e tração."
+    description: "Busque incubadoras, aceleradoras e redes como BAI Incuba, Startup Brasil, InovAtiva Brasil e Beta-i para mentoria, investmento e tração."
   },
   {
     title: "Formalize a operação",
@@ -40,75 +36,79 @@ const accordionData: AccordionItem[] = [
   }
 ];
 
-const HubShowcase: React.FC<HubShowcaseProps> = ({ selectedCountry }) => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(0);
+export default function HubShowcase() {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="bg-white py-24 px-6 md:px-12 lg:px-24">
-      <div className="container mx-auto">
-        {/* Cabeçalho */}
-        <div className="mb-6 sm:mb-8">
-          <h2 className="text-2xl lg:text-4xl xl:text-4xl text-gray-500 mb-3 sm:mb-4 uppercase">
-            Como criar uma startup?
-          </h2>
+    <section className="py-12 bg-gray-50/50 dark:bg-zinc-900/40 border-y border-gray-100 dark:border-zinc-800/50">
+       {/* TEXTURA EM XADREZ (GRID) - Aplicada de forma leve ao fundo do card */}
+        <div
+          className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 group-hover:opacity-[0.25] group-hover:bg-[linear-gradient(to_right,#8b5cf6_1px,transparent_1px),linear-gradient(to_bottom,#8b5cf6_1px,transparent_1px)] transition-all duration-500 pointer-events-none"
+        />
         
-        </div>
+        <div className="max-w-6xl mx-auto px-4">
+        
+        {/* items-stretch: Garante que ambas as colunas tenham alturas idênticas dinamicamente */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Esquerda: Acordeão */}
-          <div className="space-y-0 border-t border-gray-200">
-            {accordionData.map((item, index) => {
-              const isOpen = activeIndex === index;
-              return (
-                <div key={index} className="border-b border-gray-200">
-                  <button
-                    onClick={() => setActiveIndex(isOpen ? null : index)}
-                    className="w-full py-6 flex items-center justify-between text-left group focus:outline-none"
-                  >
-                    <span className={`text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-medium transition-colors ${isOpen ? 'text-gray-900' : 'text-violet-600'}`}>
-                      {item.title}
-                    </span>
-                    <div className="flex-shrink-0 ml-4">
-                      {isOpen ? (
-                        <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                        </svg>
-                      ) : (
-                        <svg className="w-5 h-5 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                        </svg>
-                      )}
+          {/* COLUNA ESQUERDA: Imagem que estica conforme o acordeão cresce */}
+          <div className="lg:col-span-5 relative w-full aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:h-full rounded-lg overflow-hidden shadow-md min-h-[300px]">
+            <Image
+              src="/stp1.jpg"
+              alt="Hub Showcase"
+              fill
+              sizes="(max-w-1024px) 100vw, 400px"
+              className="object-cover"
+              priority
+            />
+          </div>
+
+          {/* COLUNA DIREITA: Acordeão de Etapas do Ecossistema */}
+          <div className="lg:col-span-7 bg-white dark:bg-zinc-800 p-4 sm:p-5 border border-gray-100 dark:border-zinc-700/50 rounded-lg shadow-sm flex flex-col justify-between">
+            <div>
+              <div className="mb-4">
+                <h4 className="text-sm font-bold text-zinc-900 dark:text-white uppercase tracking-wider">
+                  Roadmap de Desenvolvimento
+                </h4>
+                <p className="text-[11px] text-gray-400 dark:text-zinc-500">
+                  Passo a passo estratégico para o mercado lusófono.
+                </p>
+              </div>
+
+              <div className="divide-y divide-gray-100 dark:divide-zinc-700/50">
+                {accordionData.map((item, idx) => {
+                  const isOpen = openIndex === idx;
+                  return (
+                    <div key={idx} className="py-2.5 first:pt-0 last:pb-0">
+                      <button
+                        type="button"
+                        onClick={() => setOpenIndex(isOpen ? null : idx)}
+                        className="w-full flex items-center justify-between gap-3 text-left font-medium text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors py-1 focus:outline-none"
+                      >
+                        <span className="flex items-center gap-2">
+                          <span className="text-[10px] font-mono text-gray-400 dark:text-zinc-500">0{idx + 1}</span>
+                          <span className={isOpen ? "font-bold text-indigo-600 dark:text-indigo-400" : ""}>{item.title}</span>
+                        </span>
+                        <ChevronDown className={`w-3.5 h-3.5 text-gray-400 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180 text-indigo-600' : ''}`} />
+                      </button>
+                      
+                      <div className={`grid transition-all duration-200 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100 mt-1.5' : 'grid-rows-[0fr] opacity-0'}`}>
+                        <div className="overflow-hidden">
+                          <p className="text-xs text-gray-500 dark:text-zinc-400 bg-gray-50/50 dark:bg-zinc-850/40 p-2.5 leading-relaxed border-l-2 border-indigo-500">
+                            {item.description}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  </button>
-                  <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-60 opacity-100 pb-6' : 'max-h-0 opacity-0'}`}>
-                    <p className="text-gray-600 leading-relaxed text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Direita: imagem stp1 */}
-          <div className="relative">
-            <div className="overflow-hidden rounded-lg shadow-2xl border border-gray-200 bg-white lg:translate-y-4 h-[420px] md:h-[480px]">
-              <Image
-                src="/stp1.jpg"
-                alt="STP1"
-                width={900}
-                height={600}
-                className="w-full h-full object-cover"
-              />
+                  );
+                })}
+              </div>
             </div>
-
-            {/* Acento de fundo */}
-            <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-violet-50 opacity-30 rounded-full blur-3xl pointer-events-none"></div>
           </div>
+
         </div>
+
       </div>
     </section>
   );
-};
-
-export default HubShowcase;
+}

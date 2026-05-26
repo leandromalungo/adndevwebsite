@@ -101,216 +101,86 @@ export const Hero = () => {
   };
 
   return (
-    <section className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col min-h-[75vh] md:min-h-[70vh] pt-28 sm:pt-32 md:pt-16 pb-12 md:pb-16 justify-center ">
-      <div className="max-w-5xl mx-auto text-center">
-        {/* TITULO */}
-        <h1 className="text-3xl font-semibold sm:text-5xl md:text-5xl lg:text-6xl xl:text-6xl leading-[2] mb-5 sm:mb-6 md:mb-8 lg:mb-10 tracking-tight text-gray-50 uppercase mt-12 ">
+    <section className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col min-h-[85vh] sm:min-h-[75vh] md:min-h-[70vh] pt-24 sm:pt-28 md:pt-32 pb-12 justify-center items-center">
+      <div className="max-w-5xl mx-auto text-center flex flex-col items-center">
+
+        {/* 1. TÍTULO */}
+        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-50 uppercase leading-tight sm:leading-tight md:leading-none max-w-4xl">
           Ecossistema de conteúdo, impulsionado por tecnologia
         </h1>
 
-        {/* INPUT PESQUISA */}
-        <div className="w-full max-w-3xl mx-auto mb-8">
-          <div className="relative group">
-            {/* glow */}
-            <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-500 to-violet-600 opacity-40 blur"/>
+        {/* 2. DESCRIÇÃO (Posicionada corretamente no topo para melhor leitura) */}
+        <p className="text-sm sm:text-base md:text-lg text-gray-300 mt-4 mb-6 sm:mb-8 leading-relaxed max-w-2xl mx-auto">
+          Somos um hub de conteúdo tecnológico lusófono definitivo para a sua carreira.
+          Encontre Comunidades, Roadmaps, dicas e suporte.
+        </p>
 
-            <div
-              className="relative flex items-center rounded-2xl border border-white/10 bg-black/50 backdrop-blur-xl overflow-hidden ">
-              <div className="pl-5">
-                <Search size={20} className="text-violet-300"/>
+        {/* 3. INPUT PESQUISA */}
+        <div className="w-full max-w-3xl mx-auto mb-6 sm:mb-8">
+          <div className="relative group">
+            {/* Efeito Glow Traseiro */}
+            <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-500 to-violet-600 opacity-40 blur transition-opacity duration-300 group-hover:opacity-60" />
+
+            <div className="relative flex items-center rounded-2xl border border-white/10 bg-black/50 backdrop-blur-xl overflow-hidden">
+              <div className="pl-4 sm:pl-5 shrink-0">
+                <Search size={20} className="text-violet-300 w-4 h-4 sm:w-5 sm:h-5" />
               </div>
 
               <input
                 type="text"
                 value={search}
-                onChange={(e) => setSearch(e.target.value) }
-                placeholder={ placeholders[placeholderIndex] }
-                className="w-full bg-transparent px-4 py-4 sm:py-5 text-sm sm:text-base lg:text-lg text-white placeholder:text-gray-400 outline-none "
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder={placeholders[placeholderIndex]}
+                className="w-full bg-transparent px-3 sm:px-4 py-3.5 sm:py-5 text-xs sm:text-sm md:text-base text-white placeholder:text-gray-400 outline-none"
                 aria-autocomplete="list"
               />
 
-              <button className="mr-2 border-l border-gray-50 px-4 sm:px-5 py-2.5 text-sm font-semibold text-white transition-all hover:text-violet-600 active:scale-95 "
+              <button
+                type="button"
+                className="mr-2 border-l border-white/20 px-3 sm:px-5 py-2 text-xs sm:text-sm font-semibold text-white transition-all hover:text-violet-400 active:scale-95 whitespace-nowrap"
                 onClick={async () => {
                   if (!isLoggedIn) {
                     router.push("/?auth=login");
                     return;
                   }
-                }} > Pesquisar </button>
+                }}
+              >
+                Pesquisar
+              </button>
             </div>
           </div>
         </div>
 
-        {/* DESCRIÇÃO */}
-        <p className="text-lg text-gray-300 mb-1 sm:mb-2 md:mb-3 lg:mb-4 leading-relaxed max-w-2xl mx-auto">
-          Somos um hub de conteúdo tecnológico lusófono
-          definitivo para a sua carreira. Encontre Comunidades, 
-          Roadmaps, dicas e suporte.
-        </p>
+        {/* 4. BOTÕES E TEXTOS INFERIORES */}
+        <div className="flex flex-col items-center gap-6 sm:gap-8 w-full">
+          <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4 items-center w-full sm:w-auto">
 
-        {/* BOTÕES */}
-        <div className="flex flex-col items-center gap-4 sm:gap-5 md:gap-6 lg:gap-8">
-          <div className="flex flex-row justify-center gap-2 md:gap-3 lg:gap-4 items-center w-full sm:w-auto ">
-            {/* BOTÃO PRINCIPAL */}
+            {/* BOTÃO PRINCIPAL (Condicional) */}
             {isLoggedIn ? (
               <button
                 type="button"
-                onClick={() =>
-                  setShowAppComingSoon(true)
-                }
-                className="
-                  group relative
-                  inline-flex items-center justify-center
-                  px-3 sm:px-8 lg:px-10
-                  py-3 sm:py-5
-                  rounded-2xl
-                  border-2 border-violet-700
-                  bg-gradient-to-br
-                  from-neutral-950/80
-                  via-neutral-900/90
-                  to-black/90
-                  text-white
-                  font-bold
-                  text-[11px] sm:text-base lg:text-lg
-                  shadow-xl
-                  transition-all duration-300 ease-out
-                  hover:shadow-violet-600/40
-                  hover:shadow-xl
-                  hover:border-violet-600/70
-                  active:scale-95
-                  overflow-hidden
-                  flex-1 sm:flex-none
-                "
+                onClick={() => setShowAppComingSoon(true)}
+                className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl border border-violet-700 bg-gradient-to-br from-neutral-950/80 via-neutral-900/90 to-black/90 text-white font-bold text-xs sm:text-sm md:text-base shadow-xl transition-all duration-300 ease-out hover:shadow-violet-600/20 hover:border-violet-600 active:scale-95 overflow-hidden w-full sm:w-auto min-w-[180px]"
               >
-                <div
-                  className="
-                    absolute inset-0
-                    bg-gradient-to-r
-                    from-transparent
-                    via-violet-400/30
-                    to-transparent
-                    -translate-x-full
-                    group-hover:translate-x-full
-                    transition-transform
-                    duration-1000
-                    ease-out
-                  "
-                />
-
-                <div
-                  className="
-                    absolute inset-0 rounded-2xl
-                    bg-gradient-to-r
-                    from-violet-600/10
-                    via-violet-400/20
-                    to-violet-600/10
-                    opacity-0
-                    group-hover:opacity-100
-                    transition-opacity duration-500
-                  "
-                />
-
-                <span
-                  className="
-                    relative z-10
-                    flex items-center
-                    gap-1.5 sm:gap-2
-                    whitespace-nowrap
-                  "
-                >
-                  <Smartphone size={16} />
-
-                  <span className="hidden sm:inline">
-                    Baixar o aplicativo
-                  </span>
-
-                  <span className="sm:hidden">
-                    Baixar o Aplicativo
-                  </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-400/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+                <span className="relative z-10 flex items-center justify-center gap-2 whitespace-nowrap">
+                  <Smartphone size={16} className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span>Baixar o aplicativo</span>
                 </span>
               </button>
             ) : (
               <button
                 type="button"
-                onClick={() =>
-                  handleClick("assinar")
-                }
+                onClick={() => handleClick("assinar")}
                 disabled={loadingButton !== null}
-                className="
-                  group relative
-                  inline-flex items-center justify-center
-                  px-3 sm:px-10 lg:px-12
-                  py-3 sm:py-5
-                  rounded-lg
-                  border-2 border-violet-500/50
-                  bg-gradient-to-br
-                  from-violet-900/80
-                  via-indigo-950/90
-                  to-black/90
-                  text-white
-                  font-bold
-                  text-[11px] sm:text-lg lg:text-xl
-                  shadow-xl
-                  transition-all duration-300 ease-out
-                  hover:shadow-violet-500/40
-                  hover:shadow-xl
-                  hover:border-violet-400/70
-                  active:scale-95
-                  disabled:opacity-70
-                  disabled:cursor-not-allowed
-                  w-1/2 sm:w-auto
-                  overflow-hidden
-                "
+                className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl border border-violet-500/40 bg-gradient-to-br from-violet-900/60 via-indigo-950/80 to-black/90 text-white font-bold text-xs sm:text-sm md:text-base shadow-xl transition-all duration-300 ease-out hover:shadow-violet-500/20 hover:border-violet-400/70 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto min-w-[200px] overflow-hidden"
               >
-                <div
-                  className="
-                    absolute inset-0
-                    bg-gradient-to-r
-                    from-transparent
-                    via-violet-400/30
-                    to-transparent
-                    -translate-x-full
-                    group-hover:translate-x-full
-                    transition-transform
-                    duration-1000
-                    ease-out
-                  "
-                />
-
-                <div
-                  className="
-                    absolute inset-0 rounded-2xl
-                    bg-gradient-to-r
-                    from-violet-500/10
-                    via-violet-400/20
-                    to-violet-500/10
-                    opacity-0
-                    group-hover:opacity-100
-                    transition-opacity duration-500
-                  "
-                />
-
-                <span
-                  className="
-                    relative z-10
-                    flex items-center
-                    gap-1 sm:gap-2
-                    whitespace-nowrap
-                  "
-                >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-400/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+                <span className="relative z-10 flex items-center justify-center gap-2 whitespace-nowrap">
                   {loadingButton === "assinar" ? (
                     <>
-                      <Loader2
-                        size={16}
-                        className="animate-spin"
-                      />
-
-                      <span className="hidden sm:inline">
-                        Carregando...
-                      </span>
-
-                      <span className="sm:hidden">
-                        Aguarde...
-                      </span>
+                      <Loader2 size={16} className="animate-spin" />
+                      <span>Aguarde...</span>
                     </>
                   ) : (
                     "Inscrever-se no portal"
@@ -319,48 +189,17 @@ export const Hero = () => {
               </button>
             )}
 
-            {/* SOBRE NÓS */}
+            {/* BOTÃO SECUNDÁRIO (Sobre Nós) */}
             <button
               type="button"
               onClick={() => handleClick("area")}
               disabled={loadingButton !== null}
-              className="
-                group relative
-                inline-flex h-12
-                items-center justify-center
-                overflow-hidden
-                rounded-md
-                border-2 border-violet-200
-                bg-transparent
-                px-10
-                font-bold
-                text-white
-                transition-all duration-100
-                [box-shadow:5px_5px_rgb(124,58,237)]
-                hover:translate-x-[3px]
-                hover:translate-y-[3px]
-                hover:[box-shadow:0px_0px_rgb(124,58,237)]
-                active:scale-95
-                disabled:opacity-70
-                disabled:cursor-not-allowed
-                w-1/2 sm:w-auto
-                whitespace-nowrap
-              "
+              className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl border border-zinc-700 bg-zinc-900/50 hover:bg-zinc-900 text-white font-bold text-xs sm:text-sm md:text-base shadow-md hover:border-zinc-500 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto min-w-[160px] whitespace-nowrap"
             >
               {loadingButton === "area" ? (
-                <span className="inline-flex items-center gap-1 sm:gap-2">
-                  <Loader2
-                    size={16}
-                    className="animate-spin"
-                  />
-
-                  <span className="hidden sm:inline">
-                    Processando...
-                  </span>
-
-                  <span className="sm:hidden">
-                    Aguarde...
-                  </span>
+                <span className="inline-flex items-center justify-center gap-2">
+                  <Loader2 size={16} className="animate-spin" />
+                  <span>Aguarde...</span>
                 </span>
               ) : (
                 "Sobre Nós"
@@ -368,30 +207,12 @@ export const Hero = () => {
             </button>
           </div>
 
-          {/* TEXTO INFERIOR */}
-          <p
-            className="
-              hidden lg:block
-              text-[10px]
-              text-gray-100
-              font-medium
-              max-w-3xl
-              mt-1
-              mx-auto
-              text-center
-            "
-          >
-            Não perca tempo! Junte-se a nós e esteja
-            com profissionais de tecnologia que já
-            estão a transformar suas carreiras com
-            nossos recursos exclusivos. Este site não
-            possui parceria oficial com os eventos,
-            cursos, comunidades, projectos, bolsas e
-            entidades aqui divulgadas. Fornecemos
-            informações sobre o sector tecnologia e
-            muito mais na lusofonia. Para qualquer
-            esclarecimento, entre em contacto
-            connosco.
+          {/* TEXTO INFERIOR (Aviso Geral / Disclaimer) */}
+          <p className="hidden lg:block text-[11px] text-gray-400 font-medium max-w-3xl mt-2 mx-auto text-center leading-relaxed">
+            Não perca tempo! Junte-se a nós e esteja com profissionais de tecnologia que já estão a transformar
+            suas carreiras com nossos recursos exclusivos. Este site não possui parceria oficial com os eventos,
+            cursos, comunidades, projectos, bolsas e entidades aqui divulgadas. Fornecemos informações sobre o
+            sector tecnologia e muito mais na lusofonia. Para qualquer esclarecimento, entre em contacto connosco.
           </p>
         </div>
       </div>

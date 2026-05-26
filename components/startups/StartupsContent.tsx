@@ -7,11 +7,14 @@ import Matchmaking from "@/components/startups/Matchmaking";
 import HubShowcase from "@/components/startups/HubShowcase";
 import Navbar from "@/components/auth/Navbar";
 import Footer from "@/components/Footer";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Smartphone } from "lucide-react";
 import { FadeIn } from "@/components/ui/fade-in";
 
 const StartupsContent = () => {
   const router = useRouter();
+
+  // Caso pretendas controlar o estado logado futuramente para manter o padrão das outras páginas
+  const isLoggedIn = false; 
 
   const handleClick = () => {
     // Auth Removed
@@ -21,43 +24,58 @@ const StartupsContent = () => {
     <>
       <Navbar />
 
-      {/* SEÇÃO COM FUNDO E CTA */}
-      <section className="relative overflow-hidden bg-zinc-900">
+      {/* SEÇÃO COM FUNDO E CTA - INTEGRADA E RESPONSIVA */}
+      <section className="relative overflow-hidden bg-zinc-950">
         {/* FUNDO COM IMAGEM */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url('/images-startupers.webp')` }}
         >
-          {/* OVERLAY / GRADIENT */}
-          <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
+          {/* OVERLAY INTELIGENTE: Melhora o contraste no mobile e suaviza no desktop */}
+          <div className="absolute inset-0 bg-zinc-950/75 sm:bg-gradient-to-r sm:from-zinc-950 sm:via-zinc-950/80 sm:to-transparent" />
         </div>
 
-        {/* CONTEÚDO */}
-        <div className="relative z-20 max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-20 md:py-24 flex flex-col justify-center lg:items-center lg:text-center">
-          <div className="max-w-md mx-auto lg:mx-0">
-            <h2 className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-bold text-white mt-8 md:mt-12 lg:mt-14 mb-3 leading-tight uppercase">
-              O que é uma startup?
-            </h2>
+        {/* CONTEÚDO CENTRALIZADO EM TODAS AS TELAS */}
+        <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-12 lg:px-16 py-16 sm:py-20 md:py-24 flex flex-col items-center justify-center text-center">
+          
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mt-4 sm:mt-6 mb-3 tracking-tight uppercase max-w-xl">
+            O que é uma startup?
+          </h2>
 
-            <p className="text-gray-100 mb-2 md:mb-5 text-xs sm:text-sm md:text-base">
-              Uma startup é uma empresa jovem que usa tecnologia para resolver um
-              problema real de forma escalável e repetível. Aqui reunimos programas,
-              mentoria e conexões para o ecossistema empreendedor lusófono.
-            </p>
+          <p className="text-zinc-200 mb-6 sm:mb-8 text-sm sm:text-base max-w-xl leading-relaxed">
+            Uma startup é uma empresa jovem que usa tecnologia para resolver um
+            problema real de forma escalável e repetível. Aqui reunimos programas,
+            mentoria e conexões para o ecossistema empreendedor lusófono.
+          </p>
 
+          {isLoggedIn ? (
             <button
-              onClick={handleClick}
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-neutral-950 px-4 sm:px-5 md:px-6 lg:px-7 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base text-neutral-50 active:scale-95 transition-transform shadow-lg w-fit border border-violet-700"
+              type="button"
+              onClick={() => {}}
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-neutral-950 px-5 sm:px-6 md:px-7 py-2.5 sm:py-3 text-xs sm:text-sm md:text-base text-neutral-50 active:scale-95 transition-transform shadow-lg w-fit border border-violet-700"
             >
-              <span className="relative z-10 flex items-center gap-2">
-                Conheça oportunidades
-                <ArrowRight size={16} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
+              <span className="relative z-10 flex items-center gap-2 font-medium">
+                <Smartphone className="w-4 h-4 md:w-5 md:h-5" />
+                Baixar o aplicativo
               </span>
               <span className="absolute inset-0 overflow-hidden rounded-md">
                 <span className="absolute left-0 aspect-square w-full origin-center -translate-x-full rounded-full bg-violet-600 transition-all duration-500 group-hover:-translate-x-0 group-hover:scale-150"></span>
               </span>
             </button>
-          </div>
+          ) : (
+            <button
+              onClick={handleClick}
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-neutral-950 px-5 sm:px-6 md:px-7 py-2.5 sm:py-3 text-xs sm:text-sm md:text-base text-neutral-50 active:scale-95 transition-transform shadow-lg w-fit border border-violet-700"
+            >
+              <span className="relative z-10 flex items-center gap-2 font-medium">
+                Conheça oportunidades
+                <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+              </span>
+              <span className="absolute inset-0 overflow-hidden rounded-md">
+                <span className="absolute left-0 aspect-square w-full origin-center -translate-x-full rounded-full bg-violet-600 transition-all duration-500 group-hover:-translate-x-0 group-hover:scale-150"></span>
+              </span>
+            </button>
+          )}
         </div>
       </section>
 
