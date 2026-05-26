@@ -18,7 +18,7 @@ export default function SeletorFiltros({ activeTab, setActiveTab }: SeletorFiltr
           onClick={() => setActiveTab('bolsas')}
           className={`w-full px-4 py-3 text-xs sm:text-sm font-semibold border rounded-lg transition-all text-center flex flex-col items-center justify-center gap-1 min-h-[60px] sm:min-h-[70px]
             ${activeTab === 'bolsas' 
-              ? 'border-blue-600 bg-blue-50 text-blue-700 ring-2 ring-blue-100 shadow-sm' 
+              ? 'border-violet-600 bg-violet-50 text-violet-700 ring-2 ring-violet-100 shadow-sm' 
               : 'border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-gray-900'}
           `}
         >
@@ -32,7 +32,7 @@ export default function SeletorFiltros({ activeTab, setActiveTab }: SeletorFiltr
           onClick={() => setActiveTab('intercambio')}
           className={`w-full px-4 py-3 text-xs sm:text-sm font-semibold border rounded-lg transition-all text-center flex flex-col items-center justify-center gap-1 min-h-[60px] sm:min-h-[70px]
             ${activeTab === 'intercambio' 
-              ? 'border-blue-600 bg-blue-50 text-blue-700 ring-2 ring-blue-100 shadow-sm' 
+              ? 'border-violet-600 bg-violet-50 text-violet-700 ring-2 ring-violet-100 shadow-sm' 
               : 'border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-gray-900'}
           `}
         >
@@ -46,7 +46,7 @@ export default function SeletorFiltros({ activeTab, setActiveTab }: SeletorFiltr
           onClick={() => setActiveTab('cursos')}
           className={`w-full px-4 py-3 text-xs sm:text-sm font-semibold border rounded-lg transition-all text-center flex flex-col items-center justify-center gap-1 min-h-[60px] sm:min-h-[70px]
             ${activeTab === 'cursos' 
-              ? 'border-blue-600 bg-blue-50 text-blue-700 ring-2 ring-blue-100 shadow-sm' 
+              ? 'border-violet-600 bg-violet-50 text-violet-700 ring-2 ring-violet-100 shadow-sm' 
               : 'border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-gray-900'}
           `}
         >
@@ -60,7 +60,7 @@ export default function SeletorFiltros({ activeTab, setActiveTab }: SeletorFiltr
           onClick={() => setActiveTab('bootcamps')}
           className={`w-full px-4 py-3 text-xs sm:text-sm font-semibold border rounded-lg transition-all text-center flex flex-col items-center justify-center gap-1 min-h-[60px] sm:min-h-[70px]
             ${activeTab === 'bootcamps' 
-              ? 'border-blue-600 bg-blue-50 text-blue-700 ring-2 ring-blue-100 shadow-sm' 
+              ? 'border-violet-600 bg-violet-50 text-violet-700 ring-2 ring-violet-100 shadow-sm' 
               : 'border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-gray-900'}
           `}
         >

@@ -324,7 +324,7 @@ export default function SobreNosPage() {
                                                     href={member.linkedin}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="w-10 h-10 rounded-full bg-white/10 hover:bg-blue-500 transition-colors duration-300 flex items-center justify-center"
+                                                    className="w-10 h-10 rounded-full bg-white/10 hover:bg-violet-500 transition-colors duration-300 flex items-center justify-center"
                                                 >
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"

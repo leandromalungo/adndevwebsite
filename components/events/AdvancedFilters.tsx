@@ -1,332 +1,270 @@
-'use client';
+"use client";
 
-import React, { useState, useMemo } from 'react';
-import { ChevronDown } from 'lucide-react';
-import { getCountries, getStatesByCountry, EVENT_CATEGORIES } from '@/data/locationsData';
+import React, { useState } from "react";
+import { ChevronDown } from "lucide-react";
 
-interface AdvancedFiltersProps {
+type DateType = "" | "passados" | "atuais";
+
+interface FilterSectionProps {
   searchQuery: string;
-  setSearchQuery: (val: string) => void;
+  setSearchQuery: (value: string) => void;
   selectedCountry: string;
-  setSelectedCountry: (val: string) => void;
+  setSelectedCountry: (value: string) => void;
   selectedState: string;
-  setSelectedState: (val: string) => void;
-  selectedCategories: string[];
-  setSelectedCategories: (val: string[]) => void;
+  setSelectedState: (value: string) => void;
   selectedMonth: string;
-  setSelectedMonth: (val: string) => void;
-  selectedDateType: "" | "passados" | "atuais";
-  setSelectedDateType: (val: "" | "passados" | "atuais") => void;
-  isOnline: boolean;
-  setIsOnline: (val: boolean) => void;
+  setSelectedMonth: (value: string) => void;
+  selectedDateType: DateType;
+  setSelectedDateType: (value: DateType) => void;
+  countries: string[];
+  states: string[];
+  EVENT_CATEGORIES: string[];
+  MONTH_OPTIONS: string[];
+  className?: string;
 }
 
-const MONTH_OPTIONS = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
-const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
+export const FilterSection: React.FC<FilterSectionProps> = ({
   searchQuery,
   setSearchQuery,
   selectedCountry,
   setSelectedCountry,
   selectedState,
   setSelectedState,
-  selectedCategories,
-  setSelectedCategories,
   selectedMonth,
   setSelectedMonth,
   selectedDateType,
   setSelectedDateType,
+  countries,
+  states,
+  EVENT_CATEGORIES,
+  MONTH_OPTIONS,
+  className = "",
 }) => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
-  const countries = useMemo(() => getCountries(), []);
-  const states = useMemo(
-    () => (selectedCountry ? getStatesByCountry(selectedCountry) : []),
-    [selectedCountry]
-  );
-
-  const toggleCategory = (category: string) => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories(selectedCategories.filter((item) => item !== category));
-    } else {
-      setSelectedCategories([...selectedCategories, category]);
-    }
-  };
-
   return (
-    <div className="bg-white p-3 sm:p-4 rounded-lg border border-gray-200 space-y-3 sm:space-y-4">
-      
-      {/* Ajuste definitivo aqui: Adicionado 'w-full' para o container ocupar toda a largura,
-        permitindo que o 'justify-center' jogue os filtros para o meio exato do card.
-      */}
-      <div className="flex flex-wrap items-end justify-center w-full gap-2 sm:gap-3">
+    <div className={`w-full py-1.5 advanced-filters ${className}`}>
+      <div className="max-w-7xl mx-auto px-2 sm:px-4">
+        
+        {/* Container Flex Centralizado - Junta os botões ao centro eliminando o vácuo */}
+        <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 w-full pt-1 pb-2">
 
-        {/* Tipo de Evento */}
-        <div className="relative min-w-[140px] sm:min-w-[180px]">
-          <label className="block text-xs sm:text-xs font-semibold text-gray-600 mb-1 text-center">
-            Tipo de Evento
-          </label>
-          <button
-            onClick={() => setOpenDropdown(openDropdown === 'eventType' ? null : 'eventType')}
-            className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm border border-gray-300 rounded flex items-center justify-between bg-white"
-          >
-            <span className={searchQuery.length > 0 ? 'text-gray-900' : 'text-gray-400'}>
-              {searchQuery.length > 0 ? `${searchQuery.split(',').length} selecionado(s)` : 'Selecionar'}
-            </span>
-            <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
-          </button>
+          {/* 1. Tipo de Evento */}
+          <div className="relative w-[110px] sm:w-[130px]">
+            <button
+              type="button"
+              onClick={() => setOpenDropdown(openDropdown === 'eventType' ? null : 'eventType')}
+              className="w-full px-2 py-1.5 text-[11px] sm:text-xs border border-gray-200 dark:border-zinc-700 rounded-md flex items-center justify-between bg-white dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 transition-colors hover:bg-gray-50 dark:hover:bg-zinc-750 focus:outline-none"
+            >
+              <span className={`truncate text-left flex-1 ${searchQuery.length > 0 ? 'text-zinc-900 dark:text-white font-semibold' : 'text-gray-400 dark:text-zinc-500'}`}>
+                {searchQuery.length > 0 ? `${searchQuery.split(',').length} sel.` : 'Tipo de Evento'}
+              </span>
+              <ChevronDown className="w-3 h-3 text-gray-400 dark:text-zinc-500 shrink-0 ml-1.5" />
+            </button>
 
-          {openDropdown === 'eventType' && (
-            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded shadow">
-              <div className="flex items-center justify-between px-2 sm:px-3 py-2 text-xs sm:text-sm border-b border-gray-100">
-                <span className="font-medium">Tipos de eventos</span>
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery('')}
-                  className="text-blue-600 hover:underline"
-                >
-                  Limpar
-                </button>
+            {openDropdown === 'eventType' && (
+              <div className="absolute z-50 mt-1 w-full bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-lg min-w-[150px] left-0">
+                <div className="flex items-center justify-between px-2 py-1 text-[10px] border-b border-gray-100 dark:border-zinc-700">
+                  <span className="font-semibold text-gray-600 dark:text-zinc-400">Selecione</span>
+                  <button type="button" onClick={() => setSearchQuery('')} className="text-violet-600 dark:text-violet-400 hover:underline">Limpar</button>
+                </div>
+                <div className="max-h-44 overflow-y-auto custom-scrollbar">
+                  {EVENT_CATEGORIES.map((category) => (
+                    <label key={category} className="flex items-center gap-1.5 w-full px-2 py-1 text-[11px] cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-700/50 transition-colors">
+                      <input
+                        type="checkbox"
+                        checked={searchQuery.includes(category)}
+                        onChange={() => {
+                          const categories = searchQuery ? searchQuery.split(',') : [];
+                          if (categories.includes(category)) {
+                            setSearchQuery(categories.filter(c => c !== category).join(','));
+                          } else {
+                            setSearchQuery([...categories, category].join(','));
+                          }
+                        }}
+                        className="w-3 h-3 rounded border-gray-300 dark:border-zinc-600 text-zinc-900 focus:ring-zinc-500/40 shrink-0"
+                      />
+                      <span className="text-left truncate text-gray-700 dark:text-zinc-300">{category}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
-              <div className="max-h-52 overflow-y-auto">
-                {EVENT_CATEGORIES.map((category) => (
-                  <label
-                    key={category}
-                    className="flex items-center gap-2 w-full px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm cursor-pointer hover:bg-gray-50"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={searchQuery.includes(category)}
-                      onChange={() => {
-                        const categories = searchQuery ? searchQuery.split(',') : [];
-                        if (categories.includes(category)) {
-                          setSearchQuery(categories.filter(c => c !== category).join(','));
-                        } else {
-                          setSearchQuery([...categories, category].join(','));
-                        }
-                      }}
-                      className="w-3 h-3 sm:w-4 sm:h-4"
-                    />
-                    <span className="text-left">{category}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
 
-        {/* País */}
-        <div className="relative min-w-[140px] sm:min-w-[180px]">
-          <label className="block text-xs sm:text-xs font-semibold text-gray-600 mb-1 text-center">
-            País
-          </label>
-          <button
-            onClick={() => setOpenDropdown(openDropdown === 'country' ? null : 'country')}
-            className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm border border-gray-300 rounded flex items-center justify-between bg-white"
-          >
-            <span className={selectedCountry ? 'text-gray-900' : 'text-gray-400'}>
-              {selectedCountry || 'Selecionar'}
-            </span>
-            <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
-          </button>
+          {/* 2. País */}
+          <div className="relative w-[110px] sm:w-[130px]">
+            <button
+              type="button"
+              onClick={() => setOpenDropdown(openDropdown === 'country' ? null : 'country')}
+              className="w-full px-2 py-1.5 text-[11px] sm:text-xs border border-gray-200 dark:border-zinc-700 rounded-md flex items-center justify-between bg-white dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 transition-colors hover:bg-gray-50 dark:hover:bg-zinc-750 focus:outline-none"
+            >
+              <span className={`truncate text-left flex-1 ${selectedCountry ? 'text-zinc-900 dark:text-white font-semibold' : 'text-gray-400 dark:text-zinc-500'}`}>
+                {selectedCountry || 'País'}
+              </span>
+              <ChevronDown className="w-3 h-3 text-gray-400 dark:text-zinc-500 shrink-0 ml-1.5" />
+            </button>
 
-          {openDropdown === 'country' && (
-            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded shadow">
-              <div className="max-h-48 overflow-y-auto">
-                <button
-                  onClick={() => {
-                    setSelectedCountry('');
-                    setSelectedState('');
-                    setOpenDropdown(null);
-                  }}
-                  className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-left text-xs sm:text-sm hover:bg-gray-50"
-                >
-                  Todos os países
-                </button>
-                {countries.map(country => (
+            {openDropdown === 'country' && (
+              <div className="absolute z-50 mt-1 w-full bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-lg min-w-[150px] left-0">
+                <div className="max-h-44 overflow-y-auto custom-scrollbar">
                   <button
-                    key={country}
-                    onClick={() => {
-                      setSelectedCountry(country);
-                      setSelectedState('');
-                      setOpenDropdown(null);
-                    }}
-                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-left text-xs sm:text-sm hover:bg-gray-50"
+                    type="button"
+                    onClick={() => { setSelectedCountry(''); setSelectedState(''); setOpenDropdown(null); }}
+                    className="w-full px-2 py-1 text-left text-[11px] hover:bg-gray-50 dark:hover:bg-zinc-700/50 text-gray-400 italic border-b border-gray-50 dark:border-zinc-700/30"
                   >
-                    {country}
+                    Todos os países
                   </button>
-                ))}
+                  {countries.map(country => (
+                    <button
+                      type="button"
+                      key={country}
+                      onClick={() => { setSelectedCountry(country); setSelectedState(''); setOpenDropdown(null); }}
+                      className="w-full px-2 py-1 text-left text-[11px] hover:bg-gray-50 dark:hover:bg-zinc-700/50 text-gray-700 dark:text-zinc-300 truncate block"
+                    >
+                      {country}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
 
-        {/* Estado */}
-        <div className="relative min-w-[140px] sm:min-w-[180px]">
-          <label className="block text-xs sm:text-xs font-semibold text-gray-600 mb-1 text-center">
-            Estado / Província
-          </label>
-          <button
-            disabled={!selectedCountry}
-            onClick={() => setOpenDropdown(openDropdown === 'state' ? null : 'state')}
-            className={`w-full px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm border rounded flex items-center justify-between
-              ${selectedCountry ? 'border-gray-300 bg-white' : 'border-gray-200 bg-gray-100 cursor-not-allowed'}
-            `}
-          >
-            <span className={selectedState ? 'text-gray-900' : 'text-gray-400'}>
-              {selectedState || 'Selecionar'}
-            </span>
-            <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
-          </button>
+          {/* 3. Estado / Província */}
+          <div className="relative w-[110px] sm:w-[130px]">
+            <button
+              type="button"
+              disabled={!selectedCountry}
+              onClick={() => setOpenDropdown(openDropdown === 'state' ? null : 'state')}
+              className={`w-full px-2 py-1.5 text-[11px] sm:text-xs border rounded-md flex items-center justify-between transition-colors focus:outline-none
+                ${selectedCountry 
+                  ? 'border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 hover:bg-gray-50 dark:hover:bg-zinc-750' 
+                  : 'border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-850 text-gray-300 dark:text-zinc-600 cursor-not-allowed'}
+              `}
+            >
+              <span className={`truncate text-left flex-1 ${selectedState ? 'text-zinc-900 dark:text-white font-semibold' : 'text-gray-400 dark:text-zinc-500'}`}>
+                {selectedState || 'Estado/Província'}
+              </span>
+              <ChevronDown className="w-3 h-3 text-gray-400 dark:text-zinc-500 shrink-0 ml-1.5" />
+            </button>
 
-          {openDropdown === 'state' && selectedCountry && (
-            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded shadow">
-              <div className="max-h-48 overflow-y-auto">
-                {states.map(state => (
+            {openDropdown === 'state' && selectedCountry && (
+              <div className="absolute z-50 mt-1 w-full bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-lg min-w-[150px] left-0">
+                <div className="max-h-44 overflow-y-auto custom-scrollbar">
+                  {states.map(state => (
+                    <button
+                      type="button"
+                      key={state}
+                      onClick={() => { setSelectedState(state); setOpenDropdown(null); }}
+                      className="w-full px-2 py-1 text-left text-[11px] hover:bg-gray-50 dark:hover:bg-zinc-700/50 text-gray-700 dark:text-zinc-300 truncate block"
+                    >
+                      {state}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* 4. Mês */}
+          <div className="relative w-[110px] sm:w-[130px]">
+            <button
+              type="button"
+              onClick={() => setOpenDropdown(openDropdown === 'month' ? null : 'month')}
+              className="w-full px-2 py-1.5 text-[11px] sm:text-xs border border-gray-200 dark:border-zinc-700 rounded-md flex items-center justify-between bg-white dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 transition-colors hover:bg-gray-50 dark:hover:bg-zinc-750 focus:outline-none"
+            >
+              <span className={`truncate text-left flex-1 ${selectedMonth ? 'text-zinc-900 dark:text-white font-semibold' : 'text-gray-400'}`}>
+                {selectedMonth || 'Mês'}
+              </span>
+              <ChevronDown className="w-3 h-3 text-gray-400 dark:text-zinc-500 shrink-0 ml-1.5" />
+            </button>
+
+            {openDropdown === 'month' && (
+              <div className="absolute z-50 mt-1 w-full bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-lg min-w-[150px] left-0">
+                <div className="max-h-44 overflow-y-auto custom-scrollbar">
                   <button
-                    key={state}
-                    onClick={() => {
-                      setSelectedState(state);
-                      setOpenDropdown(null);
-                    }}
-                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-left text-xs sm:text-sm hover:bg-gray-50"
+                    type="button"
+                    onClick={() => { setSelectedMonth(''); setOpenDropdown(null); }}
+                    className="w-full px-2 py-1 text-left text-[11px] hover:bg-gray-50 dark:hover:bg-zinc-700/50 text-gray-400 italic border-b border-gray-50 dark:border-zinc-700/30"
                   >
-                    {state}
+                    Todos os meses
                   </button>
-                ))}
+                  {MONTH_OPTIONS.map((month) => (
+                    <button
+                      type="button"
+                      key={month}
+                      onClick={() => { setSelectedMonth(month); setOpenDropdown(null); }}
+                      className="w-full px-2 py-1 text-left text-[11px] hover:bg-gray-50 dark:hover:bg-zinc-700/50 text-gray-700 dark:text-zinc-300 truncate block"
+                    >
+                      {month}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
 
-        {/* Mês */}
-        <div className="relative min-w-[140px] sm:min-w-[180px]">
-          <label className="block text-xs sm:text-xs font-semibold text-gray-600 mb-1 text-center">
-            Mês
-          </label>
-          <button
-            onClick={() => setOpenDropdown(openDropdown === 'month' ? null : 'month')}
-            className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm border border-gray-300 rounded flex items-center justify-between bg-white"
-          >
-            <span className={selectedMonth ? 'text-gray-900' : 'text-gray-400'}>
-              {selectedMonth || 'Selecionar'}
-            </span>
-            <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
-          </button>
+          {/* 5. Data */}
+          <div className="relative w-[110px] sm:w-[130px]">
+            <button
+              type="button"
+              onClick={() => setOpenDropdown(openDropdown === 'date' ? null : 'date')}
+              className="w-full px-2 py-1.5 text-[11px] sm:text-xs border border-gray-200 dark:border-zinc-700 rounded-md flex items-center justify-between bg-white dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 transition-colors hover:bg-gray-50 dark:hover:bg-zinc-750 focus:outline-none"
+            >
+              <span className={`truncate text-left flex-1 ${selectedDateType ? 'text-zinc-900 dark:text-white font-semibold' : 'text-gray-400'}`}>
+                {selectedDateType === 'passados' ? 'Passados' : selectedDateType === 'atuais' ? 'Atuais/Fut.' : 'Data'}
+              </span>
+              <ChevronDown className="w-3 h-3 text-gray-400 dark:text-zinc-500 shrink-0 ml-1.5" />
+            </button>
 
-          {openDropdown === 'month' && (
-            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded shadow">
-              <div className="max-h-48 overflow-y-auto">
-                <button
-                  onClick={() => {
-                    setSelectedMonth('');
-                    setOpenDropdown(null);
-                  }}
-                  className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-left text-xs sm:text-sm hover:bg-gray-50"
-                >
-                  Todos os meses
-                </button>
-                {MONTH_OPTIONS.map((month) => (
+            {openDropdown === 'date' && (
+              <div className="absolute z-50 mt-1 w-full bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-lg min-w-[150px] right-0 sm:left-0">
+                <div className="flex items-center justify-between px-2 py-1 text-[10px] border-b border-gray-100 dark:border-zinc-700">
+                  <span className="font-semibold text-gray-600 dark:text-zinc-400">Filtrar por data</span>
+                  <button type="button" onClick={() => setSelectedDateType('')} className="text-violet-600 dark:text-violet-400 hover:underline">Limpar</button>
+                </div>
+                <div className="max-h-44 overflow-y-auto custom-scrollbar">
                   <button
-                    key={month}
-                    onClick={() => {
-                      setSelectedMonth(month);
-                      setOpenDropdown(null);
-                    }}
-                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-left text-xs sm:text-sm hover:bg-gray-50"
+                    type="button"
+                    onClick={() => { setSelectedDateType(''); setOpenDropdown(null); }}
+                    className="w-full px-2 py-1 text-left text-[11px] hover:bg-gray-50 dark:hover:bg-zinc-700/50 text-gray-400 italic"
                   >
-                    {month}
+                    Todos os eventos
                   </button>
-                ))}
+                  <button
+                    type="button"
+                    onClick={() => { setSelectedDateType('atuais'); setOpenDropdown(null); }}
+                    className={`w-full px-2 py-1 text-left text-[11px] hover:bg-gray-50 dark:hover:bg-zinc-700/50 block ${selectedDateType === 'atuais' ? 'bg-zinc-100 dark:bg-zinc-700 text-zinc-900 dark:text-white font-semibold' : 'text-gray-700 dark:text-zinc-300'}`}
+                  >
+                    Atuais/Futuros
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setSelectedDateType('passados'); setOpenDropdown(null); }}
+                    className={`w-full px-2 py-1 text-left text-[11px] hover:bg-gray-50 dark:hover:bg-zinc-700/50 block ${selectedDateType === 'passados' ? 'bg-zinc-100 dark:bg-zinc-700 text-zinc-900 dark:text-white font-semibold' : 'text-gray-700 dark:text-zinc-300'}`}
+                  >
+                    Passados
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
+
         </div>
-
-        {/* Data */}
-        <div className="relative min-w-[140px] sm:min-w-[180px]">
-          <label className="block text-xs sm:text-xs font-semibold text-gray-600 mb-1 text-center">
-            Data
-          </label>
-          <button
-            onClick={() => setOpenDropdown(openDropdown === 'date' ? null : 'date')}
-            className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm border border-gray-300 rounded flex items-center justify-between bg-white"
-          >
-            <span className={selectedDateType ? 'text-gray-900' : 'text-gray-400'}>
-              {selectedDateType === 'passados' 
-                ? 'Passados'
-                : selectedDateType === 'atuais'
-                ? 'Atuais/Futuros'
-                : 'Selecionar'}
-            </span>
-            <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
-          </button>
-
-          {openDropdown === 'date' && (
-            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded shadow">
-              <div className="flex items-center justify-between px-2 sm:px-3 py-2 text-xs sm:text-sm border-b border-gray-100">
-                <span className="font-medium">Filtrar por data</span>
-                <button
-                  type="button"
-                  onClick={() => setSelectedDateType('')}
-                  className="text-blue-600 hover:underline"
-                >
-                  Limpar
-                </button>
-              </div>
-              <div className="max-h-52 overflow-y-auto">
-                <button
-                  onClick={() => {
-                    setSelectedDateType('');
-                    setOpenDropdown(null);
-                  }}
-                  className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-left text-xs sm:text-sm hover:bg-gray-50"
-                >
-                  Todos os eventos
-                </button>
-                <button
-                  onClick={() => {
-                    setSelectedDateType('atuais');
-                    setOpenDropdown(null);
-                  }}
-                  className={`w-full px-2 sm:px-3 py-1.5 sm:py-2 text-left text-xs sm:text-sm hover:bg-gray-50 ${
-                    selectedDateType === 'atuais' ? 'bg-blue-50' : ''
-                  }`}
-                >
-                  Atuais/Futuros
-                </button>
-                <button
-                  onClick={() => {
-                    setSelectedDateType('passados');
-                    setOpenDropdown(null);
-                  }}
-                  className={`w-full px-2 sm:px-3 py-1.5 sm:py-2 text-left text-xs sm:text-sm hover:bg-gray-50 ${
-                    selectedDateType === 'passados' ? 'bg-blue-50' : ''
-                  }`}
-                >
-                  Passados
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-
       </div>
+
+      <style jsx>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #e4e4e7;
+          border-radius: 4px;
+        }
+        :global(.dark) .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #3f3f46;
+        }
+      `}</style>
     </div>
   );
 };
-
-export default AdvancedFilters;

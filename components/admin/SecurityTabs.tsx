@@ -52,7 +52,7 @@ export function SecurityTabs({ metrics }: { metrics: SecurityMetrics }) {
           onClick={() => setActiveTab("overview")}
           className={`px-4 py-2 font-medium text-sm border-b-2 transition ${
             activeTab === "overview"
-              ? "border-blue-600 text-blue-600"
+              ? "border-violet-600 text-violet-600"
               : "border-transparent text-gray-600 hover:text-gray-900"
           }`}
         >
@@ -62,7 +62,7 @@ export function SecurityTabs({ metrics }: { metrics: SecurityMetrics }) {
           onClick={() => setActiveTab("ratelimits")}
           className={`px-4 py-2 font-medium text-sm border-b-2 transition ${
             activeTab === "ratelimits"
-              ? "border-blue-600 text-blue-600"
+              ? "border-violet-600 text-violet-600"
               : "border-transparent text-gray-600 hover:text-gray-900"
           }`}
         >
@@ -72,7 +72,7 @@ export function SecurityTabs({ metrics }: { metrics: SecurityMetrics }) {
           onClick={() => setActiveTab("attacks")}
           className={`px-4 py-2 font-medium text-sm border-b-2 transition ${
             activeTab === "attacks"
-              ? "border-blue-600 text-blue-600"
+              ? "border-violet-600 text-violet-600"
               : "border-transparent text-gray-600 hover:text-gray-900"
           }`}
         >

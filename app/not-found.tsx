@@ -11,7 +11,7 @@ export default function NotFound() {
       </p>
       <a
         href="/"
-        className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition shadow-lg"
+        className="px-6 py-2 bg-violet-600 text-white rounded hover:bg-violet-700 transition shadow-lg"
       >
         Voltar 
       </a>

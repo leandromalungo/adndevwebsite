@@ -38,7 +38,7 @@ export const CommunityGrid: React.FC<CommunityGridProps> = ({
   }, [selectedCountry, searchQuery, extraCommunities]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
+    <div className="max-w-7xl mx-auto py-5">
       {filteredCommunities.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-gray-500 text-lg">

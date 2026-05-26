@@ -69,11 +69,11 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   ].filter(Boolean) as Array<{ href: string; label: string }>;
 
   return (
-    <div className="flex flex-col h-auto md:h-full backdrop-blur-md rounded-2xl border border-violet-500/10 hover:border-violet-200 overflow-hidden shadow-lg hover:shadow-violet-500/55 transition-all duration-300 group relative">
+    <div className="flex flex-col h-auto md:h-full backdrop-blur-md rounded-2xl border border-violet-500/10 hover:border-violet-200 overflow-hidden shadow-lg hover:shadow-violet-300/55 transition-all duration-300 group relative">
 
       {/* Badge Flutuante do Contador de Dias */}
       <div className="absolute top-3 right-3 z-10">
-        <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold shadow-sm backdrop-blur-sm transition-colors duration-300
+        <span className={`px-2.5 py-1 rounded text-[11px] font-bold shadow-sm backdrop-blur-sm transition-colors duration-300
           ${isExpired 
             ? "bg-red-500 text-white" 
             : statusText === "Termina hoje!" 
@@ -92,8 +92,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
-          loading="lazy"
+          className="w-full h-full object-cover"
         />
       </div>
 
@@ -134,7 +133,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
                 className={`flex-1 text-center font-semibold py-2 px-3 rounded-lg text-xs tracking-wide transition-all duration-200 ${
                   isMainButton
                     ? "border border-violet-600 text-violet-600 hover:text-white shadow-sm hover:bg-violet-600 shadow-violet-600/10"
-                    : "bg-slate-50 text-slate-600 hover:text-violet-600 border border-slate-200/60 hover:bg-slate-100"
+                    : "flex flex-end bg-slate-50 text-slate-600 hover:text-violet-600 border border-slate-200/60 hover:bg-slate-100"
                 }`}
               >
                 {button.label}
@@ -161,7 +160,6 @@ interface RecentSectionProps {
 }
 
 export const RecentSection: React.FC<RecentSectionProps> = ({
-  selectedCountry,
   dynamicItems = [],
 }) => {
 
@@ -283,7 +281,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
 
   return (
     <section className="bg-white pt-6 pb-16 px-6 md:px-12">
-      <div className="max-w-8xl mx-auto">
+      <div className="max-w-9xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {allCategories.map((cat, index) => (
             <CategoryCard key={(cat as any).id ?? cat.href ?? index} {...cat} />

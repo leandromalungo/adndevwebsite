@@ -32,7 +32,7 @@ export default async function PendingVerificationPage({
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <Suspense fallback={
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-violet-600"></div>
           <p className="mt-4 text-gray-600">A carregar...</p>
         </div>
       }>

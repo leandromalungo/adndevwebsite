@@ -20,7 +20,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
   const actionRel = isLoggedIn ? 'noopener noreferrer' : undefined;
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden flex flex-col hover:shadow-md transition-all duration-300 h-full group">
+    <div className="bg-white flex flex-col h-full backdrop-blur-md rounded-2xl border border-violet-500/10 hover:border-violet-200 overflow-hidden shadow-lg hover:shadow-violet-300/55 transition-all duration-300 group relative">
       {/* Secção de imagem */}
       <div className="relative h-44 sm:h-48 overflow-hidden bg-gray-100">
         <Image
@@ -57,9 +57,9 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
         <div className="flex flex-col gap-3 mb-5 pb-3 border-b border-gray-100">
           <div className="flex items-start gap-2">
             {event.isOnline ? (
-              <Globe className="w-4 h-4 mt-0.5 shrink-0 text-blue-500" />
+              <Globe className="w-4 h-4 mt-0.5 shrink-0 text-violet-500" />
             ) : (
-              <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-blue-500" />
+              <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-violet-500" />
             )}
             <span className="text-xs text-gray-600 line-clamp-2">{event.location}</span>
           </div>

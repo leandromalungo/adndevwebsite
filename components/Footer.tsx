@@ -265,7 +265,7 @@ const Footer = () => {
                 href="https://www.facebook.com/adn.developer.oficial/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-blue-600 transition-colors"
+                className="text-gray-400 hover:text-violet-600 transition-colors"
               >
                 <Facebook className="w-5 h-5" />
               </a>
@@ -281,7 +281,7 @@ const Footer = () => {
                 href="https://www.linkedin.com/company/adn-developer/about/?viewAsMember=true"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-blue-700 transition-colors"
+                className="text-gray-400 hover:text-violet-700 transition-colors"
               >
                 <Linkedin className="w-5 h-5" />
               </a>

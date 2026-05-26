@@ -547,6 +547,7 @@ const NavbarContent = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
       <Suspense fallback={null}>
         <AuthQueryHandler isLoggedIn={isLoggedIn} setLoginModal={setLoginModal} setIsRegistering={setIsRegistering} />
       </Suspense>
@@ -644,7 +645,7 @@ const NavbarContent = () => {
             </div>
 
             {/* Mobile Menu Button */}
-            <button type="button" onClick={() => setOpenMenu(!openMenu)} className="lg:hidden p-2 rounded-xl hover:bg-gray-100 transition">
+            <button type="button" onClick={() => setOpenMenu(!openMenu)} className="lg:hidden p-2">
               {openMenu ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>

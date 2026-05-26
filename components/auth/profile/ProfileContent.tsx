@@ -352,19 +352,19 @@ function EditableTextField({ value, onSave, isTextArea = false, placeholder = ""
       <div className={`flex flex-col gap-2 w-full mb-8`}>
         {isTextArea ? (
           <div className="relative">
-            <textarea placeholder={placeholder} value={localValue} autoFocus onKeyDown={(e) => {if(e.ctrlKey && e.key === 'Enter') handleSave()}} onChange={e => setLocalValue(e.target.value)} className="border border-gray-300 rounded-md p-3 text-sm w-full outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-y pb-6" rows={5} maxLength={maxLen} />
+            <textarea placeholder={placeholder} value={localValue} autoFocus onKeyDown={(e) => {if(e.ctrlKey && e.key === 'Enter') handleSave()}} onChange={e => setLocalValue(e.target.value)} className="border border-gray-300 rounded-md p-3 text-sm w-full outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 resize-y pb-6" rows={5} maxLength={maxLen} />
             <span className={`absolute bottom-2 right-3 text-xs tabular-nums pointer-events-none ${ localValue.length > maxLen * 0.9 ? 'text-orange-500 font-semibold' : 'text-gray-400' }`}>{localValue.length}/{maxLen}</span>
           </div>
         ) : (
           <div className="relative">
-            <input type="text" placeholder={placeholder} value={localValue} autoFocus onKeyDown={(e) => e.key === 'Enter' && handleSave()} onChange={e => setLocalValue(e.target.value)} className="border border-gray-300 rounded-md p-2 text-xl sm:text-2xl font-medium w-full outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-center pr-20" maxLength={maxLen} />
+            <input type="text" placeholder={placeholder} value={localValue} autoFocus onKeyDown={(e) => e.key === 'Enter' && handleSave()} onChange={e => setLocalValue(e.target.value)} className="border border-gray-300 rounded-md p-2 text-xl sm:text-2xl font-medium w-full outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 text-center pr-20" maxLength={maxLen} />
             <span className={`absolute right-3 top-1/2 -translate-y-1/2 text-xs tabular-nums pointer-events-none ${ localValue.length > maxLen * 0.9 ? 'text-orange-500 font-semibold' : 'text-gray-400' }`}>{localValue.length}/{maxLen}</span>
           </div>
         )}
         <div className="flex justify-end gap-2 text-sm text-gray-500 mt-1">
            {isTextArea && <span>Ctrl + Enter para gravar</span>}
            <button disabled={loading} onClick={() => setIsEditing(false)} className="px-4 py-1.5 font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
-           <button disabled={loading} onClick={handleSave} className="px-4 py-1.5 font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center gap-2">
+           <button disabled={loading} onClick={handleSave} className="px-4 py-1.5 font-medium bg-violet-600 text-white rounded-md hover:bg-violet-700 flex items-center gap-2">
              {loading && <div className="w-3 h-3 border-2 border-white border-t-transparent animate-spin rounded-full"></div>}
              Gravar
            </button>
@@ -379,7 +379,7 @@ function EditableTextField({ value, onSave, isTextArea = false, placeholder = ""
         {value ? (isTextArea ? value.split('\n').filter((l: string) => l.trim()).map((l: string, i: number) => <p key={i}>{l}</p>) : value) : <span className="text-gray-400 italic">Nenhuma informação adicionada.</span>}
       </div>
       {!isReadOnly && (
-        <button onClick={() => { setLocalValue(value); setIsEditing(true); }} className="absolute top-2 right-0 p-1.5 sm:opacity-0 group-hover:opacity-100 transition-opacity bg-white hover:bg-violet-50 text-violet-700 hover:text-blue-600 rounded-md shadow-sm border border-gray-200">
+        <button onClick={() => { setLocalValue(value); setIsEditing(true); }} className="absolute top-2 right-0 p-1.5 sm:opacity-0 group-hover:opacity-100 transition-opacity bg-white hover:bg-violet-50 text-violet-700 hover:text-violet-600 rounded-md shadow-sm border border-gray-200">
           <Edit2 className="w-4 h-4" />
         </button>
       )}
@@ -447,11 +447,11 @@ function EditableSocialLinks({ title, items, userId, setItems, isReadOnly = fals
 
       {isAdding && (
         <div className="border border-violet-700 bg-violet-50/50 p-4 rounded-lg mb-4 flex flex-col sm:flex-row gap-3">
-          <select value={formData.platform} onChange={e => setFormData({...formData, platform: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm flex-1 outline-none focus:border-blue-500 bg-white">
+          <select value={formData.platform} onChange={e => setFormData({...formData, platform: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm flex-1 outline-none focus:border-violet-500 bg-white">
              <option value="">Rede</option>
              {platformsList.map(p => <option key={p} value={p}>{p}</option>)}
           </select>
-          <input type="text" placeholder="Nome de utilizador" value={formData.username} onChange={e => setFormData({...formData, username: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm flex-1 outline-none focus:border-blue-500" maxLength={100} />
+          <input type="text" placeholder="Nome de utilizador" value={formData.username} onChange={e => setFormData({...formData, username: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm flex-1 outline-none focus:border-violet-500" maxLength={100} />
           <div className="flex gap-2 justify-end mt-2 sm:mt-0">
             <button disabled={loading} onClick={() => setIsAdding(false)} className="px-3 py-1.5 rounded-md text-sm font-medium text-gray-600 bg-white border border-gray-300 hover:bg-gray-50">Sair</button>
             <button disabled={loading || !formData.platform || !formData.username.trim()} onClick={handleSave} className="px-3 py-1.5 rounded-md text-sm font-medium bg-violet-700 text-white hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed">OK</button>
@@ -468,7 +468,7 @@ function EditableSocialLinks({ title, items, userId, setItems, isReadOnly = fals
             </a>
             {!isReadOnly && (
               <div className="absolute top-1 right-1 flex gap-0.5 sm:opacity-0 group-hover:opacity-100 transition-opacity">
-                <button onClick={(e) => { e.preventDefault(); setEditingId(item.id); setFormData({platform: item.platform, username: item.username}); setIsAdding(true); }} className="p-1 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-md bg-white border border-gray-100">
+                <button onClick={(e) => { e.preventDefault(); setEditingId(item.id); setFormData({platform: item.platform, username: item.username}); setIsAdding(true); }} className="p-1 text-gray-400 hover:text-violet-600 hover:bg-violet-50 rounded-md bg-white border border-gray-100">
                   <Edit2 className="w-3.5 h-3.5" />
                 </button>
                 <button onClick={(e) => { e.preventDefault(); handleDelete(item.id); }} className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md bg-white border border-gray-100">
@@ -547,7 +547,7 @@ function EditableTagsWithPredefined({ title, tags, onAdd, onRemove, setTags, pre
               }}
               onFocus={() => setShowDropdown(true)}
               disabled={loading}
-              className="border border-gray-300 rounded-md px-3 py-1.5 text-sm w-full outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="border border-gray-300 rounded-md px-3 py-1.5 text-sm w-full outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500"
               placeholder="Procurar ou digitar novo..."
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && newTag.trim()) {
@@ -564,7 +564,7 @@ function EditableTagsWithPredefined({ title, tags, onAdd, onRemove, setTags, pre
                   <button
                     key={option}
                     onClick={() => handleAdd(option)}
-                    className="w-full text-left px-3 py-2 hover:bg-blue-50 text-sm border-b border-gray-100 last:border-b-0 transition-colors"
+                    className="w-full text-left px-3 py-2 hover:bg-violet-50 text-sm border-b border-gray-100 last:border-b-0 transition-colors"
                   >
                     {option}
                   </button>
@@ -574,7 +574,7 @@ function EditableTagsWithPredefined({ title, tags, onAdd, onRemove, setTags, pre
           </div>
           <div className="flex gap-2">
             {newTag.trim() && !predefinedOptions.includes(newTag.trim()) && (
-              <button disabled={loading} onClick={() => handleAdd(newTag.trim())} className="bg-blue-600 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-blue-700 flex-1">Adicionar novo</button>
+              <button disabled={loading} onClick={() => handleAdd(newTag.trim())} className="bg-violet-600 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-violet-700 flex-1">Adicionar novo</button>
             )}
             <button disabled={loading} onClick={() => { setIsAdding(false); setShowDropdown(false); setNewTag(""); }} className="bg-gray-100 text-gray-600 px-3 py-1.5 rounded-md hover:bg-gray-200">X</button>
           </div>
@@ -649,7 +649,7 @@ function EditableTags({ title, tags, onAdd, onRemove, setTags, badgeClassName = 
               value={newTag} 
               onChange={(e) => setNewTag(e.target.value)}
               disabled={loading}
-              className="border border-gray-300 rounded-md px-3 py-1.5 text-sm w-full outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 pr-14"
+              className="border border-gray-300 rounded-md px-3 py-1.5 text-sm w-full outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 pr-14"
               placeholder="Adicionar novo..."
               onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
               autoFocus
@@ -658,7 +658,7 @@ function EditableTags({ title, tags, onAdd, onRemove, setTags, badgeClassName = 
             <span className={`absolute right-3 top-1/2 -translate-y-1/2 text-xs tabular-nums pointer-events-none ${ newTag.length > 85 ? 'text-orange-500 font-semibold' : 'text-gray-400' }`}>{newTag.length}/100</span>
           </div>
           <div className="flex gap-2">
-            <button disabled={loading} onClick={handleAdd} className="bg-blue-600 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-blue-700 w-full sm:w-auto">Add</button>
+            <button disabled={loading} onClick={handleAdd} className="bg-violet-600 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-violet-700 w-full sm:w-auto">Add</button>
             <button disabled={loading} onClick={() => setIsAdding(false)} className="bg-gray-100 text-gray-600 px-3 py-1.5 rounded-md hover:bg-gray-200">X</button>
           </div>
         </div>
@@ -731,27 +731,27 @@ function EditableExperienceList({ title, items, userId, setItems, isReadOnly = f
       {isAdding && (
         <div className="border border-violet-700 bg-violet-50/50 p-4 rounded-lg mb-4 flex flex-col gap-3 text-gray-900">
           <div className="relative">
-            <input type="text" placeholder="Cargo" value={formData.role || ''} onChange={e => setFormData({...formData, role: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-blue-500 w-full pr-16" maxLength={100} />
+            <input type="text" placeholder="Cargo" value={formData.role || ''} onChange={e => setFormData({...formData, role: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-violet-500 w-full pr-16" maxLength={100} />
             <span className={`absolute right-3 top-1/2 -translate-y-1/2 text-xs tabular-nums pointer-events-none ${ (formData.role||'').length > 85 ? 'text-orange-500 font-semibold' : 'text-gray-400' }`}>{(formData.role||'').length}/100</span>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
-              <input type="text" placeholder="Empresa" value={formData.company || ''} onChange={e => setFormData({...formData, company: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm w-full outline-none focus:border-blue-500 pr-16" maxLength={100} />
+              <input type="text" placeholder="Empresa" value={formData.company || ''} onChange={e => setFormData({...formData, company: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm w-full outline-none focus:border-violet-500 pr-16" maxLength={100} />
               <span className={`absolute right-3 top-1/2 -translate-y-1/2 text-xs tabular-nums pointer-events-none ${ (formData.company||'').length > 85 ? 'text-orange-500 font-semibold' : 'text-gray-400' }`}>{(formData.company||'').length}/100</span>
             </div>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
              <div className="flex-1">
                <label className="text-xs text-gray-600 block mb-1">Data de Início</label>
-               <input type="date" value={formData.date || ''} onChange={e => setFormData({...formData, date: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm w-full outline-none focus:border-blue-500" />
+               <input type="date" value={formData.date || ''} onChange={e => setFormData({...formData, date: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm w-full outline-none focus:border-violet-500" />
              </div>
              <div className="flex-1">
                <label className="text-xs text-gray-600 block mb-1">Data de Término</label>
-               <input type="date" value={formData.end_date || ''} onChange={e => setFormData({...formData, end_date: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm w-full outline-none focus:border-blue-500" />
+               <input type="date" value={formData.end_date || ''} onChange={e => setFormData({...formData, end_date: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm w-full outline-none focus:border-violet-500" />
              </div>
           </div>
           <div className="relative">
-            <textarea placeholder="Descrição" value={formData.description || ''} onChange={e => setFormData({...formData, description: e.target.value})} rows={3} className="border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-blue-500 resize-none w-full pb-5" maxLength={250} />
+            <textarea placeholder="Descrição" value={formData.description || ''} onChange={e => setFormData({...formData, description: e.target.value})} rows={3} className="border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-violet-500 resize-none w-full pb-5" maxLength={250} />
             <span className={`absolute bottom-2 right-3 text-xs tabular-nums pointer-events-none ${ (formData.description||'').length > 225 ? 'text-orange-500 font-semibold' : 'text-gray-400' }`}>{(formData.description||'').length}/250</span>
           </div>
           <div className="flex gap-2 justify-end mt-2">
@@ -776,7 +776,7 @@ function EditableExperienceList({ title, items, userId, setItems, isReadOnly = f
                     description: item.description || ''
                   }); 
                   setIsAdding(true); 
-                }} className="p-1.5 text-gray-500 hover:bg-blue-50 hover:text-blue-600 rounded-md transition-colors"><Edit2 className="w-4 h-4" /></button>
+                }} className="p-1.5 text-gray-500 hover:bg-violet-50 hover:text-violet-600 rounded-md transition-colors"><Edit2 className="w-4 h-4" /></button>
                 <button onClick={() => handleDelete(item.id)} className="p-1.5 text-gray-500 hover:bg-red-50 hover:text-red-600 rounded-md transition-colors"><Trash2 className="w-4 h-4" /></button>
               </div>
             )}
@@ -846,17 +846,17 @@ function EditableCertificationList({ title, items, userId, setItems, isReadOnly 
       {isAdding && (
         <div className="border border-violet-700 bg-violet-50/50 p-4 rounded-lg mb-4 flex flex-col gap-3 text-gray-900">
           <div className="relative">
-            <input type="text" placeholder="Nome da Certificação" value={formData.name || ''} onChange={e => setFormData({...formData, name: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-blue-500 w-full pr-16" maxLength={100} />
+            <input type="text" placeholder="Nome da Certificação" value={formData.name || ''} onChange={e => setFormData({...formData, name: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-violet-500 w-full pr-16" maxLength={100} />
             <span className={`absolute right-3 top-1/2 -translate-y-1/2 text-xs tabular-nums pointer-events-none ${ (formData.name||'').length > 85 ? 'text-orange-500 font-semibold' : 'text-gray-400' }`}>{(formData.name||'').length}/100</span>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
-              <input type="text" placeholder="Local / Instituição" value={formData.issuer || ''} onChange={e => setFormData({...formData, issuer: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm w-full outline-none focus:border-blue-500 pr-16" maxLength={100} />
+              <input type="text" placeholder="Local / Instituição" value={formData.issuer || ''} onChange={e => setFormData({...formData, issuer: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm w-full outline-none focus:border-violet-500 pr-16" maxLength={100} />
               <span className={`absolute right-3 top-1/2 -translate-y-1/2 text-xs tabular-nums pointer-events-none ${ (formData.issuer||'').length > 85 ? 'text-orange-500 font-semibold' : 'text-gray-400' }`}>{(formData.issuer||'').length}/100</span>
             </div>
             <div className="relative flex-1">
               <label className="text-xs text-gray-600 block mb-1">Data da Certificação</label>
-              <input type="date" value={formData.issue_date || ''} onChange={e => setFormData({...formData, issue_date: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm w-full outline-none focus:border-blue-500" />
+              <input type="date" value={formData.issue_date || ''} onChange={e => setFormData({...formData, issue_date: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm w-full outline-none focus:border-violet-500" />
             </div>
           </div>
           <div className="flex gap-2 justify-end mt-2">
@@ -879,7 +879,7 @@ function EditableCertificationList({ title, items, userId, setItems, isReadOnly 
                     issue_date: item.issue_date || ''
                   }); 
                   setIsAdding(true); 
-                }} className="p-1.5 text-gray-500 hover:bg-blue-50 hover:text-blue-600 rounded-md transition-colors"><Edit2 className="w-4 h-4" /></button>
+                }} className="p-1.5 text-gray-500 hover:bg-violet-50 hover:text-violet-600 rounded-md transition-colors"><Edit2 className="w-4 h-4" /></button>
                 <button onClick={() => handleDelete(item.id)} className="p-1.5 text-gray-500 hover:bg-red-50 hover:text-red-600 rounded-md transition-colors"><Trash2 className="w-4 h-4" /></button>
               </div>
             )}
@@ -948,11 +948,11 @@ function EditableExtraInfoList({ title, items, userId, setItems, isReadOnly = fa
       {isAdding && (
         <div className="border border-violet-700 bg-violet-50/50 p-4 rounded-lg mb-4 flex flex-col gap-3">
           <div className="relative">
-            <input type="text" placeholder="Título" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-blue-500 w-full pr-16" maxLength={100} />
+            <input type="text" placeholder="Título" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-violet-500 w-full pr-16" maxLength={100} />
             <span className={`absolute right-3 top-1/2 -translate-y-1/2 text-xs tabular-nums pointer-events-none ${ formData.title.length > 85 ? 'text-orange-500 font-semibold' : 'text-gray-400' }`}>{formData.title.length}/100</span>
           </div>
           <div className="relative">
-            <textarea placeholder="Descrição" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} rows={2} className="border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-blue-500 resize-none w-full pb-5" maxLength={100} />
+            <textarea placeholder="Descrição" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} rows={2} className="border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-violet-500 resize-none w-full pb-5" maxLength={100} />
             <span className={`absolute bottom-2 right-3 text-xs tabular-nums pointer-events-none ${ formData.description.length > 85 ? 'text-orange-500 font-semibold' : 'text-gray-400' }`}>{formData.description.length}/100</span>
           </div>
           <div className="flex gap-2 justify-end mt-2">
@@ -967,7 +967,7 @@ function EditableExtraInfoList({ title, items, userId, setItems, isReadOnly = fa
           <div key={item.id} className="group relative pr-16 p-3 border border-transparent hover:border-gray-100 hover:bg-gray-50 rounded-lg transition-colors">
             {!isReadOnly && (
               <div className="absolute top-3 right-3 flex gap-1 sm:opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 sm:bg-transparent rounded-md">
-                <button onClick={() => { setEditingId(item.id); setFormData({title: item.title, description: item.description}); setIsAdding(true); }} className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"><Edit2 className="w-4 h-4" /></button>
+                <button onClick={() => { setEditingId(item.id); setFormData({title: item.title, description: item.description}); setIsAdding(true); }} className="p-1.5 text-gray-500 hover:text-violet-600 hover:bg-violet-50 rounded-md transition-colors"><Edit2 className="w-4 h-4" /></button>
                 <button onClick={() => handleDelete(item.id)} className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"><Trash2 className="w-4 h-4" /></button>
               </div>
             )}
@@ -1029,20 +1029,20 @@ function EditableProjectsList({ title, items, userId, setItems, isReadOnly = fal
         <div className="border border-violet-700 bg-violet-50/50 p-4 rounded-lg mb-4 flex flex-col gap-3 text-gray-900">
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
-              <input type="text" placeholder="Nome do Projeto" value={formData.name || ''} onChange={e => setFormData({...formData, name: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm w-full outline-none focus:border-blue-500 pr-16" maxLength={100} />
+              <input type="text" placeholder="Nome do Projeto" value={formData.name || ''} onChange={e => setFormData({...formData, name: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm w-full outline-none focus:border-violet-500 pr-16" maxLength={100} />
               <span className={`absolute right-3 top-1/2 -translate-y-1/2 text-xs tabular-nums pointer-events-none ${ (formData.name||'').length > 85 ? 'text-orange-500 font-semibold' : 'text-gray-400' }`}>{(formData.name||'').length}/100</span>
             </div>
-            <input type="text" placeholder="URL" value={formData.url || ''} onChange={e => setFormData({...formData, url: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm flex-1 outline-none focus:border-blue-500" maxLength={100} />
+            <input type="text" placeholder="URL" value={formData.url || ''} onChange={e => setFormData({...formData, url: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm flex-1 outline-none focus:border-violet-500" maxLength={100} />
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
-            <input type="text" placeholder="Identificação / Referência" value={formData.identifier || ''} onChange={e => setFormData({...formData, identifier: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm flex-1 outline-none focus:border-blue-500" maxLength={100} />
+            <input type="text" placeholder="Identificação / Referência" value={formData.identifier || ''} onChange={e => setFormData({...formData, identifier: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm flex-1 outline-none focus:border-violet-500" maxLength={100} />
             <div className="flex-1">
               <label className="text-xs text-gray-600 block mb-1">Data do Projeto</label>
-              <input type="date" value={formData.date || ''} onChange={e => setFormData({...formData, date: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm w-full outline-none focus:border-blue-500" />
+              <input type="date" value={formData.date || ''} onChange={e => setFormData({...formData, date: e.target.value})} className="border border-gray-300 rounded px-3 py-2 text-sm w-full outline-none focus:border-violet-500" />
             </div>
           </div>
           <div className="relative">
-            <textarea placeholder="Descrição curta" value={formData.description || ''} onChange={e => setFormData({...formData, description: e.target.value})} rows={2} className="border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-blue-500 resize-none w-full pb-5" maxLength={250} />
+            <textarea placeholder="Descrição curta" value={formData.description || ''} onChange={e => setFormData({...formData, description: e.target.value})} rows={2} className="border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-violet-500 resize-none w-full pb-5" maxLength={250} />
             <span className={`absolute bottom-2 right-3 text-xs tabular-nums pointer-events-none ${ (formData.description||'').length > 225 ? 'text-orange-500 font-semibold' : 'text-gray-400' }`}>{(formData.description||'').length}/250</span>
           </div>
           <div className="flex gap-2 justify-end mt-2">
@@ -1069,7 +1069,7 @@ function EditableProjectsList({ title, items, userId, setItems, isReadOnly = fal
             <p className="text-sm text-gray-600 flex-1 mb-5">{item.description}</p>
             
             <div className="mt-auto">
-               <a href={ensureExternalLink(item.url)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-800 border border-violet-300 focus:border-violet-700 bg-blue-50/50 hover:bg-blue-50 px-4 py-2 rounded-lg transition-colors">
+               <a href={ensureExternalLink(item.url)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-medium text-violet-600 hover:text-violet-800 border border-violet-300 focus:border-violet-700 bg-violet-50/50 hover:bg-violet-50 px-4 py-2 rounded-lg transition-colors">
                   <ExternalLink className="w-4 h-4" />
                   Ver projeto
                </a>
@@ -1087,7 +1087,7 @@ function EditableProjectsList({ title, items, userId, setItems, isReadOnly = fal
                     url: item.url || ''
                   }); 
                   setIsAdding(true); 
-                }} className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"><Edit2 className="w-4 h-4" /></button>
+                }} className="p-1.5 text-gray-500 hover:text-violet-600 hover:bg-violet-50 rounded-md transition-colors"><Edit2 className="w-4 h-4" /></button>
                 <button onClick={() => handleDelete(item.id)} className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"><Trash2 className="w-4 h-4" /></button>
               </div>
             )}

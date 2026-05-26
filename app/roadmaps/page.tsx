@@ -37,35 +37,36 @@ export default function StudyPlanSelectionPage() {
       <Navbar />
 
       {/* SEÇÃO COM FUNDO E CTA */}
-      <section className="relative overflow-hidden bg-zinc-900">
+      <section className="relative overflow-hidden bg-zinc-950">
         {/* FUNDO COM IMAGEM */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url('/images-cursos.webp')` }}
         >
-          {/* OVERLAY / GRADIENT */}
-          <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
+          {/* OVERLAY INTELIGENTE: Escurece uniformemente no mobile e faz gradiente no desktop */}
+          <div className="absolute inset-0 bg-zinc-950/75 sm:bg-gradient-to-r sm:from-zinc-950 sm:via-zinc-950/80 sm:to-transparent" />
         </div>
 
-        {/* CONTEÚDO */}
-        <div className="relative z-20 max-w-5xl mx-auto px-6 sm:px-12 lg:px-16 py-20 md:py-24 flex flex-col justify-center lg:items-center lg:text-center">
-          <h2 className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-bold text-white mt-8 md:mt-12 lg:mt-14 mb-3 leading-tight max-w-lg uppercase">
+        {/* CONTEÚDO CENTRALIZADO EM TODAS AS TELAS */}
+        <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-12 lg:px-16 py-16 sm:py-20 md:py-24 flex flex-col items-center justify-center text-center">
+
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mt-4 sm:mt-6 mb-3 tracking-tight uppercase max-w-xl">
             Carreira Tech
           </h2>
 
-          <p className="text-gray-100 mb-2 md:mb-5 text-xs sm:text-sm md:text-base max-w-md">
-           Selecione uma trilha para ver o roadmap completo, desde os
-          fundamentos até a especialização avançada. 
+          <p className="text-zinc-200 mb-6 sm:mb-8 text-sm sm:text-base max-w-md leading-relaxed">
+            Selecione uma trilha para ver o roadmap completo, desde os
+            fundamentos até a especialização avançada.
           </p>
 
           {isLoggedIn ? (
             <button
               type="button"
               onClick={() => setShowAppComingSoon(true)}
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-neutral-950 px-4 sm:px-5 md:px-6 lg:px-7 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base text-neutral-50 active:scale-95 transition-transform shadow-lg w-fit border border-violet-700"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-neutral-950 px-5 sm:px-6 md:px-7 py-2.5 sm:py-3 text-xs sm:text-sm md:text-base text-neutral-50 active:scale-95 transition-transform shadow-lg w-fit border border-violet-700"
             >
-              <span className="relative z-10 flex items-center gap-2">
-                <Smartphone size={16} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
+              <span className="relative z-10 flex items-center gap-2 font-medium">
+                <Smartphone className="w-4 h-4 md:w-5 md:h-5" />
                 Baixar o aplicativo
               </span>
               <span className="absolute inset-0 overflow-hidden rounded-md">
@@ -75,11 +76,11 @@ export default function StudyPlanSelectionPage() {
           ) : (
             <button
               onClick={handleClick}
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-neutral-950 px-4 sm:px-5 md:px-6 lg:px-7 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base text-neutral-50 active:scale-95 transition-transform shadow-lg w-fit border border-violet-700"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-neutral-950 px-5 sm:px-6 md:px-7 py-2.5 sm:py-3 text-xs sm:text-sm md:text-base text-neutral-50 active:scale-95 transition-transform shadow-lg w-fit border border-violet-700"
             >
-              <span className="relative z-10 flex items-center gap-2">
+              <span className="relative z-10 flex items-center gap-2 font-medium">
                 Inscrever-se no portal
-                <ArrowRight size={16} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
+                <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
               </span>
               <span className="absolute inset-0 overflow-hidden rounded-md">
                 <span className="absolute left-0 aspect-square w-full origin-center -translate-x-full rounded-full bg-violet-600 transition-all duration-500 group-hover:-translate-x-0 group-hover:scale-150"></span>
@@ -98,7 +99,7 @@ export default function StudyPlanSelectionPage() {
             <Search className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 text-zinc-400 w-4 h-4 sm:w-5 sm:h-5" />
             <Input
               placeholder="Buscar carreira (ex: Frontend, DevOps...)"
-              className="pl-8 sm:pl-10 bg-white border-zinc-200 focus:ring-blue-500/50 h-9 sm:h-12 text-xs sm:text-base shadow-sm"
+              className="pl-8 sm:pl-10 bg-white border-zinc-200 focus:ring-violet-500/50 h-9 sm:h-12 text-xs sm:text-base shadow-sm"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -161,7 +162,7 @@ export default function StudyPlanSelectionPage() {
                 </p>
                 <Button
                   variant="link"
-                  className="text-blue-400 mt-2"
+                  className="text-violet-400 mt-2"
                   onClick={() => setSearchTerm("")}
                 >
                   Limpar busca

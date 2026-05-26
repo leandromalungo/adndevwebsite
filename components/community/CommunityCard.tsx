@@ -36,7 +36,7 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({ community }) => {
   const imageSrc = isLikelyImage(community.logoUrl) ? community.logoUrl! : '/cafelogo.png';
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full hover:shadow-md hover:border-gray-200 transition-all duration-200">
+    <div className="bg-white rounded-xl p-5 flex flex-col h-full backdrop-blur-md rounded-2xl border border-violet-500/10 hover:border-violet-200 overflow-hidden shadow-lg hover:shadow-violet-300/55 transition-all duration-300 group relative">
       {/* Cabeçalho */}
       <div className="flex items-center gap-3 mb-4">
         <div className="w-12 h-12 flex-shrink-0 bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center border border-gray-100 relative shadow-inner">
@@ -79,7 +79,7 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({ community }) => {
             <Tag key={idx}>{tag}</Tag>
           ))}
           {community.tags.length > 5 && (
-            <button className="text-[11px] text-gray-500 font-semibold hover:text-blue-600 hover:underline px-1 transition-colors">
+            <button className="text-[11px] text-gray-500 font-semibold hover:text-violet-600 hover:underline px-1 transition-colors">
               +{community.tags.length - 5} tags
             </button>
           )}
@@ -91,7 +91,7 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({ community }) => {
             href={actionHref}
             target={actionTarget}
             rel={actionRel}
-            className="w-full sm:w-auto text-center inline-flex items-center justify-center gap-1 px-4 py-2 text-xs sm:text-sm font-semibold text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 active:bg-blue-200 transition-all duration-150"
+            className="w-full sm:w-auto text-center inline-flex items-center justify-center gap-1 px-4 py-2 text-xs sm:text-sm font-semibold text-violet-600 bg-violet-50 rounded-lg hover:bg-violet-100 active:bg-violet-200 transition-all duration-150"
           >
             Ver mais
           </a>

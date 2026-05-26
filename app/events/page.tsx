@@ -19,7 +19,7 @@ import { useState, useMemo, useEffect } from "react";
 import { Loader2, ArrowRight, Smartphone } from "lucide-react";
 import Head from "next/head";
 import { AppComingSoonModal } from "@/components/AppComingSoonModal";
-import AdvancedFilters from "@/components/events/AdvancedFilters";
+import { FilterSection } from "@/components/events/AdvancedFilters";
 import { usePathname, useRouter } from "next/navigation";
 import EventCard from "@/components/events/EventCard";
 import Navbar from "@/components/auth/Navbar";
@@ -27,6 +27,7 @@ import Footer from "@/components/Footer";
 import { MOCK_EVENTS } from "@/components/events/constants";
 import type { Event } from "@/data/types";
 import { useSession } from "next-auth/react";
+import { LUSOPHONE_LOCATIONS, EVENT_CATEGORIES, getStatesByCountry } from "@/data/locationsData";
 
 /**
  * Função para determinar se um evento é passado ou futuro
@@ -43,6 +44,29 @@ function isEventPast(eventDate: string): boolean {
     return false;
   }
 }
+
+/**
+ * Constantes de filtro
+ */
+const COUNTRIES = LUSOPHONE_LOCATIONS.map(l => l.country);
+
+// Mapeamento de mês em português para abreviação em inglês
+const MONTH_MAP: Record<string, string> = {
+  'Janeiro': 'Jan',
+  'Fevereiro': 'Feb',
+  'Março': 'Mar',
+  'Abril': 'Apr',
+  'Maio': 'May',
+  'Junho': 'Jun',
+  'Julho': 'Jul',
+  'Agosto': 'Aug',
+  'Setembro': 'Sep',
+  'Outubro': 'Oct',
+  'Novembro': 'Nov',
+  'Dezembro': 'Dec'
+};
+
+const MONTH_OPTIONS = Object.keys(MONTH_MAP);
 
 const Page = () => {
 
@@ -73,6 +97,13 @@ const Page = () => {
   }, []);
 
   const allEvents = useMemo(() => [...dbEvents, ...MOCK_EVENTS], [dbEvents]);
+
+  /**
+   * Estados disponíveis baseado no país selecionado
+   */
+  const availableStates = useMemo(() => {
+    return selectedCountry ? getStatesByCountry(selectedCountry) : [];
+  }, [selectedCountry]);
 
 
   /**
@@ -114,9 +145,10 @@ const Page = () => {
       const matchesState =
         selectedState === "" || event.state === selectedState;
 
-      // Filtro por mês
+      // Filtro por mês (converter português para abreviação em inglês)
+      const monthAbbr = selectedMonth ? MONTH_MAP[selectedMonth] : "";
       const matchesMonth =
-        selectedMonth === "" || event.month === selectedMonth;
+        selectedMonth === "" || event.month === monthAbbr;
 
       // Filtro por tipo (online)
       const matchesOnline = !isOnline || event.isOnline === true;
@@ -164,23 +196,24 @@ const Page = () => {
       <Navbar />
 
       {/* SEÇÃO COM FUNDO E CTA */}
-      <section className="relative overflow-hidden bg-zinc-900">
+      <section className="relative overflow-hidden bg-zinc-950">
         {/* FUNDO COM IMAGEM */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url('/images-events.webp')` }}
         >
-          {/* OVERLAY / GRADIENT */}
-          <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/70 to-transparent" />
+          {/* OVERLAY INTELIGENTE: Escurece o mobile por igual e vira gradiente no desktop */}
+          <div className="absolute inset-0 bg-zinc-950/75 sm:bg-gradient-to-r sm:from-zinc-950 sm:via-zinc-950/80 sm:to-transparent" />
         </div>
 
-        {/* CONTEÚDO */}
-        <div className="relative z-20 max-w-5xl mx-auto px-6 sm:px-12 lg:px-16 py-20 md:py-24 flex flex-col justify-center lg:items-center lg:text-center">
-          <h2 className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-bold text-white mt-8 md:mt-12 lg:mt-14 mb-3 leading-tight max-w-lg uppercase">
+        {/* CONTEÚDO CENTRALIZADO EM TODAS AS TELAS */}
+        <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-12 lg:px-16 py-16 sm:py-20 md:py-24 flex flex-col items-center justify-center text-center">
+
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mt-4 sm:mt-6 mb-3 tracking-tight uppercase max-w-xl">
             Eventos Tech
           </h2>
 
-          <p className="text-gray-100 mb-2 md:mb-5 text-xs sm:text-sm md:text-base max-w-md">
+          <p className="text-zinc-200 mb-6 sm:mb-8 text-sm sm:text-base max-w-md leading-relaxed">
             Descubra os melhores e imperdíveis eventos mais próximos de ti,
             conecte-se com profissionais e impulsione sua carreira tech.
           </p>
@@ -189,10 +222,10 @@ const Page = () => {
             <button
               type="button"
               onClick={() => setShowAppComingSoon(true)}
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-neutral-950 px-4 sm:px-5 md:px-6 lg:px-7 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base text-neutral-50 active:scale-95 transition-transform shadow-lg w-fit border border-violet-700"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-neutral-950 px-5 sm:px-6 md:px-7 py-2.5 sm:py-3 text-xs sm:text-sm md:text-base text-neutral-50 active:scale-95 transition-transform shadow-lg w-fit border border-violet-700"
             >
-              <span className="relative z-10 flex items-center gap-2">
-                <Smartphone size={16} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
+              <span className="relative z-10 flex items-center gap-2 font-medium">
+                <Smartphone className="w-4 h-4 md:w-5 md:h-5" />
                 Baixar o aplicativo
               </span>
               <span className="absolute inset-0 overflow-hidden rounded-md">
@@ -202,11 +235,11 @@ const Page = () => {
           ) : (
             <button
               onClick={handleClick}
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-neutral-950 px-4 sm:px-5 md:px-6 lg:px-7 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base text-neutral-50 active:scale-95 transition-transform shadow-lg w-fit border border-violet-700"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-neutral-950 px-5 sm:px-6 md:px-7 py-2.5 sm:py-3 text-xs sm:text-sm md:text-base text-neutral-50 active:scale-95 transition-transform shadow-lg w-fit border border-violet-700"
             >
-              <span className="relative z-10 flex items-center gap-2">
+              <span className="relative z-10 flex items-center gap-2 font-medium">
                 Inscrever-se no portal
-                <ArrowRight size={16} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
+                <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
               </span>
               <span className="absolute inset-0 overflow-hidden rounded-md">
                 <span className="absolute left-0 aspect-square w-full origin-center -translate-x-full rounded-full bg-violet-600 transition-all duration-500 group-hover:-translate-x-0 group-hover:scale-150"></span>
@@ -218,23 +251,23 @@ const Page = () => {
 
       {/* LISTAGEM DE EVENTOS */}
       <div className="min-h-screen bg-[#fcfcfc]">
-        <main className="max-w-7xl mx-auto px-6 py-10">
+        <main className="max-w-7xl mx-auto p-4 py-10">
           {/* Filtros Avançados */}
-          <AdvancedFilters
+          <FilterSection
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
             selectedCountry={selectedCountry}
             setSelectedCountry={setSelectedCountry}
             selectedState={selectedState}
             setSelectedState={setSelectedState}
-            selectedCategories={selectedCategories}
-            setSelectedCategories={setSelectedCategories}
             selectedMonth={selectedMonth}
             setSelectedMonth={setSelectedMonth}
             selectedDateType={selectedDateType}
             setSelectedDateType={setSelectedDateType}
-            isOnline={isOnline}
-            setIsOnline={setIsOnline}
+            countries={COUNTRIES}
+            states={availableStates}
+            EVENT_CATEGORIES={EVENT_CATEGORIES}
+            MONTH_OPTIONS={MONTH_OPTIONS}
           />
 
           {/* Botão para limpar filtros */}

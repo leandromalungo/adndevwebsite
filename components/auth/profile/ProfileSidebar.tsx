@@ -16,7 +16,7 @@ interface ProfileSidebarProps {
 
 const IT_AREAS: Record<string, string[]> = {
   "Desenvolvimento de Software": ["Desenvolvedor Front-end", "Desenvolvedor Back-end", "Desenvolvedor Full Stack", "Desenvolvedor Mobile", "Desenvolvedor Desktop", "Desenvolvedor de Jogos", "Engenheiro de Software", "Software Architect", "QA Engineer", "Test Automation Engineer"],
-  Cibersegurança: ["Analista de Segurança", "Pentester (Ethical Hacker)", "Security Engineer", "SOC Analyst", "Especialista em Resposta a Incidentes", "Analista Forense Digital", "GRC (Governança, Risco e Compliance)", "Security Architect", "Red Team", "Blue Team"],
+  Cibersegurança: ["Analista de Segurança", "Pentester (Ethical Hacker)", "Security Engineer", "SOC Analyst", "Especialista em Resposta a Incidentes", "Analista Forense Digital", "GRC (Governança, Risco e Compliance)", "Security Architect", "Red Team", "violet Team"],
   "Redes e Infraestrutura": ["Administrador de Redes", "Network Engineer", "Técnico de Redes", "Especialista em Firewall", "Engenheiro de Infraestrutura", "NOC Analyst", "Administrador de Sistemas", "DevOps Engineer"],
   "Cloud Computing": ["Cloud Engineer", "Cloud Architect", "Cloud Administrator", "DevOps Cloud", "Site Reliability Engineer (SRE)", "Especialista AWS", "Especialista Azure", "Especialista Google Cloud"],
   "Ciência de Dados e IA": ["Data Analyst", "Data Scientist", "Machine Learning Engineer", "AI Engineer", "Data Engineer", "BI Analyst", "Especialista em Big Data"],
@@ -323,7 +323,7 @@ export default function ProfileSidebar({ initialData, userId, isReadOnly = false
                   <option value="_manual">Outra / Manual</option>
                 </select>
                 {itArea === "_manual" && (
-                  <input type="text" value={itAreaManual} onChange={(e) => setItAreaManual(e.target.value)} className="w-full border border-blue-300 px-3 py-1.5 rounded-md text-xs outline-none focus:border-indigo-500 transition bg-blue-50/30" placeholder="Nome da Área IT" maxLength={100} />
+                  <input type="text" value={itAreaManual} onChange={(e) => setItAreaManual(e.target.value)} className="w-full border border-violet-300 px-3 py-1.5 rounded-md text-xs outline-none focus:border-indigo-500 transition bg-violet-50/30" placeholder="Nome da Área IT" maxLength={100} />
                 )}
                 
                 <select value={itArea && IT_AREAS[itArea]?.includes(itRole) ? itRole : (itRole ? "_manual" : "")} onChange={(e) => { setItRole(e.target.value); }} disabled={itArea !== "_manual" && (!itArea || !IT_AREAS[itArea])} className="w-full border border-gray-300 px-3 py-1.5 rounded-md text-xs outline-none focus:border-indigo-500 transition disabled:opacity-50">
@@ -332,7 +332,7 @@ export default function ProfileSidebar({ initialData, userId, isReadOnly = false
                   {(itArea || itArea === "_manual") && <option value="_manual">Outra / Manual</option>}
                 </select>
                 {itRole === "_manual" && (
-                  <input type="text" value={itRoleManual} onChange={(e) => setItRoleManual(e.target.value)} className="w-full border border-blue-300 px-3 py-1.5 rounded-md text-xs outline-none focus:border-indigo-500 transition bg-blue-50/30" placeholder="Nome da Função IT" maxLength={100} />
+                  <input type="text" value={itRoleManual} onChange={(e) => setItRoleManual(e.target.value)} className="w-full border border-violet-300 px-3 py-1.5 rounded-md text-xs outline-none focus:border-indigo-500 transition bg-violet-50/30" placeholder="Nome da Função IT" maxLength={100} />
                 )}
             </div>
           </div>

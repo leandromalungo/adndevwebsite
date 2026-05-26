@@ -180,9 +180,9 @@ export default async function SecurityPage() {
       </section>
 
       {/* Security Recommendations */}
-      <section className="rounded-lg border border-blue-200 bg-blue-50 p-4 md:p-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-blue-900">Recomendações de Segurança</h2>
-        <ul className="mt-3 space-y-2 text-sm text-blue-800">
+      <section className="rounded-lg border border-violet-200 bg-violet-50 p-4 md:p-6 shadow-sm">
+        <h2 className="text-lg font-semibold text-violet-900">Recomendações de Segurança</h2>
+        <ul className="mt-3 space-y-2 text-sm text-violet-800">
           {metrics.alertLevel === "critico" && (
             <>
               <li><strong>CRÍTICO:</strong> Múltiplos IPs e contas com atividade suspeita. Considere bloquear IPs ou implementar verificação adicional.</li>

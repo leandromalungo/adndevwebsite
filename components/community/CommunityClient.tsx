@@ -54,7 +54,7 @@ export default function CommunityClient() {
             <button
               type="button"
               onClick={isLoggedIn ? () => setShowAppComingSoon(true) : handleClick}
-              className={`inline-flex items-center gap-2 px-3 py-3 mb-4 font-semibold transition-all active:scale-95 rounded-xl ${isLoggedIn ? 'bg-neutral-950 hover:bg-neutral-800 text-neutral-50 border border-violet-700' : 'bg-blue-400 hover:bg-blue-500 text-white'}`}
+              className={`inline-flex items-center gap-2 px-3 py-3 mb-4 font-semibold transition-all active:scale-95 rounded-xl ${isLoggedIn ? 'bg-neutral-950 hover:bg-neutral-800 text-neutral-50 border border-violet-700' : 'bg-violet-400 hover:bg-violet-500 text-white'}`}
             >
               {isLoggedIn ? (
                 <>
