@@ -104,41 +104,40 @@ export default function Page() {
 
       {/* SEÇÃO COMUNIDADES */}
       <div className="min-h-screen bg-[#f9fafb]">
-        <header className="bg-white border-b border-gray-200 py-4 sm:py-6">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4 pl-3 sm:pl-7">
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 pl-0 sm:pl-3">Comunidades</h1>
-            <p className="text-gray-500 text-xs sm:text-sm pl-0 sm:pl-3 mb-4 sm:mb-6">
-              Descubra grupos e comunidades de tecnologia na lusofonia e
-              participe.
-            </p>
+        <header className="bg-white border-b border-gray-200 py-6 sm:py-8">
+          <div className="max-w-8xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center text-center">
 
-            {/* BARRA DE PESQUISA DESTACADA */}
-            <div className="px-0 sm:px-3 mb-6 sm:mb-8 w-full max-w-3xl">
+            {/* BLOCO UNIFICADO: Mudei para gap-1 para ficarem bem colados */}
+            <div className="w-full max-w-2xl mx-auto px-2 sm:px-0 flex flex-col gap-1">
+
+              {/* BARRA DE PESQUISA DESTACADA */}
               <div className="relative w-full">
                 <input
                   type="text"
                   placeholder="Pesquisar por nome da comunidade, assunto ou tecnologia (ex: React, AWS, Data Science)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 sm:pl-12 pr-3 sm:pr-4 py-2 sm:py-3 border border-gray-200 rounded-xl text-xs sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 bg-gray-50 focus:bg-white transition-colors shadow-sm"
+                  className="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3.5 border border-gray-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-600 text-gray-900 bg-gray-50 focus:bg-white transition-all shadow-sm placeholder-gray-400"
                 />
-                <Search className="absolute left-3 sm:left-4 top-2.5 sm:top-3.5 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
+                <Search className="absolute left-3.5 sm:left-4 top-3 sm:top-4 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
               </div>
+
+              {/* FILTROS (Agora coladinho no input de cima) */}
+              <div className="w-full flex justify-center">
+                <CountryFilter
+                  selectedCountry={selectedCountry}
+                  onCountryChange={setSelectedCountry}
+                  countries={LUSOPHONE_COUNTRIES.filter((country) => country !== "Todos")}
+                  className="bg-white border-gray-200 w-full"
+                />
+              </div>
+
             </div>
 
-            {/* FILTROS */}
-            <div className="pl-0 sm:pl-3">
-              <CountryFilter
-                selectedCountry={selectedCountry}
-                onCountryChange={setSelectedCountry}
-                countries={LUSOPHONE_COUNTRIES.filter((country) => country !== "Todos")}
-                className="bg-white border-gray-200"
-              />
-            </div>
           </div>
         </header>
 
-        <main className="max-w-7xl mx-auto px-4">
+        <main className="max-w-7xl mx-auto px-4 py-6 sm:py-2">
           <CommunityGrid
             selectedCountry={selectedCountry}
             searchQuery={searchQuery}

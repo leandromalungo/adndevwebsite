@@ -28,6 +28,22 @@ import { MOCK_EVENTS } from "@/components/events/constants";
 import type { Event } from "@/data/types";
 import { useSession } from "next-auth/react";
 
+/**
+ * Função para determinar se um evento é passado ou futuro
+ * Compara a data do evento com a data atual
+ */
+function isEventPast(eventDate: string): boolean {
+  try {
+    const eventDateObj = new Date(eventDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    eventDateObj.setHours(0, 0, 0, 0);
+    return eventDateObj < today;
+  } catch {
+    return false;
+  }
+}
+
 const Page = () => {
 
   /**
@@ -38,6 +54,7 @@ const Page = () => {
   const [selectedState, setSelectedState] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedDateType, setSelectedDateType] = useState<"" | "passados" | "atuais">("");
   const [isOnline, setIsOnline] = useState(false);
   const [loading, setLoading] = useState(false);
   const [dbEvents, setDbEvents] = useState<Event[]>([]);
@@ -78,6 +95,7 @@ const Page = () => {
    * - Estado/Província
    * - Categoria
    * - Tipo (online/presencial)
+   * - Data (passados/atuais)
    */
   const filteredEvents = useMemo(() => {
     return allEvents.filter((event) => {
@@ -96,12 +114,6 @@ const Page = () => {
       const matchesState =
         selectedState === "" || event.state === selectedState;
 
-      // Filtro por categoria
-      const matchesCategory =
-        selectedCategories.length === 0 ||
-        (event.category && selectedCategories.includes(event.category)) ||
-        (event.tags?.some((tag) => selectedCategories.includes(tag)) ?? false);
-
       // Filtro por mês
       const matchesMonth =
         selectedMonth === "" || event.month === selectedMonth;
@@ -109,16 +121,23 @@ const Page = () => {
       // Filtro por tipo (online)
       const matchesOnline = !isOnline || event.isOnline === true;
 
+      // Filtro por data (passados/atuais)
+      const eventIsPast = isEventPast(event.date);
+      const matchesDateType =
+        selectedDateType === "" ||
+        (selectedDateType === "passados" && eventIsPast) ||
+        (selectedDateType === "atuais" && !eventIsPast);
+
       return (
         matchesSearch &&
         matchesCountry &&
         matchesState &&
-        matchesCategory &&
         matchesMonth &&
-        matchesOnline
+        matchesOnline &&
+        matchesDateType
       );
     });
-  }, [allEvents, searchQuery, selectedCountry, selectedState, selectedCategories, selectedMonth, isOnline]);
+  }, [allEvents, searchQuery, selectedCountry, selectedState, selectedCategories, selectedMonth, isOnline, selectedDateType]);
 
   /**
    * LIMPAR FILTROS
@@ -127,8 +146,8 @@ const Page = () => {
     setSearchQuery("");
     setSelectedCountry("");
     setSelectedState("");
-    setSelectedCategories([]);
     setSelectedMonth("");
+    setSelectedDateType("");
     setIsOnline(false);
   };
 
@@ -212,6 +231,8 @@ const Page = () => {
             setSelectedCategories={setSelectedCategories}
             selectedMonth={selectedMonth}
             setSelectedMonth={setSelectedMonth}
+            selectedDateType={selectedDateType}
+            setSelectedDateType={setSelectedDateType}
             isOnline={isOnline}
             setIsOnline={setIsOnline}
           />
@@ -222,6 +243,7 @@ const Page = () => {
             selectedState ||
             selectedCategories.length > 0 ||
             selectedMonth ||
+            selectedDateType ||
             isOnline) && (
               <div className="mt-4 flex justify-end">
                 <button
@@ -233,12 +255,7 @@ const Page = () => {
               </div>
             )}
 
-          {/* Contagem e grid de eventos */}
-          <h2 className="text-2xl my-8">
-            Eventos encontrados ({filteredEvents.length})
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
             {filteredEvents.map((event) => (
               <EventCard key={event.id} event={event} />
             ))}

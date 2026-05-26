@@ -31,6 +31,9 @@ export async function GET() {
       description: `${row.description}${row.country ? ` Pais: ${row.country}.` : ""}${row.level ? ` Nivel: ${row.level}.` : ""}${row.deadline ? ` Prazo: ${row.deadline}.` : ""}`,
       href: row.link,
       buttonLabel: "Inscrever",
+      category: row.level || "Bolsas de Estudo",
+      country: row.country || "",
+      deadline: row.deadline || "",
     }));
 
     return NextResponse.json({ scholarships: cards });

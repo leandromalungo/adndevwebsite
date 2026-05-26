@@ -550,6 +550,8 @@ const NavbarContent = () => {
       <Suspense fallback={null}>
         <AuthQueryHandler isLoggedIn={isLoggedIn} setLoginModal={setLoginModal} setIsRegistering={setIsRegistering} />
       </Suspense>
+      
+      {/* Links Header */}
 
       <header className="fixed top-0 w-full z-50 bg-white border-b border-gray-100">
         <nav className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
@@ -561,9 +563,9 @@ const NavbarContent = () => {
           <div className="hidden lg:flex items-center gap-6 font-bold">
             <NavLink label="Eventos" href="/events" />
             <NavLink label="Comunidades" href="/community" />
-            <NavLink label="Bolsas de estudo" href="/bolsas" />
+            <NavLink label="Formações" href="/bolsas" />
             <NavLink label="RoadMaps" href="/roadmaps" />
-            <NavLink label="Startups" href="/startups" />
+            <NavLink label="Negócios" href="/startups" />
           </div>
 
           <div className="flex items-center gap-3 relative">
@@ -654,9 +656,9 @@ const NavbarContent = () => {
             <div className="px-6 py-4 space-y-2 font-bold max-h-[70vh] overflow-y-auto">
               <MobileLink label="Eventos" href="/events" onClick={closeMobileMenu} />
               <MobileLink label="Comunidades" href="/community" onClick={closeMobileMenu} />
-              <MobileLink label="Bolsas de estudo" href="/bolsas" onClick={closeMobileMenu} />
+              <MobileLink label="Formações" href="/bolsas" onClick={closeMobileMenu} />
               <MobileLink label="RoadMaps" href="/roadmaps" onClick={closeMobileMenu} />
-              <MobileLink label="Startups" href="/startups" onClick={closeMobileMenu} />
+              <MobileLink label="Negócios" href="/startups" onClick={closeMobileMenu} />
             </div>
           </div>
         )}

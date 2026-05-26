@@ -15,6 +15,8 @@ interface AdvancedFiltersProps {
   setSelectedCategories: (val: string[]) => void;
   selectedMonth: string;
   setSelectedMonth: (val: string) => void;
+  selectedDateType: "" | "passados" | "atuais";
+  setSelectedDateType: (val: "" | "passados" | "atuais") => void;
   isOnline: boolean;
   setIsOnline: (val: boolean) => void;
 }
@@ -45,8 +47,8 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
   setSelectedCategories,
   selectedMonth,
   setSelectedMonth,
-  isOnline,
-  setIsOnline,
+  selectedDateType,
+  setSelectedDateType,
 }) => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
@@ -65,14 +67,16 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
   };
 
   return (
-    <div className="bg-white p-3 sm:p-4 rounded border border-gray-200 space-y-3 sm:space-y-4">
+    <div className="bg-white p-3 sm:p-4 rounded-lg border border-gray-200 space-y-3 sm:space-y-4">
       
-      {/* Barra de filtros */}
-      <div className="flex flex-wrap items-end gap-2 sm:gap-3">
+      {/* Ajuste definitivo aqui: Adicionado 'w-full' para o container ocupar toda a largura,
+        permitindo que o 'justify-center' jogue os filtros para o meio exato do card.
+      */}
+      <div className="flex flex-wrap items-end justify-center w-full gap-2 sm:gap-3">
 
         {/* Tipo de Evento */}
         <div className="relative min-w-[140px] sm:min-w-[180px]">
-          <label className="block text-xs sm:text-xs font-semibold text-gray-600 mb-1">
+          <label className="block text-xs sm:text-xs font-semibold text-gray-600 mb-1 text-center">
             Tipo de Evento
           </label>
           <button
@@ -126,7 +130,7 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
 
         {/* País */}
         <div className="relative min-w-[140px] sm:min-w-[180px]">
-          <label className="block text-xs sm:text-xs font-semibold text-gray-600 mb-1">
+          <label className="block text-xs sm:text-xs font-semibold text-gray-600 mb-1 text-center">
             País
           </label>
           <button
@@ -172,7 +176,7 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
 
         {/* Estado */}
         <div className="relative min-w-[140px] sm:min-w-[180px]">
-          <label className="block text-xs sm:text-xs font-semibold text-gray-600 mb-1">
+          <label className="block text-xs sm:text-xs font-semibold text-gray-600 mb-1 text-center">
             Estado / Província
           </label>
           <button
@@ -210,7 +214,7 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
 
         {/* Mês */}
         <div className="relative min-w-[140px] sm:min-w-[180px]">
-          <label className="block text-xs sm:text-xs font-semibold text-gray-600 mb-1">
+          <label className="block text-xs sm:text-xs font-semibold text-gray-600 mb-1 text-center">
             Mês
           </label>
           <button
@@ -252,67 +256,74 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
           )}
         </div>
 
-        {/* Categoria */}
+        {/* Data */}
         <div className="relative min-w-[140px] sm:min-w-[180px]">
-          <label className="block text-xs sm:text-xs font-semibold text-gray-600 mb-1">
-            Categoria
+          <label className="block text-xs sm:text-xs font-semibold text-gray-600 mb-1 text-center">
+            Data
           </label>
           <button
-            onClick={() => setOpenDropdown(openDropdown === 'category' ? null : 'category')}
+            onClick={() => setOpenDropdown(openDropdown === 'date' ? null : 'date')}
             className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm border border-gray-300 rounded flex items-center justify-between bg-white"
           >
-            <span className={selectedCategories.length > 0 ? 'text-gray-900' : 'text-gray-400'}>
-              {selectedCategories.length > 0
-                ? `${selectedCategories.length} selecionado(s)`
+            <span className={selectedDateType ? 'text-gray-900' : 'text-gray-400'}>
+              {selectedDateType === 'passados' 
+                ? 'Passados'
+                : selectedDateType === 'atuais'
+                ? 'Atuais/Futuros'
                 : 'Selecionar'}
             </span>
             <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
           </button>
 
-          {openDropdown === 'category' && (
+          {openDropdown === 'date' && (
             <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded shadow">
               <div className="flex items-center justify-between px-2 sm:px-3 py-2 text-xs sm:text-sm border-b border-gray-100">
-                <span className="font-medium">Filtrar por tipo</span>
+                <span className="font-medium">Filtrar por data</span>
                 <button
                   type="button"
-                  onClick={() => setSelectedCategories([])}
+                  onClick={() => setSelectedDateType('')}
                   className="text-blue-600 hover:underline"
                 >
                   Limpar
                 </button>
               </div>
               <div className="max-h-52 overflow-y-auto">
-                {EVENT_CATEGORIES.map((category) => (
-                  <label
-                    key={category}
-                    className="flex items-center gap-2 w-full px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm cursor-pointer hover:bg-gray-50"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedCategories.includes(category)}
-                      onChange={() => toggleCategory(category)}
-                      className="w-3 h-3 sm:w-4 sm:h-4"
-                    />
-                    <span className="text-left">{category}</span>
-                  </label>
-                ))}
+                <button
+                  onClick={() => {
+                    setSelectedDateType('');
+                    setOpenDropdown(null);
+                  }}
+                  className="w-full px-2 sm:px-3 py-1.5 sm:py-2 text-left text-xs sm:text-sm hover:bg-gray-50"
+                >
+                  Todos os eventos
+                </button>
+                <button
+                  onClick={() => {
+                    setSelectedDateType('atuais');
+                    setOpenDropdown(null);
+                  }}
+                  className={`w-full px-2 sm:px-3 py-1.5 sm:py-2 text-left text-xs sm:text-sm hover:bg-gray-50 ${
+                    selectedDateType === 'atuais' ? 'bg-blue-50' : ''
+                  }`}
+                >
+                  Atuais/Futuros
+                </button>
+                <button
+                  onClick={() => {
+                    setSelectedDateType('passados');
+                    setOpenDropdown(null);
+                  }}
+                  className={`w-full px-2 sm:px-3 py-1.5 sm:py-2 text-left text-xs sm:text-sm hover:bg-gray-50 ${
+                    selectedDateType === 'passados' ? 'bg-blue-50' : ''
+                  }`}
+                >
+                  Passados
+                </button>
               </div>
             </div>
           )}
         </div>
 
-        {/* Online */}
-        <div className="flex items-center h-[32px] sm:h-[38px] px-1 sm:px-2">
-          <label className="flex items-center gap-2 cursor-pointer text-xs sm:text-sm text-gray-700">
-            <input
-              type="checkbox"
-              checked={isOnline}
-              onChange={(e) => setIsOnline(e.target.checked)}
-              className="w-3 h-3 sm:w-4 sm:h-4"
-            />
-            Online
-          </label>
-        </div>
       </div>
     </div>
   );

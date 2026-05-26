@@ -1613,12 +1613,6 @@ const PROGRAMS_BY_COUNTRY: Record<FilterTab, Program[]> = {
     ],
 };
 
-const TYPE_COLORS: Record<Program["type"], string> = {
-    incubadora: "bg-violet-100 text-violet-700",
-    aceleradora: "bg-violet-100 text-violet-700",
-    fundo: "bg-amber-100 text-amber-700",
-    programa: "bg-emerald-100 text-emerald-700",
-};
 
 export default function StartupProgramsSlider() {
     const [selectedCountry, setSelectedCountry] = useState<FilterTab>(LUSOPHONE_COUNTRIES[0]);
@@ -1639,7 +1633,7 @@ export default function StartupProgramsSlider() {
 
     return (
         <section className="py-20 px-4 bg-zinc-50 w-full">
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <div className="mb-4 sm:mb-6">
                     <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-zinc-900 mb-2 tracking-tight">

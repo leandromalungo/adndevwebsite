@@ -2,7 +2,7 @@
 
 import { FadeIn } from "@/components/ui/fade-in";
 
-export const BigTechBo = () => {
+export const UniCard = () => {
 
   const supporters = [
     {
@@ -40,6 +40,9 @@ export const BigTechBo = () => {
     {
       name: "Universidade de Pequim (PKU ou Beida)",
       logo: "/images-bolsas-china.webp",
+    },{
+      name: "Universidade de Pequim (PKU ou Beida)",
+      logo: "/images-bolsas-china.webp",
     },
   ];
 
@@ -48,30 +51,30 @@ export const BigTechBo = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         {/* Lado esquerdo */}
         <div className="lg:col-span-5 flex flex-col space-y-6">
-          <span className="text-[#0ea5e9] font-bold text-xs sm:text-xs md:text-sm tracking-wider uppercase">
-            Tenha acesso
+          <span className="text-violet-600 font-bold text-xs sm:text-xs md:text-sm tracking-wider uppercase">
+            Confira
           </span>
 
-          <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl text-[#1f2937] leading-tight">
-            Bolsas de estudo das melhores universidades do mundo
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#1f2937] leading-tight uppercase">
+            As melhores universidades do mundo
           </h2>
 
-          <p className="text-[#4b5563] text-sm sm:text-base md:text-lg leading-relaxed max-w-lg">
-            As melhores universidades do mundo confiam em nós para oferecer
+          <p className="text-[#4b5563]  sm:text-base md:text-lg leading-relaxed max-w-lg">
+            Confiam partilham estas informações para oferecer
             bolsas de estudo a talentos emergentes na área da tecnologia e muito
             mais. Assine a plataforma e receba alertas exclusivos todos os
-            meses.
+            meses e conte com a nossa ajuda no processo de inscrição.
           </p>
 
         </div>
 
         {/* Lado direito: logos */}
         <div className="lg:col-span-7">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {supporters.map((item, index) => (
               <FadeIn key={index} delay={index * 0.1} direction="up">
                 <div
-                  className="group relative bg-white rounded-lg h-28 md:h-32 shadow-sm overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-md cursor-pointer"
+                  className="group relative bg-white rounded h-28 md:h-32 shadow-sm overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-md cursor-pointer"
                 >
                   {/* Imagem */}
                   <img

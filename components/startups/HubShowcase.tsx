@@ -44,17 +44,14 @@ const HubShowcase: React.FC<HubShowcaseProps> = ({ selectedCountry }) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
   return (
-    <section className="bg-white py-24 px-6 md:px-12 lg:px-24 border-t border-gray-100">
+    <section className="bg-white py-24 px-6 md:px-12 lg:px-24">
       <div className="container mx-auto">
         {/* Cabeçalho */}
-        <div className="text-center mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-gray-900 mb-3 sm:mb-4 uppercase">
+        <div className="mb-6 sm:mb-8">
+          <h2 className="text-2xl lg:text-4xl xl:text-4xl text-gray-500 mb-3 sm:mb-4 uppercase">
             Como criar uma startup?
           </h2>
-          <p className="text-gray-500 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-light max-w-2xl mx-auto">
-            Passos práticos para transformar uma ideia em uma empresa de tecnologia
-            viável, com validação de mercado, apoio estruturado e tração na lusofonia.
-          </p>
+        
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">

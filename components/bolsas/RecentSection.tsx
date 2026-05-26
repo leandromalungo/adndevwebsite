@@ -3,7 +3,6 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { FadeIn } from "@/components/ui/fade-in";
 import type { FilterTab } from "@/components/CountryFilter";
 
 interface CategoryCardProps {
@@ -14,6 +13,7 @@ interface CategoryCardProps {
   buttonLabel?: string;
   secondaryHref?: string;
   secondaryLabel?: string;
+  deadline?: string; // Nova prop opcional para a data final (Formato: "YYYY-MM-DD")
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({
@@ -24,49 +24,123 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   buttonLabel,
   secondaryHref,
   secondaryLabel,
+  deadline,
 }) => {
   const { data: session } = useSession();
   const pathname = usePathname();
   const isLoggedIn = !!session;
+
+  // Lógica matemática para calcular os dias restantes baseando-se na data atual
+  const calculateDaysLeft = (): { text: string; isExpired: boolean } => {
+    if (!deadline) return { text: "Prazo em aberto", isExpired: false };
+
+    const today = new Date();
+    // Zera as horas para comparar apenas os dias exatos
+    today.setHours(0, 0, 0, 0);
+
+    const targetDate = new Date(deadline);
+    targetDate.setHours(0, 0, 0, 0);
+
+    const differenceInTime = targetDate.getTime() - today.getTime();
+    const daysLeft = Math.ceil(differenceInTime / (1000 * 3600 * 24));
+
+    if (daysLeft < 0) {
+      return { text: "Expirado", isExpired: true };
+    } else if (daysLeft === 0) {
+      return { text: "Termina hoje!", isExpired: false };
+    } else if (daysLeft === 1) {
+      return { text: "Falta 1 dia", isExpired: false };
+    } else {
+      return { text: `Faltam ${daysLeft} dias`, isExpired: false };
+    }
+  };
+
+  const { text: statusText, isExpired } = calculateDaysLeft();
+
   const buttons = [
-    { href: isLoggedIn ? href : `${pathname}?auth=login`, label: buttonLabel ?? "Inscrever" },
-    secondaryHref && { href: isLoggedIn ? secondaryHref : `${pathname}?auth=login`, label: secondaryLabel ?? "Detalhes" },
+    { 
+      href: isLoggedIn ? href : `${pathname}?auth=login`, 
+      label: isExpired ? "Inscrições Encerradas" : (buttonLabel ?? "Inscrever") 
+    },
+    secondaryHref && { 
+      href: isLoggedIn ? secondaryHref : `${pathname}?auth=login`, 
+      label: secondaryLabel ?? "Detalhes" 
+    },
   ].filter(Boolean) as Array<{ href: string; label: string }>;
 
   return (
-    <div className="flex flex-col h-auto md:h-full rounded overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
-      <div className="h-40 md:h-48 overflow-hidden rounded-t-lg">
+    <div className="flex flex-col h-auto md:h-full backdrop-blur-md rounded-2xl border border-violet-500/10 hover:border-violet-200 overflow-hidden shadow-lg hover:shadow-violet-500/55 transition-all duration-300 group relative">
+
+      {/* Badge Flutuante do Contador de Dias */}
+      <div className="absolute top-3 right-3 z-10">
+        <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold shadow-sm backdrop-blur-sm transition-colors duration-300
+          ${isExpired 
+            ? "bg-red-500 text-white" 
+            : statusText === "Termina hoje!" 
+              ? "bg-amber-500 text-white animate-pulse" 
+              : statusText === "Prazo em aberto"
+                ? "bg-emerald-500 text-white"
+                : "bg-white/90 text-violet-700 border border-violet-100"
+          }`}
+        >
+          {statusText}
+        </span>
+      </div>
+
+      {/* Contentor de Imagem */}
+      <div className="h-40 md:h-48 overflow-hidden relative bg-slate-50 rounded-t-lg">
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
           loading="lazy"
         />
       </div>
 
-      <div className="flex flex-col flex-grow p-6 bg-[#2e405c]">
-        <h3 className="text-lg md:text-xl font-extrabold text-white mb-2 leading-tight">
+      {/* Área de Conteúdo */}
+      <div className="flex flex-col flex-grow p-5 bg-white">
+
+        <h3 className="text-base font-bold text-slate-800 mb-2 leading-snug transition-colors duration-200 group-hover:text-violet-600">
           {title}
         </h3>
 
-        <p className="text-white text-xs sm:text-sm leading-relaxed mb-4 md:mb-6 flex-grow line-clamp-3">
+        <p className="text-slate-500 text-sm leading-relaxed mb-5 flex-grow line-clamp-3 font-normal">
           {description}
         </p>
-        <span className="text-[10px] text-gray-100 mb-4">
-          Fonte: Esta bolsa tem as suas fontes devidamente mencionadas nesta postagem sem nenhuma alteração.
-        </span>
-        <div className="flex flex-wrap gap-3">
-          {buttons.map((button) => (
-            <a
-              key={button.href}
-              href={button.href}
-              target={isLoggedIn ? "_blank" : undefined}
-              rel={isLoggedIn ? "noreferrer" : undefined}
-              className="inline-block border-2 border-white text-white font-bold py-2 px-6 rounded hover:bg-[#0d9488] hover:text-white transition duration-200 text-sm"
-            >
-              {button.label}
-            </a>
-          ))}
+
+        {/* Botões de Ação */}
+        <div className="pt-3 border-t border-slate-50 flex gap-2">
+          {buttons.map((button, index) => {
+            const isMainButton = index === 0;
+            
+            // Se estiver expirado, o botão principal fica cinza e desabilitado para cliques
+            if (isExpired && isMainButton) {
+              return (
+                <div
+                  key={button.href}
+                  className="flex-1 text-center font-semibold py-2 px-3 rounded-lg text-xs tracking-wide bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed select-none"
+                >
+                  {button.label}
+                </div>
+              );
+            }
+
+            return (
+              <a
+                key={button.href}
+                href={button.href}
+                target={isLoggedIn ? "_blank" : undefined}
+                rel={isLoggedIn ? "noreferrer" : undefined}
+                className={`flex-1 text-center font-semibold py-2 px-3 rounded-lg text-xs tracking-wide transition-all duration-200 ${
+                  isMainButton
+                    ? "border border-violet-600 text-violet-600 hover:text-white shadow-sm hover:bg-violet-600 shadow-violet-600/10"
+                    : "bg-slate-50 text-slate-600 hover:text-violet-600 border border-slate-200/60 hover:bg-slate-100"
+                }`}
+              >
+                {button.label}
+              </a>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -82,6 +156,7 @@ interface RecentSectionProps {
     description: string;
     href: string;
     buttonLabel?: string;
+    deadline?: string;
   }>;
 }
 
@@ -98,6 +173,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
         "Totalmente Financiadas! Para todos os países Africanos. As bolsas são oferecidas para os níveis de Mestrado e Doutorado.",
       href: "https://www.mandelarhodes.org/scholarship/apply/",
       buttonLabel: "Inscrever",
+      deadline: "2026-04-15", // Passado (Aparecerá como Expirado)
     },
     {
       image: "/esp.png",
@@ -106,6 +182,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
         "País: Espanha. Programa: Aprenda África. Nível educacional: Cursos de Especialização, Mestrado & Pré-Doutorado. Prazo: 19 de Abril de 2026, 23:59 (horário de Madrid).",
       href: "https://mujeresporafrica.es/learn-africa-programa-2026/",
       buttonLabel: "Inscrever",
+      deadline: "2026-04-19", // Passado (Aparecerá como Expirado)
     },
     {
       image: "/irlnd.png",
@@ -114,6 +191,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
         "País anfitrião: Irlanda. Universidade: Dublin City University (DCU). Duração: Um ano. Mensalidades totalmente cobertas. Prazo final: 30 de julho de 2026.",
       href: "https://business.dcu.ie/scholarships/john-thompson-scholarship/",
       buttonLabel: "Inscrever",
+      deadline: "2026-07-30", // Futuro
     },
     {
       image: "/en.png",
@@ -122,6 +200,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
         "País: Reino Unido. Nível: Bacharelado e Mestrado. Financiado. Prazo: 14 de julho de 2026.",
       href: "https://www.salford.ac.uk/international/scholarships/global-gold-excellence-scholarship",
       buttonLabel: "Inscrever",
+      deadline: "2026-07-14", // Futuro
     },
     {
       image: "/onl.png",
@@ -130,6 +209,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
         "País: Holanda. Nível: Licenciatura e Mestrado. Universidade HAN. Prazo de candidatura: 1° de Maio de 2026.",
       href: "https://www.hanuniversity.com/en/study-and-living/scholarships/",
       buttonLabel: "Inscrever",
+      deadline: "2026-05-01", // Passado (Aparecerá como Expirado)
     },
     {
       image: "/ugnd.png",
@@ -138,6 +218,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
         "País: Uganda. Universidade: Makerere. Nível: Licenciatura & Mestrado. Totalmente financiado. Prazo: 5 de Junho de 2026.",
       href: "https://apply.mastercardfoundation.mak.ac.ug/scholarships",
       buttonLabel: "Inscrever",
+      deadline: "2026-06-05", // Futuro
     },
     {
       image: "/trk.png",
@@ -148,6 +229,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
       buttonLabel: "Detalhes Licenciatura",
       secondaryHref: "https://stars.bilkent.edu.tr/gradapp/index.php",
       secondaryLabel: "Detalhes Mestrado",
+      deadline: "2026-07-13", // Futuro
     },
     {
       image: "/brlm.png",
@@ -156,6 +238,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
         "País: Alemanha. Nível: Licenciatura e Mestrado. Fornecido por SBW Berlin. Prazo: Aberto ano todo.",
       href: "https://sbw.berlin/en/portfolio-items/sbw-berlin-scholarship",
       buttonLabel: "Inscrever",
+      deadline: "", // Aberto o ano todo (Exibirá: Prazo em aberto)
     },
     {
       image: "/china.png",
@@ -164,6 +247,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
         "País: China. Nível: Licenciatura, Mestrado e Doutorado. Financiamento integral. Data limite: 31 de maio de 2026.",
       href: "https://intl.csu.edu.cn/English/Scholarship/CSC_Scholarship.htm",
       buttonLabel: "Inscrever",
+      deadline: "2026-05-31", // Futuro
     },
     {
       image: "/en.png",
@@ -172,6 +256,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
         "País: Reino Unido. Nível: MBA. Universidade de Cambridge. Prazo: 15 de maio de 2026. Enviar CV, GMAT e carta de aceitação para admissions@boustany-foundation.org.",
       href: "https://boustany-foundation.org/scholarship-programmes/mba-cambridge/",
       buttonLabel: "Inscrever",
+      deadline: "2026-05-15", // Passado (Aparecerá como Expirado)
     },
     {
       image: "/br.jpg",
@@ -182,6 +267,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
       buttonLabel: "Edital PDF",
       secondaryHref: "https://www.gov.br/mre/pt-br/assuntos/cultura-e-educacao/temas-educacionais/programas-de-estudo-para-estrangeiros/pec-g/processo-seletivo",
       secondaryLabel: "Saiba mais",
+      deadline: "2026-05-09", // Passado (Aparecerá como Expirado)
     },
     {
       image: "/itl.png",
@@ -190,36 +276,17 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
         "País: Itália. Nível: Mestrado ou Doutorado. Financiada pelo Ministério das Relações Exteriores da Itália (MAECI). Data limite: 26 de maio de 2026.",
       href: "https://www.esteri.it/en/opportunita/borse-di-studio/per-cittadini-stranieri/borsestudio_stranieri/",
       buttonLabel: "Inscrever",
+      deadline: "2026-05-26", // Hoje! (Aparecerá como Termina hoje!)
     },
   ];
   const allCategories = [...dynamicItems, ...categories];
 
   return (
     <section className="bg-white pt-6 pb-16 px-6 md:px-12">
-      <div className="max-w-7xl mx-auto">
-        <header className="mb-4 sm:mb-6">
-          <h2 className="sm:text-2xl md:text-4xl lg:text-5xl text-[#040a17] mb-1 sm:mb-2 uppercase">
-            Bolsas de estudo{" "}
-            <span className="font-bolt opacity-40 text-violet-700">mais recorrentes</span>
-          </h2>
-
-          <p className="text-[#4b5563] text-sm sm:text-base md:text-lg lg:text-xl font-medium mb-6 sm:mb-8">
-            {selectedCountry && (
-              <span>
-                Bolsas disponíveis em <strong>{selectedCountry}</strong>
-              </span>
-            )}
-            {!selectedCountry &&
-              "Explore as bolsas de estudo mais recentes e populares disponíveis para você, independentemente do país Assine a plataforma e receba alertas durante o mês."}
-          </p>
-
-        </header>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="max-w-8xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {allCategories.map((cat, index) => (
-            <FadeIn key={index} delay={index * 0.15} direction="up" className="h-full">
-              <CategoryCard {...cat} />
-            </FadeIn>
+            <CategoryCard key={(cat as any).id ?? cat.href ?? index} {...cat} />
           ))}
         </div>
       </div>

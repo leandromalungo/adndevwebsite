@@ -80,10 +80,6 @@ export const CountryFilter: React.FC<CountryFilterProps> = ({
   return (
     <div className={`w-full py-3 sm:py-6 country-filter ${className}`}>
       <div className="max-w-7xl mx-auto px-3 sm:px-4">
-        {/* Título */}
-        <h3 className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white mb-2 sm:mb-4">
-          Escolha um país
-        </h3>
 
         {/* Container com scroll horizontal */}
         <div className="relative group">
@@ -113,14 +109,14 @@ export const CountryFilter: React.FC<CountryFilterProps> = ({
           <div
             ref={scrollContainerRef}
             onScroll={checkScroll}
-            className="flex gap-2 sm:gap-3 overflow-x-auto scrollbar-hide px-2 sm:px-4"
+            className="flex gap-1 sm:gap-2 overflow-x-auto scrollbar-hide px-1 sm:px-2"
           >
             {(countries ?? LUSOPHONE_COUNTRIES).map((country) => (
               <button
                 key={country}
                 onClick={() => onCountryChange(country)}
                 className={`
-                  px-3 sm:px-6 py-1.5 sm:py-2.5 rounded-xl font-medium text-xs sm:text-sm whitespace-nowrap
+                  px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg font-medium text-xs sm:text-sm whitespace-nowrap
                   transition-all duration-200 flex-shrink-0
                   ${selectedCountry === country
                     ? "bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 shadow-lg"

@@ -104,7 +104,7 @@ export const Hero = () => {
     <section className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col min-h-[75vh] md:min-h-[70vh] pt-28 sm:pt-32 md:pt-16 pb-12 md:pb-16 justify-center ">
       <div className="max-w-5xl mx-auto text-center">
         {/* TITULO */}
-        <h1 className="text-3xl font-thin sm:text-5xl md:text-5xl lg:text-6xl xl:text-6xl leading-[1.1] mb-5 sm:mb-6 md:mb-8 lg:mb-10 tracking-tight text-gray-50 uppercase mt-12 ">
+        <h1 className="text-3xl font-semibold sm:text-5xl md:text-5xl lg:text-6xl xl:text-6xl leading-[2] mb-5 sm:mb-6 md:mb-8 lg:mb-10 tracking-tight text-gray-50 uppercase mt-12 ">
           Ecossistema de conteúdo, impulsionado por tecnologia
         </h1>
 
@@ -141,7 +141,7 @@ export const Hero = () => {
         </div>
 
         {/* DESCRIÇÃO */}
-        <p className="text-[12px] text-gray-300 mb-3 sm:mb-4 md:mb-5 lg:mb-6 leading-relaxed max-w-3xl mx-auto">
+        <p className="text-lg text-gray-300 mb-1 sm:mb-2 md:mb-3 lg:mb-4 leading-relaxed max-w-2xl mx-auto">
           Somos um hub de conteúdo tecnológico lusófono
           definitivo para a sua carreira. Encontre Comunidades, 
           Roadmaps, dicas e suporte.

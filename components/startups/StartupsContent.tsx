@@ -1,13 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import Features from "@/components/startups/Features";
 import StartupProgramsSlider from "@/components/startups/StartupProgramsSlider";
 import AccessSection from "@/components/startups/AccessSection";
 import Matchmaking from "@/components/startups/Matchmaking";
 import HubShowcase from "@/components/startups/HubShowcase";
-import ChallengesSection from "@/components/startups/ChallengesSection";
-import NewsletterSection from "@/components/startups/NewsletterSection";
 import Navbar from "@/components/auth/Navbar";
 import Footer from "@/components/Footer";
 import { ArrowRight } from "lucide-react";
@@ -66,12 +63,10 @@ const StartupsContent = () => {
 
       <div className="min-h-screen bg-white">
         <main className="overflow-hidden">
-          <FadeIn><HubShowcase /></FadeIn>
-          <FadeIn><Features /></FadeIn>
-          <FadeIn><AccessSection /></FadeIn>
           <FadeIn><Matchmaking /></FadeIn>
-          <FadeIn><ChallengesSection /></FadeIn>
-          <FadeIn><NewsletterSection /></FadeIn>
+          <FadeIn><HubShowcase /></FadeIn>   
+          <FadeIn><StartupProgramsSlider /></FadeIn>
+          <FadeIn><AccessSection /></FadeIn>
           <Footer />
         </main>
       </div>
