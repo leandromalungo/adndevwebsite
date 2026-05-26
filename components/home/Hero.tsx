@@ -105,12 +105,12 @@ export const Hero = () => {
       <div className="max-w-5xl mx-auto text-center flex flex-col items-center">
 
         {/* 1. TÍTULO */}
-        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-50 uppercase leading-tight sm:leading-tight md:leading-none max-w-4xl">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-gray-50 uppercase leading-tight sm:leading-tight md:leading-none max-w-4xl">
           Ecossistema de conteúdo, impulsionado por tecnologia
         </h1>
 
         {/* 2. DESCRIÇÃO (Posicionada corretamente no topo para melhor leitura) */}
-        <p className="text-sm sm:text-base md:text-lg text-gray-300 mt-4 mb-6 sm:mb-8 leading-relaxed max-w-2xl mx-auto">
+        <p className="text-sm sm:text-base md:text-lg text-gray-300 mt-4 mb-3 sm:mb-8 leading-relaxed max-w-2xl mx-auto">
           Somos um hub de conteúdo tecnológico lusófono definitivo para a sua carreira.
           Encontre Comunidades, Roadmaps, dicas e suporte.
         </p>
