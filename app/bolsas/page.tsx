@@ -226,7 +226,7 @@ const App = () => {
       </section>
 
       {/* Grid de Bolsas */}
-      <div className="max-w-8xl mx-auto p-4 py-12">
+      <div className="w-full mx-auto py-12">
         <RecentSection dynamicItems={filteredScholarships} />
       </div>
 

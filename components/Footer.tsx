@@ -12,7 +12,7 @@ const Footer = () => {
     <footer className="bg-gray-50 border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-4 py-12">
         {/* Grelha Principal do Rodapé - Categorias de Recursos e Oportunidades */}
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-5 gap-8 mb-12">
+        <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-5 gap-8 mb-12">
           {/* Secção de Cursos Gratuitos - Links para as principais plataformas de E-learning */}
           <div>
             <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
@@ -251,15 +251,9 @@ const Footer = () => {
 
           {/* Sobre e Disclaimer - Nota legal sobre a natureza informativa da plataforma e links sociais */}
           <div>
-            <h3 className="font-bold text-gray-900 mb-4">
-              Como funciona?
+            <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider">
+              Nossas redes
             </h3>
-            <p className="text-gray-600 text-[12px] mb-4 leading-relaxed">
-              Este site não possui parceria oficial com os eventos, cursos, comunidades, projectos, bolsas
-              e entidades aqui divulgadas. Fornecemos informações sobre o sector tecnologia  e muito mais na lusofonia.
-              Os alertas e mais são servições de organização  baseadas em informações públicas com devida menção e sem alteração
-              de conteúdo. Para qualquer esclarecimento, entre em contacto connosco.
-            </p>
             <div className="flex gap-4">
               <a
                 href="https://www.facebook.com/adn.developer.oficial/"
