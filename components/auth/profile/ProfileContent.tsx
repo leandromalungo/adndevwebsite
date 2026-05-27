@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Plus, X, Edit2, Trash2, ExternalLink, Link as LinkIcon, User, Book, Brain, Briefcase, Award, Info, FolderGit2, Globe, Calendar } from "lucide-react";
 import * as actions from "@/app/actions/profile.actions";
 import { PREDEFINED_SOFT_SKILLS, UNIQUE_PREDEFINED_LANGUAGES } from "@/data/predefined-skills";
@@ -254,22 +254,7 @@ export default function ProfileContent({ initialData, userId, isReadOnly = false
               setTags={setLanguages}
               predefinedOptions={UNIQUE_PREDEFINED_LANGUAGES}
               isReadOnly={isReadOnly}
-              badgeClassName="bg-green-50 text-green-700 border-green-100 hover:bg-green-100"
-            />
-          )}
-
-          {hasExperiences && (
-            <EditableExperienceList 
-              title={
-                  <div className="flex items-center gap-2">
-                    <Briefcase className="w-5 h-5 text-gray-800" />
-                    Experiência de Trabalho
-                  </div>
-              }
-              items={experiences}
-              userId={userId}
-              setItems={setExperiences}
-              isReadOnly={isReadOnly}
+              badgeClassName="bg-indigo-50 text-indigo-700 border-indigo-100 hover:bg-indigo-100"
             />
           )}
 
@@ -289,11 +274,11 @@ export default function ProfileContent({ initialData, userId, isReadOnly = false
           )}
 
           {hasExtraInfo && (
-            <EditableExtraInfoList 
+            <EditableExperienceList 
               title={
                   <div className="flex items-center gap-2">
-                    <Info className="w-5 h-5 text-gray-800" />
-                    Informações Extras
+                    <Briefcase className="w-5 h-5 text-gray-800" />
+                    Experiência de Trabalho
                   </div>
               }
               items={extraInfo}
@@ -582,17 +567,23 @@ function EditableTagsWithPredefined({ title, tags, onAdd, onRemove, setTags, pre
       )}
 
       <div className="flex flex-wrap gap-2">
-        {tags.map((tag: string) => (
-          renderBadge ? renderBadge(tag, () => handleRemove(tag)) :
-          <div key={tag} className={`group relative flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium border cursor-default transition-colors ${badgeClassName}`}>
-            <span>{tag}</span>
-            {!isReadOnly && (
-              <button onClick={() => handleRemove(tag)} className="ml-1 text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity">
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </div>
-        ))}
+        {tags.map((tag: string, idx: number) => {
+          const key = `${tag}-${idx}`;
+          if (renderBadge) {
+            const el = renderBadge(tag, () => handleRemove(tag));
+            return React.isValidElement(el) ? React.cloneElement(el as any, { key }) : <div key={key}>{el}</div>;
+          }
+          return (
+            <div key={key} className={`group relative flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium border cursor-default transition-colors ${badgeClassName}`}>
+              <span>{tag}</span>
+              {!isReadOnly && (
+                <button onClick={() => handleRemove(tag)} className="ml-1 text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+          );
+        })}
         {tags.length === 0 && <span className="text-gray-400 text-sm italic">Nenhuma informação adicionada.</span>}
       </div>
     </div>
@@ -665,17 +656,23 @@ function EditableTags({ title, tags, onAdd, onRemove, setTags, badgeClassName = 
       )}
 
       <div className="flex flex-wrap gap-2">
-        {tags.map((tag: string) => (
-          renderBadge ? renderBadge(tag, () => handleRemove(tag)) :
-          <div key={tag} className={`group relative flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium border cursor-default transition-colors ${badgeClassName}`}>
-            <span>{tag}</span>
-            {!isReadOnly && (
-              <button onClick={() => handleRemove(tag)} className="ml-1 text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity">
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </div>
-        ))}
+        {tags.map((tag: string, idx: number) => {
+          const key = `${tag}-${idx}`;
+          if (renderBadge) {
+            const el = renderBadge(tag, () => handleRemove(tag));
+            return React.isValidElement(el) ? React.cloneElement(el as any, { key }) : <div key={key}>{el}</div>;
+          }
+          return (
+            <div key={key} className={`group relative flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium border cursor-default transition-colors ${badgeClassName}`}>
+              <span>{tag}</span>
+              {!isReadOnly && (
+                <button onClick={() => handleRemove(tag)} className="ml-1 text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+          );
+        })}
         {tags.length === 0 && <span className="text-gray-400 text-sm italic">Nenhuma informação adicionada.</span>}
       </div>
     </div>

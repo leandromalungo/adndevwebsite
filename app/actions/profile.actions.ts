@@ -53,9 +53,10 @@ const ExperienceSchema = z.object({
   role: z.string().max(100),
   company: z.string().max(100),
   date: z.string().max(100).optional(),
+  end_date: z.string().max(100).optional(),
   duration: z.string().max(100).optional(),
   period: z.string().max(100).optional(),
-  description: z.string().max(100).optional()
+  description: z.string().max(250).optional()
 }).strict();
 
 const ProjectSchema = z.object({
@@ -595,7 +596,11 @@ export async function deleteSkill(userId: string, skillId: string) {
 // ==========================================
 export async function addExperience(userId: string, data: any) {
   await getValidatedUserId(userId);
-  const validData = ExperienceSchema.parse(data);
+  const parsed = ExperienceSchema.safeParse(data);
+  if (!parsed.success) {
+    throw new Error("Dados de experiência inválidos.");
+  }
+  const validData = parsed.data;
   const { error } = await supabaseAdmin
     .from("user_experiences")
     .insert([{ user_id: userId, ...validData }]);
@@ -605,7 +610,11 @@ export async function addExperience(userId: string, data: any) {
 
 export async function updateExperience(userId: string, experienceId: string, data: any) {
   await getValidatedUserId(userId);
-  const validData = ExperienceSchema.parse(data);
+  const parsed = ExperienceSchema.safeParse(data);
+  if (!parsed.success) {
+    throw new Error("Dados de experiência inválidos.");
+  }
+  const validData = parsed.data;
   const { error } = await supabaseAdmin
     .from("user_experiences")
     .update(validData)
