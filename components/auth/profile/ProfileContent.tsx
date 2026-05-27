@@ -274,11 +274,11 @@ export default function ProfileContent({ initialData, userId, isReadOnly = false
           )}
 
           {hasExtraInfo && (
-            <EditableExperienceList 
+            <EditableExtraInfoList 
               title={
                   <div className="flex items-center gap-2">
-                    <Briefcase className="w-5 h-5 text-gray-800" />
-                    Experiência de Trabalho
+                    <Info className="w-5 h-5 text-gray-800" />
+                    Informações Extras
                   </div>
               }
               items={extraInfo}
