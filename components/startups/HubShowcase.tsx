@@ -41,12 +41,8 @@ export default function HubShowcase() {
 
   return (
     <section className="py-12 bg-gray-50/50 dark:bg-zinc-900/40 border-y border-gray-100 dark:border-zinc-800/50">
-       {/* TEXTURA EM XADREZ (GRID) - Aplicada de forma leve ao fundo do card */}
-        <div
-          className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 group-hover:opacity-[0.25] group-hover:bg-[linear-gradient(to_right,#8b5cf6_1px,transparent_1px),linear-gradient(to_bottom,#8b5cf6_1px,transparent_1px)] transition-all duration-500 pointer-events-none"
-        />
         
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4">
         
         {/* items-stretch: Garante que ambas as colunas tenham alturas idênticas dinamicamente */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
@@ -94,7 +90,7 @@ export default function HubShowcase() {
                       
                       <div className={`grid transition-all duration-200 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100 mt-1.5' : 'grid-rows-[0fr] opacity-0'}`}>
                         <div className="overflow-hidden">
-                          <p className="text-xs text-gray-500 dark:text-zinc-400 bg-gray-50/50 dark:bg-zinc-850/40 p-2.5 leading-relaxed border-l-2 border-indigo-500">
+                          <p className="text-xs text-gray-500 dark:text-zinc-400 bg-gray-50/50 dark:bg-zinc-850/40 p-2.5 leading-relaxed border-l border-indigo-500">
                             {item.description}
                           </p>
                         </div>

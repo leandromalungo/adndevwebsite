@@ -109,11 +109,11 @@ const Matchmaking: React.FC<MatchmakingProps> = ({ selectedCountry }) => {
   ];
 
   return (
-    <section className="bg-white py-20 px-6 md:px-12 lg:px-24">
+    <section className="bg-white py-5 px-6 md:px-12 lg:px-24">
       <div className="container mx-auto">
         <header className="text-center mb-12 sm:mb-16">
-          <h2 className="text-lx sm:text-xl md:text-2xl lg:text-4xl font-light text-gray-900 max-w-4xl mx-auto leading-snug uppercase">
-            Matchmaking para founders, mentores e investidores de startups
+          <h2 className="text-2xl sm:text-3xl md:text-4xl text-gray-900 sm:mt-6 tracking-tight uppercase max-w-4xl mx-auto">
+            Leve sua startup ao próximo passo, conhença:
           </h2>
         </header>
 

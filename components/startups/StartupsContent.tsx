@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import StartupProgramsSlider from "@/components/startups/StartupProgramsSlider";
-import AccessSection from "@/components/startups/AccessSection";
 import Matchmaking from "@/components/startups/Matchmaking";
 import HubShowcase from "@/components/startups/HubShowcase";
 import Navbar from "@/components/auth/Navbar";
@@ -81,10 +80,9 @@ const StartupsContent = () => {
 
       <div className="min-h-screen bg-white">
         <main className="overflow-hidden">
+          <FadeIn><HubShowcase /></FadeIn> 
           <FadeIn><Matchmaking /></FadeIn>
-          <FadeIn><HubShowcase /></FadeIn>   
           <FadeIn><StartupProgramsSlider /></FadeIn>
-          <FadeIn><AccessSection /></FadeIn>
           <Footer />
         </main>
       </div>

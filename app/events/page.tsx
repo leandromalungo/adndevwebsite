@@ -251,7 +251,7 @@ const Page = () => {
 
       {/* LISTAGEM DE EVENTOS */}
       <div className="min-h-screen bg-[#fcfcfc]">
-        <main className="max-w-7xl mx-auto p-4 py-10">
+        <main className="max-w-7xl mx-auto p-4 py-5">
           {/* Filtros Avançados */}
           <FilterSection
             searchQuery={searchQuery}
@@ -281,7 +281,7 @@ const Page = () => {
               <div className="mt-4 flex justify-end">
                 <button
                   onClick={clearFilters}
-                  className="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+                  className="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-violet-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   Limpar todos os filtros
                 </button>
@@ -300,7 +300,7 @@ const Page = () => {
                 </p>
                 <button
                   onClick={clearFilters}
-                  className="mt-4 px-6 py-2 bg-[#004d79] text-white rounded hover:bg-[#003d5f] transition-colors"
+                  className="mt-4 px-6 py-2 bg-[#004d79] text-white rounded-lg hover:bg-[#003d5f] transition-colors"
                 >
                   Limpar filtros
                 </button>

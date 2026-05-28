@@ -4,7 +4,6 @@ import { useEffect, useState, useMemo } from "react";
 import Head from "next/head";
 import { UniCard } from "@/components/bolsas/UniCard";
 import { RecentSection } from "@/components/bolsas/RecentSection";
-import BolsasAdvancedFilters from "@/components/bolsas/BolsasAdvancedFilters";
 import Navbar from "@/components/auth/Navbar";
 import Footer from "@/components/Footer";
 import { usePathname, useRouter } from "next/navigation";
@@ -148,24 +147,14 @@ const App = () => {
     });
   }, [dbScholarships, selectedCategory, selectedCountry, selectedState, selectedMonth, selectedDateType]);
 
-  /**
-   * LIMPAR FILTROS
-   */
-  const clearFilters = () => {
-    setSelectedCategory("");
-    setSelectedCountry("");
-    setSelectedState("");
-    setSelectedMonth("");
-    setSelectedDateType("");
-  };
-
   return (
     <>
       <Head>
-        <title>Bolsas de Estudo</title>
+        <title>OPORTUNIDADES E BOLSAS</title>
         <meta
           name="description"
-          content="Bolsas de estudo nacionais e internacionais para todas áreas de estudo para as melhores faculdades do mundo."
+          content="Escolha uma das oportunidades de bolsa de estudo disponíveis e impulsione sua carreira acadêmica e profissional. 
+          Explore as bolsas de estudo, programas de intercâmbio e mais, desde os mais recentes e populares disponíveis para ti."
         />
       </Head>
       <Navbar />
@@ -185,7 +174,7 @@ const App = () => {
         <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-12 lg:px-16 py-16 sm:py-20 md:py-24 flex flex-col items-center justify-center text-center">
 
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mt-4 sm:mt-6 mb-3 tracking-tight uppercase max-w-xl">
-            Bolsas de estudo
+          CARREIRAS E OPORTUNIDADES  
           </h2>
 
           <p className="text-zinc-200 mb-6 sm:mb-8 text-sm sm:text-base max-w-xl leading-relaxed">
@@ -226,7 +215,7 @@ const App = () => {
       </section>
 
       {/* Grid de Bolsas */}
-      <div className="w-full mx-auto py-12">
+      <div className="w-full mx-auto py-6">
         <RecentSection dynamicItems={filteredScholarships} />
       </div>
 

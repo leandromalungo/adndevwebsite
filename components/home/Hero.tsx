@@ -12,8 +12,6 @@ export const Hero = () => {
   const [loadingButton, setLoadingButton] = useState<LoadingButton>(null);
   const [showAppComingSoon, setShowAppComingSoon] = useState(false);
   const [search, setSearch] = useState("");
-  const [suggestions, setSuggestions] = useState<any[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
 
   const placeholders = [
     "Pesquisar comunidades tech...",
@@ -41,48 +39,6 @@ export const Hero = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Debounced search suggestions
-  useEffect(() => {
-    if (!isLoggedIn) {
-      setSuggestions([]);
-      setIsSearching(false);
-      return;
-    }
-
-    if (!search || search.trim().length === 0) {
-      setSuggestions([]);
-      setIsSearching(false);
-      return;
-    }
-
-    const controller = new AbortController();
-    setIsSearching(true);
-
-    const t = setTimeout(async () => {
-      try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(search)}`, { signal: controller.signal });
-        if (res.status === 401) {
-          setSuggestions([]);
-          setIsSearching(false);
-          return;
-        }
-        const data = await res.json();
-        setSuggestions(data.suggestions || []);
-      } catch (err) {
-        if ((err as any)?.name !== 'AbortError') {
-          setSuggestions([]);
-        }
-      } finally {
-        setIsSearching(false);
-      }
-    }, 350);
-
-    return () => {
-      controller.abort();
-      clearTimeout(t);
-    };
-  }, [search, isLoggedIn]);
-
   const handleClick = (button: LoadingButton) => {
     setLoadingButton(button);
 
@@ -105,7 +61,7 @@ export const Hero = () => {
       <div className="max-w-5xl mx-auto text-center flex flex-col items-center">
 
         {/* 1. TÍTULO */}
-        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-gray-50 uppercase leading-tight sm:leading-tight md:leading-none max-w-4xl">
+        <h1 className="text-2xl mt-16 sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-gray-50 uppercase leading-tight sm:leading-tight md:leading-none max-w-4xl">
           Ecossistema de conteúdo, impulsionado por tecnologia
         </h1>
 
@@ -114,42 +70,6 @@ export const Hero = () => {
           Somos um hub de conteúdo tecnológico lusófono definitivo para a sua carreira.
           Encontre Comunidades, Roadmaps, dicas e suporte.
         </p>
-
-        {/* 3. INPUT PESQUISA */}
-        <div className="w-full max-w-3xl mx-auto mb-6 sm:mb-8">
-          <div className="relative group">
-            {/* Efeito Glow Traseiro */}
-            <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-500 to-violet-600 opacity-40 blur transition-opacity duration-300 group-hover:opacity-60" />
-
-            <div className="relative flex items-center rounded-2xl border border-white/10 bg-black/50 backdrop-blur-xl overflow-hidden">
-              <div className="pl-4 sm:pl-5 shrink-0">
-                <Search size={20} className="text-violet-300 w-4 h-4 sm:w-5 sm:h-5" />
-              </div>
-
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder={placeholders[placeholderIndex]}
-                className="w-full bg-transparent px-3 sm:px-4 py-3.5 sm:py-5 text-xs sm:text-sm md:text-base text-white placeholder:text-gray-400 outline-none"
-                aria-autocomplete="list"
-              />
-
-              <button
-                type="button"
-                className="mr-2 border-l border-white/20 px-3 sm:px-5 py-2 text-xs sm:text-sm font-semibold text-white transition-all hover:text-violet-400 active:scale-95 whitespace-nowrap"
-                onClick={async () => {
-                  if (!isLoggedIn) {
-                    router.push("/?auth=login");
-                    return;
-                  }
-                }}
-              >
-                Pesquisar
-              </button>
-            </div>
-          </div>
-        </div>
 
         {/* 4. BOTÕES E TEXTOS INFERIORES */}
         <div className="flex flex-col items-center gap-6 sm:gap-8 w-full">
@@ -194,7 +114,7 @@ export const Hero = () => {
               type="button"
               onClick={() => handleClick("area")}
               disabled={loadingButton !== null}
-              className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl border border-zinc-700 bg-zinc-900/50 hover:bg-zinc-900 text-white font-bold text-xs sm:text-sm md:text-base shadow-md hover:border-zinc-500 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto min-w-[160px] whitespace-nowrap"
+              className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl border border-zinc-700 bg-zinc-900/30 hover:bg-zinc-900/40 text-white font-bold text-xs sm:text-sm md:text-base shadow-md hover:border-zinc-500 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto min-w-[160px] whitespace-nowrap"
             >
               {loadingButton === "area" ? (
                 <span className="inline-flex items-center justify-center gap-2">

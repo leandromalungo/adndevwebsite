@@ -1632,14 +1632,14 @@ export default function StartupProgramsSlider() {
     };
 
     return (
-        <section className="py-20 px-4 bg-zinc-50 w-full">
+        <section className="py-10 px-4 bg-zinc-50 w-full">
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
-                <div className="mb-4 sm:mb-6">
-                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-zinc-900 mb-2 tracking-tight">
+                <div className="mb-2 sm:mb-3">
+                    <h2 className="text-xl text-center sm:text-2xl md:text-3xl lg:text-4xl text-zinc-900 mb-2 tracking-tight uppercase">
                         Programas de Apoio a Startups
                     </h2>
-                    <p className="text-gray-500 text-sm sm:text-base max-w-xl">
+                    <p className="text-gray-500 text-center text-sm sm:text-base">
                         Descubra incubadoras, aceleradoras e fundos de investimento na lusofonia. Escolha um país para ver os recursos disponíveis.
                     </p>
                 </div>
@@ -1648,7 +1648,7 @@ export default function StartupProgramsSlider() {
                 <CountryFilter
                     selectedCountry={selectedCountry}
                     onCountryChange={setSelectedCountry}
-                    className="mb-6 -mx-4"
+                    className="mb-6 flex flex-col items-center justify-center"
                 />
 
                 {/* Slider */}
@@ -1664,25 +1664,15 @@ export default function StartupProgramsSlider() {
                         </button>
 
                         {/* Cards Container */}
-                        <div
-                            ref={sliderRef}
-                            className="flex gap-6 overflow-x-auto pb-4 pt-2 scroll-smooth"
-                            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-                        >
-                            <style dangerouslySetInnerHTML={{ __html: `.no-scroll::-webkit-scrollbar { display: none; }` }} />
-                            {programs.map((program) => (
-                                <div
-                                    key={program.id}
-                                    className="min-w-[300px] w-[300px] sm:min-w-[320px] sm:w-[320px] bg-white rounded border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden flex-shrink-0 flex flex-col"
-                                >
+                        <div ref={sliderRef} className="flex gap-6 overflow-x-auto pb-4 pt-2 scroll-smooth" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+                            
+                            <style dangerouslySetInnerHTML={{ __html: `.no-scroll::-webkit-scrollbar { display: none; }` }} /> {programs.map((program) => (
+                               
+                               <div key={program.id}
+                                    className="min-w-[300px] w-[300px] sm:min-w-[320px] sm:w-[320px] bg-white overflow-hidden flex-shrink-0 flex flex-col backdrop-blur-md rounded-2xl border border-violet-500/10 hover:border-violet-200 overflow-hidden shadow-lg hover:shadow-violet-300/55 transition-all duration-300 group relative">
                                     {/* Card Image */}
                                     <div className="relative h-44 w-full bg-zinc-100 overflow-hidden">
-                                        <Image
-                                            src={program.logo}
-                                            alt={program.name}
-                                            fill
-                                            className="object-cover"
-                                        />
+                                        <Image src={program.logo} alt={program.name} fill className="object-cover" />
                                     </div>
 
                                     {/* Card Body */}
@@ -1738,7 +1728,6 @@ export default function StartupProgramsSlider() {
                 ) : (
                     <div className="flex flex-col items-center justify-center text-center py-20 text-gray-400">
                         <p className="text-lg font-medium mb-2">Nenhum programa disponível ainda</p>
-                        <p className="text-sm">Estamos a mapear os recursos de {selectedCountry}. Em breve!</p>
                     </div>
                 )}
             </div>

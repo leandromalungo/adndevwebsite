@@ -51,7 +51,7 @@ export default function StudyPlanSelectionPage() {
         <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-12 lg:px-16 py-16 sm:py-20 md:py-24 flex flex-col items-center justify-center text-center">
 
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mt-4 sm:mt-6 mb-3 tracking-tight uppercase max-w-xl">
-            Carreira Tech
+           O Seu Guia Tecnológico
           </h2>
 
           <p className="text-zinc-200 mb-6 sm:mb-8 text-sm sm:text-base max-w-md leading-relaxed">
