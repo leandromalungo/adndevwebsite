@@ -28,6 +28,8 @@ function isScholarshipExpired(deadline: string | null | undefined): boolean {
   }
 }
 
+type NavCategory = "bolsas" | "intercambio" | "cursos" | "bootcamps" | "certificações" | "Estágios";
+
 interface ScholarshipData {
   id: string;
   image: string;
@@ -35,7 +37,7 @@ interface ScholarshipData {
   description: string;
   href: string;
   buttonLabel?: string;
-  category?: string;
+  category: NavCategory;
   country?: string;
   state?: string;
   deadline?: string;
@@ -64,7 +66,12 @@ const App = () => {
     fetch("/api/public/scholarships")
       .then((res) => res.json())
       .then((payload) => {
-        const scholarships = Array.isArray(payload?.scholarships) ? payload.scholarships : [];
+        const scholarships = Array.isArray(payload?.scholarships) 
+          ? payload.scholarships.map((item: any) => ({
+              ...item,
+              category: (item.category as NavCategory) || "bolsas" as NavCategory,
+            }))
+          : [];
         setDbScholarships(scholarships);
       })
       .catch(() => setDbScholarships([]));
