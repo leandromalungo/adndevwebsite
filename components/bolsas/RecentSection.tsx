@@ -347,7 +347,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({ dynamicItems = [],
   ];
 
   const timeTabs = [
-    { id: "todas", label: "Todas as Oportunidades" },
+    { id: "todas", label: "Todas" },
     { id: "ativas", label: "Inscrições Abertas" },
     { id: "passadas", label: "Encerradas / Passadas" },
   ] as const;
@@ -374,7 +374,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({ dynamicItems = [],
                   key={tab.id}
                   type="button"
                   onClick={() => setActiveCategory(tab.id)}
-                  className={`flex items-center justify-center gap-1.5 py-2 px-3.5 md:px-4 rounded-xl text-xs font-semibold transition-all duration-300 outline-none select-none border text-center shrink-0 whitespace-nowrap snap-center
+                  className={`flex items-center justify-center gap-1.5 py-2 px-3.5 md:px-4 rounded-lg text-xs font-semibold transition-all duration-300 outline-none select-none border text-center shrink-0 whitespace-nowrap snap-center
                     ${isActive
                       ? "bg-violet-600 border-violet-600 text-white shadow-sm shadow-violet-600/20"
                       : "bg-white border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
@@ -391,7 +391,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({ dynamicItems = [],
             <button
               type="button"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-full md:w-auto flex items-center justify-between gap-2 bg-white border border-slate-200 text-slate-700 text-xs font-medium py-2 px-3 rounded-xl shadow-sm hover:bg-slate-50 transition-colors duration-200 outline-none select-none"
+              className="w-full md:w-auto flex items-center justify-between gap-2 bg-white border border-slate-200 text-slate-700 text-xs font-medium py-2 px-3 rounded-lg shadow-sm hover:bg-slate-50 transition-colors duration-200 outline-none select-none"
             >
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
@@ -409,7 +409,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({ dynamicItems = [],
 
             {/* PAINEL FLUTUANTE DO DROPDOWN */}
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-1.5 w-full md:w-48 bg-white border border-slate-200 rounded-xl shadow-xl z-20 py-1 animate-in fade-in slide-in-from-top-1 duration-150">
+              <div className="absolute right-0 mt-1.5 w-full md:w-48 bg-white border border-slate-200 rounded-lg shadow-xl z-20 py-1 animate-in fade-in slide-in-from-top-1 duration-150">
                 {timeTabs.map((tab) => {
                   const isSelected = timeFilter === tab.id;
                   return (
