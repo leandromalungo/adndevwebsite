@@ -333,3 +333,18 @@ export interface Bootcamp {
   country: string;
   tags: string[];
 }
+
+export type NavCategory = "bolsas" | "intercambio" | "cursos" | "bootcamps" | "certificações" | "Estágios";
+
+export interface ScholarshipItem {
+  id: string;
+  category: NavCategory;
+  image: string;
+  title: string;
+  description: string;
+  href: string;
+  buttonLabel?: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+  deadline?: string;
+}

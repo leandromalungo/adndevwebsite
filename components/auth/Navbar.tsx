@@ -510,7 +510,7 @@ const NavbarContent = () => {
         </div>
       )}
 
-      {/* Modal de boas-vindas após login ou registo bem-sucedido */}
+       {/* Modal de boas-vindas após login ou registo bem-sucedido */}
 
       <Dialog open={showWelcomeDialog} onOpenChange={setShowWelcomeDialog}>
         <DialogContent className="max-w-lg bg-white px-0 py-0 overflow-hidden">
@@ -555,7 +555,7 @@ const NavbarContent = () => {
       {/* Links Header */}
 
       <header className="fixed top-0 w-full z-50 bg-white border-b border-gray-100">
-        <nav className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
+        <nav className="flex items-center justify-between px-6 py-2 max-w-7xl mx-auto">
           <Link href="/" className="focus:outline-none" aria-label="Página Inicial">
             <Image src="/logoNavbar.png" alt="ADN Developer Logo" width={60} height={40} className="w-auto h-auto cursor-pointer object-contain" priority />
           </Link>
@@ -567,6 +567,7 @@ const NavbarContent = () => {
             <NavLink label="Formações" href="/bolsas" />
             <NavLink label="RoadMaps" href="/roadmaps" />
             <NavLink label="Negócios" href="/startups" />
+            <NavLink label="Sobre Nós" href="/sobre-nos" />
           </div>
 
           <div className="flex items-center gap-3 relative">

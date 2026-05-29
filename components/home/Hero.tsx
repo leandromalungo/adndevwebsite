@@ -48,12 +48,6 @@ export const Hero = () => {
       return;
     }
 
-    if (button === "area") {
-      setTimeout(() => {
-        router.push("/sobre-nos");
-        setLoadingButton(null);
-      }, 900);
-    }
   };
 
   return (
@@ -66,9 +60,10 @@ export const Hero = () => {
         </h1>
 
         {/* 2. DESCRIÇÃO (Posicionada corretamente no topo para melhor leitura) */}
-        <p className="text-sm sm:text-base md:text-lg text-gray-300 mt-4 mb-3 sm:mb-8 leading-relaxed max-w-2xl mx-auto">
+        <p className="text-sm text-gray-400 font-medium text-gray-300 mt-4 mb-3 sm:mb-8 leading-relaxed max-w-2xl mx-auto">
           Somos um hub de conteúdo tecnológico lusófono definitivo para a sua carreira.
-          Encontre Comunidades, Roadmaps, dicas e suporte.
+          Encontre Comunidades, Roadmaps, dicas e suporte. Não perca tempo! Junte-se a nós e esteja com profissionais de tecnologia que já estão a transformar
+            suas carreiras com nossos recursos exclusivos. 
         </p>
 
         {/* 4. BOTÕES E TEXTOS INFERIORES */}
@@ -109,31 +104,7 @@ export const Hero = () => {
               </button>
             )}
 
-            {/* BOTÃO SECUNDÁRIO (Sobre Nós) */}
-            <button
-              type="button"
-              onClick={() => handleClick("area")}
-              disabled={loadingButton !== null}
-              className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl border border-zinc-700 bg-zinc-900/30 hover:bg-zinc-900/40 text-white font-bold text-xs sm:text-sm md:text-base shadow-md hover:border-zinc-500 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto min-w-[160px] whitespace-nowrap"
-            >
-              {loadingButton === "area" ? (
-                <span className="inline-flex items-center justify-center gap-2">
-                  <Loader2 size={16} className="animate-spin" />
-                  <span>Aguarde...</span>
-                </span>
-              ) : (
-                "Sobre Nós"
-              )}
-            </button>
           </div>
-
-          {/* TEXTO INFERIOR (Aviso Geral / Disclaimer) */}
-          <p className="hidden lg:block text-[11px] text-gray-400 font-medium max-w-3xl mt-2 mx-auto text-center leading-relaxed">
-            Não perca tempo! Junte-se a nós e esteja com profissionais de tecnologia que já estão a transformar
-            suas carreiras com nossos recursos exclusivos. Este site não possui parceria oficial com os eventos,
-            cursos, comunidades, projectos, bolsas e entidades aqui divulgadas. Fornecemos informações sobre o
-            sector tecnologia e muito mais na lusofonia. Para qualquer esclarecimento, entre em contacto connosco.
-          </p>
         </div>
       </div>
 

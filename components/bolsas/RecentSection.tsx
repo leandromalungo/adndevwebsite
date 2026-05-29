@@ -3,7 +3,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { bolsas } from "@/data/bolsas";
 import type { FilterTab } from "@/components/CountryFilter";
+import type { NavCategory, ScholarshipItem } from "@/data/types";
 
 // ==========================================
 // FUNÇÕES UTILITÁRIAS (BUSINESS LOGIC)
@@ -19,7 +21,24 @@ const checkDeadlineStatus = (deadline?: string): DateStatus => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const targetDate = new Date(deadline);
+  let targetDate: Date;
+  const ymdMatch = deadline.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  const dmyMatch = deadline.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+
+  if (ymdMatch) {
+    const [, year, month, day] = ymdMatch.map(Number);
+    targetDate = new Date(year, month - 1, day);
+  } else if (dmyMatch) {
+    const [, day, month, year] = dmyMatch.map(Number);
+    targetDate = new Date(year, month - 1, day);
+  } else {
+    targetDate = new Date(deadline);
+  }
+
+  if (Number.isNaN(targetDate.getTime())) {
+    return { text: "Data inválida", isExpired: false };
+  }
+
   targetDate.setHours(0, 0, 0, 0);
 
   const differenceInTime = targetDate.getTime() - today.getTime();
@@ -155,25 +174,11 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 // ==========================================
 // TYPES E INTERFACES SEÇÃO
 // ==========================================
-type NavCategory = "bolsas" | "intercambio" | "cursos" | "bootcamps" | "certificações" | "Estágios";
 type TimeFilter = "todas" | "ativas" | "passadas";
-
-interface TimelineItem {
-  id: string;
-  category: NavCategory;
-  image: string;
-  title: string;
-  description: string;
-  href: string;
-  buttonLabel?: string;
-  secondaryHref?: string;
-  secondaryLabel?: string;
-  deadline?: string;
-}
 
 interface RecentSectionProps {
   selectedCountry?: FilterTab;
-  dynamicItems?: Array<TimelineItem>;
+  dynamicItems?: ScholarshipItem[];
 }
 
 // ==========================================
@@ -197,132 +202,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({ dynamicItems = [],
   }, []);
 
   // Lista de dados
-  const categories: TimelineItem[] = [
-    {
-      id: "mandela-rhodes-2026",
-      category: "bolsas",
-      image: "/africadsul.png",
-      title: "BOLSAS DE ESTUDO MANDELA RHODES 2026",
-      description: "Totalmente Financiadas! Para todos os países Africanos. As bolsas são oferecidas para os níveis de Mestrado e Doutorado.",
-      href: "https://www.mandelarhodes.org/scholarship/apply/",
-      buttonLabel: "Inscrever",
-      deadline: "2026-04-15",
-    },
-    {
-      id: "aprenda-africa-espanha",
-      category: "bolsas",
-      image: "/esp.png",
-      title: "BOLSAS DE ESTUDOS PARA ESPANHA | 2026-2027",
-      description: "País: Espanha. Programa: Aprenda África. Nível educacional: Cursos de Especialização, Mestrado & Pré-Doutorado. Prazo: 19 de Abril de 2026, 23:59 (horário de Madrid).",
-      href: "https://mujeresporafrica.es/learn-africa-programa-2026/",
-      buttonLabel: "Inscrever",
-      deadline: "2026-04-19",
-    },
-    {
-      id: "john-thompson-irlanda",
-      category: "bolsas",
-      image: "/irlnd.png",
-      title: "BOLSA DE ESTUDOS JOHN THOMPSON 2026 NA IRLANDA",
-      description: "País anfitrião: Irlanda. Universidade: Dublin City University (DCU). Duração: Um ano. Mensalidades totalmente cobertas. Prazo final: 30 de julho de 2026.",
-      href: "https://business.dcu.ie/scholarships/john-thompson-scholarship/",
-      buttonLabel: "Inscrever",
-      deadline: "2026-07-30",
-    },
-    {
-      id: "salford-uk-2026",
-      category: "bolsas",
-      image: "/en.png",
-      title: "BOLSA DE EXCELÊNCIA INTERNACIONAL SALFORD 2026-2027",
-      description: "País: Reino Unido. Nível: Bacharelado e Mestrado. Financiado. Prazo: 14 de julho de 2026.",
-      href: "https://www.salford.ac.uk/international/scholarships/global-gold-excellence-scholarship",
-      buttonLabel: "Inscrever",
-      deadline: "2026-07-14",
-    },
-    {
-      id: "han-holanda-2026",
-      category: "bolsas",
-      image: "/onl.png",
-      title: "BOLSAS DE ESTUDOS DA UNIVERSIDADE HAN 2026 NA HOLANDA",
-      description: "País: Holanda. Nível: Licenciatura e Mestrado. Universidade HAN. Prazo de candidatura: 1° de Maio de 2026.",
-      href: "https://www.hanuniversity.com/en/study-and-living/scholarships/",
-      buttonLabel: "Inscrever",
-      deadline: "2026-05-01",
-    },
-    {
-      id: "mastercard-makerere-uganda",
-      category: "bolsas",
-      image: "/ugnd.png",
-      title: "PROGRAMA DE BOLSAS MASTERCARD FOUNDATION MAKERERE 2026-2027",
-      description: "País: Uganda. Universidade: Makerere. Nível: Licenciatura & Mestrado. Totalmente financiado. Prazo: 5 de Junho de 2026.",
-      href: "https://apply.mastercardfoundation.mak.ac.ug/scholarships",
-      buttonLabel: "Inscrever",
-      deadline: "2026-06-05",
-    },
-    {
-      id: "bilkent-turquia-2026",
-      category: "bolsas",
-      image: "/trk.png",
-      title: "BOLSAS INTERNACIONAIS DA UNIVERSIDADE BILKENT 2026/2027",
-      description: "País: Turquia. Nível: Licenciatura, Mestrado & PhD. Universidade Bilkent. Prazo: 13 de Julho de 2026.",
-      href: "https://w3.bilkent.edu.tr/international/how-to-apply/",
-      buttonLabel: "Detalhes Licenciatura",
-      secondaryHref: "https://stars.bilkent.edu.tr/gradapp/index.php",
-      secondaryLabel: "Detalhes Mestrado",
-      deadline: "2026-07-13",
-    },
-    {
-      id: "sbw-berlin-alemanha",
-      category: "bolsas",
-      image: "/brlm.png",
-      title: "BOLSAS INTERNACIONAIS SBW BERLIN 2026",
-      description: "País: Alemanha. Nível: Licenciatura e Mestrado. Fornecido por SBW Berlin. Prazo: Aberto ano todo.",
-      href: "https://sbw.berlin/en/portfolio-items/sbw-berlin-scholarship",
-      buttonLabel: "Inscrever",
-      deadline: "",
-    },
-    {
-      id: "csu-china-2026",
-      category: "bolsas",
-      image: "/china.png",
-      title: "BOLSAS DA UNIVERSIDADE CENTRAL DO SUL 2026 NA CHINA",
-      description: "País: China. Nível: Licenciatura, Mestrado e Doutorado. Financiamento integral. Data limite: 31 de maio de 2026.",
-      href: "https://intl.csu.edu.cn/English/Scholarship/CSC_Scholarship.htm",
-      buttonLabel: "Inscrever",
-      deadline: "2026-05-31",
-    },
-    {
-      id: "cambridge-mba-uk",
-      category: "bolsas",
-      image: "/en.png",
-      title: "BOLSA DE MBA DA UNIVERSIDADE DE CAMBRIDGE 2026",
-      description: "País: Reino Unido. Nível: MBA. Universidade de Cambridge. Prazo: 15 de maio de 2026. Enviar CV, GMAT e carta de aceitação para admissions@boustany-foundation.org.",
-      href: "https://boustany-foundation.org/scholarship-programmes/mba-cambridge/",
-      buttonLabel: "Inscrever",
-      deadline: "2026-05-15",
-    },
-    {
-      id: "pecg-unesc-brasil",
-      category: "bolsas",
-      image: "/br.jpg",
-      title: "BOLSA DE ESTUDANTES CONVÊNIO PEC-G 2026",
-      description: "Universidade do Extremo Sul Catarinense (UNESC) publica o Edital para Processo Seletivo de Estudantes Internacionais para Cursos de Graduação. PEC-G oferece graduação totalmente gratuita em universidades brasileiras, sem taxas e sem exames de admissão. Pré-inscrição até 9 de Maio de 2026.",
-      href: "https://www.unesc.net/portal/resources/official_documents/27492.pdf?1775052806",
-      buttonLabel: "Edital PDF",
-      secondaryHref: "https://www.gov.br/mre/pt-br/assuntos/cultura-e-educacao/temas-educacionais/programas-de-estudo-para-estrangeiros/pec-g/processo-seletivo",
-      secondaryLabel: "Saiba mais",
-      deadline: "2026-05-09",
-    },
-    {
-      id: "maeci-governo-italiano",
-      category: "bolsas",
-      image: "/itl.png",
-      title: "BOLSA DE ESTUDOS MAECI DO GOVERNO ITALIANO 2026",
-      description: "País: Itália. Nível: Mestrado ou Doutorado. Financiada pelo Ministério das Relações Exteriores da Itália (MAECI). Data limite: 26 de maio de 2026.",
-      href: "https://www.esteri.it/en/opportunita/borse-di-studio/per-cittadini-stranieri/borsestudio_stranieri/",
-      buttonLabel: "Inscrever",
-      deadline: "2026-05-26",
-    },
-  ];
+  const categories = bolsas;
 
   const allCategories = [...dynamicItems, ...categories];
 
@@ -364,8 +244,8 @@ export const RecentSection: React.FC<RecentSectionProps> = ({ dynamicItems = [],
           {/* ABAS DE CATEGORIA CORRIGIDAS PARA MOBILE */}
           <nav
             className="flex flex-row items-center gap-1.5 sm:gap-2 w-full md:w-auto overflow-x-auto md:overflow-x-visible pb-2 md:pb-0 scrollbar-none snap-x"
-            aria-label="Categorias"
-          >
+            aria-label="Categorias">
+              
             {navTabs.map((tab) => {
               const isActive = activeCategory === tab.id;
 
