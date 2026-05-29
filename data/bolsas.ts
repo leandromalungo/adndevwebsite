@@ -70,7 +70,6 @@ export const bolsas: ScholarshipItem[] = [
     href: "https://w3.bilkent.edu.tr/international/how-to-apply/",
     buttonLabel: "Detalhes Licenciatura",
     secondaryHref: "https://stars.bilkent.edu.tr/gradapp/index.php",
-    secondaryLabel: "Detalhes Mestrado",
     deadline: "2026-07-13",
   },
   {
@@ -112,7 +111,6 @@ export const bolsas: ScholarshipItem[] = [
     href: "https://www.unesc.net/portal/resources/official_documents/27492.pdf?1775052806",
     buttonLabel: "Edital PDF",
     secondaryHref: "https://www.gov.br/mre/pt-br/assuntos/cultura-e-educacao/temas-educacionais/programas-de-estudo-para-estrangeiros/pec-g/processo-seletivo",
-    secondaryLabel: "Saiba mais",
     deadline: "2026-05-09",
   },
   {

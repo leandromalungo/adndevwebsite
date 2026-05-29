@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { bolsas } from "@/data/bolsas";
+import { intercambio } from "@/data/intercambio";
 import type { FilterTab } from "@/components/CountryFilter";
 import type { NavCategory, ScholarshipItem } from "@/data/types";
 
@@ -202,7 +203,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({ dynamicItems = [],
   }, []);
 
   // Lista de dados
-  const categories = bolsas;
+  const categories = [...bolsas, ...intercambio];
 
   const allCategories = [...dynamicItems, ...categories];
 
