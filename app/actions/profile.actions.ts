@@ -122,13 +122,30 @@ type DetectedImage = {
   ext: "jpg" | "png";
 };
 
-function detectImageMimeType(bytes: Uint8Array): DetectedImage | null {
+function getImageExtensionFromFileName(filename: string): DetectedImage['ext'] | null {
+  const lower = filename.toLowerCase();
+  if (lower.endsWith(".png")) return "png";
+  if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) return "jpg";
+  return null;
+}
+
+function detectImageMimeType(bytes: Uint8Array, file?: File): DetectedImage | null {
   if (bytes.length >= 4 && bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47) {
     return { mime: "image/png", ext: "png" };
   }
   if (bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) {
     return { mime: "image/jpeg", ext: "jpg" };
   }
+
+  if (file) {
+    if (file.type === "image/png") return { mime: "image/png", ext: "png" };
+    if (file.type === "image/jpeg" || file.type === "image/jpg") return { mime: "image/jpeg", ext: "jpg" };
+
+    const ext = getImageExtensionFromFileName(file.name);
+    if (ext === "png") return { mime: "image/png", ext: "png" };
+    if (ext === "jpg") return { mime: "image/jpeg", ext: "jpg" };
+  }
+
   return null;
 }
 
@@ -138,7 +155,10 @@ function detectImageMimeType(bytes: Uint8Array): DetectedImage | null {
  */
 async function ensureAvatarsBucketAcceptsProfileImages(): Promise<void> {
   const { data: bucket, error } = await supabaseAdmin.storage.getBucket(AVATARS_BUCKET);
-  if (error || !bucket) return;
+  if (error || !bucket) {
+    console.error("[storage] Bucket de avatares não encontrado:", error?.message || "bucket ausente");
+    throw new Error("Bucket de avatares não encontrado no Supabase Storage.");
+  }
 
   const current = bucket.allowed_mime_types;
   if (current == null) return;
@@ -246,7 +266,7 @@ export async function updateProfilePhoto(userId: string, formData: FormData) {
 
   const buffer = await file.arrayBuffer();
   const bytes = new Uint8Array(buffer);
-  const detectedImage = detectImageMimeType(bytes);
+  const detectedImage = detectImageMimeType(bytes, file);
 
   if (!detectedImage) {
     throw new Error("Formato de ficheiro inválido. Use apenas .jpg ou .png.");
@@ -271,7 +291,7 @@ export async function updateProfilePhoto(userId: string, formData: FormData) {
   // 3. Upload para Supabase Storage (bucket: avatars)
   const { error: uploadError } = await supabaseAdmin.storage
     .from(AVATARS_BUCKET)
-    .upload(fileName, file, {
+    .upload(fileName, bytes, {
       cacheControl: "3600",
       upsert: true,
       contentType: detectedImage.mime,
@@ -286,9 +306,16 @@ export async function updateProfilePhoto(userId: string, formData: FormData) {
   }
 
   // 4. Obter URL pública
-  const { data: { publicUrl } } = supabaseAdmin.storage
+  const { data: publicUrlData, error: publicUrlError } = supabaseAdmin.storage
     .from(AVATARS_BUCKET)
     .getPublicUrl(fileName);
+
+  if (publicUrlError || !publicUrlData?.publicUrl) {
+    await supabaseAdmin.storage.from(AVATARS_BUCKET).remove([fileName]);
+    throw new Error("Erro ao gerar URL pública da imagem de perfil.");
+  }
+
+  const publicUrl = publicUrlData.publicUrl;
 
   // 5. Atualizar tabela de utilizadores
   const { error: updateError } = await supabaseAdmin
