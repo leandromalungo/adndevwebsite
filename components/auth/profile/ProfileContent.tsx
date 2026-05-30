@@ -995,8 +995,9 @@ function EditableProjectsList({ title, items, userId, setItems, isReadOnly = fal
         window.location.reload();
       }
       setIsAdding(false);
-    } catch (err) {
-      alert("Erro ao salvar.");
+    } catch (err: any) {
+      console.error("Erro ao salvar projectos:", err);
+      alert(err?.message || "Erro ao salvar projectos.");
     } finally {
       setLoading(false);
     }
@@ -1043,8 +1044,8 @@ function EditableProjectsList({ title, items, userId, setItems, isReadOnly = fal
             <span className={`absolute bottom-2 right-3 text-xs tabular-nums pointer-events-none ${ (formData.description||'').length > 225 ? 'text-orange-500 font-semibold' : 'text-gray-400' }`}>{(formData.description||'').length}/250</span>
           </div>
           <div className="flex gap-2 justify-end mt-2">
-            <button disabled={loading} onClick={() => setIsAdding(false)} className="px-3 py-1.5 rounded-md text-sm font-medium text-gray-600 bg-white border border-gray-300 hover:bg-gray-50">Sair</button>
-            <button disabled={loading} onClick={handleSave} className="px-3 py-1.5 rounded-md text-sm font-medium bg-violet-700 text-white hover:bg-violet-600">OK</button>
+            <button type="button" disabled={loading} onClick={() => setIsAdding(false)} className="px-3 py-1.5 rounded-md text-sm font-medium text-gray-600 bg-white border border-gray-300 hover:bg-gray-50">Sair</button>
+            <button type="button" disabled={loading} onClick={handleSave} className="px-3 py-1.5 rounded-md text-sm font-medium bg-violet-700 text-white hover:bg-violet-600">OK</button>
           </div>
         </div>
       )}

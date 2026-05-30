@@ -62,8 +62,8 @@ const ExperienceSchema = z.object({
 const ProjectSchema = z.object({
   identifier: z.string().max(100).optional(),
   date: z.string().max(100).optional(),
-  name: z.string().max(100).optional(),
-  description: z.string().max(100).optional(),
+  name: z.string().trim().min(1, "Nome do projeto é obrigatório").max(100),
+  description: z.string().max(250).optional(),
   url: z.string().max(500).optional()
 }).strict();
 
