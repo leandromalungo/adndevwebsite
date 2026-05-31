@@ -2,6 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { CommunityCard } from '@/components/community/CommunityCard';
+import { CardGridSkeleton } from '@/components/cards/CardSkeleton';
 import { mockCommunities } from '@/data/dataCommunity';
 import type { FilterTab } from '@/components/CountryFilter';
 import type { Community } from '@/data/types';
@@ -10,12 +11,14 @@ interface CommunityGridProps {
   selectedCountry: FilterTab;
   searchQuery?: string;
   extraCommunities?: Community[];
+  isLoading?: boolean;
 }
 
 export const CommunityGrid: React.FC<CommunityGridProps> = ({
   selectedCountry,
   searchQuery = "",
   extraCommunities = [],
+  isLoading = false,
 }) => {
   const filteredCommunities = useMemo(() => {
     const allCommunities = [...extraCommunities, ...mockCommunities];
@@ -36,6 +39,14 @@ export const CommunityGrid: React.FC<CommunityGridProps> = ({
       return matchesName || matchesCategory || matchesTags || matchesDescription;
     });
   }, [selectedCountry, searchQuery, extraCommunities]);
+
+  if (isLoading) {
+    return (
+      <div className="max-w-7xl mx-auto py-5">
+        <CardGridSkeleton count={8} />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto py-5">
