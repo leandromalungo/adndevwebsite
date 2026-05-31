@@ -347,4 +347,5 @@ export interface ScholarshipItem {
   secondaryHref?: string;
   secondaryLabel?: string;
   deadline?: string;
+  country?: string;
 }
