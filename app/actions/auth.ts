@@ -13,6 +13,7 @@ import { cleanupExpiredTokensIfDue } from "@/lib/maintenance";
 import { randomBytes } from "crypto";
 
 export async function registerUser(formData: FormData) {
+
   try {
     await cleanupExpiredTokensIfDue();
 
@@ -36,6 +37,39 @@ export async function registerUser(formData: FormData) {
     };
 
     const validData = UserRegistrationSchema.parse(rawData);
+
+    // Lista de domínios de e-mails temporários proibidos
+    const blockedDomains = [
+      "mailinator.com",
+      "guerrillamail.com",
+      "temp-mail.org",
+      "10minutemail.com",
+      "yopmail.com",
+      "throwawaymail.com",
+      "maildrop.cc",
+      "getnada.com",
+      "tempmailo.com",
+      "emailondeck.com",
+      "fakeinbox.com",
+      "dispostable.com",
+      "moakt.com",
+      "trashmail.com",
+      "mintemail.com",
+      "tempmail.plus",
+      "spamgourmet.com",
+      "mailnesia.com",
+      "sharklasers.com",
+      "grr.la",
+      "guerrillamailblock.com",
+      "pokemail.net",
+      "mailcatch.com",
+      "oemails.com"
+    ];
+
+    const emailDomain = validData.email.split('@')[1];
+    if (blockedDomains.some(domain => emailDomain.endsWith(domain))) {
+      return { error: "Não é permitido cadastrar com e-mail temporário. Use um e-mail válido." };
+    }
 
     const { data: existingUser } = await supabaseAdmin
       .from("users")
