@@ -305,12 +305,13 @@ export async function updateProfilePhoto(userId: string, formData: FormData) {
     throw new Error(`Erro no upload: ${uploadError.message}.${hint}`);
   }
 
+
   // 4. Obter URL pública
-  const { data: publicUrlData, error: publicUrlError } = supabaseAdmin.storage
+  const { data: publicUrlData } = supabaseAdmin.storage
     .from(AVATARS_BUCKET)
     .getPublicUrl(fileName);
 
-  if (publicUrlError || !publicUrlData?.publicUrl) {
+  if (!publicUrlData?.publicUrl) {
     await supabaseAdmin.storage.from(AVATARS_BUCKET).remove([fileName]);
     throw new Error("Erro ao gerar URL pública da imagem de perfil.");
   }

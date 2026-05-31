@@ -63,7 +63,12 @@ export async function registerUser(formData: FormData) {
       "guerrillamailblock.com",
       "pokemail.net",
       "mailcatch.com",
-      "oemails.com"
+      "oemails.com",
+      "mytemp.email",
+      "temp-mail.io",
+      "tempmail.net",
+      "temp-mail.com",
+      
     ];
 
     const emailDomain = validData.email.split('@')[1];

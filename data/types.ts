@@ -348,4 +348,11 @@ export interface ScholarshipItem {
   secondaryLabel?: string;
   deadline?: string;
   country?: string;
+  funding?: string;
+  degreeLevels?: string;
+  institution?: string;
+  source?: string;
+  fullDescription?: string;
+  benefits?: string[];
+  requirements?: string[];
 }
