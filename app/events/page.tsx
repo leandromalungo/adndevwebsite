@@ -15,13 +15,15 @@
  * - Loading states
  */
 
-import { useState, useMemo, useEffect } from "react";
-import { Loader2, ArrowRight, Smartphone } from "lucide-react";
+import { useState, useMemo } from "react";
+import { ArrowRight, Smartphone } from "lucide-react";
 import Head from "next/head";
 import { AppComingSoonModal } from "@/components/AppComingSoonModal";
 import { FilterSection } from "@/components/events/AdvancedFilters";
 import { usePathname, useRouter } from "next/navigation";
 import EventCard from "@/components/events/EventCard";
+import { CardGridSkeleton } from "@/components/cards/CardSkeleton";
+import { usePublicFetch } from "@/hooks/usePublicFetch";
 import Navbar from "@/components/auth/Navbar";
 import Footer from "@/components/Footer";
 import { MOCK_EVENTS } from "@/components/events/constants";
@@ -80,21 +82,13 @@ const Page = () => {
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedDateType, setSelectedDateType] = useState<"" | "passados" | "atuais">("");
   const [isOnline, setIsOnline] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [dbEvents, setDbEvents] = useState<Event[]>([]);
+  const { data: dbEvents, isLoading } = usePublicFetch<Event>(
+    "/api/public/events",
+    "events"
+  );
   const { data: session } = useSession();
   const isLoggedIn = !!session;
   const [showAppComingSoon, setShowAppComingSoon] = useState(false);
-  useEffect(() => {
-    fetch("/api/public/events", { cache: "no-store" })
-      .then((res) => res.json())
-      .then((payload) => {
-        setDbEvents(Array.isArray(payload?.events) ? payload.events : []);
-      })
-      .catch(() => {
-        setDbEvents([]);
-      });
-  }, []);
 
   const allEvents = useMemo(() => [...dbEvents, ...MOCK_EVENTS], [dbEvents]);
 
@@ -288,25 +282,32 @@ const Page = () => {
               </div>
             )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
-            {filteredEvents.map((event) => (
-              <EventCard key={event.id} event={event} />
-            ))}
+          {isLoading ? (
+            <CardGridSkeleton
+              count={8}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-4"
+            />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
+              {filteredEvents.map((event) => (
+                <EventCard key={event.id} event={event} />
+              ))}
 
-            {filteredEvents.length === 0 && (
-              <div className="col-span-full text-center py-12">
-                <p className="text-gray-500 text-lg">
-                  Nenhum evento encontrado com os filtros selecionados.
-                </p>
-                <button
-                  onClick={clearFilters}
-                  className="mt-4 px-6 py-2 bg-[#004d79] text-white rounded-lg hover:bg-[#003d5f] transition-colors"
-                >
-                  Limpar filtros
-                </button>
-              </div>
-            )}
-          </div>
+              {filteredEvents.length === 0 && (
+                <div className="col-span-full text-center py-12">
+                  <p className="text-gray-500 text-lg">
+                    Nenhum evento encontrado com os filtros selecionados.
+                  </p>
+                  <button
+                    onClick={clearFilters}
+                    className="mt-4 px-6 py-2 bg-[#004d79] text-white rounded-lg hover:bg-[#003d5f] transition-colors"
+                  >
+                    Limpar filtros
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </main>
       </div>
 
