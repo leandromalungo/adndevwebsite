@@ -1,7 +1,7 @@
 "use client";
 
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Navbar from "@/components/auth/Navbar";
 import Footer from "@/components/Footer";
@@ -10,6 +10,7 @@ import { CountryFilter, LUSOPHONE_COUNTRIES, type FilterTab } from "@/components
 import { ArrowRight, Search, Smartphone } from "lucide-react";
 import { AppComingSoonModal } from "@/components/AppComingSoonModal";
 import type { Community } from "@/data/types";
+import { usePublicFetch } from "@/hooks/usePublicFetch";
 import { useSession } from "next-auth/react";
 
 export default function Page() {
@@ -17,18 +18,13 @@ export default function Page() {
   const pathname = usePathname();
   const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
   const [searchQuery, setSearchQuery] = useState("");
-  const [dbCommunities, setDbCommunities] = useState<Community[]>([]);
+  const { data: dbCommunities, isLoading } = usePublicFetch<Community>(
+    "/api/public/communities",
+    "communities"
+  );
   const { data: session } = useSession();
   const isLoggedIn = !!session;
   const [showAppComingSoon, setShowAppComingSoon] = useState(false);
-  useEffect(() => {
-    fetch("/api/public/communities", { cache: "no-store" })
-      .then((res) => res.json())
-      .then((payload) => {
-        setDbCommunities(Array.isArray(payload?.communities) ? payload.communities : []);
-      })
-      .catch(() => setDbCommunities([]));
-  }, []);
 
 
   const handleClick = () => {
@@ -144,6 +140,7 @@ export default function Page() {
             selectedCountry={selectedCountry}
             searchQuery={searchQuery}
             extraCommunities={dbCommunities}
+            isLoading={isLoading}
           />
         </main>
 

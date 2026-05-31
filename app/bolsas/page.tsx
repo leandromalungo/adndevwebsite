@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import Head from "next/head";
 import { UniCard } from "@/components/bolsas/UniCard";
 import { RecentSection } from "@/components/bolsas/RecentSection";
@@ -10,6 +10,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { ArrowRight, Smartphone } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { AppComingSoonModal } from "@/components/AppComingSoonModal";
+import { usePublicFetch } from "@/hooks/usePublicFetch";
 
 /**
  * Função para determinar se uma bolsa expirou ou está ativa
@@ -49,7 +50,18 @@ const App = () => {
   const { data: session } = useSession();
   const isLoggedIn = !!session;
   const [showAppComingSoon, setShowAppComingSoon] = useState(false);
-  const [dbScholarships, setDbScholarships] = useState<ScholarshipData[]>([]);
+  const { data: dbScholarshipsRaw, isLoading } = usePublicFetch<ScholarshipData>(
+    "/api/public/scholarships",
+    "scholarships"
+  );
+  const dbScholarships = useMemo(
+    () =>
+      dbScholarshipsRaw.map((item) => ({
+        ...item,
+        category: (item.category as NavCategory) || ("bolsas" as NavCategory),
+      })),
+    [dbScholarshipsRaw]
+  );
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedState, setSelectedState] = useState("");
@@ -61,21 +73,6 @@ const App = () => {
       router.push(`${pathname}?auth=register`);
     }
   };
-
-  useEffect(() => {
-    fetch("/api/public/scholarships")
-      .then((res) => res.json())
-      .then((payload) => {
-        const scholarships = Array.isArray(payload?.scholarships) 
-          ? payload.scholarships.map((item: any) => ({
-              ...item,
-              category: (item.category as NavCategory) || "bolsas" as NavCategory,
-            }))
-          : [];
-        setDbScholarships(scholarships);
-      })
-      .catch(() => setDbScholarships([]));
-  }, []);
 
   /**
    * EXTRAIR CATEGORIAS ÚNICAS
@@ -223,7 +220,7 @@ const App = () => {
 
       {/* Grid de Bolsas */}
       <div className="w-full mx-auto py-6">
-        <RecentSection dynamicItems={filteredScholarships} />
+        <RecentSection dynamicItems={filteredScholarships} isLoading={isLoading} />
       </div>
 
       <div className="min-h-screen bg-[#fcfcfc]">

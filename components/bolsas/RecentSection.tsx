@@ -7,6 +7,7 @@ import { bolsas } from "@/data/bolsas";
 import { intercambio } from "@/data/intercambio";
 import type { FilterTab } from "@/components/CountryFilter";
 import type { NavCategory, ScholarshipItem } from "@/data/types";
+import { CardGridSkeleton } from "@/components/cards/CardSkeleton";
 
 // ==========================================
 // FUNÇÕES UTILITÁRIAS (BUSINESS LOGIC)
@@ -180,12 +181,16 @@ type TimeFilter = "todas" | "ativas" | "passadas";
 interface RecentSectionProps {
   selectedCountry?: FilterTab;
   dynamicItems?: ScholarshipItem[];
+  isLoading?: boolean;
 }
 
 // ==========================================
 // COMPONENTE PRINCIPAL: RECENT SECTION
 // ==========================================
-export const RecentSection: React.FC<RecentSectionProps> = ({ dynamicItems = [], }) => {
+export const RecentSection: React.FC<RecentSectionProps> = ({
+  dynamicItems = [],
+  isLoading = false,
+}) => {
   const [activeCategory, setActiveCategory] = useState<NavCategory>("bolsas");
   const [timeFilter, setTimeFilter] = useState<TimeFilter>("todas");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -321,7 +326,9 @@ export const RecentSection: React.FC<RecentSectionProps> = ({ dynamicItems = [],
         </div>
 
         {/* FEED DE CARDS FILTRADOS */}
-        {filteredItems.length > 0 ? (
+        {isLoading ? (
+          <CardGridSkeleton count={8} />
+        ) : filteredItems.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredItems.map((cat) => (
               <CategoryCard key={cat.id} {...cat} />
