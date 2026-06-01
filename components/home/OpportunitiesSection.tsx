@@ -1,122 +1,121 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Briefcase, GraduationCap, ArrowRight, Bookmark } from "lucide-react";
+import { Briefcase, GraduationCap, ArrowRight, Award } from "lucide-react";
 import Link from "next/link";
 
 const opportunities = [
-    {
-        id: "Mentoria",
-        title: "Mentoria e Desenvolvimento Profissional",
-        description: "Oferecemos programas de mentoria personalizados para ajudar os membros a desenvolver suas habilidades técnicas e de carreira, conectando-os com profissionais experientes da indústria.",
-        icon: GraduationCap,
-        href: "#",
-    },
-    {
-        id: "hackathon",
-        title: "Participar em Hackathons",
-        description: "Participe em hackathons organizados pela ADN Developer, onde pode colaborar com outros desenvolvedores, aprender novas habilidades e competir por prêmios emocionantes.",
-        icon: GraduationCap,
-        href: "#",
-    },
-    {
-        id: "consultoria",
-        title: "Crie um portfólio",
-        description: "Organize seus projectos e realizações em um portfólio online atraente, mostrando suas habilidades e experiência para potenciais empregadores e clientes.",
-        icon: Briefcase,
-        href: "/app/",
-    },
+  {
+    id: "Mentoria",
+    title: "Mentoria e Desenvolvimento",
+    description: "Programas personalizados para desenvolver habilidades técnicas e de carreira, conectando-se com engenheiros experientes do mercado.",
+    href: "#",
+  },
+  {
+    id: "hackathon",
+    title: "Participar em Hackathons",
+    description: "Colabore com outros desenvolvedores em eventos intensivos organizados pela ADN, crie soluções inovadoras e dispute prêmios.",
+    href: "#",
+  },
+  {
+    id: "consultoria",
+    title: "Construa seu Portfólio",
+    description: "Organize seus projetos e realizações práticas numa plataforma visível, atraindo a atenção de recrutadores e potenciais parceiros.",
+    href: "/app/",
+  },
 ];
 
-/**
- * Secção de Oportunidades - Apresenta formas de colaboração e crescimento na plataforma.
- * Inclui uma área de vídeo demonstrativo (lazy-loaded) e uma lista de cartões com animações de scroll.
- */
 export default function OpportunitiesSection() {
+  return (
+    <div className="w-full py-16 md:py-24 px-6 md:px-12 lg:px-16 bg-white text-gray-800 dark:bg-[#111111] dark:text-gray-200 overflow-hidden">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
 
-    return (
-        <div className="w-full py-20 px-4 md:px-10 bg-white dark:bg-black">
-            <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+        {/* Lado Visual - Moldura geométrica premium */}
+        <motion.div
+          className="w-full lg:w-1/2 relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-square rounded-2xl overflow-hidden shadow-xl border border-gray-100 dark:border-gray-800"
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <img
+            src="/professional resume.webp"
+            alt="Desenvolvimento Profissional na ADN Developers"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+          />
+          {/* Gradiente sutil decorativo sobre a imagem */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+        </motion.div>
 
-                {/* Lado Visual - Exibe uma imagem profissional com sobreposição de gradiente e animação de entrada */}
-                <motion.div
-                    className="w-full lg:w-1/2 rounded overflow-hidden relative aspect-square md:aspect-[4/3] lg:aspect-square"
-                    initial={{ opacity: 0, x: -50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, amount: 0.1, margin: "100px 0px" }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
+        {/* Lado Informativo */}
+        <div className="w-full lg:w-1/2 flex flex-col space-y-6 md:space-y-8">
+          <div className="space-y-3">
+            <motion.span 
+              className="text-xs font-bold text-violet-600 dark:text-violet-400 uppercase tracking-widest block"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              Crescimento mútuo
+            </motion.span>
+            
+            <motion.h2
+              className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-gray-950 dark:text-white"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              Cresça connosco
+            </motion.h2>
+            
+            <motion.p
+              className="text-gray-600 dark:text-gray-400 text-sm sm:text-base leading-relaxed max-w-xl"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              Existem várias formas de interagir com a ADN Developer. Quer procure evolução na sua carreira, integrar a nossa equipa ou obter suporte para tirar as suas ideias do papel, temos os caminhos certos abertos para si.
+            </motion.p>
+          </div>
+
+          {/* Lista de Cartões de Oportunidade */}
+          <div className="grid gap-3.5 w-full max-w-xl lg:max-w-none">
+            {opportunities.map((item, index) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+              >
+                <Link
+                  href={item.href}
+                  className="group flex items-center gap-4 p-4 rounded-xl border border-gray-100 bg-gray-50/50 hover:bg-white hover:border-violet-600/20 hover:shadow-lg hover:shadow-violet-900/5 dark:border-gray-800/50 dark:bg-gray-900/30 dark:hover:bg-gray-900/60 dark:hover:border-violet-500/30 transition-all duration-300"
                 >
-                    <img
-                        src="/professional resume.webp"
-                        alt="Professional Resume"
-                        className="absolute inset-0 w-full h-full object-contain"
-                    />
-                
-                </motion.div>
 
-                {/* Lado Informativo - Contém o título, introdução e a grelha de oportunidades interativas */}
-                <div className="w-full lg:w-1/2 flex flex-col space-y-8">
-                    <div>
-                        <motion.h2
-                            className="text-2xl md:text-5xl tracking-tight text-foreground uppercase"
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.1, margin: "100px 0px" }}
-                            transition={{ duration: 0.5 }}
-                        >
-                            Cresça connosco
-                        </motion.h2>
-                        <motion.p
-                            className="mt-2 text-muted-foreground leading-relaxed"
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.1, margin: "100px 0px" }}
-                            transition={{ duration: 0.5, delay: 0.1 }}
-                        >
-                            Existem várias formas de interagir com a ADN Developer. Quer procure desenvolvimento profissional, integrar a nossa equipe, ou suporte para as suas ideias, temos caminhos abertos para si.
-                        </motion.p>
-                    </div>
+                  {/* Texto */}
+                  <div className="flex-grow min-w-0">
+                    <h3 className="text-sm sm:text-base font-bold text-gray-900 dark:text-gray-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors duration-200">
+                      {item.title}
+                    </h3>
+                    <p className="mt-0.5 text-xs sm:text-sm text-gray-500 dark:text-gray-400 leading-normal line-clamp-2 md:line-clamp-none">
+                      {item.description}
+                    </p>
+                  </div>
 
-                    <div className="grid gap-6">
-                        {opportunities.map((item, index) => (
-                            <motion.div
-                                key={item.id}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.1, margin: "100px 0px" }}
-                                transition={{ duration: 0.5, delay: 0.2 + (index * 0.1) }}
-                            >
-                                <Link
-                                    href={item.href}
-                                    className="relative overflow-hidden group flex flex-col md:flex-row items-start md:items-center gap-5 p-5 md:p-6 rounded-lg border border-violet-200/30 bg-gradient-to-br from-violet-50 to-indigo-50 hover:from-violet-100 hover:to-indigo-100 dark:from-violet-950/20 dark:to-indigo-950/20 transition-all duration-300 hover:shadow-md hover:border-violet-300/60 dark:hover:border-violet-700/40"
-                                >
-                                    {/* Conteúdo do Cartão - Composto por ícone, título e descrição com efeitos de hover
-                                        Nota: imagem de fundo externa removida — era pedida 3x a servidor externo lento */}
-
-                                    {/* Ícone do cartão */}
-                                    <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary group-hover:bg-violet-600 group-hover:text-white transition-colors duration-300">
-                                        <item.icon className="w-6 h-6" />
-                                    </div>
-
-                                    <div className="flex-grow">
-                                        <h3 className="text-lG font-semibold text-foreground group-hover:text-violet-600 transition-colors duration-300 flex items-center gap-2">
-                                            {item.title}
-                                        </h3>
-                                        <p className="mt-1 text-sm text-muted-foreground">
-                                            {item.description}
-                                        </p>
-                                    </div>
-
-                                    <div className="hidden md:flex flex-shrink-0 w-10 h-10 items-center justify-center rounded-full bg-background border border-border group-hover:bg-violet-600 group-hover:text-white group-hover:border-violet-600 transition-colors duration-300 shadow-sm">
-                                        <ArrowRight className="w-5 h-5 opacity-70 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-transform duration-300" />
-                                    </div>
-                                </Link>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-
-            </div>
+                  {/* Seta indicativa compacta */}
+                  <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 dark:border-gray-800 text-gray-400 bg-white dark:bg-gray-900 group-hover:bg-violet-600 group-hover:text-white group-hover:border-violet-600 transition-all duration-300 shadow-sm">
+                    <ArrowRight className="w-4 h-4 -translate-x-0.5 group-hover:translate-x-0 transition-transform duration-300" />
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
         </div>
-    );
+
+      </div>
+    </div>
+  );
 }
