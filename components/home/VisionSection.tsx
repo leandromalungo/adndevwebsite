@@ -17,31 +17,48 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   onClick,
 }) => {
   return (
-    <div className="bg-[#efefef] rounded-lg overflow-hidden mb-2 border border-transparent transition-all duration-300">
-      {/* Cabeçalho do Acordeão - Botão que alterna entre os estados aberto/fechado */}
+    <div 
+      className={`rounded-xl overflow-hidden mb-2.5 border transition-all duration-300 ${
+        isOpen 
+          ? "bg-gray-50 border-violet-600/30 shadow-sm" 
+          : "bg-gray-100/70 border-transparent hover:bg-gray-100"
+      }`}
+    >
+      {/* Cabeçalho do Acordeão - Ajuste de padding para ficar mais compacto */}
       <button
         type="button"
         onClick={onClick}
-        className="w-full px-6 py-6 flex items-center justify-between text-left focus:outline-none"
+        className="w-full px-5 py-4 flex items-center justify-between text-left focus:outline-none group"
       >
-        <span className="text-2xl sm:text-3xl text-[#1e293b]">
+        <span 
+          className={`text-base font-semibold transition-colors duration-200 ${
+            isOpen ? "text-violet-700" : "text-gray-800 group-hover:text-black"
+          }`}
+        >
           {title}
         </span>
-        <div className="bg-transparent rounded-full p-1">
+        
+        {/* Caixa do Ícone com padding otimizado */}
+        <div 
+          className={`p-1 rounded-md transition-colors ${
+            isOpen ? "bg-violet-100 text-violet-600" : "bg-gray-200/80 text-gray-500 group-hover:text-gray-700"
+          }`}
+        >
           {isOpen ? (
-            <Minus className="w-6 h-6 text-[#1e293b]" />
+            <Minus className="w-4 h-4" />
           ) : (
-            <Plus className="w-6 h-6 text-[#1e293b]" />
+            <Plus className="w-4 h-4" />
           )}
         </div>
       </button>
-      {/* Conteúdo Expansível - Utiliza transições de max-height e opacidade para animação suave */}
+
+      {/* Conteúdo Expansível com preenchimento interno ajustado */}
       <div
-        className={`px-6 transition-all duration-300 ease-in-out overflow-hidden ${
-          isOpen ? "max-h-60 pb-8 opacity-100" : "max-h-0 opacity-0"
+        className={`px-5 transition-all duration-300 ease-in-out overflow-hidden ${
+          isOpen ? "max-h-40 pb-4 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <p className="text-[#475569] text-sm sm:text-base leading-relaxed max-w-xl">
+        <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
           {content}
         </p>
       </div>
@@ -50,18 +67,16 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
 };
 
 /**
- * Secção Visão - Componente principal que apresenta os pilares estratégicos da organização.
- * Utiliza um sistema de acordeão para manter o layout limpo e interativo.
+ * Secção Visão - Componente principal em Fundo Branco
  */
 const VisionSection = () => {
-  // Estado que controla qual item do acordeão está aberto (apenas um de cada vez)
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const items = [
     {
       title: "Tecnologia",
       content:
-        "Desenvolver soluções criativas e colaborativas em equipe, com desafios práticos e oportunidades de networking, impulsionando sua carreira na área de tecnologia.",
+        "Desenvolver soluções criativas e colaborativas em equipa, com desafios práticos e oportunidades de networking, impulsionando a sua carreira na área de tecnologia.",
     },
     {
       title: "Educação",
@@ -71,22 +86,23 @@ const VisionSection = () => {
     {
       title: "Eventos",
       content:
-        "Participe de eventos e atividades que promovem o networking e o desenvolvimento profissional, impulsionando sua carreira na área de tecnologia.",
+        "Participe de eventos e atividades que promovem o networking e o desenvolvimento profissional, impulsionando a sua carreira na área de tecnologia.",
     },
   ];
 
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-        {/* Conteúdo de Texto - Visão principal e proposta de valor tecnológica */}
-        <div className="flex flex-col">
-          <span className="text-base font-bold text-[#1e293b] mb-4 uppercase">
+    <section className="py-16 md:py-20 bg-white text-gray-800">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        
+        {/* Conteúdo de Texto à Esquerda */}
+        <div className="flex flex-col space-y-3">
+          <span className="text-xs font-bold text-violet-600 uppercase tracking-wider">
             Nossa visão
           </span>
-          <h2 className="text-4xl sm:text-3xl text-[#1e293b] leading-[1.1] mb-8">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight tracking-tight text-gray-900 max-w-xl">
             Tecnologia por meio da criatividade, da confiança e da programação.
           </h2>
-          <p className="text-[#475569] text-base mb-10 leading-relaxed">
+          <p className="text-gray-600 text-sm sm:text-base leading-relaxed max-w-xl pt-1">
             Somos a voz que impulsiona a inovação tecnológica, promovendo a
             criatividade e a confiança através da programação. Nosso compromisso
             é capacitar indivíduos e organizações a alcançarem seu potencial
@@ -94,8 +110,8 @@ const VisionSection = () => {
           </p>
         </div>
 
-        {/* Área do Acordeão - Lista dinâmica de pilares (Tecnologia, Educação, Eventos) */}
-        <div className="flex flex-col">
+        {/* Área do Acordeão à Direita */}
+        <div className="flex flex-col w-full max-w-xl lg:max-w-none justify-self-center lg:justify-self-auto">
           {items.map((item, index) => (
             <AccordionItem
               key={index}
@@ -106,6 +122,7 @@ const VisionSection = () => {
             />
           ))}
         </div>
+
       </div>
     </section>
   );

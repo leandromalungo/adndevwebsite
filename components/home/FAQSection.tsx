@@ -11,7 +11,7 @@ interface FAQItem {
 const faqItems: FAQItem[] = [
   {
     id: "faq-1",
-    question: "O que é a ADN Developers",
+    question: "O que é a ADN Developers?",
     answer:
       "Nós somos um repositório online dedicado a fornecer recursos educacionais gratuitos na área de tecnologia. Nosso objetivo é capacitar indivíduos com conhecimento e habilidades necessárias para prosperar na indústria tecnológica.",
   },
@@ -24,46 +24,59 @@ const faqItems: FAQItem[] = [
     id: "faq-3",
     question: 'Como faço para falar com vocês?',
     answer:
-      "Podes entrar em contato connosco através do nosso  email geral.adndeveloper@gmail.com ou pelas redes sociais.",
+      "Podes entrar em contato connosco através do nosso email geral.adndeveloper@gmail.com ou pelas redes sociais.",
   },
   {
     id: "faq-4",
-    question:
-      "Como aprender com vocês?",
-    answer: "Explore nossos tutoriais, cursos e artigos disponíveis na plataforma. Inscreva-se em nos cursos on-lines e presenciais dos nossos parceiros para obter uma experiência de aprendizado estruturada e prática.",
+    question: "Como aprender com vocês?",
+    answer: "Explore nossos tutoriais, cursos e artigos disponíveis na plataforma. Inscreva-se nos cursos online e presenciais dos nossos parceiros para obter uma experiência de aprendizado estruturada e prática.",
   },
   {
     id: "faq-5",
     question: "Vocês oferecem certificados?",
-    answer: "Nós não oferecemos certificados, porém os cursos disponiveis na plataforma oferecem certificados de conclusão, que podem ser adicionados ao seu currículo ou perfil profissional.",
+    answer: "Nós não oferecemos certificados diretamente, porém os cursos disponíveis na plataforma oferecem certificados de conclusão, que podem ser adicionados ao seu currículo ou perfil profissional.",
   },
   {
     id: "faq-6",
     question: "Como me tornar parceiro da plataforma?",
     answer:
-      "Podes entrar em contato connosco através do nosso  email geral.adndeveloper@gmail.com",
+      "Podes entrar em contato connosco através do nosso email geral.adndeveloper@gmail.com",
   },
   {
     id: "faq-7",
     question: "Onde estão localizados?",
     answer:
-      "Nossa equipe está distribuída globalmente, com membros trabalhando remotamente de diferentes partes do mundo, permitindo-nos colaborar e compartilhar conhecimento de forma eficaz.",
+      "Nossa equipa está distribuída globalmente, com membros trabalhando remotamente de diferentes partes do mundo, permitindo-nos colaborar e compartilhar conhecimento de forma eficaz.",
   },
 ]
 
 export function FAQSection() {
   return (
-    <section className="w-full py-12 md:py-4 bg-black">
-      <div className="max-w-4xl mx-auto px-6 md:px-8">
-        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-white text-center mt-4 sm:mt-6">Perguntas frequentes</h2>
+    <section className="w-full py-12 md:py-16 bg-[#111111] text-white">
+      {/* Reduzi a largura máxima para o conteúdo ficar mais compacto e legível */}
+      <div className="max-w-3xl mx-auto px-6">
+        
+        {/* Título com tamanho equilibrado */}
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-8 tracking-tight">
+          Perguntas frequentes
+        </h2>
 
-        <Accordion type="single" collapsible className="w-full space-y-4">
+        <Accordion type="single" collapsible className="w-full space-y-2">
           {faqItems.map((item) => (
-            <AccordionItem key={item.id} value={item.id} className="border-b border-gray-800 py-2">
-              <AccordionTrigger className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white hover:text-gray-300 font-medium hover:no-underline">
+            <AccordionItem 
+              key={item.id} 
+              value={item.id} 
+              className="border-b border-gray-800/60 py-1"
+            >
+              {/* Pergunta ajustada de tamanhos gigantes para tamanhos ideais */}
+              <AccordionTrigger className="text-sm sm:text-base text-gray-200 hover:text-white font-medium hover:no-underline transition-colors py-3.5 text-left">
                 {item.question}
               </AccordionTrigger>
-              <AccordionContent className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-gray-400 pt-4">{item.answer}</AccordionContent>
+              
+              {/* Resposta sutil e confortável para leitura */}
+              <AccordionContent className="text-xs sm:text-sm text-gray-400 leading-relaxed pb-4 pt-1">
+                {item.answer}
+              </AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
