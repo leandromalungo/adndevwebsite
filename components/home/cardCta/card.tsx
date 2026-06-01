@@ -10,22 +10,25 @@ interface CTACardProps {
 
 const CTACard = ({ label, title, buttonText, backgroundImage, href }: CTACardProps) => {
   return (
-    <div className="relative w-full h-80 md:h-96 lg:h-96 rounded-2xl overflow-hidden group cursor-pointer"
-      style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <div 
+      className="relative w-full h-80 sm:h-85 md:h-96 rounded-2xl overflow-hidden group cursor-pointer"
+      style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+    >
       {/* Overlay escuro */}
-      <div className="absolute inset-0 bg-black/75 transition-colors duration-300" />
+      <div className="absolute inset-0 bg-black/75 transition-colors duration-300 group-hover:bg-black/80" />
 
       {/* Conteúdo */}
-      <div className="relative h-full flex flex-col justify-between p-5 md:p-7 lg:p-8">
+      <div className="relative h-full flex flex-col justify-between p-4 sm:p-5 md:p-6">
+        
         {/* Top section - Label and Title */}
-        <div className="flex flex-col gap-2 md:gap-3">
+        <div className="flex flex-col gap-1.5 md:gap-2">
           {/* Label */}
-          <p className="text-xs sm:text-xs md:text-sm text-gray-400 font-light">
+          <p className="text-[11px] md:text-xs text-gray-400 font-light tracking-wide uppercase">
             {label}
           </p>
 
-          {/* Título */}
-          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white leading-snug text-balance">
+          {/* Título - Reduzido para caber perfeitamente na coluna estreita */}
+          <h2 className="text-base sm:text-lg md:text-xl text-white font-bold leading-snug text-balance">
             {title}
           </h2>
         </div>
@@ -36,22 +39,18 @@ const CTACard = ({ label, title, buttonText, backgroundImage, href }: CTACardPro
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 md:px-6 py-2 md:py-3 border border-white text-white text-xs md:text-sm font-medium rounded hover:bg-white hover:text-black transition-all duration-300 active:scale-95"
+            className="px-4 md:px-5 py-2 border border-white text-white text-xs font-medium rounded hover:bg-white hover:text-black transition-all duration-300 active:scale-95"
           >
             {buttonText}
           </a>
         </div>
 
-        {/* Bottom section */}
-        <div className="flex justify-end">
-          <p className="text-xs text-gray-400 font-light cursor-pointer hover:text-white transition-colors">
-            Tem perguntas?{' '}
-            <a href="https://adndeveloper.com/faq" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">
-              Leia nosso
-            </a>
-            {' '}
-            <a href="https://adndeveloper.com/faq" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">
-              Perguntas frequentes
+        {/* Bottom section - FAQ simplificado para telas menores */}
+        <div className="flex justify-start sm:justify-end">
+          <p className="text-[10px] md:text-xs text-gray-400 font-light">
+            Dúvidas?{' '}
+            <a href="https://adndeveloper.com/faq" target="_blank" rel="noopener noreferrer" className="underline hover:text-white transition-colors">
+              Perguntas Frequentes
             </a>
           </p>
         </div>
@@ -66,9 +65,10 @@ interface CTACardsGridProps {
 
 export const CTACardsGrid = ({ cards }: CTACardsGridProps) => {
   return (
-    <div className="w-full bg-white pt-8 md:pt-12 lg:pt-16 pb-4 md:pb-6 lg:pb-8 px-4 md:px-6 lg:px-8">
+    <div className="w-full bg-[#111111] pt-8 md:pt-12 lg:pt-16 pb-4 md:pb-6 lg:pb-8 px-4 md:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
+        {/* Grid responsivo ajustado de 1 para 2, e de 2 para 4 colunas em telas grandes */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {cards.map((card, index) => (
             <CTACard
               key={index}

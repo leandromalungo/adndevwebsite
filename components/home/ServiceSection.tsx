@@ -34,11 +34,9 @@ export const SectionHero: React.FC<ServicesSectionProps> = ({ services, }) => {
         </p>
       </FadeIn>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-8">
         {/* TEXTURA EM XADREZ (GRID) - Aplicada de forma leve ao fundo do card */}
-        <div
-          className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 group-hover:opacity-[0.25] group-hover:bg-[linear-gradient(to_right,#8b5cf6_1px,transparent_1px),linear-gradient(to_bottom,#8b5cf6_1px,transparent_1px)] transition-all duration-500 pointer-events-none"
-        />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 group-hover:opacity-[0.25] group-hover:bg-[linear-gradient(to_right,#8b5cf6_1px,transparent_1px),linear-gradient(to_bottom,#8b5cf6_1px,transparent_1px)] transition-all duration-500 pointer-events-none" />
 
         {services.map((service, index) => (
           <FadeIn key={service.id} delay={index * 0.30} direction="up" className="h-full">

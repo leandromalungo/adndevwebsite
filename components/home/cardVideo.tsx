@@ -38,7 +38,7 @@ export default function App() {
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             className="lg:col-span-4 space-y-6 pt-2"
           >
-            <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-tight text-[#1A1A1A] font-sans uppercase">
+            <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-tight text-[#1A1A1A] font-bold uppercase">
               Nosso Hub Online
             </h1>
 

@@ -25,22 +25,14 @@ const Page = () => {
   const servicesData = [
     {
       id: 1,
-      title: "Workshops",
+      title: "Palestras",
       description:
-        "Workshops práticos liderados por especialistas da indústria para desenvolver habilidades técnicas de forma dinâmica.",
+        "Apresentações práticas liderados por especialistas da indústria para desenvolver habilidades técnicas de forma dinâmica.",
       imageUrl: "/images-card1.jpg",
       link: "/events",
     },
     {
       id: 2,
-      title: "Palestras",
-      description:
-        "Palestras com profissionais da área trazendo insights, tendências e networking estratégico.",
-      imageUrl: "/images-card2.webp",
-      link: "/events",
-    },
-    {
-      id: 3,
       title: "Bolsas de estudos",
       description:
         "Oportunidades de bolsas com suporte financeiro e mentoria para impulsionar carreiras em tecnologia.",
@@ -57,22 +49,13 @@ const Page = () => {
     },
     {
       id: 5,
-      title: "Desafios nacionais",
+      title: "Desafios",
       description:
         "Competições para testar habilidades e conquistar reconhecimento no cenário tecnológico.",
       imageUrl:
         "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop",
       link: "/events",
-    },
-    {
-      id: 6,
-      title: "Testes de codificação",
-      description:
-        "Avaliação técnica para desenvolver raciocínio lógico e solução de problemas em código.",
-      imageUrl:
-        "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop",
-      link: "/events",
-    },
+    }
   ];
 
   return (
