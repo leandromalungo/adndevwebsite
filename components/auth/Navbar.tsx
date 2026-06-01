@@ -11,8 +11,7 @@ import {
   Eye,
   EyeOff,
   Link as LinkIcon,
-  Check,
-  Users, LogOut
+  Users, LogOut, Calendar, Map, GraduationCap, Rocket, Code
 } from "lucide-react";
 import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
@@ -52,24 +51,6 @@ function AuthQueryHandler({ setLoginModal, setIsRegistering, isLoggedIn }: any) 
   return null;
 }
 
-const NavLink = ({
-  label,
-  href,
-  onClick,
-}: {
-  label: string;
-  href: string;
-  onClick?: () => void;
-}) => (
-  <Link
-    href={href}
-    onClick={onClick}
-    className="flex items-center gap-2 text-sm sm:text-base font-semibold text-gray-700 hover:text-violet-700 transition-colors focus:outline-none focus:ring-0"
-  >
-    {label}
-  </Link>
-);
-
 const MobileLink = ({
   label,
   href,
@@ -82,7 +63,7 @@ const MobileLink = ({
   <Link
     href={href}
     onClick={onClick}
-    className="block px-3 py-2 text-base font-medium text-gray-700 rounded-lg hover:text-violet-700 hover:bg-gray-50 transition-colors"
+    className="block px-3 py-2 text-base font-medium text-gray-300 rounded-lg hover:text-white hover:bg-gray-800 transition-colors"
   >
     {label}
   </Link>
@@ -101,10 +82,14 @@ const NavbarContent = () => {
   const isLoggedIn = !!session;
   const user = session?.user;
   const pathname = usePathname();
-  const router = useRouter(); // Router para redirecionamento de fluxos de autenticação
+  const router = useRouter();
 
   const [openMenu, setOpenMenu] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
+
+  // Novos estados para o funcionamento do Dropdown de Categorias
+  const [categoriesDropdown, setCategoriesDropdown] = useState(false);
+  const categoriesRef = useRef<HTMLDivElement>(null);
 
   const [email, setEmail] = useState("");
   const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
@@ -124,15 +109,14 @@ const NavbarContent = () => {
   const [loginNome, setLoginNome] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [loginError, setLoginError] = useState("");
-  const [loginSuccess, setLoginSuccess] = useState(""); // ✅ NOVO: Para mensagens de sucesso
+  const [loginSuccess, setLoginSuccess] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
-
 
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [shareLinkCopied, setShareLinkCopied] = useState(false);
 
-  // Sincronização de dados da sessão - Atualiza o email e foto de perfil quando a sessão muda
+  // Sincronização de dados da sessão
   useEffect(() => {
     if (session?.user) {
       setEmail(session.user.email || "");
@@ -159,57 +143,48 @@ const NavbarContent = () => {
     }, 4000);
   };
 
-  // Feedback de boas-vindas ao usuário automaticamente se login ocorrer via provedores
   useEffect(() => {
     const isLoggedInNow = !!session;
-
     prevIsLoggedIn.current = isLoggedInNow;
   }, [session, pathname]);
 
-  // Fecha o modal de boas-vindas se o usuário navegar para fora da página inicial
   useEffect(() => {
     if (pathname !== '/' && showWelcomeDialog) {
       setShowWelcomeDialog(false);
     }
   }, [pathname, showWelcomeDialog]);
 
-  // Verifica parâmetros de retorno de autenticação
   useEffect(() => {
     const searchParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
 
-    // Mostra feedback de sucesso no fluxo de confirmação de conta
     if (searchParams.get('verified') === 'true') {
       setLoginModal(true);
       setIsRegistering(false);
       setLoginSuccess('Email verificado com sucesso! Agora pode fazer login.');
       setLoginError('');
-
-      // Limpar o parâmetro da URL
       window.history.replaceState({}, document.title, window.location.pathname);
-
-      // Limpar mensagem após 5 segundos
       const timer = setTimeout(() => setLoginSuccess(''), 5000);
       return () => clearTimeout(timer);
     }
 
-    // Se houve erro na verificação
     const errorParam = searchParams.get('error');
     if (errorParam) {
       setLoginModal(true);
       setIsRegistering(false);
       setLoginError(`${decodeURIComponent(errorParam)}`);
       setLoginSuccess('');
-
-      // Limpar o parâmetro da URL
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, []);
 
-  // Fecha os dropdowns (Utilizador e GitHub) ao clicar fora deles ou em eventos de toque
+  // Fecha os dropdowns (Utilizador e Categorias) ao clicar fora deles
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setUserDropdown(false);
+      }
+      if (categoriesRef.current && !categoriesRef.current.contains(event.target as Node)) {
+        setCategoriesDropdown(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -235,21 +210,13 @@ const NavbarContent = () => {
     if (!user?.id || typeof window === "undefined") return;
 
     try {
-      // Obter o username da sessão. 
       const username = (user as any)?.username || user?.name;
-
       if (!username) {
         alert("Por favor, configure um nome de utilizador no seu perfil antes de partilhar.");
         return;
       }
-
-      // Construir o link de compartilhamento com o username
       const shareLink = `${window.location.origin}/u/${encodeURIComponent(username.replace(/\s+/g, "").toLowerCase())}`;
-
-      // Copiar para clipboard
       await navigator.clipboard.writeText(shareLink);
-
-      // Mostrar feedback
       setShareLinkCopied(true);
       setTimeout(() => setShareLinkCopied(false), 2000);
     } catch (err) {
@@ -324,10 +291,8 @@ const NavbarContent = () => {
       setLoginLoading(false);
       setLoginError(result.error);
     } else if (result.requiresEmailVerification) {
-      // Se requer confirmação, redireciona para a etapa pendente
       setLoginLoading(false);
       setLoginModal(false);
-      // Corrigido: Usar /verificacao-pendente (não /auth/verificacao-pendente)
       router.push(`/verificacao-pendente?email=${encodeURIComponent(emailStr)}`);
     } else {
       const res = await signIn("credentials", {
@@ -362,7 +327,7 @@ const NavbarContent = () => {
   }, [loginModal]);
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col text-gray-800">
       {/* Login Modal */}
       {loginModal && (
         <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-md overflow-y-auto">
@@ -385,14 +350,8 @@ const NavbarContent = () => {
               </div>
 
               <div className="w-full overflow-y-auto p-5 sm:p-8 md:w-1/2 md:flex md:flex-col md:justify-center">
-
-                {/* Logo / Ícone da Empresa */}
                 <div className="flex justify-center mb-2">
-                  <img
-                    src="/logoNavbar.png" // Substitua pelo caminho correto do seu logo (ex: /logo.png)
-                    alt="Logo Adn Developer"
-                    className="h-14 w-auto object-contain" // Controla a altura de forma proporcional
-                  />
+                  <img src="/logoNavbar.png" alt="Logo Adn Developer" className="h-14 w-auto object-contain" />
                 </div>
 
                 <h2 className="mb-1 mt-2 text-2xl text-center font-bold uppercase text-gray-800">
@@ -442,7 +401,7 @@ const NavbarContent = () => {
                           onBlur={() => {
                             setTimeout(() => setIsPasswordFocused(false), 200);
                           }}
-                          className="w-full rounded border border-gray-300 px-3 py-2 pr-12 text-sm outline-none focus:border-violet-700 [&::-ms-clear]:hidden [&::-ms-reveal]:hidden"
+                          className="w-full rounded border border-gray-300 px-3 py-2 pr-12 text-sm outline-none focus:border-violet-700"
                           placeholder="Digite sua senha"
                         />
                         {(isPasswordFocused || loginSenha.length > 0) && (
@@ -463,11 +422,7 @@ const NavbarContent = () => {
 
                   {!isRegistering && (
                     <div className="text-right -mt-1">
-                      <Link
-                        href="/esqueci-password"
-                        onClick={() => setLoginModal(false)}
-                        className="text-xs text-violet-700 hover:underline"
-                      >
+                      <Link href="/esqueci-password" onClick={() => setLoginModal(false)} className="text-xs text-violet-700 hover:underline">
                         Esqueci minha senha
                       </Link>
                     </div>
@@ -510,35 +465,22 @@ const NavbarContent = () => {
         </div>
       )}
 
-       {/* Modal de boas-vindas após login ou registo bem-sucedido */}
-
+      {/* Welcome Modal */}
       <Dialog open={showWelcomeDialog} onOpenChange={setShowWelcomeDialog}>
         <DialogContent className="max-w-lg bg-white px-0 py-0 overflow-hidden">
           <div className="relative h-48 w-full">
-            <img
-              src="/welcome.jpg"
-              alt="Bem-vindo à ADN Developer"
-              className="h-full w-full object-cover"
-            />
+            <img src="/welcome.jpg" alt="Bem-vindo" className="h-full w-full object-cover" />
           </div>
           <DialogHeader className="p-6 text-center">
             <DialogTitle>
-              {welcomeMode === 'register'
-                ? 'Conta criada com sucesso!'
-                : `Bem-vindo${user?.name ? `, ${user.name}` : ''}!`}
+              {welcomeMode === 'register' ? 'Conta criada com sucesso!' : `Bem-vindo${user?.name ? `, ${user.name}` : ''}!`}
             </DialogTitle>
             <DialogDescription>
-              {welcomeMode === 'register'
-                ? 'Sua conta foi criada. Não esqueça de preencher o perfil com suas informações.'
-                : 'Sessao iniciada com sucesso.'}
+              {welcomeMode === 'register' ? 'Sua conta foi criada. Não esqueça de preencher o perfil.' : 'Sessão iniciada com sucesso.'}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex flex-col gap-2 px-6 pb-6 pt-2">
-            <Link
-              href="/profile"
-              onClick={() => setShowWelcomeDialog(false)}
-              className="w-full rounded-md bg-violet-700 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-600 text-center"
-            >
+            <Link href="/profile" onClick={() => setShowWelcomeDialog(false)} className="w-full rounded-md bg-violet-700 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-600 text-center">
               Ir para meu perfil
             </Link>
             <DialogClose className="w-full rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50">
@@ -551,27 +493,155 @@ const NavbarContent = () => {
       <Suspense fallback={null}>
         <AuthQueryHandler isLoggedIn={isLoggedIn} setLoginModal={setLoginModal} setIsRegistering={setIsRegistering} />
       </Suspense>
-      
-      {/* Links Header */}
 
-      <header className="fixed top-0 w-full z-50 bg-white border-b border-gray-100">
-        <nav className="flex items-center justify-between px-6 py-2 max-w-7xl mx-auto">
-          <Link href="/" className="focus:outline-none" aria-label="Página Inicial">
-            <Image src="/logoNavbar.png" alt="ADN Developer Logo" width={60} height={40} className="w-auto h-auto cursor-pointer object-contain" priority />
-          </Link>
+      {/* =============================================================
+         Estrutura Principal do Header (Layout Baseado na Imagem)
+         ============================================================= */}
+      <header className="fixed top-0 w-full z-50 bg-[#111111] text-white">
+        <nav className="grid grid-cols-3 items-center px-6 py-2 max-w-7xl mx-auto w-full">
 
-          {/* Desktop Links */}
-          <div className="hidden lg:flex items-center gap-6 font-bold">
-            <NavLink label="Eventos" href="/events" />
-            <NavLink label="Comunidades" href="/community" />
-            <NavLink label="Formações" href="/bolsas" />
-            <NavLink label="RoadMaps" href="/roadmaps" />
-            <NavLink label="Negócios" href="/startups" />
-            <NavLink label="Sobre Nós" href="/sobre-nos" />
+          {/* 1. Bloco da Esquerda: Links Desktop */}
+          <div className="hidden lg:flex items-center gap-6 font-semibold">
+            <Link href="/" className="text-sm text-gray-300 hover:text-violet-500 transition-colors">
+              Página Inicial
+            </Link>
+
+            {/* Dropdown Dinâmico de Categorias */}
+            <div className="relative" ref={categoriesRef}>
+              <button
+                type="button"
+                onClick={() => setCategoriesDropdown(!categoriesDropdown)}
+                className="flex items-center gap-1 text-sm text-gray-300 hover:text-violet-500 cursor-pointer transition-colors focus:outline-none"
+              >
+                <span>Categorias</span>
+                <svg
+                  className={`w-4 h-4 opacity-70 transition-transform duration-200 ${categoriesDropdown ? "rotate-180" : ""}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {/* Menu de Subcategorias */}
+              {categoriesDropdown && (
+                <div className="absolute left-0 mt-3 w-[450px] bg-[#1a1a1a] border border-gray-800 rounded-b-lg shadow-2xl p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="grid grid-cols-2 gap-2">
+
+                    <Link
+                      href="/community"
+                      onClick={() => setCategoriesDropdown(false)}
+                      className="flex items-start gap-3 p-3 rounded-md hover:bg-violet-700/20 hover:text-white group transition-colors"
+                    >
+                      <Users className="w-5 h-5 text-violet-500 group-hover:text-violet-400 mt-0.5 shrink-0" />
+                      <div className="flex flex-col">
+                        <span className="text-sm font-semibold text-gray-200 group-hover:text-white">Comunidades</span>
+                        <span className="text-[11px] text-gray-400 group-hover:text-gray-300">Conecta-te com Devs</span>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/events"
+                      onClick={() => setCategoriesDropdown(false)}
+                      className="flex items-start gap-3 p-3 rounded-md hover:bg-violet-700/20 hover:text-white group transition-colors"
+                    >
+                      <Calendar className="w-5 h-5 text-violet-500 group-hover:text-violet-400 mt-0.5 shrink-0" />
+                      <div className="flex flex-col">
+                        <span className="text-sm font-semibold text-gray-200 group-hover:text-white">Eventos</span>
+                        <span className="text-[11px] text-gray-400 group-hover:text-gray-300">Meetups e encontros</span>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/roadmaps"
+                      onClick={() => setCategoriesDropdown(false)}
+                      className="flex items-start gap-3 p-3 rounded-md hover:bg-violet-700/20 hover:text-white group transition-colors"
+                    >
+                      <Map className="w-5 h-5 text-violet-500 group-hover:text-violet-400 mt-0.5 shrink-0" />
+                      <div className="flex flex-col">
+                        <span className="text-sm font-semibold text-gray-200 group-hover:text-white">RoadMaps</span>
+                        <span className="text-[11px] text-gray-400 group-hover:text-gray-300">Guias de aprendizagem</span>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/bolsas"
+                      onClick={() => setCategoriesDropdown(false)}
+                      className="flex items-start gap-3 p-3 rounded-md hover:bg-violet-700/20 hover:text-white group transition-colors"
+                    >
+                      <GraduationCap className="w-5 h-5 text-violet-500 group-hover:text-violet-400 mt-0.5 shrink-0" />
+                      <div className="flex flex-col">
+                        <span className="text-sm font-semibold text-gray-200 group-hover:text-white">Formações</span>
+                        <span className="text-[11px] text-gray-400 group-hover:text-gray-300">Cursos, bolsase mais</span>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/startups"
+                      onClick={() => setCategoriesDropdown(false)}
+                      className="flex items-start gap-3 p-3 rounded-md hover:bg-violet-700/20 hover:text-white group transition-colors"
+                    >
+                      <Rocket className="w-5 h-5 text-violet-500 group-hover:text-violet-400 mt-0.5 shrink-0" />
+                      <div className="flex flex-col">
+                        <span className="text-sm font-semibold text-gray-200 group-hover:text-white">Para Startups</span>
+                        <span className="text-[11px] text-gray-400 group-hover:text-gray-300">Acelera o teu negócio</span>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/"
+                      onClick={() => setCategoriesDropdown(false)}
+                      className="flex items-start gap-3 p-3 rounded-md hover:bg-violet-700/20 hover:text-white group transition-colors"
+                    >
+                      <Code className="w-5 h-5 text-violet-500 group-hover:text-violet-400 mt-0.5 shrink-0" />
+                      <div className="flex flex-col">
+                        <span className="text-sm font-semibold text-gray-200 group-hover:text-white">Contribuidores</span>
+                        <span className="text-[11px] text-gray-400 group-hover:text-gray-300">Dê a usa opinião</span>
+                      </div>
+                    </Link>
+
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Link de Produtos */}
+            {/* <div className="relative flex items-center gap-1 text-sm text-gray-300 hover:text-violet-500 cursor-pointer transition-colors">
+              <span>Produtos</span>
+              <svg className="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div> */}
+
+            <Link href="/sobre-nos" className="text-sm text-gray-300 hover:text-violet-500 transition-colors">
+              Sobre Nós
+            </Link>
           </div>
 
-          <div className="flex items-center gap-3 relative">
-            {/* Profile Button */}
+          {/* Botão Hambúrguer Mobile (Esquerda) */}
+          <div className="flex lg:hidden items-center">
+            <button type="button" onClick={() => setOpenMenu(!openMenu)} className="p-2 text-gray-300 hover:text-white">
+              {openMenu ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
+
+          {/* 2. Bloco do Meio: Logotipo Centralizado */}
+          <div className="flex justify-center justify-self-center">
+            <Link href="/" className="focus:outline-none" aria-label="Página Inicial">
+              <Image
+                src="/logoNavbar.png"
+                alt="Logo"
+                width={90}
+                height={40}
+                className="w-auto h-7 cursor-pointer object-contain"
+                priority
+              />
+            </Link>
+          </div>
+
+          {/* 3. Bloco da Direita: Perfil / Ações de Login */}
+          <div className="flex items-center justify-end gap-4 relative">
             <button
               type="button"
               onClick={() => {
@@ -581,86 +651,154 @@ const NavbarContent = () => {
                   setUserDropdown(!userDropdown);
                 }
               }}
-              className="w-8 h-8 rounded-full hover:bg-gray-100 transition border border-gray-200 focus:outline-none flex items-center justify-center p-0"
+              className="flex items-center gap-1 text-gray-300 hover:text-white transition focus:outline-none"
               aria-label="Perfil"
             >
               {isLoggedIn && profilePhoto ? (
-                <img src={profilePhoto} alt="Foto" className="w-full h-full rounded-full object-cover" referrerPolicy="no-referrer" onError={() => setProfilePhoto(null)} />
+                <img src={profilePhoto} alt="Foto" className="w-6 h-6 rounded-full object-cover border border-gray-600" referrerPolicy="no-referrer" onError={() => setProfilePhoto(null)} />
               ) : (
-                <UserIcon className={`w-5 h-5 ${isLoggedIn ? "text-violet-700" : "text-gray-600"}`} />
+                <div className="flex items-center gap-1">
+                  <UserIcon className="w-5 h-5" />
+                  <svg className="w-3 h-3 opacity-70 hidden sm:inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
               )}
             </button>
 
-            {/* User Dropdown */}
-            <div ref={dropdownRef} className="relative">
+            {/* Menu Dropdown do Usuário Autenticado */}
+            <div ref={dropdownRef} className="absolute right-0 top-full mt-2">
               {userDropdown && (
-                <div className="absolute right-0 top-12 w-80 max-w-[calc(100vw-2rem)] bg-white border border-gray-200 shadow-xl rounded-lg overflow-hidden z-[60] animate-in fade-in zoom-in-95 duration-200 origin-top-right max-[402px]:fixed max-[402px]:top-24 max-[402px]:left-1/2 max-[402px]:-translate-x-1/2">
-                  <div className="px-4 py-3 bg-gradient-to-r from-violet-50 to-violet-100 border-b border-gray-100 flex items-center gap-3">
+                <div className="w-80 max-w-[calc(100vw-2rem)] bg-[#1a1a1a] text-gray-200 border border-gray-800 shadow-2xl rounded-b-lg overflow-hidden z-[60] animate-in fade-in zoom-in-95 duration-200 origin-top-right max-[402px]:fixed max-[402px]:top-24 max-[402px]:left-1/2 max-[402px]:-translate-x-1/2">
+
+                  {/* Cabeçalho do Dropdown */}
+                  <div className="px-4 py-3 bg-[#222222] border-b border-gray-800 flex items-center gap-3">
                     {profilePhoto ? (
-                      <img src={profilePhoto} alt="Foto" className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm" referrerPolicy="no-referrer" onError={() => setProfilePhoto(null)} />
+                      <img src={profilePhoto} alt="Foto" className="w-10 h-10 rounded-full object-cover border-2 border-gray-700 shadow-sm" referrerPolicy="no-referrer" onError={() => setProfilePhoto(null)} />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
-                        <UserIcon className="w-5 h-5 text-violet-700" />
+                      <div className="w-10 h-10 rounded-full bg-violet-950/50 border border-violet-800/50 flex items-center justify-center">
+                        <UserIcon className="w-5 h-5 text-violet-400" />
                       </div>
                     )}
                     <div className="min-w-0">
-                      <p className="text-sm text-gray-900 truncate">{(user as any)?.username || user?.name || "Utilizador"}</p>
-                      <p className="text-xs text-gray-500 truncate">{email}</p>
+                      <p className="text-sm font-bold text-white truncate">{(user as any)?.username || user?.name || "Utilizador"}</p>
+                      <p className="text-xs text-gray-400 truncate">{email}</p>
                     </div>
                   </div>
 
+                  {/* Links de Opções */}
                   <div className="py-2">
-                    <Link href="/profile" onClick={() => setUserDropdown(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-violet-700 transition">
-                      <UserIcon className="w-4 h-4" />
+                    <Link href="/profile" onClick={() => setUserDropdown(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-violet-700/20 hover:text-white transition-colors">
+                      <UserIcon className="w-4 h-4 text-violet-500" />
                       <span>O meu perfil</span>
                     </Link>
 
-                    <button
-                      type="button"
-                      onClick={handleCopyShareLink}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-violet-700 transition flex items-center gap-2"
-                    >
-                      <LinkIcon className="w-4 h-4" />
+                    <button type="button" onClick={handleCopyShareLink} className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-violet-700/20 hover:text-white transition-colors flex items-center gap-2">
+                      <LinkIcon className="w-4 h-4 text-violet-500" />
                       <span>{shareLinkCopied ? "✓ Copiado!" : "Partilhar perfil"}</span>
                     </button>
 
-                    <Link href="/" onClick={() => setUserDropdown(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-violet-700 transition">
-                      <Users className="w-4 h-4" />
+                    <Link href="/" onClick={() => setUserDropdown(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-violet-700/20 hover:text-white transition-colors">
+                      <Users className="w-4 h-4 text-violet-500" />
                       <span>Contribuidores</span>
                     </Link>
-                    <Link href="/" onClick={() => setUserDropdown(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-violet-700 transition">
-                      <CreditCard className="w-4 h-4" />
+
+                    <Link href="/" onClick={() => setUserDropdown(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-violet-700/20 hover:text-white transition-colors">
+                      <CreditCard className="w-4 h-4 text-violet-500" />
                       <span>Painel de assinatura</span>
                     </Link>
 
-
-                    <div className="border-t border-gray-100 mt-2 pt-2">
-                      <button type="button" onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-800 hover:text-red-200 transition">
+                    {/* Zona de Perigo / Sair */}
+                    <div className="border-t border-gray-800 mt-2 pt-2">
+                      <button type="button" onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-400 hover:bg-red-950/30 hover:text-red-300 transition-colors">
                         <LogOut className="w-4 h-4" />
                         <span>Terminar sessão</span>
                       </button>
                     </div>
                   </div>
+
                 </div>
               )}
             </div>
-
-            {/* Mobile Menu Button */}
-            <button type="button" onClick={() => setOpenMenu(!openMenu)} className="lg:hidden p-2">
-              {openMenu ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
           </div>
         </nav>
 
-        {/* Mobile menu */}
+        {/* Menu Expandido Mobile */}
         {openMenu && (
-          <div className="lg:hidden absolute top-full left-0 w-full bg-white shadow-md z-[45] border-b border-gray-100 animate-in slide-in-from-top duration-300">
-            <div className="px-6 py-4 space-y-2 font-bold max-h-[70vh] overflow-y-auto">
-              <MobileLink label="Eventos" href="/events" onClick={closeMobileMenu} />
-              <MobileLink label="Comunidades" href="/community" onClick={closeMobileMenu} />
-              <MobileLink label="Formações" href="/bolsas" onClick={closeMobileMenu} />
-              <MobileLink label="RoadMaps" href="/roadmaps" onClick={closeMobileMenu} />
-              <MobileLink label="Negócios" href="/startups" onClick={closeMobileMenu} />
+          <div className="lg:hidden absolute top-full left-0 w-full bg-[#111111]/95 backdrop-blur-md shadow-2xl z-[45] border-b border-gray-800 animate-in slide-in-from-top duration-300">
+            <div className="px-6 py-6 space-y-6 max-h-[calc(100vh-5rem)] overflow-y-auto">
+
+              {/* Links Principais Rápidos */}
+              <div className="space-y-2">
+                <MobileLink label="Página Inicial" href="/" onClick={closeMobileMenu} />
+                <MobileLink label="Produtos" href="/produtos" onClick={closeMobileMenu} />
+                <MobileLink label="Sobre Nós" href="/sobre-nos" onClick={closeMobileMenu} />
+              </div>
+
+              {/* Divisor sutil */}
+              <div className="border-t border-gray-800/60 pt-4">
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3 px-3">
+                  Explorar Categorias
+                </p>
+
+                {/* Grid de Subcategorias para Mobile */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <Link
+                    href="/community"
+                    onClick={closeMobileMenu}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#1a1a1a] border border-gray-800/40 text-gray-300 hover:text-white transition"
+                  >
+                    <Users className="w-4 h-4 text-violet-500 shrink-0" />
+                    <span className="text-sm font-medium">Comunidades</span>
+                  </Link>
+
+                  <Link
+                    href="/events"
+                    onClick={closeMobileMenu}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#1a1a1a] border border-gray-800/40 text-gray-300 hover:text-white transition"
+                  >
+                    <Calendar className="w-4 h-4 text-violet-500 shrink-0" />
+                    <span className="text-sm font-medium">Eventos</span>
+                  </Link>
+
+                  <Link
+                    href="/roadmaps"
+                    onClick={closeMobileMenu}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#1a1a1a] border border-gray-800/40 text-gray-300 hover:text-white transition"
+                  >
+                    <Map className="w-4 h-4 text-violet-500 shrink-0" />
+                    <span className="text-sm font-medium">RoadMaps</span>
+                  </Link>
+
+                  <Link
+                    href="/bolsas"
+                    onClick={closeMobileMenu}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#1a1a1a] border border-gray-800/40 text-gray-300 hover:text-white transition"
+                  >
+                    <GraduationCap className="w-4 h-4 text-violet-500 shrink-0" />
+                    <span className="text-sm font-medium">Formações</span>
+                  </Link>
+
+                  <Link
+                    href="/startups"
+                    onClick={closeMobileMenu}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#1a1a1a] border border-gray-800/40 text-gray-300 hover:text-white transition"
+                  >
+                    <Rocket className="w-4 h-4 text-violet-500 shrink-0" />
+                    <span className="text-sm font-medium">Para Startups</span>
+                  </Link>
+
+                  <Link
+                    href="/"
+                    onClick={closeMobileMenu}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#1a1a1a] border border-gray-800/40 text-gray-300 hover:text-white transition"
+                  >
+                    <Code className="w-4 h-4 text-violet-500 shrink-0" />
+                    <span className="text-sm font-medium">Contribuidores</span>
+                  </Link>
+                </div>
+              </div>
+
             </div>
           </div>
         )}

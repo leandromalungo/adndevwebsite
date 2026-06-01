@@ -29,7 +29,7 @@ function isScholarshipExpired(deadline: string | null | undefined): boolean {
   }
 }
 
-type NavCategory = "bolsas" | "intercambio" | "cursos" | "bootcamps" | "certificações" | "Estágios";
+type NavCategory = "bolsas" | "intercambio" | "cursos" | "certificações";
 
 interface ScholarshipData {
   id: string;
