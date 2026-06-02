@@ -573,7 +573,7 @@ const NavbarContent = () => {
                       <GraduationCap className="w-5 h-5 text-violet-500 group-hover:text-violet-400 mt-0.5 shrink-0" />
                       <div className="flex flex-col">
                         <span className="text-sm font-semibold text-gray-200 group-hover:text-white">Formações</span>
-                        <span className="text-[11px] text-gray-400 group-hover:text-gray-300">Cursos, bolsase mais</span>
+                        <span className="text-[11px] text-gray-400 group-hover:text-gray-300">Cursos, bolsas e mais</span>
                       </div>
                     </Link>
 
