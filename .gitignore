@@ -10,21 +10,6 @@ dist/
 .next-env.d.ts
 tsconfig.tsbuildinfo
 
-# Firebase
-.firebase/
-firebase-debug.log*
-firestore-debug.log*
-pubsub-debug.log*
-ui-debug.log*
-
-# Cloud Functions
-functions/lib/
-functions/node_modules/
-functions/firebase-debug.log*
-functions/
-scripts/
-script/
-
 # ===== SECURITY - Nunca commitar environment secrets ou credenciais
 # Environment variables (local development)
 .env

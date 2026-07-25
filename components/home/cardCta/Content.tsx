@@ -23,7 +23,7 @@ export function CTACardsContainer() {
       title: 'Participe de nossos encontros ao vivo para aprender e se conectar com outros profissionais.',
       buttonText: 'Entrar no meet',
       backgroundImage: '/card3.jpg',
-      href: 'https://meet.google.com/adn-developer',
+      href: 'https://www.youtube.com@adn_developer',
     },
     {
       label: 'Community Channel',

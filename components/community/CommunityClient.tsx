@@ -11,7 +11,7 @@ import { Loader2, ArrowRight, Smartphone } from "lucide-react";
 import { AppComingSoonModal } from "@/components/AppComingSoonModal";
 
 export default function CommunityClient() {
-  const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Angola");
+  const [selectedCountry, setSelectedCountry] = useState<FilterTab>("Todos");
   const { data: session } = useSession();
   const router = useRouter();
   const pathname = usePathname();

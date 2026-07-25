@@ -3,16 +3,23 @@
 import React, { useMemo } from 'react';
 import { CommunityCard } from '@/components/community/CommunityCard';
 import { CardGridSkeleton } from '@/components/cards/CardSkeleton';
-import { mockCommunities } from '@/data/dataCommunity';
 import type { FilterTab } from '@/components/CountryFilter';
 import type { Community } from '@/data/types';
 
 interface CommunityGridProps {
   selectedCountry: FilterTab;
   searchQuery?: string;
-  extraCommunities?: Community[];
+  extraCommunities?: Community[] | null;
   isLoading?: boolean;
 }
+
+const normalizeCountry = (value?: string) =>
+  value
+    ?.normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[-\s]+/g, ' ')
+    .trim()
+    .toLowerCase() ?? '';
 
 export const CommunityGrid: React.FC<CommunityGridProps> = ({
   selectedCountry,
@@ -21,10 +28,12 @@ export const CommunityGrid: React.FC<CommunityGridProps> = ({
   isLoading = false,
 }) => {
   const filteredCommunities = useMemo(() => {
-    const allCommunities = [...extraCommunities, ...mockCommunities];
+    const allCommunities = [...(extraCommunities ?? [])];
+    const normalizedSelectedCountry = normalizeCountry(selectedCountry);
+
     return allCommunities.filter(community => {
       if (selectedCountry !== "Todos") {
-        const matchesCountry = community.country === selectedCountry;
+        const matchesCountry = normalizeCountry(community.country) === normalizedSelectedCountry;
         if (!matchesCountry) return false;
       }
 
@@ -33,7 +42,7 @@ export const CommunityGrid: React.FC<CommunityGridProps> = ({
       const query = searchQuery.toLowerCase().trim();
       const matchesName = community.name?.toLowerCase().includes(query) || false;
       const matchesCategory = community.category?.toLowerCase().includes(query) || false;
-      const matchesTags = community.tags?.some(tag => tag.toLowerCase().includes(query)) || false;
+      const matchesTags = community.tags?.some((tag: string) => tag.toLowerCase().includes(query)) || false;
       const matchesDescription = community.description?.toLowerCase().includes(query) || false;
 
       return matchesName || matchesCategory || matchesTags || matchesDescription;

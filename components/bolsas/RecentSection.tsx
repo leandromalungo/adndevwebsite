@@ -176,7 +176,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 // ==========================================
 // TYPES E INTERFACES SEÇÃO
 // ==========================================
-type TimeFilter = "todas" | "ativas" | "passadas";
+type TimeFilter = "ativas" | "passadas" | "todas";
 
 interface RecentSectionProps {
   selectedCountry?: FilterTab;
@@ -192,7 +192,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
   isLoading = false,
 }) => {
   const [activeCategory, setActiveCategory] = useState<NavCategory>("bolsas");
-  const [timeFilter, setTimeFilter] = useState<TimeFilter>("todas");
+  const [timeFilter, setTimeFilter] = useState<TimeFilter>("ativas");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 

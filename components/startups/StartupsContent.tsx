@@ -79,10 +79,10 @@ const StartupsContent = () => {
       </section>
 
       <div className="min-h-screen bg-white">
-        <main className="overflow-hidden">
+        <main className="overflow-hidden">          
+          <FadeIn><StartupProgramsSlider /></FadeIn>
           <FadeIn><HubShowcase /></FadeIn> 
           <FadeIn><Matchmaking /></FadeIn>
-          <FadeIn><StartupProgramsSlider /></FadeIn>
           <Footer />
         </main>
       </div>

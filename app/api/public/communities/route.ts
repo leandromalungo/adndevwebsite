@@ -29,6 +29,18 @@ type AdminCommunityRow = {
 
 export async function GET() {
   noStore();
+
+  const isConfigured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+  if (!isConfigured) {
+    return NextResponse.json(
+      {
+        communities: [],
+        error: "As variáveis do Supabase não estão configuradas. Defina NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY e SUPABASE_SERVICE_ROLE_KEY.",
+      },
+      { status: 500 }
+    );
+  }
+
   try {
     const { data } = await supabaseAdmin
       .from("admin_communities")
@@ -52,7 +64,8 @@ export async function GET() {
     }));
 
     return NextResponse.json({ communities: mapped });
-  } catch {
-    return NextResponse.json({ communities: [] });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Erro inesperado ao carregar comunidades";
+    return NextResponse.json({ communities: [], error: message }, { status: 500 });
   }
 }

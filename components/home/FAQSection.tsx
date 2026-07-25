@@ -52,12 +52,12 @@ const faqItems: FAQItem[] = [
 
 export function FAQSection() {
   return (
-    <section className="w-full py-12 md:py-16 bg-[#111111] text-white">
+    <section className="w-full py-12 md:py-16 text-white">
       {/* Reduzi a largura máxima para o conteúdo ficar mais compacto e legível */}
       <div className="max-w-3xl mx-auto px-6">
         
         {/* Título com tamanho equilibrado */}
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-8 tracking-tight">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-center mb-8 tracking-tight">
           Perguntas frequentes
         </h2>
 

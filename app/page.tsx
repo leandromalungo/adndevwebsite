@@ -7,16 +7,12 @@
 
 import Navbar from "@/components/auth/Navbar";
 import Hero from "@/components/home/Hero";
-import FAQSection from "@/components/home/FAQSection";
 import PartnersSection from "@/components/home/PartnersSection";
-import Footer from "@/components/Footer";
 import { SectionHero as ServiceSection } from "@/components/home/ServiceSection";
 import { CTACardsContainer } from "@/components/home/cardCta/Content";
 import Vision from "@/components/home/VisionSection";
-import GradientBackground from "@/components/home/GradientBackground";
 import SectionCall from "@/components/sectionCall";
-import CardVideo from "@/components/home/cardVideo";
-import OpportunitiesSection from "@/components/home/OpportunitiesSection";
+import Footer from "@/components/Footer";
 
 const Page = () => {
   /**
@@ -69,34 +65,19 @@ const Page = () => {
             <Hero />
           </div>
 
-          {/* Background ShaderGradient Absoluto: Contido dentro da secção hero, não afecta o scroll */}
-          <div className="absolute inset-0 z-0 pointer-events-none bg-black">
-            <GradientBackground />
-            {/* Camadas de Sobreposição (Overlays): Melhoram a legibilidade do texto sobre o fundo dinâmico */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-          </div>
         </section>
 
         {/* ÁREA DE CONTEÚDO E SERVIÇOS: Layout principal com serviços, visões e componentes de contacto */}
-        <section className="relative z-10 bg-[#000000] flex flex-col items-center py-5 px-4 md:px-10 space-y-24">
+        <section className="relative z-10 bg-[#111111] flex flex-col items-center py-5 px-4 md:px-10 space-y-24">
           <ServiceSection services={servicesData} />
-        </section>
-
-        {/* ÁREA DE CONTEÚDO E SERVIÇOS: Layout principal com serviços, visões e componentes de contacto */}
-        <section className="relative z-10 bg-[#ffffff] flex flex-col items-center py-5 px-4 md:px-10 space-y-24">
-          <CardVideo />
         </section>
 
         <div className="relative z-10 bg-white w-full overflow-hidden">
           <SectionCall />
         
-          <OpportunitiesSection />
-
           <CTACardsContainer />
 
-          <Vision />
-
-          <FAQSection />
+          <Vision />  
 
           <PartnersSection />
 

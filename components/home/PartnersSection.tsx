@@ -21,7 +21,7 @@ const partners: PartnerItem[] = [
     initials: "GdgL",
   },
    {
-    name: "Querando o Controle",
+    name: "Quebrando o Controle",
     href: "https://quebrandoocontrole.com",
     logoSrc: "/qoc.png",
     initials: "QoC",
@@ -36,7 +36,7 @@ const partners: PartnerItem[] = [
 
 export default function PartnersSection() {
   return (
-    <section className="w-full py-12 bg-[#f7f8f9]">
+    <section className="w-full py-12 bg-[#f7f8f9] border-t border-gray-300">
       <div className="max-w-6xl mx-auto px-6 md:px-8">
         <div className="text-center mb-10">
           <h1 className="text-sm uppercase font-bold tracking-[0.3em] text-gray-900 mb-3">

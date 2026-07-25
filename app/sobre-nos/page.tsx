@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Navbar from "@/components/auth/Navbar";
+import FAQSection from "@/components/home/FAQSection";
 
 export default function SobreNosPage() {
     const teamMembers = [
@@ -27,11 +29,11 @@ export default function SobreNosPage() {
         },
         {
             name: "Whitney Velasco",
-            role: "Content Lead",
+            role: "Content Creator",
             country: "Portugal",
             image: "/whitiney.jpg",
             description:
-                "Estudante de engenharia informática, responsável por desenvolver materiais educativos e garantir uma experiência de utilizador envolvente e intuitiva.",
+                "Estudante de engenharia informática, moçambicana.",
             instagram: "https://www.instagram.com/whitney_velascoo/",
             linkedin:
                 "https://www.linkedin.com/in/whitney-velasco-furruma-5169092b9/?skipRedirect=true",
@@ -39,11 +41,11 @@ export default function SobreNosPage() {
         },
         {
             name: "Fernanda Sehn",
-            role: "Designer & Content Creator",
+            role: "Designer",
             country: "Brasil",
             image: "/fernanda.jpg",
             description:
-                "Estudante de história e criadora de conteúdo, responsável por parcerias estratégicas e produção de material educativo.",
+                "Estudante de história e Designer, brasileira.",
             instagram: "https://www.instagram.com/fe.sehn/",
             linkedin:
                 "https://www.linkedin.com/in/fernanda-sehn-069b092b9/?skipRedirect=true",
@@ -60,23 +62,26 @@ export default function SobreNosPage() {
             linkedin: "https://www.linkedin.com/in/filipe-mafuila/",
             github: "#",
         },
+        {
+            name: "Fanio Panga",
+            role: "Frontend Developer",
+            country: "Angola",
+            image: "/filipe.jpg",
+            description:
+                "Desenvolvedor frontend, focado em criar interfaces modernas, responsivas e centradas no utilizador.",
+            instagram: "https://www.instagram.com/filipemafuila/",
+            linkedin: "https://www.linkedin.com/in/filipe-mafuila/",
+            github: "#",
+        },
     ];
 
     return (
         <div className="min-h-screen bg-[#0a0a0a] text-white overflow-hidden">
-
+         <Navbar />
             {/* HERO + TEAM */}
             <section className="relative overfljow-hidden">
                 {/* Background */}
                 <div className="absolute inset-0">
-                    <Image
-                        src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop"
-                        alt="Background"
-                        fill
-                        priority
-                        className="object-cover opacity-20"
-                    />
-
                     <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-[#0a0a0a]/90 to-[#050505]" />
                 </div>
 
@@ -196,17 +201,17 @@ export default function SobreNosPage() {
                     </div>
 
                     {/* Team Cards */}
-                    <div className="flex flex-wrap justify-center gap-6">
+                    <div className="grid grid-cols-2 lg:grid-cols-6 md:grid-cols-3 gap-2">
                         {teamMembers.map((member, index) => (
                             <div
                                 key={index}
                                 className="
                                 group relative
                                 w-full
-                                sm:w-[280px]
-                                md:w-[240px]
-                                lg:w-[210px]
-                                xl:w-[220px]
+                                sm:w-[240px]
+                                md:w-[220px]
+                                lg:w-[205px]
+                                xl:w-[210px]
                                 overflow-hidden
                                 rounded-2xl
                                 border border-white/5
@@ -363,7 +368,9 @@ export default function SobreNosPage() {
                             </div>
                         ))}
                     </div>
+                    <FAQSection />
                 </div>
+                
             </section>
         </div>
     );

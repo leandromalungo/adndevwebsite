@@ -526,7 +526,7 @@ const NavbarContent = () => {
 
               {/* Menu de Subcategorias */}
               {categoriesDropdown && (
-                <div className="absolute left-0 mt-3 w-[450px] bg-[#1a1a1a] border border-gray-800 rounded-b-lg shadow-2xl p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="absolute left-0 mt-3 w-[450px] bg-[#111111] rounded-b-lg shadow-lg p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                   <div className="grid grid-cols-2 gap-2">
 
                     <Link
@@ -589,30 +589,10 @@ const NavbarContent = () => {
                       </div>
                     </Link>
 
-                    <Link
-                      href="/"
-                      onClick={() => setCategoriesDropdown(false)}
-                      className="flex items-start gap-3 p-3 rounded-md hover:bg-violet-700/20 hover:text-white group transition-colors"
-                    >
-                      <Code className="w-5 h-5 text-violet-500 group-hover:text-violet-400 mt-0.5 shrink-0" />
-                      <div className="flex flex-col">
-                        <span className="text-sm font-semibold text-gray-200 group-hover:text-white">Contribuidores</span>
-                        <span className="text-[11px] text-gray-400 group-hover:text-gray-300">Dê a usa opinião</span>
-                      </div>
-                    </Link>
-
                   </div>
                 </div>
               )}
             </div>
-
-            {/* Link de Produtos */}
-            {/* <div className="relative flex items-center gap-1 text-sm text-gray-300 hover:text-violet-500 cursor-pointer transition-colors">
-              <span>Produtos</span>
-              <svg className="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </div> */}
 
             <Link href="/sobre-nos" className="text-sm text-gray-300 hover:text-violet-500 transition-colors">
               Sobre Nós
@@ -788,14 +768,6 @@ const NavbarContent = () => {
                     <span className="text-sm font-medium">Para Startups</span>
                   </Link>
 
-                  <Link
-                    href="/"
-                    onClick={closeMobileMenu}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#1a1a1a] border border-gray-800/40 text-gray-300 hover:text-white transition"
-                  >
-                    <Code className="w-4 h-4 text-violet-500 shrink-0" />
-                    <span className="text-sm font-medium">Contribuidores</span>
-                  </Link>
                 </div>
               </div>
 
