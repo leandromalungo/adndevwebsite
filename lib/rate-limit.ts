@@ -1,60 +1,90 @@
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
-// Create a new ratelimit instance
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
+// In-memory store fallback for environments without Upstash credentials
+const inMemoryStore = new Map<string, any>();
+const inMemoryExpiry = new Map<string, number>();
+
+const mockRedis = {
+  get: async (key: string) => {
+    const exp = inMemoryExpiry.get(key);
+    if (exp && Date.now() > exp) {
+      inMemoryStore.delete(key);
+      inMemoryExpiry.delete(key);
+      return null;
+    }
+    return inMemoryStore.get(key) ?? null;
+  },
+  set: async (key: string, value: any) => {
+    inMemoryStore.set(key, value);
+    return "OK";
+  },
+  setex: async (key: string, seconds: number, value: any) => {
+    inMemoryStore.set(key, value);
+    inMemoryExpiry.set(key, Date.now() + seconds * 1000);
+    return "OK";
+  },
+  del: async (key: string) => {
+    inMemoryStore.delete(key);
+    inMemoryExpiry.delete(key);
+    return 1;
+  },
+  incr: async (key: string) => {
+    const val = (inMemoryStore.get(key) || 0) + 1;
+    inMemoryStore.set(key, val);
+    return val;
+  },
+};
+
+const hasUpstash = Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+
+const redis: any = hasUpstash
+  ? new Redis({
+      url: process.env.UPSTASH_REDIS_REST_URL!,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+    })
+  : mockRedis;
+
+const createLimiter = (limiterType: any) => {
+  if (hasUpstash) {
+    return new Ratelimit({
+      redis,
+      limiter: limiterType,
+      analytics: true,
+    });
+  }
+  // Permissive in-memory fallback limiter
+  return {
+    limit: async () => ({
+      success: true,
+      limit: 100,
+      remaining: 99,
+      reset: Date.now() + 60000,
+      pending: Promise.resolve(),
+    }),
+  } as unknown as Ratelimit;
+};
 
 // Rate limiter for login attempts: 3 attempts per 5 minutes per IP (reduced from 5)
-export const loginRateLimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(3, "5 m"), // Reduced from 5 to 3
-  analytics: true,
-});
+export const loginRateLimit = createLimiter(Ratelimit.slidingWindow(3, "5 m"));
 
 // Rate limiter for sign-up attempts: 1 attempt per 2 minutes per IP
-export const signUpRateLimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.fixedWindow(1, "2 m"),
-  analytics: true,
-});
+export const signUpRateLimit = createLimiter(Ratelimit.fixedWindow(1, "2 m"));
 
 // Rate limiter for account creation: 1 attempt per 2 minutes per IP
-export const accountCreationRateLimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.fixedWindow(1, "2 m"),
-  analytics: true,
-});
+export const accountCreationRateLimit = createLimiter(Ratelimit.fixedWindow(1, "2 m"));
 
 // Rate limiter for verification email resend: 3 attempts per 15 minutes
-export const emailVerificationResendRateLimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.fixedWindow(3, "15 m"),
-  analytics: true,
-});
+export const emailVerificationResendRateLimit = createLimiter(Ratelimit.fixedWindow(3, "15 m"));
 
 // Rate limiter for first verification email send: 3 attempts per 15 minutes
-export const emailVerificationSendRateLimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.fixedWindow(3, "15 m"),
-  analytics: true,
-});
+export const emailVerificationSendRateLimit = createLimiter(Ratelimit.fixedWindow(3, "15 m"));
 
 // Rate limiter for profile sharing via email: 5 attempts per hour per user
-export const profileShareRateLimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(5, "1 h"),
-  analytics: true,
-});
+export const profileShareRateLimit = createLimiter(Ratelimit.slidingWindow(5, "1 h"));
 
 // Rate limiter for password reset requests: 3 attempts per 15 minutes
-export const passwordResetRequestRateLimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.fixedWindow(3, "15 m"),
-  analytics: true,
-});
+export const passwordResetRequestRateLimit = createLimiter(Ratelimit.fixedWindow(3, "15 m"));
 
 // Progressive blocking system for failed login attempts
 interface LoginAttemptData {

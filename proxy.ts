@@ -11,28 +11,31 @@ const ADMIN_INTERNAL_REWRITE_TOKEN = "__admin_rewrite";
 const ADMIN_PUBLIC_PREFIX = `/${ADMIN_GATE}/${ADMIN_LAYER_ONE}/${ADMIN_LAYER_TWO}`;
 const ADMIN_INTERNAL_PREFIX = `/${ADMIN_INTERNAL_SEGMENT}`;
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
+const hasUpstash = Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
 
-const apiRateLimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(50, '10 m'),
-  analytics: true,
-});
+const redis = hasUpstash
+  ? new Redis({
+      url: process.env.UPSTASH_REDIS_REST_URL!,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+    })
+  : (null as any);
 
-const uploadRateLimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(5, '1 h'),
-  analytics: true,
-});
+const createLimiter = (limiter: any) => {
+  if (hasUpstash && redis) {
+    return new Ratelimit({
+      redis,
+      limiter,
+      analytics: true,
+    });
+  }
+  return {
+    limit: async () => ({ success: true, remaining: 99, reset: Date.now() + 60000 }),
+  } as unknown as Ratelimit;
+};
 
-const authRateLimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(5, '15 m'),
-  analytics: true,
-});
+const apiRateLimit = createLimiter(Ratelimit.slidingWindow(50, '10 m'));
+const uploadRateLimit = createLimiter(Ratelimit.slidingWindow(5, '1 h'));
+const authRateLimit = createLimiter(Ratelimit.slidingWindow(5, '15 m'));
 
 function getRequestIp(request: NextRequest) {
   const forwardedFor = request.headers.get('x-forwarded-for');

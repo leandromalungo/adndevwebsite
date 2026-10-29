@@ -1,0 +1,8 @@
+{
+  "name": "ADN Developer",
+  "description": "Maior repositório de informações sobre tecnologia na lusofonia. Descubra bolsas de estudo, eventos, comunidades tech e roadmaps de carreira.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

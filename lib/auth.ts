@@ -226,7 +226,7 @@ export const authOptions: NextAuthOptions = {
       return session;
     }
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || "development-secret-for-ai-studio-session-auth",
 };
 
 export const auth = NextAuth(authOptions);

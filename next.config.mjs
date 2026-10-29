@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   // Padroniza URLs sem barra final (trailing slash) globalmente
   trailingSlash: false,
 
@@ -94,15 +95,11 @@ const nextConfig = {
         headers: [
           {
             key: "Content-Security-Policy",
-            value: `default-src 'self'; script-src ${scriptSrc}; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; connect-src 'self' https://*.supabase.co https://*.vercel-analytics.com https://static.cloudflareinsights.com https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data: https://* blob:; font-src 'self' https://fonts.gstatic.com; frame-ancestors 'none';`,
+            value: `default-src 'self'; script-src ${scriptSrc}; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; connect-src 'self' https://*.supabase.co https://*.vercel-analytics.com https://static.cloudflareinsights.com https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data: https://* blob:; font-src 'self' https://fonts.gstatic.com;`,
           },
           {
             key: "X-Content-Type-Options",
             value: "nosniff",
-          },
-          {
-            key: "X-Frame-Options",
-            value: "DENY",
           },
           {
             key: "X-XSS-Protection",
