@@ -36,7 +36,9 @@ const nextConfig = {
   },
 
   images: {
-    qualities: [75, 80],
+    formats: ['image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     // Necessário para os avatares DiceBear que são servidos como SVG
     dangerouslyAllowSVG: true,
     // Content Security Policy restringe scripts em SVGs externos — mitiga o risco do SVG

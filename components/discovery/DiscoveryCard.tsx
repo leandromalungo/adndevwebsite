@@ -21,9 +21,10 @@ import { useState } from "react";
 
 interface DiscoveryCardProps {
   item: DiscoveryItem;
+  priority?: boolean;
 }
 
-export function DiscoveryCard({ item }: DiscoveryCardProps) {
+export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
   const [imgSrc, setImgSrc] = useState(item.imageUrl || "/images-events.webp");
 
   // Fallback visual para imagens quebradas ou indisponíveis
@@ -98,11 +99,11 @@ export function DiscoveryCard({ item }: DiscoveryCardProps) {
           src={imgSrc}
           alt={item.title}
           fill
+          priority={priority}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover group-hover:scale-105 transition-transform duration-300"
           onError={handleImageError}
           referrerPolicy="no-referrer"
-          loading="lazy"
         />
 
         {/* Gradiente sutil para legibilidade dos badges sobrepostos */}

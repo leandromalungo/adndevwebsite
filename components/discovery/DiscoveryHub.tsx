@@ -467,8 +467,8 @@ export function DiscoveryHub() {
         ) : (
           /* Grelha de Resultados */
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {paginatedItems.map((item) => (
-              <DiscoveryCard key={item.id} item={item} />
+            {paginatedItems.map((item, idx) => (
+              <DiscoveryCard key={item.id} item={item} priority={idx < 4} />
             ))}
           </div>
         )}

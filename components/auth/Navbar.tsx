@@ -63,7 +63,7 @@ const MobileLink = ({
   <Link
     href={href}
     onClick={onClick}
-    className="block px-3 py-2 text-base font-medium text-gray-300 rounded-lg hover:text-white hover:bg-gray-800 transition-colors"
+    className="block px-3 py-2 text-base font-semibold text-gray-700 rounded-lg hover:text-violet-700 hover:bg-violet-50 transition-colors"
   >
     {label}
   </Link>
@@ -497,55 +497,60 @@ const NavbarContent = () => {
       {/* =============================================================
          Estrutura Principal do Header (Layout Baseado na Imagem)
          ============================================================= */}
-      <header className="fixed top-0 w-full z-50 bg-[#111111] text-white">
-        <nav className="grid grid-cols-3 items-center px-6 py-2 max-w-7xl mx-auto w-full">
+      <header className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md text-gray-900 border-b border-gray-200/90 shadow-xs">
+        <nav className="grid grid-cols-3 items-center px-6 py-2.5 max-w-7xl mx-auto w-full">
 
           {/* 1. Bloco da Esquerda: Links Desktop */}
           <div className="hidden lg:flex items-center gap-5 font-semibold text-sm">
-            <Link href="/" className="text-gray-300 hover:text-violet-400 transition-colors">
+            <Link href="/" className="text-gray-700 hover:text-violet-700 transition-colors">
               Explorar
             </Link>
 
-            <Link href="/events" className="text-gray-300 hover:text-violet-400 transition-colors">
+            <Link href="/events" className="text-gray-700 hover:text-violet-700 transition-colors">
               Eventos
             </Link>
 
-            <Link href="/bolsas" className="text-gray-300 hover:text-violet-400 transition-colors">
+            <Link href="/bolsas" className="text-gray-700 hover:text-violet-700 transition-colors">
               Bolsas
             </Link>
 
-            <Link href="/community" className="text-gray-300 hover:text-violet-400 transition-colors">
+            <Link href="/community" className="text-gray-700 hover:text-violet-700 transition-colors">
               Comunidades
             </Link>
 
-            <Link href="/startups" className="text-gray-300 hover:text-violet-400 transition-colors">
+            <Link href="/startups" className="text-gray-700 hover:text-violet-700 transition-colors">
               Startups
             </Link>
 
-            <Link href="/roadmaps" className="text-gray-300 hover:text-violet-400 transition-colors">
+            <Link href="/roadmaps" className="text-gray-700 hover:text-violet-700 transition-colors">
               Roadmaps
             </Link>
 
-            <Link href="/sobre" className="text-gray-300 hover:text-violet-400 transition-colors">
+            <Link href="/sobre" className="text-gray-700 hover:text-violet-700 transition-colors">
               Sobre
             </Link>
           </div>
 
           {/* Botão Hambúrguer Mobile (Esquerda) */}
           <div className="flex lg:hidden items-center">
-            <button type="button" onClick={() => setOpenMenu(!openMenu)} className="p-2 text-gray-300 hover:text-white">
+            <button
+              type="button"
+              onClick={() => setOpenMenu(!openMenu)}
+              className="p-2 text-gray-700 hover:text-gray-950 rounded-lg hover:bg-gray-100 transition-colors"
+              aria-label="Abrir menu"
+            >
               {openMenu ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
 
           {/* 2. Bloco do Meio: Logotipo Centralizado */}
           <div className="flex justify-center justify-self-center">
-            <Link href="/" className="focus:outline-none" aria-label="Página Inicial">
+            <Link href="/" className="focus:outline-none flex items-center" aria-label="Página Inicial">
               <Image
-                src="/logoNavbar.png"
-                alt="Logo"
-                width={90}
-                height={40}
+                src="/logo-dark.png"
+                alt="ADN Developer"
+                width={120}
+                height={36}
                 className="w-auto h-7 cursor-pointer object-contain"
                 priority
               />
@@ -563,15 +568,16 @@ const NavbarContent = () => {
                   setUserDropdown(!userDropdown);
                 }
               }}
-              className="flex items-center gap-1 text-gray-300 hover:text-white transition focus:outline-none"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold rounded-lg text-gray-700 hover:text-violet-700 hover:bg-gray-100/70 transition focus:outline-none"
               aria-label="Perfil"
             >
               {isLoggedIn && profilePhoto ? (
-                <img src={profilePhoto} alt="Foto" className="w-6 h-6 rounded-full object-cover border border-gray-600" referrerPolicy="no-referrer" onError={() => setProfilePhoto(null)} />
+                <img src={profilePhoto} alt="Foto" className="w-7 h-7 rounded-full object-cover border border-gray-300 shadow-xs" referrerPolicy="no-referrer" onError={() => setProfilePhoto(null)} />
               ) : (
-                <div className="flex items-center gap-1">
-                  <UserIcon className="w-5 h-5" />
-                  <svg className="w-3 h-3 opacity-70 hidden sm:inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-center gap-1.5">
+                  <UserIcon className="w-5 h-5 text-gray-700" />
+                  <span className="hidden sm:inline text-xs font-semibold text-gray-700">{isLoggedIn ? "Conta" : "Entrar"}</span>
+                  <svg className="w-3 h-3 text-gray-500 hidden sm:inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                   </svg>
                 </div>
@@ -581,48 +587,48 @@ const NavbarContent = () => {
             {/* Menu Dropdown do Usuário Autenticado */}
             <div ref={dropdownRef} className="absolute right-0 top-full mt-2">
               {userDropdown && (
-                <div className="w-80 max-w-[calc(100vw-2rem)] bg-[#1a1a1a] text-gray-200 border border-gray-800 shadow-2xl rounded-b-lg overflow-hidden z-[60] animate-in fade-in zoom-in-95 duration-200 origin-top-right max-[402px]:fixed max-[402px]:top-24 max-[402px]:left-1/2 max-[402px]:-translate-x-1/2">
+                <div className="w-80 max-w-[calc(100vw-2rem)] bg-white text-gray-800 border border-gray-200 shadow-xl rounded-xl overflow-hidden z-[60] animate-in fade-in zoom-in-95 duration-200 origin-top-right max-[402px]:fixed max-[402px]:top-24 max-[402px]:left-1/2 max-[402px]:-translate-x-1/2">
 
                   {/* Cabeçalho do Dropdown */}
-                  <div className="px-4 py-3 bg-[#222222] border-b border-gray-800 flex items-center gap-3">
+                  <div className="px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center gap-3">
                     {profilePhoto ? (
-                      <img src={profilePhoto} alt="Foto" className="w-10 h-10 rounded-full object-cover border-2 border-gray-700 shadow-sm" referrerPolicy="no-referrer" onError={() => setProfilePhoto(null)} />
+                      <img src={profilePhoto} alt="Foto" className="w-10 h-10 rounded-full object-cover border-2 border-violet-200 shadow-xs" referrerPolicy="no-referrer" onError={() => setProfilePhoto(null)} />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-violet-950/50 border border-violet-800/50 flex items-center justify-center">
-                        <UserIcon className="w-5 h-5 text-violet-400" />
+                      <div className="w-10 h-10 rounded-full bg-violet-100 border border-violet-200 flex items-center justify-center">
+                        <UserIcon className="w-5 h-5 text-violet-700" />
                       </div>
                     )}
                     <div className="min-w-0">
-                      <p className="text-sm font-bold text-white truncate">{(user as any)?.username || user?.name || "Utilizador"}</p>
-                      <p className="text-xs text-gray-400 truncate">{email}</p>
+                      <p className="text-sm font-bold text-gray-900 truncate">{(user as any)?.username || user?.name || "Utilizador"}</p>
+                      <p className="text-xs text-gray-500 truncate">{email}</p>
                     </div>
                   </div>
 
                   {/* Links de Opções */}
                   <div className="py-2">
-                    <Link href="/profile" onClick={() => setUserDropdown(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-violet-700/20 hover:text-white transition-colors">
-                      <UserIcon className="w-4 h-4 text-violet-500" />
+                    <Link href="/profile" onClick={() => setUserDropdown(false)} className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition-colors">
+                      <UserIcon className="w-4 h-4 text-violet-600" />
                       <span>O meu perfil</span>
                     </Link>
 
-                    <button type="button" onClick={handleCopyShareLink} className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-violet-700/20 hover:text-white transition-colors flex items-center gap-2">
-                      <LinkIcon className="w-4 h-4 text-violet-500" />
+                    <button type="button" onClick={handleCopyShareLink} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition-colors flex items-center gap-2.5">
+                      <LinkIcon className="w-4 h-4 text-violet-600" />
                       <span>{shareLinkCopied ? "✓ Copiado!" : "Partilhar perfil"}</span>
                     </button>
 
-                    <Link href="/" onClick={() => setUserDropdown(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-violet-700/20 hover:text-white transition-colors">
-                      <Users className="w-4 h-4 text-violet-500" />
+                    <Link href="/" onClick={() => setUserDropdown(false)} className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition-colors">
+                      <Users className="w-4 h-4 text-violet-600" />
                       <span>Contribuidores</span>
                     </Link>
 
-                    <Link href="/" onClick={() => setUserDropdown(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-violet-700/20 hover:text-white transition-colors">
-                      <CreditCard className="w-4 h-4 text-violet-500" />
+                    <Link href="/" onClick={() => setUserDropdown(false)} className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition-colors">
+                      <CreditCard className="w-4 h-4 text-violet-600" />
                       <span>Painel de assinatura</span>
                     </Link>
 
                     {/* Zona de Perigo / Sair */}
-                    <div className="border-t border-gray-800 mt-2 pt-2">
-                      <button type="button" onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-400 hover:bg-red-950/30 hover:text-red-300 transition-colors">
+                    <div className="border-t border-gray-100 mt-2 pt-2">
+                      <button type="button" onClick={handleLogout} className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors">
                         <LogOut className="w-4 h-4" />
                         <span>Terminar sessão</span>
                       </button>
@@ -637,7 +643,7 @@ const NavbarContent = () => {
 
         {/* Menu Expandido Mobile */}
         {openMenu && (
-          <div className="lg:hidden absolute top-full left-0 w-full bg-[#111111]/95 backdrop-blur-md shadow-2xl z-[45] border-b border-gray-800 animate-in slide-in-from-top duration-300">
+          <div className="lg:hidden absolute top-full left-0 w-full bg-white/98 backdrop-blur-md shadow-xl z-[45] border-b border-gray-200 animate-in slide-in-from-top duration-300">
             <div className="px-6 py-6 space-y-6 max-h-[calc(100vh-5rem)] overflow-y-auto">
 
               {/* Links Principais Rápidos */}
@@ -652,8 +658,8 @@ const NavbarContent = () => {
               </div>
 
               {/* Divisor sutil */}
-              <div className="border-t border-gray-800/60 pt-4">
-                <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3 px-3">
+              <div className="border-t border-gray-200 pt-4">
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3 px-3">
                   Explorar Categorias
                 </p>
 
@@ -662,45 +668,45 @@ const NavbarContent = () => {
                   <Link
                     href="/community"
                     onClick={closeMobileMenu}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#1a1a1a] border border-gray-800/40 text-gray-300 hover:text-white transition"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition"
                   >
-                    <Users className="w-4 h-4 text-violet-500 shrink-0" />
+                    <Users className="w-4 h-4 text-violet-600 shrink-0" />
                     <span className="text-sm font-medium">Comunidades</span>
                   </Link>
 
                   <Link
                     href="/events"
                     onClick={closeMobileMenu}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#1a1a1a] border border-gray-800/40 text-gray-300 hover:text-white transition"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition"
                   >
-                    <Calendar className="w-4 h-4 text-violet-500 shrink-0" />
+                    <Calendar className="w-4 h-4 text-violet-600 shrink-0" />
                     <span className="text-sm font-medium">Eventos</span>
                   </Link>
 
                   <Link
                     href="/roadmaps"
                     onClick={closeMobileMenu}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#1a1a1a] border border-gray-800/40 text-gray-300 hover:text-white transition"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition"
                   >
-                    <Map className="w-4 h-4 text-violet-500 shrink-0" />
+                    <Map className="w-4 h-4 text-violet-600 shrink-0" />
                     <span className="text-sm font-medium">RoadMaps</span>
                   </Link>
 
                   <Link
                     href="/bolsas"
                     onClick={closeMobileMenu}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#1a1a1a] border border-gray-800/40 text-gray-300 hover:text-white transition"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition"
                   >
-                    <GraduationCap className="w-4 h-4 text-violet-500 shrink-0" />
+                    <GraduationCap className="w-4 h-4 text-violet-600 shrink-0" />
                     <span className="text-sm font-medium">Formações</span>
                   </Link>
 
                   <Link
                     href="/startups"
                     onClick={closeMobileMenu}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#1a1a1a] border border-gray-800/40 text-gray-300 hover:text-white transition"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition"
                   >
-                    <Rocket className="w-4 h-4 text-violet-500 shrink-0" />
+                    <Rocket className="w-4 h-4 text-violet-600 shrink-0" />
                     <span className="text-sm font-medium">Para Startups</span>
                   </Link>
 
