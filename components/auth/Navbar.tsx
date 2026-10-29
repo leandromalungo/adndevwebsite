@@ -501,101 +501,33 @@ const NavbarContent = () => {
         <nav className="grid grid-cols-3 items-center px-6 py-2 max-w-7xl mx-auto w-full">
 
           {/* 1. Bloco da Esquerda: Links Desktop */}
-          <div className="hidden lg:flex items-center gap-6 font-semibold">
-            <Link href="/" className="text-sm text-gray-300 hover:text-violet-500 transition-colors">
-              Página Inicial
+          <div className="hidden lg:flex items-center gap-5 font-semibold text-sm">
+            <Link href="/" className="text-gray-300 hover:text-violet-400 transition-colors">
+              Explorar
             </Link>
 
-            {/* Dropdown Dinâmico de Categorias */}
-            <div className="relative" ref={categoriesRef}>
-              <button
-                type="button"
-                onClick={() => setCategoriesDropdown(!categoriesDropdown)}
-                className="flex items-center gap-1 text-sm text-gray-300 hover:text-violet-500 cursor-pointer transition-colors focus:outline-none"
-              >
-                <span>Categorias</span>
-                <svg
-                  className={`w-4 h-4 opacity-70 transition-transform duration-200 ${categoriesDropdown ? "rotate-180" : ""}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
+            <Link href="/events" className="text-gray-300 hover:text-violet-400 transition-colors">
+              Eventos
+            </Link>
 
-              {/* Menu de Subcategorias */}
-              {categoriesDropdown && (
-                <div className="absolute left-0 mt-3 w-[450px] bg-[#111111] rounded-b-lg shadow-lg p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                  <div className="grid grid-cols-2 gap-2">
+            <Link href="/bolsas" className="text-gray-300 hover:text-violet-400 transition-colors">
+              Bolsas
+            </Link>
 
-                    <Link
-                      href="/community"
-                      onClick={() => setCategoriesDropdown(false)}
-                      className="flex items-start gap-3 p-3 rounded-md hover:bg-violet-700/20 hover:text-white group transition-colors"
-                    >
-                      <Users className="w-5 h-5 text-violet-500 group-hover:text-violet-400 mt-0.5 shrink-0" />
-                      <div className="flex flex-col">
-                        <span className="text-sm font-semibold text-gray-200 group-hover:text-white">Comunidades</span>
-                        <span className="text-[11px] text-gray-400 group-hover:text-gray-300">Conecta-te com Devs</span>
-                      </div>
-                    </Link>
+            <Link href="/community" className="text-gray-300 hover:text-violet-400 transition-colors">
+              Comunidades
+            </Link>
 
-                    <Link
-                      href="/events"
-                      onClick={() => setCategoriesDropdown(false)}
-                      className="flex items-start gap-3 p-3 rounded-md hover:bg-violet-700/20 hover:text-white group transition-colors"
-                    >
-                      <Calendar className="w-5 h-5 text-violet-500 group-hover:text-violet-400 mt-0.5 shrink-0" />
-                      <div className="flex flex-col">
-                        <span className="text-sm font-semibold text-gray-200 group-hover:text-white">Eventos</span>
-                        <span className="text-[11px] text-gray-400 group-hover:text-gray-300">Meetups e encontros</span>
-                      </div>
-                    </Link>
+            <Link href="/startups" className="text-gray-300 hover:text-violet-400 transition-colors">
+              Startups
+            </Link>
 
-                    <Link
-                      href="/roadmaps"
-                      onClick={() => setCategoriesDropdown(false)}
-                      className="flex items-start gap-3 p-3 rounded-md hover:bg-violet-700/20 hover:text-white group transition-colors"
-                    >
-                      <Map className="w-5 h-5 text-violet-500 group-hover:text-violet-400 mt-0.5 shrink-0" />
-                      <div className="flex flex-col">
-                        <span className="text-sm font-semibold text-gray-200 group-hover:text-white">RoadMaps</span>
-                        <span className="text-[11px] text-gray-400 group-hover:text-gray-300">Guias de aprendizagem</span>
-                      </div>
-                    </Link>
+            <Link href="/roadmaps" className="text-gray-300 hover:text-violet-400 transition-colors">
+              Roadmaps
+            </Link>
 
-                    <Link
-                      href="/bolsas"
-                      onClick={() => setCategoriesDropdown(false)}
-                      className="flex items-start gap-3 p-3 rounded-md hover:bg-violet-700/20 hover:text-white group transition-colors"
-                    >
-                      <GraduationCap className="w-5 h-5 text-violet-500 group-hover:text-violet-400 mt-0.5 shrink-0" />
-                      <div className="flex flex-col">
-                        <span className="text-sm font-semibold text-gray-200 group-hover:text-white">Formações</span>
-                        <span className="text-[11px] text-gray-400 group-hover:text-gray-300">Cursos, bolsas e mais</span>
-                      </div>
-                    </Link>
-
-                    <Link
-                      href="/startups"
-                      onClick={() => setCategoriesDropdown(false)}
-                      className="flex items-start gap-3 p-3 rounded-md hover:bg-violet-700/20 hover:text-white group transition-colors"
-                    >
-                      <Rocket className="w-5 h-5 text-violet-500 group-hover:text-violet-400 mt-0.5 shrink-0" />
-                      <div className="flex flex-col">
-                        <span className="text-sm font-semibold text-gray-200 group-hover:text-white">Para Startups</span>
-                        <span className="text-[11px] text-gray-400 group-hover:text-gray-300">Acelera o teu negócio</span>
-                      </div>
-                    </Link>
-
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <Link href="/sobre-nos" className="text-sm text-gray-300 hover:text-violet-500 transition-colors">
-              Sobre Nós
+            <Link href="/sobre" className="text-gray-300 hover:text-violet-400 transition-colors">
+              Sobre
             </Link>
           </div>
 
@@ -709,10 +641,14 @@ const NavbarContent = () => {
             <div className="px-6 py-6 space-y-6 max-h-[calc(100vh-5rem)] overflow-y-auto">
 
               {/* Links Principais Rápidos */}
-              <div className="space-y-2">
-                <MobileLink label="Página Inicial" href="/" onClick={closeMobileMenu} />
-                <MobileLink label="Produtos" href="/produtos" onClick={closeMobileMenu} />
-                <MobileLink label="Sobre Nós" href="/sobre-nos" onClick={closeMobileMenu} />
+              <div className="space-y-1.5">
+                <MobileLink label="Explorar Oportunidades" href="/" onClick={closeMobileMenu} />
+                <MobileLink label="Eventos & Meetups" href="/events" onClick={closeMobileMenu} />
+                <MobileLink label="Bolsas de Estudo" href="/bolsas" onClick={closeMobileMenu} />
+                <MobileLink label="Comunidades Tech" href="/community" onClick={closeMobileMenu} />
+                <MobileLink label="Startups & Inovação" href="/startups" onClick={closeMobileMenu} />
+                <MobileLink label="Roadmaps de Carreira" href="/roadmaps" onClick={closeMobileMenu} />
+                <MobileLink label="Sobre Nós" href="/sobre" onClick={closeMobileMenu} />
               </div>
 
               {/* Divisor sutil */}
