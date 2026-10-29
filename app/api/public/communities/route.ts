@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { unstable_noStore as noStore } from "next/cache";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { supabaseAdmin, isSupabaseConfigured } from "@/lib/supabase/admin";
 import type { Community } from "@/data/types";
 
 export const dynamic = "force-dynamic";
@@ -30,15 +30,8 @@ type AdminCommunityRow = {
 export async function GET() {
   noStore();
 
-  const isConfigured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
-  if (!isConfigured) {
-    return NextResponse.json(
-      {
-        communities: [],
-        error: "As variáveis do Supabase não estão configuradas. Defina NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY e SUPABASE_SERVICE_ROLE_KEY.",
-      },
-      { status: 500 }
-    );
+  if (!isSupabaseConfigured()) {
+    return NextResponse.json({ communities: [] });
   }
 
   try {

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { unstable_noStore as noStore } from "next/cache";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { supabaseAdmin, isSupabaseConfigured } from "@/lib/supabase/admin";
 import type { Event } from "@/data/types";
 
 export const dynamic = "force-dynamic";
@@ -33,6 +33,11 @@ function parseDateLabel(dateLabel: string | null): { day: string; month: string 
 
 export async function GET() {
   noStore();
+
+  if (!isSupabaseConfigured()) {
+    return NextResponse.json({ events: [] });
+  }
+
   try {
     const { data } = await supabaseAdmin
       .from("admin_events")

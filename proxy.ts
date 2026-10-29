@@ -11,7 +11,23 @@ const ADMIN_INTERNAL_REWRITE_TOKEN = "__admin_rewrite";
 const ADMIN_PUBLIC_PREFIX = `/${ADMIN_GATE}/${ADMIN_LAYER_ONE}/${ADMIN_LAYER_TWO}`;
 const ADMIN_INTERNAL_PREFIX = `/${ADMIN_INTERNAL_SEGMENT}`;
 
-const hasUpstash = Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+function isValidUpstashConfig(url?: string, token?: string): boolean {
+  if (!url || !token) return false;
+  if (
+    url.includes('xxxx') ||
+    url.includes('example') ||
+    token.includes('your-upstash-token') ||
+    token.includes('placeholder')
+  ) {
+    return false;
+  }
+  return true;
+}
+
+const hasUpstash = isValidUpstashConfig(
+  process.env.UPSTASH_REDIS_REST_URL,
+  process.env.UPSTASH_REDIS_REST_TOKEN
+);
 
 const redis = hasUpstash
   ? new Redis({
@@ -22,15 +38,29 @@ const redis = hasUpstash
 
 const createLimiter = (limiter: any) => {
   if (hasUpstash && redis) {
-    return new Ratelimit({
-      redis,
-      limiter,
-      analytics: true,
-    });
+    try {
+      const rl = new Ratelimit({
+        redis,
+        limiter,
+        analytics: false,
+      });
+      return {
+        limit: async (identifier: string) => {
+          try {
+            return await rl.limit(identifier);
+          } catch {
+            // Fail open on Redis connectivity/fetch errors so requests are never blocked
+            return { success: true, remaining: 99, reset: Date.now() + 60000 };
+          }
+        },
+      };
+    } catch {
+      // Fallback if init fails
+    }
   }
   return {
     limit: async () => ({ success: true, remaining: 99, reset: Date.now() + 60000 }),
-  } as unknown as Ratelimit;
+  };
 };
 
 const apiRateLimit = createLimiter(Ratelimit.slidingWindow(50, '10 m'));
@@ -71,25 +101,29 @@ export async function proxy(request: NextRequest) {
     return NextResponse.rewrite(notFoundUrl);
   }
 
-  if (pathname.startsWith('/api/upload')) {
-    const { success } = await uploadRateLimit.limit(ip);
-    if (!success) {
-      return NextResponse.json({ error: 'Too many uploads' }, { status: 429 });
+  try {
+    if (pathname.startsWith('/api/upload')) {
+      const { success } = await uploadRateLimit.limit(ip);
+      if (!success) {
+        return NextResponse.json({ error: 'Too many uploads' }, { status: 429 });
+      }
     }
-  }
 
-  if (pathname.startsWith('/api/auth/register') || pathname.startsWith('/api/auth/login')) {
-    const { success } = await authRateLimit.limit(ip);
-    if (!success) {
-      return NextResponse.json({ error: 'Too many attempts' }, { status: 429 });
+    if (pathname.startsWith('/api/auth/register') || pathname.startsWith('/api/auth/login')) {
+      const { success } = await authRateLimit.limit(ip);
+      if (!success) {
+        return NextResponse.json({ error: 'Too many attempts' }, { status: 429 });
+      }
     }
-  }
 
-  if (pathname.startsWith('/api/')) {
-    const { success } = await apiRateLimit.limit(ip);
-    if (!success) {
-      return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 });
+    if (pathname.startsWith('/api/')) {
+      const { success } = await apiRateLimit.limit(ip);
+      if (!success) {
+        return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 });
+      }
     }
+  } catch {
+    // Fail-open: network or Redis issues should never crash API routes
   }
 
   return NextResponse.next();

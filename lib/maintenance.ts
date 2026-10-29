@@ -13,7 +13,7 @@ function getRedisClient(): Redis | null {
 
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) {
+  if (!url || !token || url.includes("xxxx") || url.includes("example") || token.includes("your-upstash-token")) {
     redisClient = null;
     return redisClient;
   }

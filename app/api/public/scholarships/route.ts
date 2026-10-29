@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { unstable_noStore as noStore } from "next/cache";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { supabaseAdmin, isSupabaseConfigured } from "@/lib/supabase/admin";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +17,11 @@ type AdminScholarshipRow = {
 
 export async function GET() {
   noStore();
+
+  if (!isSupabaseConfigured()) {
+    return NextResponse.json({ scholarships: [] });
+  }
+
   try {
     const { data } = await supabaseAdmin
       .from("admin_scholarships")

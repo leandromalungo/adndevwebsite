@@ -36,7 +36,23 @@ const mockRedis = {
   },
 };
 
-const hasUpstash = Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+function isValidUpstashConfig(url?: string, token?: string): boolean {
+  if (!url || !token) return false;
+  if (
+    url.includes('xxxx') ||
+    url.includes('example') ||
+    token.includes('your-upstash-token') ||
+    token.includes('placeholder')
+  ) {
+    return false;
+  }
+  return true;
+}
+
+const hasUpstash = isValidUpstashConfig(
+  process.env.UPSTASH_REDIS_REST_URL,
+  process.env.UPSTASH_REDIS_REST_TOKEN
+);
 
 const redis: any = hasUpstash
   ? new Redis({
@@ -47,11 +63,30 @@ const redis: any = hasUpstash
 
 const createLimiter = (limiterType: any) => {
   if (hasUpstash) {
-    return new Ratelimit({
-      redis,
-      limiter: limiterType,
-      analytics: true,
-    });
+    try {
+      const rl = new Ratelimit({
+        redis,
+        limiter: limiterType,
+        analytics: false,
+      });
+      return {
+        limit: async (identifier: string) => {
+          try {
+            return await rl.limit(identifier);
+          } catch {
+            return {
+              success: true,
+              limit: 100,
+              remaining: 99,
+              reset: Date.now() + 60000,
+              pending: Promise.resolve(),
+            };
+          }
+        },
+      } as unknown as Ratelimit;
+    } catch {
+      // Fallback if Ratelimit instantiation fails
+    }
   }
   // Permissive in-memory fallback limiter
   return {
