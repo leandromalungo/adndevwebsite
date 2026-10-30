@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ArrowRight, Loader2, Smartphone } from "lucide-react";
+import { ArrowRight, Loader2, Smartphone, Search, Compass } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { AppComingSoonModal } from "@/components/AppComingSoonModal";
 
@@ -34,8 +34,9 @@ export const Hero = () => {
        
         <div className="grid w-full items-center gap-5 lg:grid-cols-[1fr_0.9fr] lg:gap-8">
           <div className="order-2 max-w-xl text-left lg:order-1">
-            <span className="inline-flex items-center rounded-full border border-violet-400/30 bg-violet-500/10 px-3 py-1 text-xs font-medium text-violet-200 backdrop-blur sm:text-sm">
-              Novo hub de oportunidades tech
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-violet-400/30 bg-violet-500/10 px-3.5 py-1 text-xs font-semibold text-violet-200 backdrop-blur sm:text-sm">
+              <Compass className="w-3.5 h-3.5" />
+              Centro de Descoberta Lusófono
             </span>
 
             <h1 className="mt-4 text-3xl font-semibold uppercase leading-tight tracking-tight text-white sm:mt-5 sm:text-4xl lg:text-5xl">

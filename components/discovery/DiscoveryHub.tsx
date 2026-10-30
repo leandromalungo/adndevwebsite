@@ -331,51 +331,27 @@ export function DiscoveryHub() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafbfc] text-gray-900 pb-20">
-      {/* =============================================================
-          1. HEADER & HERO DE DESCOBERTA (Estilo Meetup Find)
-          ============================================================= */}
-      <section className="relative bg-white border-b border-gray-200/80 pt-24 sm:pt-28 pb-8 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        {/* Padrão sutil de fundo geométrico */}
-        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
-
-        <div className="relative max-w-6xl mx-auto flex flex-col items-center text-center">
-          {/* Badge superior */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-50 border border-violet-200 text-violet-700 text-xs font-semibold uppercase tracking-wider mb-3">
-            <Compass className="w-3.5 h-3.5" />
-            Centro de Descoberta Lusófono
-          </div>
-
-          {/* Título Principal */}
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-gray-900 tracking-tight leading-tight max-w-3xl">
-            Descobre oportunidades para crescer na tecnologia.
-          </h1>
-
-          {/* Subtítulo */}
-          <p className="mt-3 text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl leading-relaxed">
-            Explora eventos, bolsas de estudo, hackathons, cursos, comunidades e programas para startups em Angola, Portugal, Brasil e em toda a lusofonia.
-          </p>
-
-          {/* 2. BARRA DE FILTROS & BUSCA INTEGRADA */}
-          <div className="w-full mt-6 sm:mt-8">
-            <DiscoveryFilters
-              searchQuery={searchQuery}
-              onSearchChange={handleSearchChange}
-              selectedCategory={selectedCategory}
-              onCategoryChange={handleCategoryChange}
-              selectedCountry={selectedCountry}
-              onCountryChange={handleCountryChange}
-              selectedFormat={selectedFormat}
-              onFormatChange={handleFormatChange}
-              selectedStatus={selectedStatus}
-              onStatusChange={handleStatusChange}
-              selectedPrice={selectedPrice}
-              onPriceChange={handlePriceChange}
-              onClearFilters={handleClearFilters}
-              hasActiveFilters={hasActiveFilters}
-              totalResults={filteredItems.length}
-            />
-          </div>
+    <div className="min-h-screen bg-[#fafbfc] text-gray-900 pb-20 pt-16 sm:pt-20">
+      {/* Barra de Filtros e Categorias */}
+      <section className="bg-white border-b border-gray-200/80 px-4 sm:px-6 lg:px-8 py-3.5 shadow-2xs">
+        <div className="max-w-7xl mx-auto">
+          <DiscoveryFilters
+            searchQuery={searchQuery}
+            onSearchChange={handleSearchChange}
+            selectedCategory={selectedCategory}
+            onCategoryChange={handleCategoryChange}
+            selectedCountry={selectedCountry}
+            onCountryChange={handleCountryChange}
+            selectedFormat={selectedFormat}
+            onFormatChange={handleFormatChange}
+            selectedStatus={selectedStatus}
+            onStatusChange={handleStatusChange}
+            selectedPrice={selectedPrice}
+            onPriceChange={handlePriceChange}
+            onClearFilters={handleClearFilters}
+            hasActiveFilters={hasActiveFilters}
+            totalResults={filteredItems.length}
+          />
         </div>
       </section>
 

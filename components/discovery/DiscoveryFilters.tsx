@@ -103,30 +103,22 @@ export function DiscoveryFilters({
 
   return (
     <div className="w-full space-y-4">
-      {/* 1. Barra de Busca Principal (Inspirada no Meetup Find) */}
-      <div className="relative w-full max-w-4xl mx-auto">
-        <div className="relative flex items-center bg-white border border-gray-300 rounded-2xl shadow-sm focus-within:border-violet-600 focus-within:ring-2 focus-within:ring-violet-600/20 transition-all">
-          <Search className="w-5 h-5 text-gray-400 ml-4 shrink-0" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Pesquisar por título, tecnologia (ex: React, Python), organização, tema..."
-            className="w-full py-3.5 sm:py-4 pl-3 pr-10 text-sm sm:text-base text-gray-900 placeholder:text-gray-400 bg-transparent outline-none rounded-2xl"
-            aria-label="Pesquisar oportunidades"
-          />
-          {searchQuery ? (
-            <button
-              type="button"
-              onClick={() => onSearchChange("")}
-              className="p-2 mr-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100"
-              aria-label="Limpar pesquisa"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          ) : null}
+      {/* Indicador de Pesquisa Ativa do Header */}
+      {searchQuery && (
+        <div className="flex items-center justify-between bg-violet-50/80 border border-violet-200/80 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-gray-700">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="text-gray-500 shrink-0">Pesquisa:</span>
+            <span className="font-semibold text-violet-900 truncate">&ldquo;{searchQuery}&rdquo;</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => onSearchChange("")}
+            className="text-violet-700 hover:text-violet-900 font-medium hover:underline text-xs shrink-0 ml-2"
+          >
+            Limpar busca
+          </button>
         </div>
-      </div>
+      )}
 
       {/* 2. Categorias em Pílulas / Chips (Estilo Meetup Discover) */}
       <div className="relative w-full">
