@@ -101,7 +101,7 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
           fill
           priority={priority}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
+          className="object-cover"
           onError={handleImageError}
           referrerPolicy="no-referrer"
         />
@@ -111,11 +111,7 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
 
         {/* Badges do topo */}
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 pointer-events-none">
-          <span
-            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur-md shadow-sm border ${getCategoryColor()}`}
-          >
-            {item.categoryLabel}
-          </span>
+          
 
           {item.isExpired ? (
             <span className="inline-flex items-center gap-1 rounded-full bg-red-600/90 text-white px-2.5 py-0.5 text-[11px] font-bold shadow-sm">

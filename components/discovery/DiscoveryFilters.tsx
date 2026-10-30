@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/dialog";
 
 export const CATEGORIES: { id: DiscoveryCategory; label: string; icon?: string }[] = [
-  { id: "todos", label: "Todas as Oportunidades" },
+  { id: "todos", label: "Ver Todas" },
   { id: "eventos", label: "Eventos & Meetups" },
   { id: "hackathons", label: "Hackathons & Desafios" },
   { id: "bolsas", label: "Bolsas de Estudo" },
@@ -102,7 +102,7 @@ export function DiscoveryFilters({
   ].filter(Boolean).length;
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-3">
       {/* Indicador de Pesquisa Ativa do Header */}
       {searchQuery && (
         <div className="flex items-center justify-between bg-violet-50/80 border border-violet-200/80 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-gray-700">
@@ -120,10 +120,79 @@ export function DiscoveryFilters({
         </div>
       )}
 
-      {/* 2. Categorias em Pílulas / Chips (Estilo Meetup Discover) */}
-      <div className="relative w-full">
+      {/* 2. Categorias e filtros avançados */}
+      <div className="flex items-center gap-1.5">
+        <details className="group relative hidden shrink-0 md:block">
+          <summary className="inline-flex cursor-pointer list-none items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-[11px] font-semibold text-gray-700 shadow-sm transition-colors hover:border-violet-300 hover:bg-violet-50/50 [&::-webkit-details-marker]:hidden">
+            <SlidersHorizontal className="h-3.5 w-3.5 text-violet-700" />
+            Filtros
+            <ChevronDown className="h-3.5 w-3.5 text-gray-400 transition-transform group-open:rotate-180" />
+          </summary>
+          <div className="absolute left-0 top-full z-30 mt-2 grid w-64 gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-lg">
+            <label className="grid gap-1.5 text-xs font-medium text-gray-700">
+              País
+              <select
+                value={selectedCountry}
+                onChange={(e) => onCountryChange(e.target.value)}
+                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-gray-700 focus:border-violet-600 focus:outline-none"
+                aria-label="Filtrar por país"
+              >
+                <option value="Todos">Todos os Países</option>
+                {COUNTRIES.filter((c) => c !== "Todos").map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="grid gap-1.5 text-xs font-medium text-gray-700">
+              Formato
+              <select
+                value={selectedFormat}
+                onChange={(e) => onFormatChange(e.target.value as DiscoveryFormat)}
+                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-gray-700 focus:border-violet-600 focus:outline-none"
+                aria-label="Filtrar por formato"
+              >
+                <option value="todos">Qualquer Formato</option>
+                <option value="online">Online</option>
+                <option value="presencial">Presencial</option>
+                <option value="hibrido">Híbrido</option>
+              </select>
+            </label>
+
+            <label className="grid gap-1.5 text-xs font-medium text-gray-700">
+              Estado
+              <select
+                value={selectedStatus}
+                onChange={(e) => onStatusChange(e.target.value as DiscoveryStatus)}
+                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-gray-700 focus:border-violet-600 focus:outline-none"
+                aria-label="Filtrar por estado"
+              >
+                <option value="todos">Todos os Estados</option>
+                <option value="ativos">Inscrições Abertas / Futuros</option>
+                <option value="encerrados">Encerrados / Passados</option>
+              </select>
+            </label>
+
+            <label className="grid gap-1.5 text-xs font-medium text-gray-700">
+              Valor
+              <select
+                value={selectedPrice}
+                onChange={(e) => onPriceChange(e.target.value as DiscoveryPrice)}
+                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-gray-700 focus:border-violet-600 focus:outline-none"
+                aria-label="Filtrar por gratuitidade"
+              >
+                <option value="todos">Qualquer Valor</option>
+                <option value="gratis">Gratuito</option>
+                <option value="pago">Pago</option>
+              </select>
+            </label>
+          </div>
+        </details>
+
         <div
-          className="flex items-center gap-2 overflow-x-auto pb-2 pt-1 no-scrollbar scroll-smooth"
+          className="flex min-w-0 flex-1 flex-nowrap items-center gap-1"
           role="tablist"
           aria-label="Categorias de oportunidades"
         >
@@ -134,14 +203,16 @@ export function DiscoveryFilters({
                 key={cat.id}
                 role="tab"
                 aria-selected={isSelected}
+                aria-label={cat.label}
+                title={cat.label}
                 onClick={() => onCategoryChange(cat.id)}
-                className={`whitespace-nowrap px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all shrink-0 border ${
+                className={`min-w-0 flex-1 overflow-hidden whitespace-nowrap px-1.5 py-1.5 rounded-full text-[9px] lg:text-[10px] font-semibold transition-all border ${
                   isSelected
                     ? "bg-violet-700 text-white border-violet-700 shadow-sm"
                     : "bg-white text-gray-700 border-gray-200 hover:border-violet-300 hover:bg-violet-50/50"
                 }`}
               >
-                {cat.label}
+                <span className="block truncate">{cat.label}</span>
               </button>
             );
           })}
@@ -150,73 +221,6 @@ export function DiscoveryFilters({
 
       {/* 3. Barra Secundária de Filtros Avançados */}
       <div className="flex flex-wrap items-center justify-between gap-3 pt-1 border-t border-gray-100">
-        {/* Filtros em Dropdown para Desktop */}
-        <div className="hidden md:flex flex-wrap items-center gap-2.5">
-          {/* País */}
-          <div className="relative">
-            <select
-              value={selectedCountry}
-              onChange={(e) => onCountryChange(e.target.value)}
-              className="appearance-none bg-white border border-gray-200 rounded-lg px-3.5 py-2 pr-8 text-xs font-medium text-gray-700 hover:border-gray-300 focus:outline-none focus:border-violet-600 cursor-pointer shadow-sm"
-              aria-label="Filtrar por país"
-            >
-              <option value="Todos">Todos os Países</option>
-              {COUNTRIES.filter((c) => c !== "Todos").map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-            <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
-
-          {/* Formato */}
-          <div className="relative">
-            <select
-              value={selectedFormat}
-              onChange={(e) => onFormatChange(e.target.value as DiscoveryFormat)}
-              className="appearance-none bg-white border border-gray-200 rounded-lg px-3.5 py-2 pr-8 text-xs font-medium text-gray-700 hover:border-gray-300 focus:outline-none focus:border-violet-600 cursor-pointer shadow-sm"
-              aria-label="Filtrar por formato"
-            >
-              <option value="todos">Qualquer Formato</option>
-              <option value="online">Online</option>
-              <option value="presencial">Presencial</option>
-              <option value="hibrido">Híbrido</option>
-            </select>
-            <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
-
-          {/* Estado / Prazo */}
-          <div className="relative">
-            <select
-              value={selectedStatus}
-              onChange={(e) => onStatusChange(e.target.value as DiscoveryStatus)}
-              className="appearance-none bg-white border border-gray-200 rounded-lg px-3.5 py-2 pr-8 text-xs font-medium text-gray-700 hover:border-gray-300 focus:outline-none focus:border-violet-600 cursor-pointer shadow-sm"
-              aria-label="Filtrar por estado"
-            >
-              <option value="todos">Todos os Estados</option>
-              <option value="ativos">Inscrições Abertas / Futuros</option>
-              <option value="encerrados">Encerrados / Passados</option>
-            </select>
-            <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
-
-          {/* Custo */}
-          <div className="relative">
-            <select
-              value={selectedPrice}
-              onChange={(e) => onPriceChange(e.target.value as DiscoveryPrice)}
-              className="appearance-none bg-white border border-gray-200 rounded-lg px-3.5 py-2 pr-8 text-xs font-medium text-gray-700 hover:border-gray-300 focus:outline-none focus:border-violet-600 cursor-pointer shadow-sm"
-              aria-label="Filtrar por gratuitidade"
-            >
-              <option value="todos">Qualquer Valor</option>
-              <option value="gratis">Gratuito</option>
-              <option value="pago">Pago</option>
-            </select>
-            <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
-        </div>
-
         {/* Botão de Filtros no Mobile */}
         <div className="flex md:hidden items-center gap-2 w-full justify-between">
           <button

@@ -331,9 +331,9 @@ export function DiscoveryHub() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafbfc] text-gray-900 pb-20 pt-16 sm:pt-20">
+    <div className="min-h-screen bg-[#fafbfc] text-gray-900 pb-20 pt-16 sm:pt-16">
       {/* Barra de Filtros e Categorias */}
-      <section className="bg-white border-b border-gray-200/80 px-4 sm:px-6 lg:px-8 py-3.5 shadow-2xs">
+      <section className="bg-white border-b border-gray-200/80 px-4 sm:px-6 lg:px-8 py-2 shadow-2xs">
         <div className="max-w-7xl mx-auto">
           <DiscoveryFilters
             searchQuery={searchQuery}
@@ -358,13 +358,10 @@ export function DiscoveryHub() {
       {/* =============================================================
           3. ÁREA DE RESULTADOS & GRELHA DE CARTÕES
           ============================================================= */}
-      <main id="discovery-results" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <main id="discovery-results" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
         {/* Cabeçalho da Lista */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-gray-200/80 mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-gray-200/80 mb-4">
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
-              {selectedCategory === "todos" ? "Todas as Oportunidades" : filteredItems[0]?.categoryLabel || "Oportunidades"}
-            </h2>
             <p className="text-xs sm:text-sm text-gray-500 mt-0.5">
               A apresentar {filteredItems.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1}–
               {Math.min(currentPage * ITEMS_PER_PAGE, filteredItems.length)} de {filteredItems.length} resultados encontrados
