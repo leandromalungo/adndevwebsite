@@ -516,7 +516,7 @@ const NavbarContent = () => {
           <div className="flex items-center gap-5 xl:gap-7 shrink-0">
             <Link href="/" className="focus:outline-none flex items-center shrink-0" aria-label="Página Inicial">
               <Image
-                src="/logoNavbar.png"
+                src="/logo.png"
                 alt="ADN Developer"
                 width={130}
                 height={38}
@@ -528,28 +528,13 @@ const NavbarContent = () => {
 
             {/* Links Desktop */}
             <div className="hidden xl:flex items-center gap-4 2xl:gap-5 font-semibold text-xs 2xl:text-sm">
-              <Link href="/" className="text-gray-700 hover:text-violet-700 transition-colors">
-                Explorar
-              </Link>
-
-              <Link href="/events" className="text-gray-700 hover:text-violet-700 transition-colors">
-                Eventos
-              </Link>
-
-              <Link href="/bolsas" className="text-gray-700 hover:text-violet-700 transition-colors">
-                Bolsas
-              </Link>
-
-              <Link href="/community" className="text-gray-700 hover:text-violet-700 transition-colors">
-                Comunidades
-              </Link>
 
               <Link href="/startups" className="text-gray-700 hover:text-violet-700 transition-colors">
-                Startups
+                Negocios
               </Link>
 
               <Link href="/roadmaps" className="text-gray-700 hover:text-violet-700 transition-colors">
-                Roadmaps
+                Formações
               </Link>
 
               <Link href="/sobre" className="text-gray-700 hover:text-violet-700 transition-colors">
@@ -570,7 +555,7 @@ const NavbarContent = () => {
                   type="text"
                   value={headerSearch}
                   onChange={(e) => setHeaderSearch(e.target.value)}
-                  placeholder="Buscar eventos..."
+                  placeholder="Pesquisar..."
                   className="w-full bg-transparent text-xs sm:text-sm text-gray-800 placeholder:text-gray-500 outline-none border-none focus:ring-0 p-0"
                 />
               </div>
