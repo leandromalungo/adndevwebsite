@@ -15,7 +15,7 @@
  * - Loading states
  */
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { ArrowRight, Smartphone } from "lucide-react";
 import Head from "next/head";
 import { AppComingSoonModal } from "@/components/AppComingSoonModal";
@@ -112,10 +112,20 @@ const Page = () => {
     }
   };
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get("q") || params.get("search");
+      if (q) {
+        setSearchQuery(q);
+      }
+    }
+  }, []);
+
   /**
    * FILTRAGEM DE EVENTOS
    * Implementa lógica de filtro por:
-   * - Busca (título/descrição)
+   * - Busca (título/descrição/categoria/tags)
    * - País
    * - Estado/Província
    * - Categoria
@@ -124,12 +134,17 @@ const Page = () => {
    */
   const filteredEvents = useMemo(() => {
     return allEvents.filter((event) => {
-      // Filtro por tipo de evento (selecionado via checklist)
-      const selectedEventTypes = searchQuery ? searchQuery.split(',').filter(t => t.trim()) : [];
+      // Filtro por tipo de evento ou busca textual
+      const queryLower = searchQuery.toLowerCase().trim();
+      const selectedEventTypes = searchQuery ? searchQuery.split(',').map(t => t.trim().toLowerCase()).filter(Boolean) : [];
       const matchesSearch =
-        selectedEventTypes.length === 0 ||
-        (event.category && selectedEventTypes.includes(event.category)) ||
-        (event.tags?.some((tag) => selectedEventTypes.includes(tag)) ?? false);
+        !queryLower ||
+        event.title.toLowerCase().includes(queryLower) ||
+        event.description.toLowerCase().includes(queryLower) ||
+        (event.category && event.category.toLowerCase().includes(queryLower)) ||
+        (event.organizer && event.organizer.toLowerCase().includes(queryLower)) ||
+        (event.location && event.location.toLowerCase().includes(queryLower)) ||
+        (event.tags?.some((tag) => tag.toLowerCase().includes(queryLower) || selectedEventTypes.includes(tag.toLowerCase())) ?? false);
 
       // Filtro por país
       const matchesCountry =

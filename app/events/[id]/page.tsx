@@ -14,9 +14,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-  const event = COMPREHENSIVE_EVENTS.find((e) => e.id === params.id);
+  const { id } = await params;
+  const event = COMPREHENSIVE_EVENTS.find((e) => e.id === id);
 
   if (!event) {
     return {
@@ -45,8 +46,9 @@ export async function generateMetadata({
   };
 }
 
-export default function EventPage({ params }: { params: { id: string } }) {
-  const event = COMPREHENSIVE_EVENTS.find((e) => e.id === params.id);
+export default async function EventPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const event = COMPREHENSIVE_EVENTS.find((e) => e.id === id);
 
   if (!event) {
     notFound();

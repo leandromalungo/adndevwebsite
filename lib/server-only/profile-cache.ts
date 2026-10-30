@@ -10,10 +10,11 @@
  */
 
 import { unstable_cache } from "next/cache";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { supabaseAdmin, isSupabaseConfigured } from "@/lib/supabase/admin";
 
 const getCachedProfileData = unstable_cache(
   async (userId: string) => {
+    if (!isSupabaseConfigured()) return null;
     try {
       const [
         userResult,
@@ -70,7 +71,7 @@ export async function getProfileData(userId: string) {
   return getCachedProfileData(userId);
 }
 
-function toPublicProfile(profileData: Awaited<ReturnType<typeof getCachedProfileData>>) {
+function toPublicProfile(profileData: NonNullable<Awaited<ReturnType<typeof getCachedProfileData>>>) {
   return {
     ...profileData,
     profile: {
@@ -83,6 +84,7 @@ function toPublicProfile(profileData: Awaited<ReturnType<typeof getCachedProfile
 }
 
 export async function getProfileByUsername(username: string) {
+  if (!isSupabaseConfigured()) return null;
   try {
     // 1. Decodificar e limpar o username (remover @ inicial se existir)
     const decodedUsername = decodeURIComponent(username);
@@ -118,6 +120,7 @@ export async function getProfileByUsername(username: string) {
 }
 
 export async function getProfileByShareToken(token: string) {
+  if (!isSupabaseConfigured()) return null;
   try {
     // Validação básica: token não pode ser vazio ou undefined
     if (!token || typeof token !== 'string') {

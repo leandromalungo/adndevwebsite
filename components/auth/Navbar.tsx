@@ -5,6 +5,7 @@
 import {
   Menu,
   X,
+  Search,
   User as UserIcon,
   Loader2,
   CreditCard,
@@ -86,6 +87,17 @@ const NavbarContent = () => {
 
   const [openMenu, setOpenMenu] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
+  const [headerSearch, setHeaderSearch] = useState("");
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const query = headerSearch.trim();
+    if (query) {
+      router.push(`/events?q=${encodeURIComponent(query)}`);
+    } else {
+      router.push("/events");
+    }
+  };
 
   // Novos estados para o funcionamento do Dropdown de Categorias
   const [categoriesDropdown, setCategoriesDropdown] = useState(false);
@@ -498,94 +510,110 @@ const NavbarContent = () => {
          Estrutura Principal do Header (Layout Baseado na Imagem)
          ============================================================= */}
       <header className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md text-gray-900 border-b border-gray-200/90 shadow-xs">
-        <nav className="grid grid-cols-3 items-center px-6 py-2.5 max-w-7xl mx-auto w-full">
+        <nav className="flex items-center justify-between px-3 sm:px-6 py-2.5 max-w-7xl mx-auto w-full gap-2 sm:gap-4">
 
-          {/* 1. Bloco da Esquerda: Links Desktop */}
-          <div className="hidden lg:flex items-center gap-5 font-semibold text-sm">
-            <Link href="/" className="text-gray-700 hover:text-violet-700 transition-colors">
-              Explorar
-            </Link>
-
-            <Link href="/events" className="text-gray-700 hover:text-violet-700 transition-colors">
-              Eventos
-            </Link>
-
-            <Link href="/bolsas" className="text-gray-700 hover:text-violet-700 transition-colors">
-              Bolsas
-            </Link>
-
-            <Link href="/community" className="text-gray-700 hover:text-violet-700 transition-colors">
-              Comunidades
-            </Link>
-
-            <Link href="/startups" className="text-gray-700 hover:text-violet-700 transition-colors">
-              Startups
-            </Link>
-
-            <Link href="/roadmaps" className="text-gray-700 hover:text-violet-700 transition-colors">
-              Roadmaps
-            </Link>
-
-            <Link href="/sobre" className="text-gray-700 hover:text-violet-700 transition-colors">
-              Sobre
-            </Link>
-          </div>
-
-          {/* Botão Hambúrguer Mobile (Esquerda) */}
-          <div className="flex lg:hidden items-center">
-            <button
-              type="button"
-              onClick={() => setOpenMenu(!openMenu)}
-              className="p-2 text-gray-700 hover:text-gray-950 rounded-lg hover:bg-gray-100 transition-colors"
-              aria-label="Abrir menu"
-            >
-              {openMenu ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-
-          {/* 2. Bloco do Meio: Logotipo Centralizado */}
-          <div className="flex justify-center justify-self-center">
-            <Link href="/" className="focus:outline-none flex items-center" aria-label="Página Inicial">
+          {/* 1. Ponta da Esquerda: Logotipo + Links Desktop */}
+          <div className="flex items-center gap-5 xl:gap-7 shrink-0">
+            <Link href="/" className="focus:outline-none flex items-center shrink-0" aria-label="Página Inicial">
               <Image
-                src="/logo-dark.png"
+                src="/logoNavbar.png"
                 alt="ADN Developer"
-                width={120}
-                height={36}
-                className="w-auto h-7 cursor-pointer object-contain"
+                width={130}
+                height={38}
+                className="h-7 sm:h-8 md:h-9 w-auto cursor-pointer object-contain"
                 priority
+                referrerPolicy="no-referrer"
               />
             </Link>
+
+            {/* Links Desktop */}
+            <div className="hidden xl:flex items-center gap-4 2xl:gap-5 font-semibold text-xs 2xl:text-sm">
+              <Link href="/" className="text-gray-700 hover:text-violet-700 transition-colors">
+                Explorar
+              </Link>
+
+              <Link href="/events" className="text-gray-700 hover:text-violet-700 transition-colors">
+                Eventos
+              </Link>
+
+              <Link href="/bolsas" className="text-gray-700 hover:text-violet-700 transition-colors">
+                Bolsas
+              </Link>
+
+              <Link href="/community" className="text-gray-700 hover:text-violet-700 transition-colors">
+                Comunidades
+              </Link>
+
+              <Link href="/startups" className="text-gray-700 hover:text-violet-700 transition-colors">
+                Startups
+              </Link>
+
+              <Link href="/roadmaps" className="text-gray-700 hover:text-violet-700 transition-colors">
+                Roadmaps
+              </Link>
+
+              <Link href="/sobre" className="text-gray-700 hover:text-violet-700 transition-colors">
+                Sobre
+              </Link>
+            </div>
           </div>
 
-          {/* 3. Bloco da Direita: Perfil / Ações de Login */}
-          <div className="flex items-center justify-end gap-4 relative">
-            <button
-              type="button"
-              onClick={() => {
-                if (!isLoggedIn) {
-                  setLoginModal(true);
-                } else {
-                  setUserDropdown(!userDropdown);
-                }
-              }}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold rounded-lg text-gray-700 hover:text-violet-700 hover:bg-gray-100/70 transition focus:outline-none"
-              aria-label="Perfil"
+          {/* 2. Meio: Input de Pesquisa ("igualzinho a este da imagem", bem ajustado ao meio) */}
+          <div className="flex-1 flex justify-center items-center min-w-0 max-w-[210px] min-[390px]:max-w-[250px] sm:max-w-xs md:max-w-sm lg:max-w-md mx-auto">
+            <form
+              onSubmit={handleSearchSubmit}
+              className="w-full flex items-center bg-white border border-gray-200/90 hover:border-gray-300 focus-within:border-gray-400 rounded-full h-9 sm:h-10 pl-3 sm:pl-3.5 pr-1 py-1 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all"
             >
-              {isLoggedIn && profilePhoto ? (
-                <img src={profilePhoto} alt="Foto" className="w-7 h-7 rounded-full object-cover border border-gray-300 shadow-xs" referrerPolicy="no-referrer" onError={() => setProfilePhoto(null)} />
-              ) : (
-                <div className="flex items-center gap-1.5">
-                  <UserIcon className="w-5 h-5 text-gray-700" />
-                  <span className="hidden sm:inline text-xs font-semibold text-gray-700">{isLoggedIn ? "Conta" : "Entrar"}</span>
-                  <svg className="w-3 h-3 text-gray-500 hidden sm:inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
-              )}
-            </button>
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500 shrink-0" strokeWidth={1.9} />
+                <input
+                  type="text"
+                  value={headerSearch}
+                  onChange={(e) => setHeaderSearch(e.target.value)}
+                  placeholder="Buscar eventos..."
+                  className="w-full bg-transparent text-xs sm:text-sm text-gray-800 placeholder:text-gray-500 outline-none border-none focus:ring-0 p-0"
+                />
+              </div>
+              <button
+                type="submit"
+                aria-label="Buscar eventos"
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#18181b] hover:bg-black text-white flex items-center justify-center shrink-0 ml-1.5 transition-transform active:scale-95 focus:outline-none"
+              >
+                <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" strokeWidth={2.2} />
+              </button>
+            </form>
+          </div>
 
-            {/* Menu Dropdown do Usuário Autenticado */}
-            <div ref={dropdownRef} className="absolute right-0 top-full mt-2">
+          {/* 3. Ponta da Direita: Perfil / Ações de Login + Botão Hambúrguer (2 linhas) */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => {
+                  if (!isLoggedIn) {
+                    setLoginModal(true);
+                  } else {
+                    setUserDropdown(!userDropdown);
+                  }
+                }}
+                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-sm font-semibold rounded-lg text-gray-700 hover:text-violet-700 hover:bg-gray-100/70 transition focus:outline-none"
+                aria-label="Perfil"
+              >
+                {isLoggedIn && profilePhoto ? (
+                  <img src={profilePhoto} alt="Foto" className="w-7 h-7 rounded-full object-cover border border-gray-300 shadow-xs" referrerPolicy="no-referrer" onError={() => setProfilePhoto(null)} />
+                ) : (
+                  <div className="flex items-center gap-1.5">
+                    <UserIcon className="w-5 h-5 text-gray-700" />
+                    <span className="hidden sm:inline text-xs font-semibold text-gray-700">{isLoggedIn ? "Conta" : "Entrar"}</span>
+                    <svg className="w-3 h-3 text-gray-500 hidden sm:inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                )}
+              </button>
+
+              {/* Menu Dropdown do Usuário Autenticado */}
+              <div ref={dropdownRef} className="absolute right-0 top-full mt-2">
               {userDropdown && (
                 <div className="w-80 max-w-[calc(100vw-2rem)] bg-white text-gray-800 border border-gray-200 shadow-xl rounded-xl overflow-hidden z-[60] animate-in fade-in zoom-in-95 duration-200 origin-top-right max-[402px]:fixed max-[402px]:top-24 max-[402px]:left-1/2 max-[402px]:-translate-x-1/2">
 
@@ -639,11 +667,38 @@ const NavbarContent = () => {
               )}
             </div>
           </div>
+
+            {/* Botão Hambúrguer (com duas linhas ao invés de três linhas) */}
+            <button
+              type="button"
+              onClick={() => setOpenMenu(!openMenu)}
+              className="p-1.5 sm:p-2 text-gray-700 hover:text-gray-950 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none flex items-center justify-center"
+              aria-label={openMenu ? "Fechar menu" : "Abrir menu"}
+            >
+              {openMenu ? (
+                <X className="w-5 h-5 text-gray-800" />
+              ) : (
+                <svg
+                  className="w-5 h-5 text-gray-800"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="4" y1="8.5" x2="20" y2="8.5" />
+                  <line x1="4" y1="15.5" x2="20" y2="15.5" />
+                </svg>
+              )}
+            </button>
+          </div>
         </nav>
 
         {/* Menu Expandido Mobile */}
         {openMenu && (
-          <div className="lg:hidden absolute top-full left-0 w-full bg-white/98 backdrop-blur-md shadow-xl z-[45] border-b border-gray-200 animate-in slide-in-from-top duration-300">
+          <div className="xl:hidden absolute top-full left-0 w-full bg-white/98 backdrop-blur-md shadow-xl z-[45] border-b border-gray-200 animate-in slide-in-from-top duration-300">
             <div className="px-6 py-6 space-y-6 max-h-[calc(100vh-5rem)] overflow-y-auto">
 
               {/* Links Principais Rápidos */}

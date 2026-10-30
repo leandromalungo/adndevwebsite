@@ -1,7 +1,7 @@
 import 'server-only';
 import NextAuth, { type NextAuthOptions, type DefaultSession, getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { supabaseAdmin, isSupabaseConfigured } from "@/lib/supabase/admin";
 import bcrypt from "bcryptjs";
 import { SESSION_CONFIG, generateExpiryTimestamp } from "@/lib/session";
 import { loginRateLimit, checkLoginAttempts, recordFailedLogin, clearLoginAttempts } from "@/lib/rate-limit";
@@ -14,6 +14,7 @@ import { isEmailVerified } from "@/lib/email-verification";
 // SEGURANÇA: Busca utilizador para autenticação.
 // -----------------------------------------------------------------------
 const getPasswordHash = async (email: string): Promise<string | null> => {
+  if (!isSupabaseConfigured()) return null;
   try {
     const { data } = await supabaseAdmin
       .from("users")
@@ -28,6 +29,7 @@ const getPasswordHash = async (email: string): Promise<string | null> => {
 };
 
 const getUserForSession = async (email: string) => {
+  if (!isSupabaseConfigured()) return null;
   try {
     const { data: user } = await supabaseAdmin
       .from("users")

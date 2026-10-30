@@ -36,15 +36,14 @@ const nextConfig = {
   },
 
   images: {
-    formats: ['image/webp'],
+    formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     // Necessário para os avatares DiceBear que são servidos como SVG
     dangerouslyAllowSVG: true,
-    // Content Security Policy restringe scripts em SVGs externos — mitiga o risco do SVG
+    // Content Security Policy restringe scripts em SVGs externos
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    contentDispositionType: "attachment",
-    // Aumenta timeout para otimização de imagens (padrão: 30s, aumentado para 60s)
+    contentDispositionType: "inline",
     minimumCacheTTL: 60 * 60 * 24 * 365, // 1 year
     localPatterns: [
       {

@@ -1,5 +1,5 @@
 import 'server-only';
-import { supabaseAdmin } from '@/lib/supabase/admin';
+import { supabaseAdmin, isSupabaseConfigured } from '@/lib/supabase/admin';
 import crypto from 'crypto';
 import { randomUUID } from 'crypto';
 
@@ -215,6 +215,7 @@ export async function cleanupExpiredTokens(): Promise<number> {
 }
 
 export async function isEmailVerified(email: string): Promise<boolean> {
+  if (!isSupabaseConfigured()) return false;
   try {
     const { data, error } = await supabaseAdmin
       .from('users')

@@ -8,9 +8,9 @@ import { bolsas } from "@/data/bolsas";
 import type { ScholarshipItem } from "@/data/types";
 
 interface ScholarshipDetailPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 async function getScholarshipData(id: string): Promise<ScholarshipItem | null> {
@@ -20,7 +20,7 @@ async function getScholarshipData(id: string): Promise<ScholarshipItem | null> {
 
   // 2. Procurar na API (dados do banco de dados)
   try {
-    const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
     const res = await fetch(`${baseUrl}/api/public/scholarships`, {
       cache: "no-store",
     });
@@ -34,13 +34,14 @@ async function getScholarshipData(id: string): Promise<ScholarshipItem | null> {
   }
 }
 
-export default async function ScholarshipDetailPage({ params }: ScholarshipDetailPageProps) {
+export default async function ScholarshipDetailPage(props: ScholarshipDetailPageProps) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     redirect("/?auth=login");
   }
 
-  const scholarship = await getScholarshipData(params.slug);
+  const { slug } = await props.params;
+  const scholarship = await getScholarshipData(slug);
   if (!scholarship) {
     notFound();
   }

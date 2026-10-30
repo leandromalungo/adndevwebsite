@@ -1,7 +1,7 @@
 import "server-only";
 
 import { headers } from "next/headers";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { supabaseAdmin, isSupabaseConfigured } from "@/lib/supabase/admin";
 
 export type AppEventType =
   | "login_success"
@@ -26,6 +26,8 @@ export async function trackEvent({
   route,
   metadata,
 }: TrackEventParams): Promise<void> {
+  if (!isSupabaseConfigured()) return;
+
   try {
     const headersList = await headers();
     const ipAddress =
