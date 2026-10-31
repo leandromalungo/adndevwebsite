@@ -19,6 +19,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { HeaderSearch } from "@/components/navigation/HeaderSearch";
 import {
   Dialog,
   DialogContent,
@@ -543,30 +544,9 @@ const NavbarContent = () => {
             </div>
           </div>
 
-          {/* 2. Meio: Input de Pesquisa ("igualzinho a este da imagem", bem ajustado ao meio) */}
+          {/* 2. Meio: Input de Pesquisa ("igualzinho a este da imagem", com feedback em tempo real e busca segura no banco) */}
           <div className="flex-1 flex justify-center items-center min-w-0 max-w-[210px] min-[390px]:max-w-[250px] sm:max-w-xs md:max-w-sm lg:max-w-md mx-auto">
-            <form
-              onSubmit={handleSearchSubmit}
-              className="w-full flex items-center bg-white border border-gray-200/90 hover:border-gray-300 focus-within:border-gray-400 rounded-full h-9 sm:h-10 pl-3 sm:pl-3.5 pr-1 py-1 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all"
-            >
-              <div className="flex items-center gap-2 flex-1 min-w-0">
-                <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500 shrink-0" strokeWidth={1.9} />
-                <input
-                  type="text"
-                  value={headerSearch}
-                  onChange={(e) => setHeaderSearch(e.target.value)}
-                  placeholder="Pesquisar..."
-                  className="w-full bg-transparent text-xs sm:text-sm text-gray-800 placeholder:text-gray-500 outline-none border-none focus:ring-0 p-0"
-                />
-              </div>
-              <button
-                type="submit"
-                aria-label="Buscar eventos"
-                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#18181b] hover:bg-black text-white flex items-center justify-center shrink-0 ml-1.5 transition-transform active:scale-95 focus:outline-none"
-              >
-                <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" strokeWidth={2.2} />
-              </button>
-            </form>
+            <HeaderSearch />
           </div>
 
           {/* 3. Ponta da Direita: Perfil / Ações de Login + Botão Hambúrguer (2 linhas) */}
