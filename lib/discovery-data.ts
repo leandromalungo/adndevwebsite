@@ -44,6 +44,17 @@ export interface DiscoveryItem {
   tags: string[];
   membersCount?: number;
   highlightBadge?: string;
+  timeRange?: string;
+  state?: string;
+  fullDescription?: string;
+  requirements?: string[];
+  benefits?: string[];
+  institution?: string;
+  degreeLevels?: string;
+  funding?: string;
+  deadline?: string;
+  address?: string;
+  contactEmail?: string;
 }
 
 /**
@@ -156,6 +167,10 @@ function normalizeEvents(eventsList: Event[]): DiscoveryItem[] {
       link: e.link || `/events/${e.id}`,
       isExternalLink: Boolean(e.link && e.link.startsWith("http")),
       tags: e.tags || [],
+      timeRange: e.timeRange,
+      state: e.state,
+      address: e.location,
+      fullDescription: e.description,
     };
   });
 }
@@ -204,6 +219,13 @@ function normalizeScholarships(list: ScholarshipItem[], typeOverride?: "bolsas" 
       link: b.href || `/bolsas/${b.id}`,
       isExternalLink: Boolean(b.href && b.href.startsWith("http")),
       tags: [categoryLabel, country].filter(Boolean),
+      institution: b.institution,
+      degreeLevels: b.degreeLevels,
+      funding: b.funding,
+      benefits: b.benefits,
+      requirements: b.requirements,
+      fullDescription: b.fullDescription || b.description,
+      deadline: b.deadline,
     };
   });
 }
@@ -240,6 +262,7 @@ function normalizeCommunities(list: Community[]): DiscoveryItem[] {
       isExternalLink: Boolean(c.link && c.link.startsWith("http")),
       tags: c.tags || [],
       membersCount: c.members > 0 ? c.members : undefined,
+      fullDescription: c.description,
     };
   });
 }
@@ -381,4 +404,33 @@ export function getAllDiscoveryItems(): DiscoveryItem[] {
     }
     return 0;
   });
+}
+
+/**
+ * Procura um item pelo seu ID com suporte a normalização de prefixos
+ */
+export function getDiscoveryItemById(id: string): DiscoveryItem | null {
+  if (!id) return null;
+  const decodedId = decodeURIComponent(id).trim();
+  const allItems = getAllDiscoveryItems();
+
+  // 1. Busca exata por ID
+  const directMatch = allItems.find((item) => item.id === decodedId);
+  if (directMatch) return directMatch;
+
+  // 2. Busca ignorando maiúsculas/minúsculas
+  const caseInsensitiveMatch = allItems.find(
+    (item) => item.id.toLowerCase() === decodedId.toLowerCase()
+  );
+  if (caseInsensitiveMatch) return caseInsensitiveMatch;
+
+  // 3. Busca sem prefixo ou adicionando prefixo (event-, scholarship-, community-, startup-)
+  const cleanId = decodedId.replace(/^(event-|scholarship-|community-|startup-|db-event-)/, "");
+  const prefixMatch = allItems.find((item) => {
+    const itemCleanId = item.id.replace(/^(event-|scholarship-|community-|startup-|db-event-)/, "");
+    return itemCleanId === cleanId;
+  });
+  if (prefixMatch) return prefixMatch;
+
+  return null;
 }

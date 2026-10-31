@@ -15,6 +15,7 @@ import {
   GraduationCap,
   Sparkles,
   Rocket,
+  ArrowRight,
 } from "lucide-react";
 import type { DiscoveryItem } from "@/lib/discovery-data";
 import { useState } from "react";
@@ -37,32 +38,6 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
       setImgSrc("/images-startupers.webp");
     } else {
       setImgSrc("/images-events.webp");
-    }
-  };
-
-  // Cores de badge por categoria
-  const getCategoryColor = () => {
-    switch (item.category) {
-      case "eventos":
-        return "bg-blue-50 text-blue-700 border-blue-200";
-      case "hackathons":
-        return "bg-purple-50 text-purple-700 border-purple-200";
-      case "bolsas":
-        return "bg-emerald-50 text-emerald-700 border-emerald-200";
-      case "intercambio":
-        return "bg-teal-50 text-teal-700 border-teal-200";
-      case "cursos":
-        return "bg-amber-50 text-amber-700 border-amber-200";
-      case "comunidades":
-        return "bg-violet-50 text-violet-700 border-violet-200";
-      case "startups":
-        return "bg-orange-50 text-orange-700 border-orange-200";
-      case "mulheres_ti":
-        return "bg-pink-50 text-pink-700 border-pink-200";
-      case "game_dev":
-        return "bg-indigo-50 text-indigo-700 border-indigo-200";
-      default:
-        return "bg-gray-100 text-gray-700 border-gray-200";
     }
   };
 
@@ -91,8 +66,8 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
     );
   };
 
-  const CardContent = (
-    <article className="group flex flex-col h-full bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:border-violet-300 transition-all duration-200 overflow-hidden">
+  return (
+    <article className="group flex flex-col h-full bg-white rounded-xl border border-gray-200 shadow-xs hover:shadow-md hover:border-violet-300 transition-all duration-200 overflow-hidden">
       {/* Imagem de Capa */}
       <div className="relative w-full h-44 sm:h-48 bg-gray-100 overflow-hidden shrink-0">
         <Image
@@ -101,7 +76,7 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
           fill
           priority={priority}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover"
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
           onError={handleImageError}
           referrerPolicy="no-referrer"
         />
@@ -111,8 +86,6 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
 
         {/* Badges do topo */}
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 pointer-events-none">
-          
-
           {item.isExpired ? (
             <span className="inline-flex items-center gap-1 rounded-full bg-red-600/90 text-white px-2.5 py-0.5 text-[11px] font-bold shadow-sm">
               <Clock className="w-3 h-3" />
@@ -123,7 +96,11 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
               <CheckCircle2 className="w-3 h-3" />
               Gratuito
             </span>
-          ) : null}
+          ) : (
+            <span className="inline-flex items-center gap-1 rounded-full bg-black/60 backdrop-blur-xs text-white px-2.5 py-0.5 text-[11px] font-medium shadow-sm">
+              {item.categoryLabel}
+            </span>
+          )}
         </div>
 
         {/* Localização / País no canto inferior da imagem */}
@@ -161,9 +138,14 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
           {getFormatBadge()}
         </div>
 
-        {/* Título */}
-        <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-violet-700 transition-colors line-clamp-2 leading-snug mb-2">
-          {item.title}
+        {/* Título com Link para a Página de Detalhes */}
+        <h3 className="text-base sm:text-lg font-bold text-gray-900 line-clamp-2 leading-snug mb-2">
+          <Link
+            href={`/oportunidades/${encodeURIComponent(item.id)}`}
+            className="hover:text-violet-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 rounded"
+          >
+            {item.title}
+          </Link>
         </h3>
 
         {/* Descrição curta */}
@@ -185,8 +167,9 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
           </div>
         ) : null}
 
-        {/* Rodapé do Cartão */}
-        <div className="pt-3 border-t border-gray-100 flex items-center justify-between mt-auto">
+        {/* Rodapé do Cartão com Ações Claras */}
+        <div className="pt-3 border-t border-gray-100 flex items-center justify-between mt-auto gap-2">
+          {/* Organizador */}
           <div className="flex items-center gap-2 min-w-0">
             {item.organizerLogo ? (
               <img
@@ -202,45 +185,43 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
                 {item.organizer?.charAt(0) || "A"}
               </div>
             )}
-            <span className="text-xs text-gray-500 truncate max-w-[130px] font-medium">
+            <span
+              className="text-xs text-gray-500 truncate max-w-[95px] sm:max-w-[120px] font-medium"
+              title={item.organizer || "ADN Developer"}
+            >
               {item.organizer || "ADN Developer"}
             </span>
           </div>
 
-          <span className="inline-flex items-center gap-1 text-xs font-semibold text-violet-700 group-hover:text-violet-800 group-hover:translate-x-0.5 transition-transform">
-            Ver oportunidade
-            {item.isExternalLink ? (
-              <ExternalLink className="w-3.5 h-3.5" />
-            ) : (
-              <span aria-hidden="true">&rarr;</span>
-            )}
-          </span>
+          {/* Botões de Ação */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            {/* Botão "Ver mais" explícito para a página de detalhes */}
+            <Link
+              href={`/oportunidades/${encodeURIComponent(item.id)}`}
+              className="inline-flex items-center justify-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-violet-50 text-gray-800 hover:text-violet-700 border border-gray-200 hover:border-violet-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 active:scale-95"
+              aria-label={`Ver mais sobre ${item.title}`}
+            >
+              <span>Ver mais</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+
+            {/* Botão de ação existente (site oficial/inscrição externa), independente do Ver mais */}
+            {item.link ? (
+              <a
+                href={item.link}
+                target={item.isExternalLink ? "_blank" : undefined}
+                rel={item.isExternalLink ? "noopener noreferrer" : undefined}
+                onClick={(e) => e.stopPropagation()}
+                className="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-violet-700 text-white hover:bg-violet-800 transition-colors shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 active:scale-95"
+                aria-label={`${item.category === "bolsas" ? "Candidatar-se a" : "Aceder a"} ${item.title}${item.isExternalLink ? " (abre num novo separador)" : ""}`}
+              >
+                <span>{item.category === "bolsas" ? "Candidatar" : "Aceder"}</span>
+                {item.isExternalLink ? <ExternalLink className="w-3 h-3" /> : null}
+              </a>
+            ) : null}
+          </div>
         </div>
       </div>
     </article>
-  );
-
-  if (item.isExternalLink) {
-    return (
-      <a
-        href={item.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 rounded-xl"
-        aria-label={`${item.title} (abre num novo separador)`}
-      >
-        {CardContent}
-      </a>
-    );
-  }
-
-  return (
-    <Link
-      href={item.link}
-      className="focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 rounded-xl"
-      aria-label={item.title}
-    >
-      {CardContent}
-    </Link>
   );
 }
