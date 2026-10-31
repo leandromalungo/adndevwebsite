@@ -5,6 +5,7 @@ import { CommunityCard } from '@/components/community/CommunityCard';
 import { CardGridSkeleton } from '@/components/cards/CardSkeleton';
 import type { FilterTab } from '@/components/CountryFilter';
 import type { Community } from '@/data/types';
+import { mockCommunities } from '@/data/dataCommunity';
 
 interface CommunityGridProps {
   selectedCountry: FilterTab;
@@ -28,7 +29,15 @@ export const CommunityGrid: React.FC<CommunityGridProps> = ({
   isLoading = false,
 }) => {
   const filteredCommunities = useMemo(() => {
-    const allCommunities = [...(extraCommunities ?? [])];
+    const allCommunities =
+      extraCommunities && extraCommunities.length > 0
+        ? [
+            ...extraCommunities,
+            ...mockCommunities.filter(
+              (m) => !extraCommunities.some((e) => e.id === m.id)
+            ),
+          ]
+        : mockCommunities;
     const normalizedSelectedCountry = normalizeCountry(selectedCountry);
 
     return allCommunities.filter(community => {

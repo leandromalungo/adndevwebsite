@@ -31,12 +31,8 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-export async function generateStaticParams() {
-  const ids = await getAllOpportunityIds();
-  return ids.slice(0, 50).map((it) => ({
-    id: encodeURIComponent(it.id),
-  }));
-}
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;

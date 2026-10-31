@@ -424,13 +424,27 @@ export function getDiscoveryItemById(id: string): DiscoveryItem | null {
   );
   if (caseInsensitiveMatch) return caseInsensitiveMatch;
 
-  // 3. Busca sem prefixo ou adicionando prefixo (event-, scholarship-, community-, startup-)
-  const cleanId = decodedId.replace(/^(event-|scholarship-|community-|startup-|db-event-)/, "");
+  // 3. Remove todos os prefixos conhecidos (inclusive repetidos)
+  const cleanId = decodedId
+    .replace(/^(db-event-|db-scholarship-|db-comm-|admin-event-|admin-scholarship-|admin-community-|event-|scholarship-|community-|startup-)+/gi, "")
+    .toLowerCase();
+
   const prefixMatch = allItems.find((item) => {
-    const itemCleanId = item.id.replace(/^(event-|scholarship-|community-|startup-|db-event-)/, "");
+    const itemCleanId = item.id
+      .replace(/^(db-event-|db-scholarship-|db-comm-|admin-event-|admin-scholarship-|admin-community-|event-|scholarship-|community-|startup-)+/gi, "")
+      .toLowerCase();
     return itemCleanId === cleanId;
   });
   if (prefixMatch) return prefixMatch;
+
+  // 4. Busca por sufixo ou terminação (caso o ID original seja um código como br-sp-001)
+  if (cleanId.length >= 3) {
+    const looseMatch = allItems.find((item) => {
+      const itemLower = item.id.toLowerCase();
+      return itemLower.endsWith(`-${cleanId}`) || itemLower === cleanId || cleanId.endsWith(itemLower);
+    });
+    if (looseMatch) return looseMatch;
+  }
 
   return null;
 }

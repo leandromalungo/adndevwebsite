@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { Community } from '@/data/types';
@@ -85,16 +86,14 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({ community }) => {
           )}
         </div>
 
-        {/* Ação Principal - Transformado em um botão moderno */}
+        {/* Ação Principal - Link para a página de detalhes da oportunidade */}
         <div className="flex items-center justify-end w-full">
-          <a
-            href={actionHref}
-            target={actionTarget}
-            rel={actionRel}
+          <Link
+            href={`/oportunidades/community-${encodeURIComponent(community.id)}`}
             className="w-full sm:w-auto text-center inline-flex items-center justify-center gap-1 px-4 py-2 text-xs sm:text-sm font-semibold text-violet-600 bg-violet-50 rounded-lg hover:bg-violet-100 active:bg-violet-200 transition-all duration-150"
           >
             Ver mais
-          </a>
+          </Link>
         </div>
 
       </div>

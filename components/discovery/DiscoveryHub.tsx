@@ -76,8 +76,9 @@ export function DiscoveryHub() {
           const data = await eventsRes.value.json();
           if (Array.isArray(data?.events)) {
             data.events.forEach((ev: any) => {
+              const cleanId = String(ev.id || "").startsWith("admin-") ? ev.id : `admin-event-${ev.id}`;
               extraItems.push({
-                id: `db-event-${ev.id}`,
+                id: cleanId,
                 title: ev.title,
                 description: ev.description,
                 category: "eventos",
@@ -103,8 +104,9 @@ export function DiscoveryHub() {
           const data = await scholarshipsRes.value.json();
           if (Array.isArray(data?.scholarships)) {
             data.scholarships.forEach((sc: any) => {
+              const cleanId = String(sc.id || "").startsWith("admin-") ? sc.id : `admin-scholarship-${sc.id}`;
               extraItems.push({
-                id: `db-scholarship-${sc.id}`,
+                id: cleanId,
                 title: sc.title,
                 description: sc.description,
                 category: "bolsas",
@@ -130,8 +132,9 @@ export function DiscoveryHub() {
           const data = await communitiesRes.value.json();
           if (Array.isArray(data?.communities)) {
             data.communities.forEach((cm: any) => {
+              const cleanId = String(cm.id || "").startsWith("admin-") ? cm.id : `admin-community-${cm.id}`;
               extraItems.push({
-                id: `db-comm-${cm.id}`,
+                id: cleanId,
                 title: cm.name,
                 description: cm.description,
                 category: "comunidades",
