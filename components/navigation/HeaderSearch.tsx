@@ -11,13 +11,8 @@ import {
   SearchX,
   Calendar,
   MapPin,
-  Globe,
-  Tag,
   ArrowRight,
   Sparkles,
-  Building2,
-  GraduationCap,
-  Users,
 } from "lucide-react";
 
 interface SearchResultItem {
@@ -50,7 +45,7 @@ export function HeaderSearch() {
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Executa a busca segura no endpoint /api/search
+  // Executa a busca segura e precisa no endpoint /api/search
   const executeSearch = useCallback(async (searchTerm: string) => {
     const trimmed = searchTerm.trim();
     if (trimmed.length < 2) {
@@ -68,18 +63,19 @@ export function HeaderSearch() {
         headers: { Accept: "application/json" },
       });
 
-      if (!res.ok) throw new Error("Falha na resposta");
+      if (!res.ok) throw new Error("Falha na consulta");
 
       const data = await res.json();
       setResults(data.results || []);
     } catch {
+      // Erro seguro: sem vazamento de detalhes sensíveis
       setResults([]);
     } finally {
       setIsLoading(false);
     }
   }, []);
 
-  // Debounce da digitação (250ms)
+  // Debounce de digitação para performance (250ms)
   useEffect(() => {
     if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
 
@@ -115,27 +111,25 @@ export function HeaderSearch() {
     };
   }, []);
 
-  // Submissão do formulário
+  /**
+   * Submissão do formulário:
+   * Ao clicar no botão da lupa ou teclar Enter,
+   * SEMPRE navega para a página de resultados (/pesquisa?q=...)
+   * em vez de abrir diretamente uma oportunidade.
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = query.trim();
-
-    if (activeIndex >= 0 && results[activeIndex]) {
-      const selected = results[activeIndex];
-      router.push(selected.url);
-      setIsOpen(false);
-      return;
-    }
+    setIsOpen(false);
 
     if (trimmed) {
-      setIsOpen(false);
-      router.push(`/?q=${encodeURIComponent(trimmed)}`);
+      router.push(`/pesquisa?q=${encodeURIComponent(trimmed)}`);
     } else {
-      router.push("/");
+      router.push("/pesquisa");
     }
   };
 
-  // Navegação por teclado (Cima, Baixo, Enter, Escape)
+  // Navegação por teclado dentro da lista do dropdown
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!isOpen) return;
 
@@ -159,7 +153,6 @@ export function HeaderSearch() {
     inputRef.current?.focus();
   };
 
-  // Filtragem local por categoria no dropdown se o utilizador clicar nos chips
   const filteredResults =
     activeCategory === "todos"
       ? results
@@ -189,7 +182,7 @@ export function HeaderSearch() {
       ref={containerRef}
       className="relative w-full flex justify-center items-center"
     >
-      {/* Formulário com o design fiel à imagem enviada */}
+      {/* Formulário com o design exatamente igual à imagem de referência */}
       <form
         onSubmit={handleSubmit}
         className="w-full flex items-center bg-white border border-gray-200/90 hover:border-gray-300 focus-within:border-violet-500 focus-within:ring-2 focus-within:ring-violet-500/10 rounded-full h-9 sm:h-10 pl-3 sm:pl-3.5 pr-1 py-1 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all"
@@ -236,11 +229,11 @@ export function HeaderSearch() {
           )}
         </div>
 
-        {/* Botão de Submissão Preto Circular (Design idêntico ao solicitado) */}
+        {/* Botão com ícone de busca / lupa (Leva à página de resultados /pesquisa?q=...) */}
         <button
           type="submit"
-          aria-label="Pesquisar em toda a plataforma"
-          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#18181b] hover:bg-black text-white flex items-center justify-center shrink-0 ml-1.5 transition-transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-black/20"
+          aria-label="Pesquisar e ver resultados completos"
+          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#18181b] hover:bg-black text-white flex items-center justify-center shrink-0 ml-1.5 transition-transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-black/20 cursor-pointer"
         >
           <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" strokeWidth={2.2} />
         </button>
@@ -264,7 +257,7 @@ export function HeaderSearch() {
               {isLoading ? (
                 <span className="inline-flex items-center gap-1 text-[11px] font-medium text-violet-700">
                   <Loader2 className="w-3 h-3 animate-spin" />
-                  Consultando banco...
+                  Buscando...
                 </span>
               ) : hasSearched ? (
                 <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-violet-100 text-violet-700">
@@ -274,7 +267,7 @@ export function HeaderSearch() {
             </div>
           </div>
 
-          {/* Filtros rápidos por tipo dentro da busca (se houver resultados) */}
+          {/* Filtros rápidos por categoria dentro da sugestão */}
           {results.length > 0 && (
             <div className="px-3 pt-2.5 pb-2 border-b border-gray-100 flex items-center gap-1.5 overflow-x-auto scrollbar-none text-[11px]">
               <button
@@ -311,42 +304,42 @@ export function HeaderSearch() {
             </div>
           )}
 
-          {/* Corpo: Resultados ou Estado "Não Encontrado" */}
-          <div className="max-h-[360px] sm:max-h-[420px] overflow-y-auto divide-y divide-gray-100">
+          {/* Corpo: Resultados Sugeridos ou Feedback "Não Encontrado" */}
+          <div className="max-h-[340px] sm:max-h-[390px] overflow-y-auto divide-y divide-gray-100">
             {isLoading && results.length === 0 ? (
               <div className="py-10 text-center">
                 <Loader2 className="w-7 h-7 text-violet-600 animate-spin mx-auto mb-2" />
                 <p className="text-xs text-gray-500 font-medium">
-                  A pesquisar em todo o banco de dados da plataforma...
+                  A consultar banco de dados...
                 </p>
               </div>
             ) : hasSearched && results.length === 0 ? (
               /* =============================================================
-                 ESTADO "NÃO ENCONTRADO" (Feedback Claro e Amigável)
+                 FEEDBACK: NÃO ENCONTRADO (Preciso e Amigável)
                  ============================================================= */
-              <div className="p-6 sm:p-8 text-center">
-                <div className="w-14 h-14 rounded-2xl bg-red-50 text-red-600 mx-auto flex items-center justify-center mb-3.5 border border-red-100 shadow-xs">
-                  <SearchX className="w-7 h-7" />
+              <div className="p-6 sm:p-7 text-center">
+                <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 mx-auto flex items-center justify-center mb-3 border border-red-100 shadow-xs">
+                  <SearchX className="w-6 h-6" />
                 </div>
 
-                <h3 className="text-sm sm:text-base font-bold text-gray-900 mb-1">
+                <h3 className="text-sm font-bold text-gray-900 mb-1">
                   Não encontrado
                 </h3>
 
                 <p className="text-xs text-gray-500 max-w-xs mx-auto leading-relaxed mb-4">
-                  Não encontramos nenhum resultado para{" "}
-                  <strong className="text-gray-900">&ldquo;{query}&rdquo;</strong> no banco de dados.
+                  Nenhum item correspondente encontrado para{" "}
+                  <strong className="text-gray-900">&ldquo;{query}&rdquo;</strong>.
                 </p>
 
                 <div className="p-3 bg-gray-50 rounded-xl border border-gray-100 text-left text-xs text-gray-600 space-y-1 mb-4">
                   <div className="font-semibold text-gray-800 flex items-center gap-1.5 text-[11px] uppercase tracking-wider">
                     <Sparkles className="w-3.5 h-3.5 text-violet-600" />
-                    Sugestões de busca:
+                    Sugestões:
                   </div>
                   <ul className="list-disc list-inside text-gray-500 space-y-0.5 text-[11px]">
-                    <li>Verifique se há erros ortográficos.</li>
-                    <li>Tente termos mais amplos (ex: <em>python</em>, <em>angola</em>, <em>bolsa</em>).</li>
-                    <li>Experimente pesquisar por país ou tecnologia.</li>
+                    <li>Verifique o nome digitado.</li>
+                    <li>Busque pelo nome exato do evento, bolsa ou comunidade.</li>
+                    <li>Experimente buscar por país ou tecnologia (ex: <em>Python</em>, <em>Angola</em>).</li>
                   </ul>
                 </div>
 
@@ -354,18 +347,16 @@ export function HeaderSearch() {
                   type="button"
                   onClick={() => {
                     setIsOpen(false);
-                    router.push("/");
+                    router.push(`/pesquisa?q=${encodeURIComponent(query)}`);
                   }}
                   className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-violet-700 hover:bg-violet-800 text-white shadow-xs transition"
                 >
-                  <span>Explorar todas as oportunidades</span>
+                  <span>Abrir página de pesquisa</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             ) : filteredResults.length > 0 ? (
-              /* =============================================================
-                 LISTA DE RESULTADOS ENCONTRADOS
-                 ============================================================= */
+              /* Lista de itens correspondentes */
               filteredResults.map((item, idx) => (
                 <Link
                   key={item.id}
@@ -379,7 +370,6 @@ export function HeaderSearch() {
                     activeIndex === idx ? "bg-violet-50/70" : "hover:bg-gray-50"
                   }`}
                 >
-                  {/* Thumbnail / Ícone */}
                   <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden bg-gray-100 border border-gray-200 shrink-0">
                     <Image
                       src={item.imageUrl || "/images-events.webp"}
@@ -391,7 +381,6 @@ export function HeaderSearch() {
                     />
                   </div>
 
-                  {/* Informações */}
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-1.5 mb-1">
                       <span
@@ -407,25 +396,12 @@ export function HeaderSearch() {
                           • {item.country}
                         </span>
                       )}
-
-                      {item.source === "database" && (
-                        <span className="text-[9px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">
-                          Banco
-                        </span>
-                      )}
                     </div>
 
                     <h4 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-violet-700 transition-colors line-clamp-1 leading-snug">
                       {item.title}
                     </h4>
 
-                    {item.description && (
-                      <p className="text-[11px] sm:text-xs text-gray-500 line-clamp-1 mt-0.5 leading-relaxed">
-                        {item.description}
-                      </p>
-                    )}
-
-                    {/* Metadados adicionais */}
                     <div className="flex items-center gap-3 mt-1.5 text-[10px] text-gray-400 font-medium">
                       {item.dateOrDeadline && (
                         <span className="flex items-center gap-1 text-gray-600 truncate">
@@ -443,7 +419,6 @@ export function HeaderSearch() {
                     </div>
                   </div>
 
-                  {/* Seta para acessar */}
                   <div className="shrink-0 self-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <ArrowRight className="w-4 h-4 text-violet-700" />
                   </div>
@@ -452,25 +427,23 @@ export function HeaderSearch() {
             ) : null}
           </div>
 
-          {/* Rodapé com atalho */}
-          {results.length > 0 && (
-            <div className="p-2.5 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-500">
-              <span className="hidden sm:inline">
-                Use as setas ↑ ↓ para navegar e Enter para escolher
-              </span>
-              <button
-                type="button"
-                onClick={() => {
-                  setIsOpen(false);
-                  router.push(`/?q=${encodeURIComponent(query)}`);
-                }}
-                className="ml-auto font-bold text-violet-700 hover:text-violet-900 hover:underline flex items-center gap-1"
-              >
-                <span>Ver todos os resultados</span>
-                <ArrowRight className="w-3 h-3" />
-              </button>
-            </div>
-          )}
+          {/* Rodapé: Botão explícito para ir à página de resultados da pesquisa */}
+          <div className="p-2.5 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-500">
+            <span className="hidden sm:inline">
+              Pressione Enter ou clique na lupa para ver a página completa
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                setIsOpen(false);
+                router.push(`/pesquisa?q=${encodeURIComponent(query.trim())}`);
+              }}
+              className="ml-auto font-bold text-violet-700 hover:text-violet-900 hover:underline flex items-center gap-1 cursor-pointer"
+            >
+              <span>Ver resultados completos</span>
+              <ArrowRight className="w-3 h-3" />
+            </button>
+          </div>
         </div>
       )}
     </div>
