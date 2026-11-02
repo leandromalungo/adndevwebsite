@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/auth/Navbar";
 import Footer from "@/components/Footer";
-import Hero from "@/components/home/Hero";
 import PartnersSection from "@/components/home/PartnersSection";
 import { SectionHero as ServiceSection } from "@/components/home/ServiceSection";
 import { CTACardsContainer } from "@/components/home/cardCta/Content";
