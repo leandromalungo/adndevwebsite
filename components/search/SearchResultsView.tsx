@@ -2,7 +2,8 @@
 
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Search, SearchX, Sparkles, Filter, ArrowRight, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { Search, SearchX, Sparkles, Filter, ArrowRight, RotateCcw, ChevronLeft, ChevronRight, Lock } from "lucide-react";
 import { DiscoveryCard } from "@/components/discovery/DiscoveryCard";
 import type { DiscoveryItem, DiscoveryCategory } from "@/lib/discovery-data";
 
@@ -18,6 +19,8 @@ export function SearchResultsView({
   recentRecommendations,
 }: SearchResultsViewProps) {
   const router = useRouter();
+  const { data: session } = useSession();
+  const isLoggedIn = !!session;
   const [searchInput, setSearchInput] = useState(initialQuery);
   const [selectedCategory, setSelectedCategory] = useState<string>("todos");
 
@@ -53,6 +56,10 @@ export function SearchResultsView({
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isLoggedIn) {
+      router.push("/?auth=login");
+      return;
+    }
     const trimmed = searchInput.trim();
     if (trimmed) {
       router.push(`/pesquisa?q=${encodeURIComponent(trimmed)}`);

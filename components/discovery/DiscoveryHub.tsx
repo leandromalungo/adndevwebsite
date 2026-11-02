@@ -26,13 +26,17 @@ import {
   Calendar,
   Users,
   Rocket,
+  Lock,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 const ITEMS_PER_PAGE = 12;
 
 export function DiscoveryHub() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { data: session } = useSession();
+  const isLoggedIn = !!session;
 
   // Estados dos filtros inicializados a partir dos parâmetros da URL
   const initialQ = searchParams?.get("q") || "";
@@ -323,6 +327,10 @@ export function DiscoveryHub() {
   }, [filteredItems, currentPage]);
 
   const goToPage = (pageNumber: number) => {
+    if (!isLoggedIn) {
+      router.push("/?auth=login");
+      return;
+    }
     setCurrentPage(pageNumber);
     // Rolagem suave para o início da lista
     if (typeof window !== "undefined") {
@@ -446,6 +454,32 @@ export function DiscoveryHub() {
             {paginatedItems.map((item, idx) => (
               <DiscoveryCard key={item.id} item={item} priority={idx < 4} />
             ))}
+          </div>
+        )}
+
+        {/* Banner de Acesso Exclusivo para Membros quando não autenticado */}
+        {!isLoggedIn && (
+          <div className="mt-8 p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-violet-900 via-indigo-900 to-violet-950 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 border border-violet-800">
+            <div className="flex items-center gap-3.5">
+              <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
+                <Lock className="w-6 h-6 text-violet-200" />
+              </div>
+              <div>
+                <h4 className="text-sm sm:text-base font-bold">
+                  Inicie sessão para desbloquear todas as oportunidades
+                </h4>
+                <p className="text-xs text-violet-200 mt-0.5 leading-relaxed">
+                  Acesso a detalhes completos, avanço de páginas e pesquisa em todo o catálogo restritos a utilizadores com sessão iniciada.
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => router.push("/?auth=login")}
+              className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-white text-violet-900 font-bold text-xs sm:text-sm hover:bg-violet-50 transition-all shadow-md shrink-0 cursor-pointer active:scale-95 text-center"
+            >
+              Iniciar Sessão / Criar Conta
+            </button>
           </div>
         )}
 

@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import {
   Calendar,
   Clock,
-  ExternalLink,
   Globe,
   MapPin,
   Tag,
@@ -16,6 +17,7 @@ import {
   Sparkles,
   Rocket,
   ArrowRight,
+  Lock,
 } from "lucide-react";
 import type { DiscoveryItem } from "@/lib/discovery-data";
 import { useState } from "react";
@@ -26,6 +28,9 @@ interface DiscoveryCardProps {
 }
 
 export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
+  const router = useRouter();
+  const { data: session } = useSession();
+  const isLoggedIn = !!session;
   const [imgSrc, setImgSrc] = useState(item.imageUrl || "/images-events.webp");
 
   // Fallback visual para imagens quebradas ou indisponíveis
@@ -138,14 +143,25 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
           {getFormatBadge()}
         </div>
 
-        {/* Título com Link para a Página de Detalhes */}
+        {/* Título com Link para a Página de Detalhes (protegido por autenticação) */}
         <h3 className="text-base sm:text-lg font-bold text-gray-900 line-clamp-2 leading-snug mb-2">
-          <Link
-            href={`/oportunidades/${encodeURIComponent(item.id)}`}
-            className="hover:text-violet-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 rounded"
-          >
-            {item.title}
-          </Link>
+          {isLoggedIn ? (
+            <Link
+              href={`/oportunidades/${encodeURIComponent(item.id)}`}
+              className="hover:text-violet-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 rounded"
+            >
+              {item.title}
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={() => router.push("/?auth=login")}
+              className="text-left font-bold hover:text-violet-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 rounded cursor-pointer"
+              title="Inicie sessão para ver detalhes"
+            >
+              {item.title}
+            </button>
+          )}
         </h3>
 
         {/* Descrição curta */}
@@ -167,7 +183,7 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
           </div>
         ) : null}
 
-        {/* Rodapé do Cartão com Ações Claras */}
+        {/* Rodapé do Cartão com Ação Única: Apenas "Ver mais" */}
         <div className="pt-3 border-t border-gray-100 flex items-center justify-between mt-auto gap-2">
           {/* Organizador */}
           <div className="flex items-center gap-2 min-w-0">
@@ -193,32 +209,29 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
             </span>
           </div>
 
-          {/* Botões de Ação */}
-          <div className="flex items-center gap-1.5 shrink-0">
-            {/* Botão "Ver mais" explícito para a página de detalhes */}
-            <Link
-              href={`/oportunidades/${encodeURIComponent(item.id)}`}
-              className="inline-flex items-center justify-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-violet-50 text-gray-800 hover:text-violet-700 border border-gray-200 hover:border-violet-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 active:scale-95"
-              aria-label={`Ver mais sobre ${item.title}`}
-            >
-              <span>Ver mais</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-
-            {/* Botão de ação existente (site oficial/inscrição externa), independente do Ver mais */}
-            {item.link ? (
-              <a
-                href={item.link}
-                target={item.isExternalLink ? "_blank" : undefined}
-                rel={item.isExternalLink ? "noopener noreferrer" : undefined}
-                onClick={(e) => e.stopPropagation()}
-                className="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-violet-700 text-white hover:bg-violet-800 transition-colors shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 active:scale-95"
-                aria-label={`${item.category === "bolsas" ? "Candidatar-se a" : "Aceder a"} ${item.title}${item.isExternalLink ? " (abre num novo separador)" : ""}`}
+          {/* Botão de Ação Único: APENAS "Ver mais" (botão Aceder removido) */}
+          <div className="flex items-center shrink-0">
+            {isLoggedIn ? (
+              <Link
+                href={`/oportunidades/${encodeURIComponent(item.id)}`}
+                className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-violet-700 text-gray-800 hover:text-white border border-gray-200 hover:border-violet-700 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 active:scale-95 cursor-pointer shadow-2xs"
+                aria-label={`Ver mais sobre ${item.title}`}
               >
-                <span>{item.category === "bolsas" ? "Candidatar" : "Aceder"}</span>
-                {item.isExternalLink ? <ExternalLink className="w-3 h-3" /> : null}
-              </a>
-            ) : null}
+                <span>Ver mais</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={() => router.push("/?auth=login")}
+                className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-violet-100 text-gray-700 hover:text-violet-800 border border-gray-200 hover:border-violet-300 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 active:scale-95 cursor-pointer shadow-2xs"
+                aria-label={`Inicie sessão para ver mais sobre ${item.title}`}
+                title="Inicie sessão para ver detalhes da oportunidade"
+              >
+                <Lock className="w-3.5 h-3.5 text-amber-600" />
+                <span>Ver mais</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

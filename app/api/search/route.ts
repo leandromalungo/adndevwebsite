@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { supabaseAdmin, isSupabaseConfigured } from "@/lib/supabase/admin";
 import { getAllDiscoveryItems } from "@/lib/discovery-data";
 import { STUDY_MATERIALS } from "@/data/study-materials";
@@ -84,6 +86,19 @@ function wordMatches(targetText: string, searchToken: string): boolean {
 
 export async function GET(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json(
+        {
+          error: "Inicie sessão para realizar pesquisas na plataforma.",
+          query: "",
+          results: [],
+          total: 0,
+        },
+        { status: 401 }
+      );
+    }
+
     const { searchParams } = new URL(request.url);
     const rawQuery = searchParams.get("q") || "";
     const cleanQuery = sanitizeSearchQuery(rawQuery);

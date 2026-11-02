@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -13,6 +14,7 @@ import {
   MapPin,
   ArrowRight,
   Sparkles,
+  Lock,
 } from "lucide-react";
 
 interface SearchResultItem {
@@ -33,6 +35,8 @@ interface SearchResultItem {
 
 export function HeaderSearch() {
   const router = useRouter();
+  const { data: session } = useSession();
+  const isLoggedIn = !!session;
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResultItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -45,8 +49,15 @@ export function HeaderSearch() {
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Executa a busca segura e precisa no endpoint /api/search
+  // Executa a busca segura e precisa no endpoint /api/search (apenas para utilizadores com sessão iniciada)
   const executeSearch = useCallback(async (searchTerm: string) => {
+    if (!isLoggedIn) {
+      setResults([]);
+      setIsLoading(false);
+      setHasSearched(false);
+      return;
+    }
+
     const trimmed = searchTerm.trim();
     if (trimmed.length < 2) {
       setResults([]);
@@ -73,11 +84,18 @@ export function HeaderSearch() {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [isLoggedIn]);
 
   // Debounce de digitação para performance (250ms)
   useEffect(() => {
     if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+
+    if (!isLoggedIn) {
+      setResults([]);
+      setIsLoading(false);
+      setHasSearched(false);
+      return;
+    }
 
     if (query.trim().length >= 2) {
       setIsLoading(true);
@@ -93,7 +111,7 @@ export function HeaderSearch() {
     return () => {
       if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
     };
-  }, [query, executeSearch]);
+  }, [query, executeSearch, isLoggedIn]);
 
   // Fechar o dropdown ao clicar fora
   useEffect(() => {
@@ -113,15 +131,19 @@ export function HeaderSearch() {
 
   /**
    * Submissão do formulário:
-   * Ao clicar no botão da lupa ou teclar Enter,
-   * SEMPRE navega para a página de resultados (/pesquisa?q=...)
-   * em vez de abrir diretamente uma oportunidade.
+   * Requer sessão iniciada. Se não autenticado, direciona para o login.
+   * Se autenticado, navega para a página de resultados (/pesquisa?q=...).
    */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const trimmed = query.trim();
     setIsOpen(false);
 
+    if (!isLoggedIn) {
+      router.push("/?auth=login");
+      return;
+    }
+
+    const trimmed = query.trim();
     if (trimmed) {
       router.push(`/pesquisa?q=${encodeURIComponent(trimmed)}`);
     } else {
@@ -191,6 +213,8 @@ export function HeaderSearch() {
         <div className="flex items-center gap-2 flex-1 min-w-0">
           {isLoading ? (
             <Loader2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-600 animate-spin shrink-0" />
+          ) : !isLoggedIn ? (
+            <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600 shrink-0" strokeWidth={1.9} />
           ) : (
             <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500 shrink-0" strokeWidth={1.9} />
           )}
@@ -204,12 +228,14 @@ export function HeaderSearch() {
               setIsOpen(true);
             }}
             onFocus={() => {
-              if (query.trim().length >= 1) {
+              if (!isLoggedIn) {
+                setIsOpen(true);
+              } else if (query.trim().length >= 1) {
                 setIsOpen(true);
               }
             }}
             onKeyDown={handleKeyDown}
-            placeholder="Buscar eventos..."
+            placeholder={isLoggedIn ? "Buscar eventos..." : "Inicie sessão para pesquisar..."}
             className="w-full bg-transparent text-xs sm:text-sm text-gray-800 placeholder:text-gray-500 outline-none border-none focus:ring-0 p-0"
             aria-label="Campo de pesquisa da plataforma"
             aria-expanded={isOpen}
@@ -221,7 +247,7 @@ export function HeaderSearch() {
             <button
               type="button"
               onClick={clearSearch}
-              className="p-1 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition mr-0.5 shrink-0"
+              className="p-1 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition mr-0.5 shrink-0 cursor-pointer"
               aria-label="Limpar pesquisa"
             >
               <X className="w-3.5 h-3.5" />
@@ -229,20 +255,61 @@ export function HeaderSearch() {
           )}
         </div>
 
-        {/* Botão com ícone de busca / lupa (Leva à página de resultados /pesquisa?q=...) */}
+        {/* Botão com ícone de busca / lupa (Leva à página de resultados ou ao login se não autenticado) */}
         <button
           type="submit"
-          aria-label="Pesquisar e ver resultados completos"
+          aria-label={isLoggedIn ? "Pesquisar e ver resultados completos" : "Iniciar sessão para pesquisar"}
+          title={isLoggedIn ? "Pesquisar" : "Inicie sessão para pesquisar"}
           className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#18181b] hover:bg-black text-white flex items-center justify-center shrink-0 ml-1.5 transition-transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-black/20 cursor-pointer"
         >
-          <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" strokeWidth={2.2} />
+          {isLoggedIn ? (
+            <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" strokeWidth={2.2} />
+          ) : (
+            <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-300" strokeWidth={2.2} />
+          )}
         </button>
       </form>
 
       {/* =============================================================
-         UI DE FEEDBACK EM TEMPO REAL ANCORADA AO INPUT
+         UI DE FEEDBACK / BLOQUEIO PARA USUÁRIO NÃO AUTENTICADO
          ============================================================= */}
-      {isOpen && query.trim().length >= 1 && (
+      {isOpen && !isLoggedIn && (
+        <div className="absolute top-full mt-2.5 w-[calc(100vw-24px)] min-[380px]:w-[340px] sm:w-[420px] left-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-2xl border border-gray-200/90 p-5 z-50 animate-in fade-in zoom-in-95 duration-150 text-center">
+          <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-3 border border-amber-200 shadow-2xs">
+            <Lock className="w-6 h-6" />
+          </div>
+          <h4 className="text-sm sm:text-base font-bold text-gray-900 mb-1.5">
+            Pesquisa Restrita a Membros
+          </h4>
+          <p className="text-xs text-gray-600 mb-4 leading-relaxed">
+            Para pesquisar no banco de dados, acessar conteúdos e ver mais detalhes, é necessário iniciar sessão com a sua conta.
+          </p>
+          <div className="flex flex-col gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setIsOpen(false);
+                router.push("/?auth=login");
+              }}
+              className="w-full py-2.5 px-4 rounded-xl bg-violet-700 hover:bg-violet-800 text-white font-bold text-xs transition shadow-xs cursor-pointer active:scale-98"
+            >
+              Iniciar Sessão / Criar Conta
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsOpen(false)}
+              className="text-xs text-gray-500 hover:text-gray-700 font-medium py-1 cursor-pointer"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* =============================================================
+         UI DE FEEDBACK EM TEMPO REAL ANCORADA AO INPUT (USUÁRIO AUTENTICADO)
+         ============================================================= */}
+      {isOpen && isLoggedIn && query.trim().length >= 1 && (
         <div className="absolute top-full mt-2.5 w-[calc(100vw-24px)] min-[380px]:w-[340px] sm:w-[460px] md:w-[520px] left-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-2xl border border-gray-200/90 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-150">
           {/* Cabeçalho do Feedback */}
           <div className="p-3 sm:px-4 bg-gray-50/80 border-b border-gray-100 flex items-center justify-between text-xs">
