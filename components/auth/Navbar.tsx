@@ -768,7 +768,7 @@ const NavbarContent = () => {
         <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 space-y-5 bg-white">
           {/* Card de Usuário / Sessão no Mobile */}
           {isLoggedIn ? (
-            <div className="p-3.5 rounded-2xl bg-violet-50 border border-violet-100 flex items-center justify-between gap-3 shadow-2xs">
+            <div className="p-3.5 rounded bg-violet-50 border border-violet-100 flex items-center justify-between gap-3 shadow-2xs">
               <div className="flex items-center gap-3 min-w-0">
                 {profilePhoto ? (
                   <img
@@ -794,7 +794,7 @@ const NavbarContent = () => {
               <Link
                 href="/profile"
                 onClick={closeMobileMenu}
-                className="px-3 py-1.5 rounded-lg bg-violet-700 text-white text-xs font-semibold hover:bg-violet-800 transition shrink-0"
+                className="px-3 py-1.5 rounded bg-violet-700 text-white text-xs font-semibold hover:bg-violet-800 transition shrink-0"
               >
                 Perfil
               </Link>
