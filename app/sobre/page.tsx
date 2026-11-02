@@ -65,30 +65,19 @@ export default function SobrePage() {
       role: "Founder & Manager",
       country: "Angola",
       image: "/leandro.jpg",
-      description:
-        "Fundador e gestor do ADN Developer, com uma visão estratégica para conectar talentos, comunidades e oportunidades no ecossistema tecnológico lusófono.",
     },
     {
       name: "Neuza Nascimento",
       role: "Co-Founder",
       country: "Portugal",
       image: "/neuza.jpg",
-      description:
-        "Co-fundadora e estrategista de parcerias, dedicada a construir pontes entre comunidades, startups e oportunidades tecnológicas.",
-    },
+  },
     {
       name: "Whitney Velasco",
       role: "Content Creator",
       country: "Moçambique",
       image: "/whitiney.jpg",
       description: "Estudante de engenharia informática e criadora de conteúdos tecnológicos focada na lusofonia.",
-    },
-    {
-      name: "Fernanda Sehn",
-      role: "Designer",
-      country: "Brasil",
-      image: "/fernanda.jpg",
-      description: "Designer de produto e comunicação, dedicada a interfaces acessíveis e experiências centradas no utilizador.",
     },
     {
       name: "Filipe Mafuila",
@@ -98,11 +87,10 @@ export default function SobrePage() {
       description: "Desenvolvedor frontend focado em criar interfaces modernas, responsivas e de alta performance.",
     },
     {
-      name: "Fanio Panga",
+      name: "Thomas Herinques",
       role: "Frontend Developer",
-      country: "Angola",
+      country: "Brazil",
       image: "/filipe.jpg",
-      description: "Desenvolvedor frontend apaixonado por código limpo, design systems e arquitetura web.",
     },
   ];
 
@@ -112,11 +100,7 @@ export default function SobrePage() {
 
       <main className="flex-1 w-full">
         {/* 1. HERO INSTITUCIONAL */}
-        <section className="relative overflow-hidden">
-          <Hero />
-        </section>
 
-        {/* 2. O QUE É A ADN DEVELOPER & MISSÃO */}
         <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>

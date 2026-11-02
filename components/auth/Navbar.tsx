@@ -556,8 +556,6 @@ const NavbarContent = () => {
         </div>
       )}
 
-     
-
       {/* =============================================================
          Estrutura Principal do Header (Layout Baseado na Imagem)
          ============================================================= */}
@@ -669,11 +667,6 @@ const NavbarContent = () => {
                     <Link href="/" onClick={() => setUserDropdown(false)} className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition-colors">
                       <Users className="w-4 h-4 text-violet-600" />
                       <span>Contribuidores</span>
-                    </Link>
-
-                    <Link href="/" onClick={() => setUserDropdown(false)} className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition-colors">
-                      <CreditCard className="w-4 h-4 text-violet-600" />
-                      <span>Painel de assinatura</span>
                     </Link>
 
                     {/* Zona de Perigo / Sair */}
@@ -884,7 +877,7 @@ const NavbarContent = () => {
                 onClick={handleLogout}
                 className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-red-600 hover:bg-red-50 hover:text-red-700 transition cursor-pointer"
               >
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-100 text-red-600 shrink-0">
+                <span className="flex items-center justify-center w-8 h-8 text-red-600 shrink-0">
                   <LogOut className="w-4 h-4" />
                 </span>
                 <span>Terminar sessão</span>

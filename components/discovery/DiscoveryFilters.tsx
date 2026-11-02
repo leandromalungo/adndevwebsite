@@ -171,7 +171,7 @@ export function DiscoveryFilters({
               <ChevronDown className="h-3.5 w-3.5 text-gray-400 transition-transform group-open:rotate-180" />
             </summary>
 
-            <div className="absolute left-0 top-full z-40 mt-2 grid w-64 gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-xl">
+            <div className="absolute left-0 top-full z-40 mt-2 grid w-64 gap-3 rounded border border-gray-200 bg-white p-4 shadow-xl">
               <label className="grid gap-1.5 text-xs font-medium text-gray-700">
                 País
                 <select
