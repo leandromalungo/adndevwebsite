@@ -800,7 +800,7 @@ const NavbarContent = () => {
               </Link>
             </div>
           ) : (
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50 border border-violet-100 shadow-2xs">
+            <div className="p-4">
               <div className="flex items-center gap-2 mb-1">
                 <span className="w-2 h-2 rounded-full bg-violet-600" />
                 <p className="text-xs font-bold uppercase tracking-wider text-violet-800">
@@ -816,7 +816,7 @@ const NavbarContent = () => {
                   closeMobileMenu();
                   setLoginModal(true);
                 }}
-                className="w-full py-2.5 px-4 rounded-xl bg-violet-700 hover:bg-violet-800 text-white font-bold text-xs transition shadow-xs flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+                className="w-full py-2.5 px-4 rounded bg-violet-700 hover:bg-violet-800 text-white font-bold text-xs transition shadow-xs flex items-center justify-center gap-2 cursor-pointer active:scale-98"
               >
                 <UserIcon className="w-4 h-4" />
                 <span>Entrar ou Criar Conta</span>

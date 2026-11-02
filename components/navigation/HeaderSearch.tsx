@@ -235,7 +235,7 @@ export function HeaderSearch() {
               }
             }}
             onKeyDown={handleKeyDown}
-            placeholder={isLoggedIn ? "Buscar eventos..." : "Inicie sessão para pesquisar..."}
+            placeholder={isLoggedIn ? "Pesquisar..." : "Inicie sessão para pesquisar..."}
             className="w-full bg-transparent text-xs sm:text-sm text-gray-800 placeholder:text-gray-500 outline-none border-none focus:ring-0 p-0"
             aria-label="Campo de pesquisa da plataforma"
             aria-expanded={isOpen}
