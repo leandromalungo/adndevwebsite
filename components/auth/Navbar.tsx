@@ -12,7 +12,16 @@ import {
   Eye,
   EyeOff,
   Link as LinkIcon,
-  Users, LogOut, Calendar, Map, GraduationCap, Rocket, Code
+  Users,
+  LogOut,
+  Calendar,
+  Map,
+  GraduationCap,
+  Rocket,
+  Code,
+  Compass,
+  Info,
+  ChevronRight,
 } from "lucide-react";
 import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
@@ -53,21 +62,56 @@ function AuthQueryHandler({ setLoginModal, setIsRegistering, isLoggedIn }: any) 
   return null;
 }
 
-const MobileLink = ({
+const MobileNavLink = ({
   label,
   href,
+  icon: Icon,
+  isActive,
+  badge,
   onClick,
 }: {
   label: string;
   href: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  isActive?: boolean;
+  badge?: string;
   onClick: () => void;
 }) => (
   <Link
     href={href}
     onClick={onClick}
-    className="block px-3 py-2 text-base font-semibold text-gray-700 rounded-lg hover:text-violet-700 hover:bg-violet-50 transition-colors"
+    className={`group flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-semibold transition-all duration-150 cursor-pointer ${
+      isActive
+        ? "bg-violet-50 text-violet-800 font-bold border border-violet-200/80 shadow-2xs"
+        : "text-gray-700 hover:text-violet-700 hover:bg-gray-100/70"
+    }`}
   >
-    {label}
+    <div className="flex items-center gap-3 min-w-0">
+      {Icon && (
+        <span
+          className={`flex items-center justify-center w-8 h-8 rounded-lg shrink-0 transition-colors ${
+            isActive
+              ? "bg-violet-700 text-white shadow-xs"
+              : "bg-gray-100 text-gray-600 group-hover:bg-violet-100 group-hover:text-violet-700"
+          }`}
+        >
+          <Icon className="w-4 h-4" />
+        </span>
+      )}
+      <span className="truncate">{label}</span>
+    </div>
+    <div className="flex items-center gap-2 shrink-0">
+      {badge && (
+        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-violet-100 text-violet-700 border border-violet-200">
+          {badge}
+        </span>
+      )}
+      <ChevronRight
+        className={`w-4 h-4 transition-transform group-hover:translate-x-0.5 ${
+          isActive ? "text-violet-700" : "text-gray-400 group-hover:text-violet-600"
+        }`}
+      />
+    </div>
   </Link>
 );
 
@@ -332,12 +376,46 @@ const NavbarContent = () => {
     }
   };
 
+  // Bloquear rolagem do corpo quando modal de login ou menu lateral móvel estiver aberto
   useEffect(() => {
-    document.body.style.overflow = loginModal ? "hidden" : "unset";
+    if (loginModal || openMenu) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
     return () => {
       document.body.style.overflow = "unset";
     };
-  }, [loginModal]);
+  }, [loginModal, openMenu]);
+
+  // Fechar menu mobile e dropdowns automaticamente quando a rota mudar
+  useEffect(() => {
+    setOpenMenu(false);
+    setUserDropdown(false);
+  }, [pathname]);
+
+  // Fechar menu lateral ao pressionar a tecla Escape
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpenMenu(false);
+        setUserDropdown(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // Fechar menu lateral automaticamente se a tela for redimensionada para desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setOpenMenu(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div className="w-full flex flex-col text-gray-800">
@@ -527,18 +605,48 @@ const NavbarContent = () => {
               />
             </Link>
 
-            {/* Links Desktop */}
-            <div className="hidden xl:flex items-center gap-4 2xl:gap-5 font-semibold text-xs 2xl:text-sm">
-
-              <Link href="/startups" className="text-gray-700 hover:text-violet-700 transition-colors">
-                Negocios
+            {/* Links Desktop - Apenas visíveis em telas maiores (desktop) */}
+            <div className="hidden lg:flex items-center gap-4 xl:gap-6 font-semibold text-xs xl:text-sm">
+              <Link
+                href="/"
+                className={`transition-colors ${pathname === "/" ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
+              >
+                Oportunidades
               </Link>
-
-              <Link href="/roadmaps" className="text-gray-700 hover:text-violet-700 transition-colors">
+              <Link
+                href="/events"
+                className={`transition-colors ${pathname.startsWith("/events") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
+              >
+                Eventos
+              </Link>
+              <Link
+                href="/bolsas"
+                className={`transition-colors ${pathname.startsWith("/bolsas") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
+              >
+                Bolsas
+              </Link>
+              <Link
+                href="/community"
+                className={`transition-colors ${pathname.startsWith("/community") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
+              >
+                Comunidades
+              </Link>
+              <Link
+                href="/startups"
+                className={`transition-colors ${pathname.startsWith("/startups") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
+              >
+                Startups
+              </Link>
+              <Link
+                href="/roadmaps"
+                className={`transition-colors ${pathname.startsWith("/roadmaps") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
+              >
                 Formações
               </Link>
-
-              <Link href="/sobre" className="text-gray-700 hover:text-violet-700 transition-colors">
+              <Link
+                href="/sobre"
+                className={`transition-colors ${pathname.startsWith("/sobre") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
+              >
                 Sobre
               </Link>
             </div>
@@ -549,7 +657,7 @@ const NavbarContent = () => {
             <HeaderSearch />
           </div>
 
-          {/* 3. Ponta da Direita: Perfil / Ações de Login + Botão Hambúrguer (2 linhas) */}
+          {/* 3. Ponta da Direita: Perfil / Ações de Login + Botão Hambúrguer (exclusivo para telas menores) */}
           <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             <div className="relative">
               <button
@@ -561,7 +669,7 @@ const NavbarContent = () => {
                     setUserDropdown(!userDropdown);
                   }
                 }}
-                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-sm font-semibold rounded-lg text-gray-700 hover:text-violet-700 hover:bg-gray-100/70 transition focus:outline-none"
+                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-sm font-semibold rounded-lg text-gray-700 hover:text-violet-700 hover:bg-gray-100/70 transition focus:outline-none cursor-pointer"
                 aria-label="Perfil"
               >
                 {isLoggedIn && profilePhoto ? (
@@ -604,7 +712,7 @@ const NavbarContent = () => {
                       <span>O meu perfil</span>
                     </Link>
 
-                    <button type="button" onClick={handleCopyShareLink} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition-colors flex items-center gap-2.5">
+                    <button type="button" onClick={handleCopyShareLink} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition-colors flex items-center gap-2.5 cursor-pointer">
                       <LinkIcon className="w-4 h-4 text-violet-600" />
                       <span>{shareLinkCopied ? "✓ Copiado!" : "Partilhar perfil"}</span>
                     </button>
@@ -621,7 +729,7 @@ const NavbarContent = () => {
 
                     {/* Zona de Perigo / Sair */}
                     <div className="border-t border-gray-100 mt-2 pt-2">
-                      <button type="button" onClick={handleLogout} className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors">
+                      <button type="button" onClick={handleLogout} className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors cursor-pointer">
                         <LogOut className="w-4 h-4" />
                         <span>Terminar sessão</span>
                       </button>
@@ -633,109 +741,260 @@ const NavbarContent = () => {
             </div>
           </div>
 
-            {/* Botão Hambúrguer (com duas linhas ao invés de três linhas) */}
+            {/* Botão Hambúrguer - EXCLUSIVO PARA TELAS MENORES (lg:hidden, nunca visível em telas maiores) */}
             <button
               type="button"
               onClick={() => setOpenMenu(!openMenu)}
-              className="p-1.5 sm:p-2 text-gray-700 hover:text-gray-950 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none flex items-center justify-center"
-              aria-label={openMenu ? "Fechar menu" : "Abrir menu"}
+              className="lg:hidden p-1.5 sm:p-2 text-gray-700 hover:text-gray-950 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none flex items-center justify-center cursor-pointer"
+              aria-label={openMenu ? "Fechar menu de navegação" : "Abrir menu de navegação"}
             >
-              {openMenu ? (
-                <X className="w-5 h-5 text-gray-800" />
-              ) : (
-                <svg
-                  className="w-5 h-5 text-gray-800"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <line x1="4" y1="8.5" x2="20" y2="8.5" />
-                  <line x1="4" y1="15.5" x2="20" y2="15.5" />
-                </svg>
-              )}
+              <svg
+                className="w-5 h-5 text-gray-800"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <line x1="4" y1="8.5" x2="20" y2="8.5" />
+                <line x1="4" y1="15.5" x2="20" y2="15.5" />
+              </svg>
             </button>
           </div>
         </nav>
 
-        {/* Menu Expandido Mobile */}
-        {openMenu && (
-          <div className="xl:hidden absolute top-full left-0 w-full bg-white/98 backdrop-blur-md shadow-xl z-[45] border-b border-gray-200 animate-in slide-in-from-top duration-300">
-            <div className="px-6 py-6 space-y-6 max-h-[calc(100vh-5rem)] overflow-y-auto">
+        {/* =============================================================
+            MENU LATERAL (DRAWER) DIREITO - VEM DA DIREITA COMO EM APPS MÓVEIS
+            Exclusivo para telas menores (lg:hidden)
+           ============================================================= */}
+        {/* 1. Backdrop escuro com blur */}
+        <div
+          className={`fixed inset-0 bg-black/60 backdrop-blur-xs z-[70] lg:hidden transition-opacity duration-300 ${
+            openMenu ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          }`}
+          onClick={closeMobileMenu}
+          aria-hidden="true"
+        />
 
-              {/* Links Principais Rápidos */}
-              <div className="space-y-1.5">
-                <MobileLink label="Explorar Oportunidades" href="/" onClick={closeMobileMenu} />
-                <MobileLink label="Eventos & Meetups" href="/events" onClick={closeMobileMenu} />
-                <MobileLink label="Bolsas de Estudo" href="/bolsas" onClick={closeMobileMenu} />
-                <MobileLink label="Comunidades Tech" href="/community" onClick={closeMobileMenu} />
-                <MobileLink label="Startups & Inovação" href="/startups" onClick={closeMobileMenu} />
-                <MobileLink label="Roadmaps de Carreira" href="/roadmaps" onClick={closeMobileMenu} />
-                <MobileLink label="Sobre Nós" href="/sobre" onClick={closeMobileMenu} />
-              </div>
+        {/* 2. Gaveta lateral direita com animação de slide-in suave */}
+        <aside
+          className={`fixed top-0 right-0 bottom-0 z-[80] w-[86vw] max-w-sm sm:max-w-md bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-out lg:hidden ${
+            openMenu ? "translate-x-0" : "translate-x-full"
+          }`}
+          aria-label="Menu de navegação móvel"
+          aria-hidden={!openMenu}
+        >
+          {/* Topo do Drawer: Logo + Botão Fechar */}
+          <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 bg-white shrink-0">
+            <Link
+              href="/"
+              onClick={closeMobileMenu}
+              className="flex items-center gap-2 focus:outline-none"
+            >
+              <Image
+                src="/logo.png"
+                alt="ADN Developer"
+                width={120}
+                height={34}
+                className="h-7 w-auto object-contain"
+                referrerPolicy="no-referrer"
+              />
+            </Link>
 
-              {/* Divisor sutil */}
-              <div className="border-t border-gray-200 pt-4">
-                <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3 px-3">
-                  Explorar Categorias
-                </p>
-
-                {/* Grid de Subcategorias para Mobile */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  <Link
-                    href="/community"
-                    onClick={closeMobileMenu}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition"
-                  >
-                    <Users className="w-4 h-4 text-violet-600 shrink-0" />
-                    <span className="text-sm font-medium">Comunidades</span>
-                  </Link>
-
-                  <Link
-                    href="/events"
-                    onClick={closeMobileMenu}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition"
-                  >
-                    <Calendar className="w-4 h-4 text-violet-600 shrink-0" />
-                    <span className="text-sm font-medium">Eventos</span>
-                  </Link>
-
-                  <Link
-                    href="/roadmaps"
-                    onClick={closeMobileMenu}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition"
-                  >
-                    <Map className="w-4 h-4 text-violet-600 shrink-0" />
-                    <span className="text-sm font-medium">RoadMaps</span>
-                  </Link>
-
-                  <Link
-                    href="/bolsas"
-                    onClick={closeMobileMenu}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition"
-                  >
-                    <GraduationCap className="w-4 h-4 text-violet-600 shrink-0" />
-                    <span className="text-sm font-medium">Formações</span>
-                  </Link>
-
-                  <Link
-                    href="/startups"
-                    onClick={closeMobileMenu}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gray-50 border border-gray-200 text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition"
-                  >
-                    <Rocket className="w-4 h-4 text-violet-600 shrink-0" />
-                    <span className="text-sm font-medium">Para Startups</span>
-                  </Link>
-
-                </div>
-              </div>
-
-            </div>
+            <button
+              type="button"
+              onClick={closeMobileMenu}
+              className="p-2 rounded-full text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors cursor-pointer"
+              aria-label="Fechar menu lateral"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
-        )}
+
+          {/* Conteúdo com rolagem independente */}
+          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-5">
+            {/* Card de Usuário / Sessão no Mobile */}
+            {isLoggedIn ? (
+              <div className="p-3.5 rounded-2xl bg-violet-50/70 border border-violet-100 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  {profilePhoto ? (
+                    <img
+                      src={profilePhoto}
+                      alt="Foto"
+                      className="w-10 h-10 rounded-full object-cover border-2 border-violet-300 shadow-xs shrink-0"
+                      referrerPolicy="no-referrer"
+                      onError={() => setProfilePhoto(null)}
+                    />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full bg-violet-200 text-violet-800 flex items-center justify-center font-bold text-sm shrink-0">
+                      {((user as any)?.username || user?.name || "U").slice(0, 2).toUpperCase()}
+                    </div>
+                  )}
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold text-gray-900 truncate">
+                      {(user as any)?.username || user?.name || "Utilizador"}
+                    </p>
+                    <p className="text-xs text-gray-500 truncate">{email}</p>
+                  </div>
+                </div>
+
+                <Link
+                  href="/profile"
+                  onClick={closeMobileMenu}
+                  className="px-3 py-1.5 rounded-lg bg-violet-700 text-white text-xs font-semibold hover:bg-violet-800 transition shrink-0"
+                >
+                  Perfil
+                </Link>
+              </div>
+            ) : (
+              <div className="p-4 rounded-2xl bg-gradient-to-br from-violet-50 via-purple-50 to-white border border-violet-100 shadow-2xs">
+                <p className="text-xs font-bold uppercase tracking-wider text-violet-700 mb-1">
+                  Comunidade Lusófona
+                </p>
+                <p className="text-xs text-gray-600 mb-3">
+                  Acesse sua conta para interagir, salvar oportunidades e fazer networking.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    closeMobileMenu();
+                    setLoginModal(true);
+                  }}
+                  className="w-full py-2.5 px-4 rounded-xl bg-violet-700 hover:bg-violet-800 text-white font-bold text-xs transition shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <UserIcon className="w-4 h-4" />
+                  <span>Entrar ou Criar Conta</span>
+                </button>
+              </div>
+            )}
+
+            {/* Links Principais de Navegação */}
+            <div className="space-y-1">
+              <p className="px-3 text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1.5">
+                Navegação
+              </p>
+
+              <MobileNavLink
+                label="Explorar Oportunidades"
+                href="/"
+                icon={Compass}
+                isActive={pathname === "/"}
+                onClick={closeMobileMenu}
+              />
+
+              <MobileNavLink
+                label="Eventos & Meetups"
+                href="/events"
+                icon={Calendar}
+                isActive={pathname.startsWith("/events")}
+                onClick={closeMobileMenu}
+              />
+
+              <MobileNavLink
+                label="Bolsas de Estudo"
+                href="/bolsas"
+                icon={GraduationCap}
+                isActive={pathname.startsWith("/bolsas")}
+                onClick={closeMobileMenu}
+              />
+
+              <MobileNavLink
+                label="Comunidades Tech"
+                href="/community"
+                icon={Users}
+                isActive={pathname.startsWith("/community")}
+                onClick={closeMobileMenu}
+              />
+
+              <MobileNavLink
+                label="Startups & Inovação"
+                href="/startups"
+                icon={Rocket}
+                isActive={pathname.startsWith("/startups")}
+                onClick={closeMobileMenu}
+              />
+
+              <MobileNavLink
+                label="Formações & Roadmaps"
+                href="/roadmaps"
+                icon={Map}
+                isActive={pathname.startsWith("/roadmaps")}
+                onClick={closeMobileMenu}
+              />
+
+              <MobileNavLink
+                label="Pesquisar Conteúdo"
+                href="/pesquisa"
+                icon={Search}
+                isActive={pathname.startsWith("/pesquisa")}
+                onClick={closeMobileMenu}
+              />
+
+              <MobileNavLink
+                label="Sobre Nós"
+                href="/sobre"
+                icon={Info}
+                isActive={pathname.startsWith("/sobre")}
+                onClick={closeMobileMenu}
+              />
+            </div>
+
+            {/* Ações de perfil adicionais se autenticado */}
+            {isLoggedIn && (
+              <div className="pt-3 border-t border-gray-100 space-y-1">
+                <button
+                  type="button"
+                  onClick={handleCopyShareLink}
+                  className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold text-gray-700 hover:text-violet-700 hover:bg-gray-100/70 transition cursor-pointer"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-600 shrink-0">
+                      <LinkIcon className="w-4 h-4" />
+                    </span>
+                    <span>{shareLinkCopied ? "✓ Link copiado!" : "Partilhar perfil"}</span>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-red-600 hover:bg-red-50 hover:text-red-700 transition cursor-pointer"
+                >
+                  <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-100 text-red-600 shrink-0">
+                    <LogOut className="w-4 h-4" />
+                  </span>
+                  <span>Terminar sessão</span>
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Rodapé do Drawer */}
+          <div className="p-4 border-t border-gray-100 bg-gray-50/70 shrink-0">
+            <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
+              <Link
+                href="/termos-de-uso"
+                onClick={closeMobileMenu}
+                className="hover:text-violet-700 transition"
+              >
+                Termos de Uso
+              </Link>
+              <span>•</span>
+              <Link
+                href="/politicas-de-privacidade"
+                onClick={closeMobileMenu}
+                className="hover:text-violet-700 transition"
+              >
+                Privacidade
+              </Link>
+            </div>
+            <p className="text-[11px] text-gray-400 text-center">
+              ADN Developer &copy; {new Date().getFullYear()} • Lusofonia Tech
+            </p>
+          </div>
+        </aside>
       </header>
     </div>
   );
