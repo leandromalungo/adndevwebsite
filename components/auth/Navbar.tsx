@@ -764,238 +764,242 @@ const NavbarContent = () => {
             </button>
           </div>
         </nav>
+      </header>
 
-        {/* =============================================================
-            MENU LATERAL (DRAWER) DIREITO - VEM DA DIREITA COMO EM APPS MÓVEIS
-            Exclusivo para telas menores (lg:hidden)
-           ============================================================= */}
-        {/* 1. Backdrop escuro com blur */}
-        <div
-          className={`fixed inset-0 bg-black/60 backdrop-blur-xs z-[70] lg:hidden transition-opacity duration-300 ${
-            openMenu ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-          }`}
-          onClick={closeMobileMenu}
-          aria-hidden="true"
-        />
+      {/* =============================================================
+          MENU LATERAL (DRAWER) DIREITO - FORA DO HEADER (VIEWPORT REAL)
+          Fixa à janela global (h-dvh, w-[86vw] max-w-sm) com fundo branco 100% opaco
+         ============================================================= */}
+      {/* 1. Backdrop escuro com blur cobrindo a viewport inteira */}
+      <div
+        className={`fixed inset-0 z-[90] bg-black/60 backdrop-blur-xs lg:hidden transition-opacity duration-300 ${
+          openMenu ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={closeMobileMenu}
+        aria-hidden="true"
+      />
 
-        {/* 2. Gaveta lateral direita com animação de slide-in suave */}
-        <aside
-          className={`fixed top-0 right-0 bottom-0 z-[80] w-[86vw] max-w-sm sm:max-w-md bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-out lg:hidden ${
-            openMenu ? "translate-x-0" : "translate-x-full"
-          }`}
-          aria-label="Menu de navegação móvel"
-          aria-hidden={!openMenu}
-        >
-          {/* Topo do Drawer: Logo + Botão Fechar */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 bg-white shrink-0">
-            <Link
-              href="/"
-              onClick={closeMobileMenu}
-              className="flex items-center gap-2 focus:outline-none"
-            >
-              <Image
-                src="/logo.png"
-                alt="ADN Developer"
-                width={120}
-                height={34}
-                className="h-7 w-auto object-contain"
-                referrerPolicy="no-referrer"
-              />
-            </Link>
+      {/* 2. Gaveta lateral direita com animação de slide-in suave e altura total da tela */}
+      <aside
+        className={`fixed inset-y-0 right-0 z-[100] w-[86vw] max-w-sm sm:max-w-md h-dvh min-h-dvh bg-white text-gray-900 shadow-2xl flex flex-col transition-transform duration-300 ease-out border-l border-gray-200 lg:hidden ${
+          openMenu ? "translate-x-0" : "translate-x-full pointer-events-none"
+        }`}
+        style={{ backgroundColor: "#ffffff" }}
+        aria-label="Menu de navegação móvel"
+        aria-hidden={!openMenu}
+      >
+        {/* Topo do Drawer: Logo + Botão Fechar */}
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 bg-white shrink-0">
+          <Link
+            href="/"
+            onClick={closeMobileMenu}
+            className="flex items-center gap-2 focus:outline-none"
+          >
+            <Image
+              src="/logo.png"
+              alt="ADN Developer"
+              width={125}
+              height={36}
+              className="h-7 sm:h-8 w-auto object-contain"
+              referrerPolicy="no-referrer"
+            />
+          </Link>
 
-            <button
-              type="button"
-              onClick={closeMobileMenu}
-              className="p-2 rounded-full text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors cursor-pointer"
-              aria-label="Fechar menu lateral"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={closeMobileMenu}
+            className="p-2 rounded-full text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
+            aria-label="Fechar menu lateral"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
 
-          {/* Conteúdo com rolagem independente */}
-          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-5">
-            {/* Card de Usuário / Sessão no Mobile */}
-            {isLoggedIn ? (
-              <div className="p-3.5 rounded-2xl bg-violet-50/70 border border-violet-100 flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3 min-w-0">
-                  {profilePhoto ? (
-                    <img
-                      src={profilePhoto}
-                      alt="Foto"
-                      className="w-10 h-10 rounded-full object-cover border-2 border-violet-300 shadow-xs shrink-0"
-                      referrerPolicy="no-referrer"
-                      onError={() => setProfilePhoto(null)}
-                    />
-                  ) : (
-                    <div className="w-10 h-10 rounded-full bg-violet-200 text-violet-800 flex items-center justify-center font-bold text-sm shrink-0">
-                      {((user as any)?.username || user?.name || "U").slice(0, 2).toUpperCase()}
-                    </div>
-                  )}
-                  <div className="min-w-0">
-                    <p className="text-sm font-bold text-gray-900 truncate">
-                      {(user as any)?.username || user?.name || "Utilizador"}
-                    </p>
-                    <p className="text-xs text-gray-500 truncate">{email}</p>
+        {/* Conteúdo com rolagem independente e fundo branco opaco */}
+        <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 space-y-5 bg-white">
+          {/* Card de Usuário / Sessão no Mobile */}
+          {isLoggedIn ? (
+            <div className="p-3.5 rounded-2xl bg-violet-50 border border-violet-100 flex items-center justify-between gap-3 shadow-2xs">
+              <div className="flex items-center gap-3 min-w-0">
+                {profilePhoto ? (
+                  <img
+                    src={profilePhoto}
+                    alt="Foto"
+                    className="w-10 h-10 rounded-full object-cover border-2 border-violet-300 shadow-xs shrink-0"
+                    referrerPolicy="no-referrer"
+                    onError={() => setProfilePhoto(null)}
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-violet-200 text-violet-800 flex items-center justify-center font-bold text-sm shrink-0">
+                    {((user as any)?.username || user?.name || "U").slice(0, 2).toUpperCase()}
                   </div>
+                )}
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-gray-900 truncate">
+                    {(user as any)?.username || user?.name || "Utilizador"}
+                  </p>
+                  <p className="text-xs text-gray-500 truncate">{email}</p>
                 </div>
-
-                <Link
-                  href="/profile"
-                  onClick={closeMobileMenu}
-                  className="px-3 py-1.5 rounded-lg bg-violet-700 text-white text-xs font-semibold hover:bg-violet-800 transition shrink-0"
-                >
-                  Perfil
-                </Link>
               </div>
-            ) : (
-              <div className="p-4 rounded-2xl bg-gradient-to-br from-violet-50 via-purple-50 to-white border border-violet-100 shadow-2xs">
-                <p className="text-xs font-bold uppercase tracking-wider text-violet-700 mb-1">
+
+              <Link
+                href="/profile"
+                onClick={closeMobileMenu}
+                className="px-3 py-1.5 rounded-lg bg-violet-700 text-white text-xs font-semibold hover:bg-violet-800 transition shrink-0"
+              >
+                Perfil
+              </Link>
+            </div>
+          ) : (
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50 border border-violet-100 shadow-2xs">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="w-2 h-2 rounded-full bg-violet-600" />
+                <p className="text-xs font-bold uppercase tracking-wider text-violet-800">
                   Comunidade Lusófona
                 </p>
-                <p className="text-xs text-gray-600 mb-3">
-                  Acesse sua conta para interagir, salvar oportunidades e fazer networking.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    closeMobileMenu();
-                    setLoginModal(true);
-                  }}
-                  className="w-full py-2.5 px-4 rounded-xl bg-violet-700 hover:bg-violet-800 text-white font-bold text-xs transition shadow-xs flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <UserIcon className="w-4 h-4" />
-                  <span>Entrar ou Criar Conta</span>
-                </button>
               </div>
-            )}
-
-            {/* Links Principais de Navegação */}
-            <div className="space-y-1">
-              <p className="px-3 text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1.5">
-                Navegação
+              <p className="text-xs text-gray-600 mb-3.5 leading-relaxed">
+                Inicie sessão para pesquisar, aceder aos detalhes das oportunidades e conectar-se.
               </p>
-
-              <MobileNavLink
-                label="Explorar Oportunidades"
-                href="/"
-                icon={Compass}
-                isActive={pathname === "/"}
-                onClick={closeMobileMenu}
-              />
-
-              <MobileNavLink
-                label="Eventos & Meetups"
-                href="/events"
-                icon={Calendar}
-                isActive={pathname.startsWith("/events")}
-                onClick={closeMobileMenu}
-              />
-
-              <MobileNavLink
-                label="Bolsas de Estudo"
-                href="/bolsas"
-                icon={GraduationCap}
-                isActive={pathname.startsWith("/bolsas")}
-                onClick={closeMobileMenu}
-              />
-
-              <MobileNavLink
-                label="Comunidades Tech"
-                href="/community"
-                icon={Users}
-                isActive={pathname.startsWith("/community")}
-                onClick={closeMobileMenu}
-              />
-
-              <MobileNavLink
-                label="Startups & Inovação"
-                href="/startups"
-                icon={Rocket}
-                isActive={pathname.startsWith("/startups")}
-                onClick={closeMobileMenu}
-              />
-
-              <MobileNavLink
-                label="Formações & Roadmaps"
-                href="/roadmaps"
-                icon={Map}
-                isActive={pathname.startsWith("/roadmaps")}
-                onClick={closeMobileMenu}
-              />
-
-              <MobileNavLink
-                label="Pesquisar Conteúdo"
-                href="/pesquisa"
-                icon={Search}
-                isActive={pathname.startsWith("/pesquisa")}
-                onClick={closeMobileMenu}
-              />
-
-              <MobileNavLink
-                label="Sobre Nós"
-                href="/sobre"
-                icon={Info}
-                isActive={pathname.startsWith("/sobre")}
-                onClick={closeMobileMenu}
-              />
-            </div>
-
-            {/* Ações de perfil adicionais se autenticado */}
-            {isLoggedIn && (
-              <div className="pt-3 border-t border-gray-100 space-y-1">
-                <button
-                  type="button"
-                  onClick={handleCopyShareLink}
-                  className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold text-gray-700 hover:text-violet-700 hover:bg-gray-100/70 transition cursor-pointer"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-600 shrink-0">
-                      <LinkIcon className="w-4 h-4" />
-                    </span>
-                    <span>{shareLinkCopied ? "✓ Link copiado!" : "Partilhar perfil"}</span>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleLogout}
-                  className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-red-600 hover:bg-red-50 hover:text-red-700 transition cursor-pointer"
-                >
-                  <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-100 text-red-600 shrink-0">
-                    <LogOut className="w-4 h-4" />
-                  </span>
-                  <span>Terminar sessão</span>
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Rodapé do Drawer */}
-          <div className="p-4 border-t border-gray-100 bg-gray-50/70 shrink-0">
-            <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
-              <Link
-                href="/termos-de-uso"
-                onClick={closeMobileMenu}
-                className="hover:text-violet-700 transition"
+              <button
+                type="button"
+                onClick={() => {
+                  closeMobileMenu();
+                  setLoginModal(true);
+                }}
+                className="w-full py-2.5 px-4 rounded-xl bg-violet-700 hover:bg-violet-800 text-white font-bold text-xs transition shadow-xs flex items-center justify-center gap-2 cursor-pointer active:scale-98"
               >
-                Termos de Uso
-              </Link>
-              <span>•</span>
-              <Link
-                href="/politicas-de-privacidade"
-                onClick={closeMobileMenu}
-                className="hover:text-violet-700 transition"
-              >
-                Privacidade
-              </Link>
+                <UserIcon className="w-4 h-4" />
+                <span>Entrar ou Criar Conta</span>
+              </button>
             </div>
-            <p className="text-[11px] text-gray-400 text-center">
-              ADN Developer &copy; {new Date().getFullYear()} • Lusofonia Tech
+          )}
+
+          {/* Links Principais de Navegação */}
+          <div className="space-y-1">
+            <p className="px-3 text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1.5">
+              Navegação
             </p>
+
+            <MobileNavLink
+              label="Explorar Oportunidades"
+              href="/"
+              icon={Compass}
+              isActive={pathname === "/"}
+              onClick={closeMobileMenu}
+            />
+
+            <MobileNavLink
+              label="Eventos & Meetups"
+              href="/events"
+              icon={Calendar}
+              isActive={pathname.startsWith("/events")}
+              onClick={closeMobileMenu}
+            />
+
+            <MobileNavLink
+              label="Bolsas de Estudo"
+              href="/bolsas"
+              icon={GraduationCap}
+              isActive={pathname.startsWith("/bolsas")}
+              onClick={closeMobileMenu}
+            />
+
+            <MobileNavLink
+              label="Comunidades Tech"
+              href="/community"
+              icon={Users}
+              isActive={pathname.startsWith("/community")}
+              onClick={closeMobileMenu}
+            />
+
+            <MobileNavLink
+              label="Startups & Inovação"
+              href="/startups"
+              icon={Rocket}
+              isActive={pathname.startsWith("/startups")}
+              onClick={closeMobileMenu}
+            />
+
+            <MobileNavLink
+              label="Formações & Roadmaps"
+              href="/roadmaps"
+              icon={Map}
+              isActive={pathname.startsWith("/roadmaps")}
+              onClick={closeMobileMenu}
+            />
+
+            <MobileNavLink
+              label="Pesquisar Conteúdo"
+              href="/pesquisa"
+              icon={Search}
+              isActive={pathname.startsWith("/pesquisa")}
+              onClick={closeMobileMenu}
+            />
+
+            <MobileNavLink
+              label="Sobre Nós"
+              href="/sobre"
+              icon={Info}
+              isActive={pathname.startsWith("/sobre")}
+              onClick={closeMobileMenu}
+            />
           </div>
-        </aside>
-      </header>
+
+          {/* Ações de perfil adicionais se autenticado */}
+          {isLoggedIn && (
+            <div className="pt-3 border-t border-gray-100 space-y-1">
+              <button
+                type="button"
+                onClick={handleCopyShareLink}
+                className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold text-gray-700 hover:text-violet-700 hover:bg-gray-100/70 transition cursor-pointer"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-600 shrink-0">
+                    <LinkIcon className="w-4 h-4" />
+                  </span>
+                  <span>{shareLinkCopied ? "✓ Link copiado!" : "Partilhar perfil"}</span>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-red-600 hover:bg-red-50 hover:text-red-700 transition cursor-pointer"
+              >
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-100 text-red-600 shrink-0">
+                  <LogOut className="w-4 h-4" />
+                </span>
+                <span>Terminar sessão</span>
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Rodapé do Drawer */}
+        <div className="p-4 border-t border-gray-100 bg-gray-50 shrink-0">
+          <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
+            <Link
+              href="/termos-de-uso"
+              onClick={closeMobileMenu}
+              className="hover:text-violet-700 transition"
+            >
+              Termos de Uso
+            </Link>
+            <span>•</span>
+            <Link
+              href="/politicas-de-privacidade"
+              onClick={closeMobileMenu}
+              className="hover:text-violet-700 transition"
+            >
+              Privacidade
+            </Link>
+          </div>
+          <p className="text-[11px] text-gray-400 text-center">
+            ADN Developer &copy; {new Date().getFullYear()} • Lusofonia Tech
+          </p>
+        </div>
+      </aside>
     </div>
   );
 };
