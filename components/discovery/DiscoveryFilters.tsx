@@ -1,17 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import {
-  Search,
   X,
   SlidersHorizontal,
   ChevronDown,
-  Globe,
-  MapPin,
-  Calendar,
-  Layers,
-  Sparkles,
-  Check,
+  ChevronLeft,
+  ChevronRight,
   RotateCcw,
 } from "lucide-react";
 import type {
@@ -29,7 +24,6 @@ import {
 } from "@/components/ui/dialog";
 
 export const CATEGORIES: { id: DiscoveryCategory; label: string; icon?: string }[] = [
-  { id: "todos", label: "Ver Todas" },
   { id: "eventos", label: "Eventos & Meetups" },
   { id: "hackathons", label: "Hackathons & Desafios" },
   { id: "bolsas", label: "Bolsas de Estudo" },
@@ -90,8 +84,11 @@ export function DiscoveryFilters({
   totalResults,
 }: DiscoveryFiltersProps) {
   const [mobileModalOpen, setMobileModalOpen] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
-  // Contagem de filtros ativos para badge móvel
+  // Contagem de filtros ativos para badge
   const activeFiltersCount = [
     selectedCategory !== "todos",
     selectedCountry !== "Todos",
@@ -101,9 +98,43 @@ export function DiscoveryFilters({
     Boolean(searchQuery.trim()),
   ].filter(Boolean).length;
 
+  // Verificação de capacidade de rolagem para habilitar/desabilitar setas
+  const checkScroll = useCallback(() => {
+    if (!scrollContainerRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+    setCanScrollLeft(scrollLeft > 6);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 6);
+  }, []);
+
+  useEffect(() => {
+    checkScroll();
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    container.addEventListener("scroll", checkScroll, { passive: true });
+    window.addEventListener("resize", checkScroll);
+
+    // Checagem adicional após montagem e carregamento de fontes
+    const timer = setTimeout(checkScroll, 200);
+
+    return () => {
+      clearTimeout(timer);
+      container.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, [checkScroll]);
+
+  // Função de rolagem suave com botões < e >
+  const handleScroll = (direction: "left" | "right") => {
+    if (!scrollContainerRef.current) return;
+    const scrollAmount = direction === "left" ? -240 : 240;
+    scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    setTimeout(checkScroll, 350);
+  };
+
   return (
-    <div className="w-full space-y-3">
-      {/* Indicador de Pesquisa Ativa do Header */}
+    <div className="w-full space-y-2.5">
+      {/* Indicador de Pesquisa Ativa */}
       {searchQuery && (
         <div className="flex items-center justify-between bg-violet-50/80 border border-violet-200/80 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-gray-700">
           <div className="flex items-center gap-2 min-w-0">
@@ -113,86 +144,132 @@ export function DiscoveryFilters({
           <button
             type="button"
             onClick={() => onSearchChange("")}
-            className="text-violet-700 hover:text-violet-900 font-medium hover:underline text-xs shrink-0 ml-2"
+            className="text-violet-700 hover:text-violet-900 font-medium hover:underline text-xs shrink-0 ml-2 cursor-pointer"
           >
             Limpar busca
           </button>
         </div>
       )}
 
-      {/* 2. Categorias e filtros avançados */}
-      <div className="flex items-center gap-1.5">
-        <details className="group relative hidden shrink-0 md:block">
-          <summary className="inline-flex cursor-pointer list-none items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-[11px] font-semibold text-gray-700 shadow-sm transition-colors hover:border-violet-300 hover:bg-violet-50/50 [&::-webkit-details-marker]:hidden">
-            <SlidersHorizontal className="h-3.5 w-3.5 text-violet-700" />
-            Filtros
-            <ChevronDown className="h-3.5 w-3.5 text-gray-400 transition-transform group-open:rotate-180" />
-          </summary>
-          <div className="absolute left-0 top-full z-30 mt-2 grid w-64 gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-lg">
-            <label className="grid gap-1.5 text-xs font-medium text-gray-700">
-              País
-              <select
-                value={selectedCountry}
-                onChange={(e) => onCountryChange(e.target.value)}
-                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-gray-700 focus:border-violet-600 focus:outline-none"
-                aria-label="Filtrar por país"
-              >
-                <option value="Todos">Todos os Países</option>
-                {COUNTRIES.filter((c) => c !== "Todos").map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-            </label>
+      {/* =========================================================================
+          BARRA ÚNICA: Botão Filtro + Seta Esquerda (<) + Categorias (sem scrollbar) + Seta Direita (>)
+          Tudo na mesma linha em telas pequenas e grandes, com nomes 100% visíveis
+          ========================================================================= */}
+      <div className="flex items-center gap-1.5 sm:gap-2 w-full">
+        {/* 1. Botão de Filtro na mesma linha */}
+        <div className="shrink-0">
+          {/* Desktop: dropdown avançado */}
+          <details className="group relative hidden md:block">
+            <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 sm:py-2 text-xs font-semibold text-gray-700 shadow-2xs transition-colors hover:border-violet-300 hover:bg-violet-50/50 [&::-webkit-details-marker]:hidden">
+              <SlidersHorizontal className="h-3.5 w-3.5 text-violet-700 shrink-0" />
+              <span>Filtros</span>
+              {activeFiltersCount > 0 && (
+                <span className="w-4 h-4 rounded-full bg-violet-700 text-white text-[10px] flex items-center justify-center font-bold">
+                  {activeFiltersCount}
+                </span>
+              )}
+              <ChevronDown className="h-3.5 w-3.5 text-gray-400 transition-transform group-open:rotate-180" />
+            </summary>
 
-            <label className="grid gap-1.5 text-xs font-medium text-gray-700">
-              Formato
-              <select
-                value={selectedFormat}
-                onChange={(e) => onFormatChange(e.target.value as DiscoveryFormat)}
-                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-gray-700 focus:border-violet-600 focus:outline-none"
-                aria-label="Filtrar por formato"
-              >
-                <option value="todos">Qualquer Formato</option>
-                <option value="online">Online</option>
-                <option value="presencial">Presencial</option>
-                <option value="hibrido">Híbrido</option>
-              </select>
-            </label>
+            <div className="absolute left-0 top-full z-40 mt-2 grid w-64 gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-xl">
+              <label className="grid gap-1.5 text-xs font-medium text-gray-700">
+                País
+                <select
+                  value={selectedCountry}
+                  onChange={(e) => onCountryChange(e.target.value)}
+                  className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-gray-700 focus:border-violet-600 focus:outline-none"
+                  aria-label="Filtrar por país"
+                >
+                  <option value="Todos">Todos os Países</option>
+                  {COUNTRIES.filter((c) => c !== "Todos").map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
+              </label>
 
-            <label className="grid gap-1.5 text-xs font-medium text-gray-700">
-              Estado
-              <select
-                value={selectedStatus}
-                onChange={(e) => onStatusChange(e.target.value as DiscoveryStatus)}
-                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-gray-700 focus:border-violet-600 focus:outline-none"
-                aria-label="Filtrar por estado"
-              >
-                <option value="todos">Todos os Estados</option>
-                <option value="ativos">Inscrições Abertas / Futuros</option>
-                <option value="encerrados">Encerrados / Passados</option>
-              </select>
-            </label>
+              <label className="grid gap-1.5 text-xs font-medium text-gray-700">
+                Formato
+                <select
+                  value={selectedFormat}
+                  onChange={(e) => onFormatChange(e.target.value as DiscoveryFormat)}
+                  className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-gray-700 focus:border-violet-600 focus:outline-none"
+                  aria-label="Filtrar por formato"
+                >
+                  <option value="todos">Qualquer Formato</option>
+                  <option value="online">Online</option>
+                  <option value="presencial">Presencial</option>
+                  <option value="hibrido">Híbrido</option>
+                </select>
+              </label>
 
-            <label className="grid gap-1.5 text-xs font-medium text-gray-700">
-              Valor
-              <select
-                value={selectedPrice}
-                onChange={(e) => onPriceChange(e.target.value as DiscoveryPrice)}
-                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-gray-700 focus:border-violet-600 focus:outline-none"
-                aria-label="Filtrar por gratuitidade"
-              >
-                <option value="todos">Qualquer Valor</option>
-                <option value="gratis">Gratuito</option>
-                <option value="pago">Pago</option>
-              </select>
-            </label>
-          </div>
-        </details>
+              <label className="grid gap-1.5 text-xs font-medium text-gray-700">
+                Estado
+                <select
+                  value={selectedStatus}
+                  onChange={(e) => onStatusChange(e.target.value as DiscoveryStatus)}
+                  className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-gray-700 focus:border-violet-600 focus:outline-none"
+                  aria-label="Filtrar por estado"
+                >
+                  <option value="todos">Todos os Estados</option>
+                  <option value="ativos">Inscrições Abertas / Futuros</option>
+                  <option value="encerrados">Encerrados / Passados</option>
+                </select>
+              </label>
 
+              <label className="grid gap-1.5 text-xs font-medium text-gray-700">
+                Valor
+                <select
+                  value={selectedPrice}
+                  onChange={(e) => onPriceChange(e.target.value as DiscoveryPrice)}
+                  className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-gray-700 focus:border-violet-600 focus:outline-none"
+                  aria-label="Filtrar por gratuitidade"
+                >
+                  <option value="todos">Qualquer Valor</option>
+                  <option value="gratis">Gratuito</option>
+                  <option value="pago">Pago</option>
+                </select>
+              </label>
+            </div>
+          </details>
+
+          {/* Mobile: abre modal completo de filtros */}
+          <button
+            type="button"
+            onClick={() => setMobileModalOpen(true)}
+            className="inline-flex md:hidden items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 shadow-2xs hover:bg-violet-50/50 hover:border-violet-300 transition-colors cursor-pointer"
+            aria-label="Abrir filtros"
+          >
+            <SlidersHorizontal className="h-3.5 w-3.5 text-violet-700 shrink-0" />
+            <span>Filtros</span>
+            {activeFiltersCount > 0 && (
+              <span className="w-4 h-4 rounded-full bg-violet-700 text-white text-[10px] flex items-center justify-center font-bold">
+                {activeFiltersCount}
+              </span>
+            )}
+          </button>
+        </div>
+
+        {/* 2. Botão de Avançar para a Esquerda (<) */}
+        <button
+          type="button"
+          onClick={() => handleScroll("left")}
+          disabled={!canScrollLeft}
+          className={`h-7 w-7 sm:h-8 sm:w-8 rounded-full border border-gray-200 bg-white text-gray-700 hover:bg-violet-50 hover:text-violet-700 hover:border-violet-300 shadow-2xs flex items-center justify-center shrink-0 transition-all cursor-pointer ${
+            !canScrollLeft
+              ? "opacity-35 cursor-not-allowed hover:bg-white hover:text-gray-700 hover:border-gray-200"
+              : "active:scale-95"
+          }`}
+          aria-label="Rolar categorias para a esquerda"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+
+        {/* 3. Container de Categorias: scroll horizontal sem scrollbar visível e nomes 100% visíveis */}
         <div
-          className="flex min-w-0 flex-1 flex-nowrap items-center gap-1"
+          ref={scrollContainerRef}
+          className="flex-1 min-w-0 overflow-x-auto scrollbar-none scroll-smooth flex items-center gap-1.5 sm:gap-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
           role="tablist"
           aria-label="Categorias de oportunidades"
         >
@@ -205,81 +282,65 @@ export function DiscoveryFilters({
                 aria-selected={isSelected}
                 aria-label={cat.label}
                 title={cat.label}
-                onClick={() => onCategoryChange(cat.id)}
-                className={`min-w-0 flex-1 overflow-hidden whitespace-nowrap px-1.5 py-1.5 rounded-full text-[9px] lg:text-[10px] font-semibold transition-all border ${
+                onClick={() => onCategoryChange(selectedCategory === cat.id ? "todos" : cat.id)}
+                className={`whitespace-nowrap shrink-0 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-full text-xs font-semibold transition-all border cursor-pointer select-none ${
                   isSelected
-                    ? "bg-violet-700 text-white border-violet-700 shadow-sm"
+                    ? "bg-violet-700 text-white border-violet-700 shadow-xs"
                     : "bg-white text-gray-700 border-gray-200 hover:border-violet-300 hover:bg-violet-50/50"
                 }`}
               >
-                <span className="block truncate">{cat.label}</span>
+                <span>{cat.label}</span>
               </button>
             );
           })}
         </div>
+
+        {/* 4. Botão de Avançar para a Direita (>) */}
+        <button
+          type="button"
+          onClick={() => handleScroll("right")}
+          disabled={!canScrollRight}
+          className={`h-7 w-7 sm:h-8 sm:w-8 rounded-full border border-gray-200 bg-white text-gray-700 hover:bg-violet-50 hover:text-violet-700 hover:border-violet-300 shadow-2xs flex items-center justify-center shrink-0 transition-all cursor-pointer ${
+            !canScrollRight
+              ? "opacity-35 cursor-not-allowed hover:bg-white hover:text-gray-700 hover:border-gray-200"
+              : "active:scale-95"
+          }`}
+          aria-label="Rolar categorias para a direita"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
       </div>
 
-      {/* 3. Barra Secundária de Filtros Avançados */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-1 border-t border-gray-100">
-        {/* Botão de Filtros no Mobile */}
-        <div className="flex md:hidden items-center gap-2 w-full justify-between">
+      {/* 3. Barra Secundária: Informações e Limpar Filtros */}
+      <div className="flex items-center justify-between gap-3 pt-1 text-xs text-gray-600">
+        <span className="font-semibold text-gray-800">
+          {totalResults} {totalResults === 1 ? "oportunidade" : "oportunidades"}
+        </span>
+
+        {hasActiveFilters ? (
           <button
             type="button"
-            onClick={() => setMobileModalOpen(true)}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-gray-200 bg-white text-xs font-semibold text-gray-800 shadow-sm"
+            onClick={onClearFilters}
+            className="inline-flex items-center gap-1 text-xs font-semibold text-violet-700 hover:text-violet-800 hover:underline transition-colors cursor-pointer"
           >
-            <SlidersHorizontal className="w-3.5 h-3.5 text-violet-700" />
-            Filtros
-            {activeFiltersCount > 0 ? (
-              <span className="ml-1 w-4 h-4 rounded-full bg-violet-700 text-white text-[10px] flex items-center justify-center font-bold">
-                {activeFiltersCount}
-              </span>
-            ) : null}
+            <RotateCcw className="w-3 h-3" />
+            Limpar filtros
           </button>
-
-          {hasActiveFilters ? (
-            <button
-              type="button"
-              onClick={onClearFilters}
-              className="text-xs font-semibold text-violet-700 hover:underline flex items-center gap-1"
-            >
-              <RotateCcw className="w-3 h-3" />
-              Limpar
-            </button>
-          ) : null}
-        </div>
-
-        {/* Contador de Resultados & Limpar Filtros (Desktop) */}
-        <div className="hidden md:flex items-center gap-3 text-xs text-gray-600">
-          <span className="font-semibold text-gray-800">
-            {totalResults} {totalResults === 1 ? "oportunidade" : "oportunidades"}
-          </span>
-
-          {hasActiveFilters ? (
-            <button
-              type="button"
-              onClick={onClearFilters}
-              className="inline-flex items-center gap-1 text-xs font-semibold text-violet-700 hover:text-violet-800 hover:underline transition-colors"
-            >
-              <RotateCcw className="w-3 h-3" />
-              Limpar filtros
-            </button>
-          ) : null}
-        </div>
+        ) : null}
       </div>
 
       {/* 4. Badges de Filtros Ativos (Removíveis individualmente) */}
       {hasActiveFilters ? (
-        <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
-          <span className="text-gray-500 font-medium">Filtros aplicados:</span>
+        <div className="flex flex-wrap items-center gap-2 pt-0.5 text-xs">
+          <span className="text-gray-500 font-medium text-[11px]">Filtros aplicados:</span>
 
           {searchQuery ? (
-            <span className="inline-flex items-center gap-1 bg-violet-50 text-violet-800 border border-violet-200 px-2.5 py-1 rounded-full font-medium">
+            <span className="inline-flex items-center gap-1 bg-violet-50 text-violet-800 border border-violet-200 px-2.5 py-0.5 rounded-full font-medium text-[11px]">
               Busca: &ldquo;{searchQuery}&rdquo;
               <button
                 type="button"
                 onClick={() => onSearchChange("")}
-                className="hover:text-violet-950 p-0.5 rounded-full"
+                className="hover:text-violet-950 p-0.5 rounded-full cursor-pointer"
                 aria-label="Remover busca"
               >
                 <X className="w-3 h-3" />
@@ -288,12 +349,12 @@ export function DiscoveryFilters({
           ) : null}
 
           {selectedCategory !== "todos" ? (
-            <span className="inline-flex items-center gap-1 bg-violet-50 text-violet-800 border border-violet-200 px-2.5 py-1 rounded-full font-medium">
-              {CATEGORIES.find((c) => c.id === selectedCategory)?.label}
+            <span className="inline-flex items-center gap-1 bg-violet-50 text-violet-800 border border-violet-200 px-2.5 py-0.5 rounded-full font-medium text-[11px]">
+              {CATEGORIES.find((c) => c.id === selectedCategory)?.label || selectedCategory}
               <button
                 type="button"
                 onClick={() => onCategoryChange("todos")}
-                className="hover:text-violet-950 p-0.5 rounded-full"
+                className="hover:text-violet-950 p-0.5 rounded-full cursor-pointer"
                 aria-label="Remover filtro de categoria"
               >
                 <X className="w-3 h-3" />
@@ -302,12 +363,12 @@ export function DiscoveryFilters({
           ) : null}
 
           {selectedCountry !== "Todos" ? (
-            <span className="inline-flex items-center gap-1 bg-violet-50 text-violet-800 border border-violet-200 px-2.5 py-1 rounded-full font-medium">
+            <span className="inline-flex items-center gap-1 bg-violet-50 text-violet-800 border border-violet-200 px-2.5 py-0.5 rounded-full font-medium text-[11px]">
               País: {selectedCountry}
               <button
                 type="button"
                 onClick={() => onCountryChange("Todos")}
-                className="hover:text-violet-950 p-0.5 rounded-full"
+                className="hover:text-violet-950 p-0.5 rounded-full cursor-pointer"
                 aria-label="Remover filtro de país"
               >
                 <X className="w-3 h-3" />
@@ -316,12 +377,12 @@ export function DiscoveryFilters({
           ) : null}
 
           {selectedFormat !== "todos" ? (
-            <span className="inline-flex items-center gap-1 bg-violet-50 text-violet-800 border border-violet-200 px-2.5 py-1 rounded-full font-medium">
+            <span className="inline-flex items-center gap-1 bg-violet-50 text-violet-800 border border-violet-200 px-2.5 py-0.5 rounded-full font-medium text-[11px]">
               Formato: {selectedFormat === "online" ? "Online" : selectedFormat === "presencial" ? "Presencial" : "Híbrido"}
               <button
                 type="button"
                 onClick={() => onFormatChange("todos")}
-                className="hover:text-violet-950 p-0.5 rounded-full"
+                className="hover:text-violet-950 p-0.5 rounded-full cursor-pointer"
                 aria-label="Remover filtro de formato"
               >
                 <X className="w-3 h-3" />
@@ -330,12 +391,12 @@ export function DiscoveryFilters({
           ) : null}
 
           {selectedStatus !== "todos" ? (
-            <span className="inline-flex items-center gap-1 bg-violet-50 text-violet-800 border border-violet-200 px-2.5 py-1 rounded-full font-medium">
+            <span className="inline-flex items-center gap-1 bg-violet-50 text-violet-800 border border-violet-200 px-2.5 py-0.5 rounded-full font-medium text-[11px]">
               Estado: {selectedStatus === "ativos" ? "Abertos" : "Encerrados"}
               <button
                 type="button"
                 onClick={() => onStatusChange("todos")}
-                className="hover:text-violet-950 p-0.5 rounded-full"
+                className="hover:text-violet-950 p-0.5 rounded-full cursor-pointer"
                 aria-label="Remover filtro de estado"
               >
                 <X className="w-3 h-3" />
@@ -344,12 +405,12 @@ export function DiscoveryFilters({
           ) : null}
 
           {selectedPrice !== "todos" ? (
-            <span className="inline-flex items-center gap-1 bg-violet-50 text-violet-800 border border-violet-200 px-2.5 py-1 rounded-full font-medium">
+            <span className="inline-flex items-center gap-1 bg-violet-50 text-violet-800 border border-violet-200 px-2.5 py-0.5 rounded-full font-medium text-[11px]">
               Custo: {selectedPrice === "gratis" ? "Gratuito" : "Pago"}
               <button
                 type="button"
                 onClick={() => onPriceChange("todos")}
-                className="hover:text-violet-950 p-0.5 rounded-full"
+                className="hover:text-violet-950 p-0.5 rounded-full cursor-pointer"
                 aria-label="Remover filtro de custo"
               >
                 <X className="w-3 h-3" />
@@ -404,7 +465,7 @@ export function DiscoveryFilters({
                     key={f.id}
                     type="button"
                     onClick={() => onFormatChange(f.id as DiscoveryFormat)}
-                    className={`p-2 rounded-lg border text-xs font-semibold text-center ${
+                    className={`p-2 rounded-lg border text-xs font-semibold text-center cursor-pointer ${
                       selectedFormat === f.id
                         ? "bg-violet-700 text-white border-violet-700"
                         : "bg-gray-50 text-gray-700 border-gray-200"
@@ -431,7 +492,7 @@ export function DiscoveryFilters({
                     key={s.id}
                     type="button"
                     onClick={() => onStatusChange(s.id as DiscoveryStatus)}
-                    className={`p-2 rounded-lg border text-xs font-semibold text-center ${
+                    className={`p-2 rounded-lg border text-xs font-semibold text-center cursor-pointer ${
                       selectedStatus === s.id
                         ? "bg-violet-700 text-white border-violet-700"
                         : "bg-gray-50 text-gray-700 border-gray-200"
@@ -458,7 +519,7 @@ export function DiscoveryFilters({
                     key={p.id}
                     type="button"
                     onClick={() => onPriceChange(p.id as DiscoveryPrice)}
-                    className={`p-2 rounded-lg border text-xs font-semibold text-center ${
+                    className={`p-2 rounded-lg border text-xs font-semibold text-center cursor-pointer ${
                       selectedPrice === p.id
                         ? "bg-violet-700 text-white border-violet-700"
                         : "bg-gray-50 text-gray-700 border-gray-200"
@@ -475,14 +536,14 @@ export function DiscoveryFilters({
             <button
               type="button"
               onClick={onClearFilters}
-              className="text-xs font-semibold text-gray-600 hover:text-gray-900"
+              className="text-xs font-semibold text-gray-600 hover:text-gray-900 cursor-pointer"
             >
               Limpar todos
             </button>
             <DialogClose asChild>
               <button
                 type="button"
-                className="bg-violet-700 hover:bg-violet-800 text-white text-xs font-bold px-5 py-2.5 rounded-lg"
+                className="bg-violet-700 hover:bg-violet-800 text-white text-xs font-bold px-5 py-2.5 rounded-lg cursor-pointer"
               >
                 Ver {totalResults} resultados
               </button>

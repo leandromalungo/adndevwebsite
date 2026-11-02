@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Search, SearchX, Sparkles, Filter, ArrowRight, RotateCcw } from "lucide-react";
+import { Search, SearchX, Sparkles, Filter, ArrowRight, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
 import { DiscoveryCard } from "@/components/discovery/DiscoveryCard";
 import type { DiscoveryItem, DiscoveryCategory } from "@/lib/discovery-data";
 
@@ -20,6 +20,36 @@ export function SearchResultsView({
   const router = useRouter();
   const [searchInput, setSearchInput] = useState(initialQuery);
   const [selectedCategory, setSelectedCategory] = useState<string>("todos");
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = useCallback(() => {
+    if (!scrollContainerRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+    setCanScrollLeft(scrollLeft > 6);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 6);
+  }, []);
+
+  useEffect(() => {
+    checkScroll();
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    container.addEventListener("scroll", checkScroll, { passive: true });
+    window.addEventListener("resize", checkScroll);
+    return () => {
+      container.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, [checkScroll]);
+
+  const handleScroll = (direction: "left" | "right") => {
+    if (!scrollContainerRef.current) return;
+    const scrollAmount = direction === "left" ? -240 : 240;
+    scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    setTimeout(checkScroll, 350);
+  };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -121,35 +151,60 @@ export function SearchResultsView({
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-        {/* Filtros em Abas por Categoria */}
-        {items.length > 0 && (
-          <div className="mb-8 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+        {/* Filtros em Abas por Categoria com Setas e sem scrollbar visível */}
+        {categoriesWithCounts.length > 0 && (
+          <div className="mb-8 flex items-center gap-1.5 sm:gap-2 w-full">
             <button
               type="button"
-              onClick={() => setSelectedCategory("todos")}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition shrink-0 cursor-pointer ${
-                selectedCategory === "todos"
-                  ? "bg-violet-700 text-white shadow-xs"
-                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200"
+              onClick={() => handleScroll("left")}
+              disabled={!canScrollLeft}
+              className={`h-7 w-7 sm:h-8 sm:w-8 rounded-full border border-gray-200 bg-white text-gray-700 hover:bg-violet-50 hover:text-violet-700 hover:border-violet-300 shadow-2xs flex items-center justify-center shrink-0 transition-all cursor-pointer ${
+                !canScrollLeft
+                  ? "opacity-35 cursor-not-allowed hover:bg-white hover:text-gray-700 hover:border-gray-200"
+                  : "active:scale-95"
               }`}
+              aria-label="Rolar categorias para a esquerda"
             >
-              Todos ({items.length})
+              <ChevronLeft className="w-4 h-4" />
             </button>
 
-            {categoriesWithCounts.map((cat) => (
-              <button
-                key={cat.key}
-                type="button"
-                onClick={() => setSelectedCategory(cat.key)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition shrink-0 cursor-pointer ${
-                  selectedCategory === cat.key
-                    ? "bg-violet-700 text-white shadow-xs"
-                    : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200"
-                }`}
-              >
-                {cat.label} ({cat.count})
-              </button>
-            ))}
+            <div
+              ref={scrollContainerRef}
+              className="flex-1 min-w-0 overflow-x-auto scrollbar-none scroll-smooth flex items-center gap-1.5 sm:gap-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            >
+              {categoriesWithCounts.map((cat) => {
+                const isSelected = selectedCategory === cat.key;
+                return (
+                  <button
+                    key={cat.key}
+                    type="button"
+                    onClick={() => setSelectedCategory(isSelected ? "todos" : cat.key)}
+                    className={`whitespace-nowrap shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold transition cursor-pointer select-none border ${
+                      isSelected
+                        ? "bg-violet-700 text-white border-violet-700 shadow-xs"
+                        : "bg-white text-gray-700 hover:bg-violet-50/50 hover:border-violet-300 border-gray-200"
+                    }`}
+                  >
+                    <span>{cat.label}</span>
+                    <span className="ml-1 opacity-80">({cat.count})</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => handleScroll("right")}
+              disabled={!canScrollRight}
+              className={`h-7 w-7 sm:h-8 sm:w-8 rounded-full border border-gray-200 bg-white text-gray-700 hover:bg-violet-50 hover:text-violet-700 hover:border-violet-300 shadow-2xs flex items-center justify-center shrink-0 transition-all cursor-pointer ${
+                !canScrollRight
+                  ? "opacity-35 cursor-not-allowed hover:bg-white hover:text-gray-700 hover:border-gray-200"
+                  : "active:scale-95"
+              }`}
+              aria-label="Rolar categorias para a direita"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
         )}
 
