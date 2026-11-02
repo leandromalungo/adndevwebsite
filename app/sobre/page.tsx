@@ -104,11 +104,11 @@ export default function SobrePage() {
         <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-50 text-violet-700 text-xs font-semibold uppercase tracking-wider mb-4 border border-violet-200">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 text-violet-700 text-xs font-semibold uppercase tracking-wider mb-4 border border-violet-200">
                 <Globe2 className="w-3.5 h-3.5" />
                 Quem Somos
               </span>
-              <h2 className="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-semibold uppercase text-gray-900 tracking-tight leading-tight">
                 A ponte tecnológica para toda a comunidade lusófona.
               </h2>
               <p className="mt-4 text-gray-600 text-base sm:text-lg leading-relaxed">
@@ -118,48 +118,32 @@ export default function SobrePage() {
                 Acreditamos que o talento não tem fronteiras geográficas. Quer estejas em Luanda, São Paulo, Lisboa, Maputo, Cidade da Praia, Bissau, São Tomé ou Díli, aqui encontras as ferramentas, bolsas, comunidades e roadmaps para acelerar a tua jornada na tecnologia.
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-4">
-                <Link
-                  href="/"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-violet-700 hover:bg-violet-800 text-white font-semibold text-sm shadow-sm transition-all"
-                >
-                  <Compass className="w-4 h-4" />
-                  Explorar Oportunidades
-                </Link>
-                <a
-                  href="mailto:geral.adndeveloper@gmail.com"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-gray-300 hover:bg-gray-50 text-gray-800 font-semibold text-sm transition-all"
-                >
-                  <Mail className="w-4 h-4" />
-                  Falar Connosco
-                </a>
-              </div>
             </div>
 
             {/* Metas & Impacto em Números */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-6 rounded-2xl bg-gray-50 border border-gray-200 shadow-sm text-center">
+              <div className="p-6 rounded bg-gray-50 border border-gray-200 shadow-sm text-center">
                 <Users2 className="w-8 h-8 text-violet-600 mx-auto mb-2" />
-                <p className="text-3xl font-black text-gray-900">10K+</p>
-                <p className="text-xs uppercase font-bold text-gray-500 mt-1">Devs & Membros</p>
+                <p className="text-3xl font-semibold text-gray-900">10K+</p>
+                <p className="text-xs uppercase text-gray-500 mt-1">Devs & Membros</p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-gray-50 border border-gray-200 shadow-sm text-center">
+              <div className="p-6 rounded bg-gray-50 border border-gray-200 shadow-sm text-center">
                 <Calendar className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                <p className="text-3xl font-black text-gray-900">1.000+</p>
-                <p className="text-xs uppercase font-bold text-gray-500 mt-1">Eventos & Meetups</p>
+                <p className="text-3xl font-semibold text-gray-900">1.000+</p>
+                <p className="text-xs uppercase text-gray-500 mt-1">Eventos & Meetups</p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-gray-50 border border-gray-200 shadow-sm text-center">
+              <div className="p-6 rounded bg-gray-50 border border-gray-200 shadow-sm text-center">
                 <GraduationCap className="w-8 h-8 text-emerald-600 mx-auto mb-2" />
-                <p className="text-3xl font-black text-gray-900">500+</p>
-                <p className="text-xs uppercase font-bold text-gray-500 mt-1">Bolsas & Formações</p>
+                <p className="text-3xl font-semibold text-gray-900">500+</p>
+                <p className="text-xs uppercase text-gray-500 mt-1">Bolsas & Formações</p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-gray-50 border border-gray-200 shadow-sm text-center">
+              <div className="p-6 rounded bg-gray-50 border border-gray-200 shadow-sm text-center">
                 <Rocket className="w-8 h-8 text-orange-600 mx-auto mb-2" />
-                <p className="text-3xl font-black text-gray-900">200+</p>
-                <p className="text-xs uppercase font-bold text-gray-500 mt-1">Startups & Hubs</p>
+                <p className="text-3xl font-semibold text-gray-900">200+</p>
+                <p className="text-xs uppercase text-gray-500 mt-1">Startups & Hubs</p>
               </div>
             </div>
           </div>
