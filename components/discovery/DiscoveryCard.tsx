@@ -72,7 +72,7 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
   };
 
   return (
-    <article className="group flex flex-col h-full bg-white rounded-xl border border-gray-200 shadow-xs hover:shadow-md hover:border-violet-300 transition-all duration-200 overflow-hidden">
+    <article className="group flex flex-col h-full bg-white rounded-xl border border-gray-200 hover:border-violet-300 transition-all duration-200 overflow-hidden">
       {/* Imagem de Capa */}
       <div className="relative w-full h-44 sm:h-48 bg-gray-100 overflow-hidden shrink-0">
         <Image
@@ -81,32 +81,13 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
           fill
           priority={priority}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          className="object-cover"
           onError={handleImageError}
           referrerPolicy="no-referrer"
         />
 
         {/* Gradiente sutil para legibilidade dos badges sobrepostos */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
-
-        {/* Badges do topo */}
-        <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 pointer-events-none">
-          {item.isExpired ? (
-            <span className="inline-flex items-center gap-1 rounded-full bg-red-600/90 text-white px-2.5 py-0.5 text-[11px] font-bold shadow-sm">
-              <Clock className="w-3 h-3" />
-              Encerrado
-            </span>
-          ) : item.isFree ? (
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-600/90 text-white px-2.5 py-0.5 text-[11px] font-bold shadow-sm">
-              <CheckCircle2 className="w-3 h-3" />
-              Gratuito
-            </span>
-          ) : (
-            <span className="inline-flex items-center gap-1 rounded-full bg-black/60 backdrop-blur-xs text-white px-2.5 py-0.5 text-[11px] font-medium shadow-sm">
-              {item.categoryLabel}
-            </span>
-          )}
-        </div>
 
         {/* Localização / País no canto inferior da imagem */}
         <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-white text-xs font-medium">
@@ -228,7 +209,6 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
                 aria-label={`Inicie sessão para ver mais sobre ${item.title}`}
                 title="Inicie sessão para ver detalhes da oportunidade"
               >
-                <Lock className="w-3.5 h-3.5 text-amber-600" />
                 <span>Ver mais</span>
               </button>
             )}

@@ -41,7 +41,7 @@ export default async function PesquisaPage({ searchParams }: PesquisaPageProps) 
       <div className="min-h-screen flex flex-col bg-[#fafbfc]">
         <Navbar />
         <main className="flex-1 max-w-2xl mx-auto px-4 py-24 text-center flex flex-col items-center justify-center">
-          <div className="w-16 h-16 rounded-3xl bg-amber-50 text-amber-600 flex items-center justify-center mb-5 border border-amber-200 shadow-sm">
+          <div className="w-16 h-16 rounded bg-amber-50 text-amber-600 flex items-center justify-center mb-5 border border-amber-200 shadow-sm">
             <Lock className="w-8 h-8" />
           </div>
           <span className="text-xs font-bold text-amber-700 bg-amber-50 px-3 py-1 rounded-full border border-amber-200 mb-3">

@@ -214,7 +214,7 @@ export function HeaderSearch() {
           {isLoading ? (
             <Loader2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-600 animate-spin shrink-0" />
           ) : !isLoggedIn ? (
-            <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600 shrink-0" strokeWidth={1.9} />
+            <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600 shrink-0" strokeWidth={1.9} />
           ) : (
             <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500 shrink-0" strokeWidth={1.9} />
           )}
@@ -265,7 +265,7 @@ export function HeaderSearch() {
           {isLoggedIn ? (
             <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" strokeWidth={2.2} />
           ) : (
-            <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-300" strokeWidth={2.2} />
+            <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-300" strokeWidth={2.2} />
           )}
         </button>
       </form>
@@ -274,15 +274,15 @@ export function HeaderSearch() {
          UI DE FEEDBACK / BLOQUEIO PARA USUÁRIO NÃO AUTENTICADO
          ============================================================= */}
       {isOpen && !isLoggedIn && (
-        <div className="absolute top-full mt-2.5 w-[calc(100vw-24px)] min-[380px]:w-[340px] sm:w-[420px] left-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-2xl border border-gray-200/90 p-5 z-50 animate-in fade-in zoom-in-95 duration-150 text-center">
+        <div className="absolute top-full mt-2.5 w-[calc(100vw-24px)] min-[380px]:w-[340px] sm:w-[420px] left-1/2 -translate-x-1/2 bg-white rounded shadow-2xl border border-gray-200/90 p-5 z-50 animate-in fade-in zoom-in-95 duration-150 text-center">
           <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-3 border border-amber-200 shadow-2xs">
             <Lock className="w-6 h-6" />
           </div>
           <h4 className="text-sm sm:text-base font-bold text-gray-900 mb-1.5">
-            Pesquisa Restrita a Membros
+            Crie uma conta e use todas as funcionalidades
           </h4>
           <p className="text-xs text-gray-600 mb-4 leading-relaxed">
-            Para pesquisar no banco de dados, acessar conteúdos e ver mais detalhes, é necessário iniciar sessão com a sua conta.
+            Para pesquisar, acessar conteúdos e ver mais detalhes, é necessário iniciar sessão com a sua conta.
           </p>
           <div className="flex flex-col gap-2">
             <button

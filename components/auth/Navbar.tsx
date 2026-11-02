@@ -442,7 +442,7 @@ const NavbarContent = () => {
 
               <div className="w-full overflow-y-auto p-5 sm:p-8 md:w-1/2 md:flex md:flex-col md:justify-center">
                 <div className="flex justify-center mb-2">
-                  <img src="/logoNavbar.png" alt="Logo Adn Developer" className="h-14 w-auto object-contain" />
+                  <img src="/logo.png" alt="Logo Adn Developer" className="h-14 w-auto object-contain" />
                 </div>
 
                 <h2 className="mb-1 mt-2 text-2xl text-center font-bold uppercase text-gray-800">
@@ -556,34 +556,7 @@ const NavbarContent = () => {
         </div>
       )}
 
-      {/* Welcome Modal */}
-      <Dialog open={showWelcomeDialog} onOpenChange={setShowWelcomeDialog}>
-        <DialogContent className="max-w-lg bg-white px-0 py-0 overflow-hidden">
-          <div className="relative h-48 w-full">
-            <img src="/welcome.jpg" alt="Bem-vindo" className="h-full w-full object-cover" />
-          </div>
-          <DialogHeader className="p-6 text-center">
-            <DialogTitle>
-              {welcomeMode === 'register' ? 'Conta criada com sucesso!' : `Bem-vindo${user?.name ? `, ${user.name}` : ''}!`}
-            </DialogTitle>
-            <DialogDescription>
-              {welcomeMode === 'register' ? 'Sua conta foi criada. Não esqueça de preencher o perfil.' : 'Sessão iniciada com sucesso.'}
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="flex flex-col gap-2 px-6 pb-6 pt-2">
-            <Link href="/profile" onClick={() => setShowWelcomeDialog(false)} className="w-full rounded-md bg-violet-700 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-600 text-center">
-              Ir para meu perfil
-            </Link>
-            <DialogClose className="w-full rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50">
-              Fechar
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <Suspense fallback={null}>
-        <AuthQueryHandler isLoggedIn={isLoggedIn} setLoginModal={setLoginModal} setIsRegistering={setIsRegistering} />
-      </Suspense>
+     
 
       {/* =============================================================
          Estrutura Principal do Header (Layout Baseado na Imagem)
@@ -608,34 +581,10 @@ const NavbarContent = () => {
             {/* Links Desktop - Apenas visíveis em telas maiores (desktop) */}
             <div className="hidden lg:flex items-center gap-4 xl:gap-6 font-semibold text-xs xl:text-sm">
               <Link
-                href="/"
-                className={`transition-colors ${pathname === "/" ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
-              >
-                Oportunidades
-              </Link>
-              <Link
-                href="/events"
-                className={`transition-colors ${pathname.startsWith("/events") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
-              >
-                Eventos
-              </Link>
-              <Link
-                href="/bolsas"
-                className={`transition-colors ${pathname.startsWith("/bolsas") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
-              >
-                Bolsas
-              </Link>
-              <Link
-                href="/community"
-                className={`transition-colors ${pathname.startsWith("/community") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
-              >
-                Comunidades
-              </Link>
-              <Link
                 href="/startups"
                 className={`transition-colors ${pathname.startsWith("/startups") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
               >
-                Startups
+                Negocios
               </Link>
               <Link
                 href="/roadmaps"
@@ -647,7 +596,7 @@ const NavbarContent = () => {
                 href="/sobre"
                 className={`transition-colors ${pathname.startsWith("/sobre") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
               >
-                Sobre
+                Sobre Nós
               </Link>
             </div>
           </div>
@@ -880,38 +829,6 @@ const NavbarContent = () => {
             <p className="px-3 text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-1.5">
               Navegação
             </p>
-
-            <MobileNavLink
-              label="Explorar Oportunidades"
-              href="/"
-              icon={Compass}
-              isActive={pathname === "/"}
-              onClick={closeMobileMenu}
-            />
-
-            <MobileNavLink
-              label="Eventos & Meetups"
-              href="/events"
-              icon={Calendar}
-              isActive={pathname.startsWith("/events")}
-              onClick={closeMobileMenu}
-            />
-
-            <MobileNavLink
-              label="Bolsas de Estudo"
-              href="/bolsas"
-              icon={GraduationCap}
-              isActive={pathname.startsWith("/bolsas")}
-              onClick={closeMobileMenu}
-            />
-
-            <MobileNavLink
-              label="Comunidades Tech"
-              href="/community"
-              icon={Users}
-              isActive={pathname.startsWith("/community")}
-              onClick={closeMobileMenu}
-            />
 
             <MobileNavLink
               label="Startups & Inovação"

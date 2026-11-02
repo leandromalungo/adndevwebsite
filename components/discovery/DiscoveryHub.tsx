@@ -344,7 +344,7 @@ export function DiscoveryHub() {
   return (
     <div className="min-h-screen bg-[#fafbfc] text-gray-900 pb-20 pt-16 sm:pt-16">
       {/* Barra de Filtros e Categorias */}
-      <section className="bg-white border-b border-gray-200/80 px-4 sm:px-6 lg:px-8 py-2 shadow-2xs">
+      <section className="bg-white px-4 sm:px-6 lg:px-8 py-2 shadow-2xs">
         <div className="max-w-7xl mx-auto">
           <DiscoveryFilters
             searchQuery={searchQuery}
@@ -370,43 +370,6 @@ export function DiscoveryHub() {
           3. ÁREA DE RESULTADOS & GRELHA DE CARTÕES
           ============================================================= */}
       <main id="discovery-results" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
-        {/* Cabeçalho da Lista */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-gray-200/80 mb-4">
-          <div>
-            <p className="text-xs sm:text-sm text-gray-500 mt-0.5">
-              A apresentar {filteredItems.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1}–
-              {Math.min(currentPage * ITEMS_PER_PAGE, filteredItems.length)} de {filteredItems.length} resultados encontrados
-            </p>
-          </div>
-
-          {/* Atalho de Navegação Especializada */}
-          <div className="flex items-center gap-2 text-xs font-semibold text-gray-600">
-            <span>Ver por área:</span>
-            <button
-              type="button"
-              onClick={() => handleCategoryChange("eventos")}
-              className="text-violet-700 hover:underline"
-            >
-              Eventos
-            </button>
-            <span>&bull;</span>
-            <button
-              type="button"
-              onClick={() => handleCategoryChange("bolsas")}
-              className="text-violet-700 hover:underline"
-            >
-              Bolsas
-            </button>
-            <span>&bull;</span>
-            <button
-              type="button"
-              onClick={() => handleCategoryChange("comunidades")}
-              className="text-violet-700 hover:underline"
-            >
-              Comunidades
-            </button>
-          </div>
-        </div>
 
         {/* Estado de Carregamento */}
         {isLoading ? (
@@ -459,9 +422,9 @@ export function DiscoveryHub() {
 
         {/* Banner de Acesso Exclusivo para Membros quando não autenticado */}
         {!isLoggedIn && (
-          <div className="mt-8 p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-violet-900 via-indigo-900 to-violet-950 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 border border-violet-800">
+          <div className="mt-8 p-5 sm:p-6 rounded bg-gradient-to-r from-violet-900 via-indigo-900 to-violet-950 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 border border-violet-800">
             <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
+              <div className="w-12 h-12 flex items-center justify-center shrink-0">
                 <Lock className="w-6 h-6 text-violet-200" />
               </div>
               <div>
