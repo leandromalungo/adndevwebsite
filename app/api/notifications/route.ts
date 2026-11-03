@@ -16,14 +16,16 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    const userId = session?.user?.id || session?.user?.email;
+
+    if (!userId) {
       return NextResponse.json(
         { error: "Sessão necessária para aceder às notificações." },
         { status: 401 }
       );
     }
 
-    const notifications = await getUserNotifications(session.user.id);
+    const notifications = await getUserNotifications(userId);
     const unreadCount = notifications.filter((n) => !n.isRead).length;
 
     return NextResponse.json({
@@ -46,7 +48,9 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    const userId = session?.user?.id || session?.user?.email;
+
+    if (!userId) {
       return NextResponse.json(
         { error: "Sessão necessária para gerir notificações." },
         { status: 401 }
@@ -57,13 +61,13 @@ export async function POST(req: NextRequest) {
     const action = body?.action;
 
     if (action === "markAllAsRead") {
-      await markAllNotificationsAsRead(session.user.id);
+      await markAllNotificationsAsRead(userId);
       return NextResponse.json({ success: true, message: "Todas marcadas como lidas." });
     }
 
     if (action === "markAsRead" && typeof body?.id === "string") {
       const cleanId = body.id.trim();
-      await markNotificationAsRead(session.user.id, cleanId);
+      await markNotificationAsRead(userId, cleanId);
       return NextResponse.json({ success: true, id: cleanId });
     }
 

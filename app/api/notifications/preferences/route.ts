@@ -16,14 +16,16 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    const userId = session?.user?.id || session?.user?.email;
+
+    if (!userId) {
       return NextResponse.json(
         { error: "Sessão necessária para aceder às preferências de notificações." },
         { status: 401 }
       );
     }
 
-    const preferences = await getUserNotificationPreferences(session.user.id);
+    const preferences = await getUserNotificationPreferences(userId);
     return NextResponse.json({
       success: true,
       preferences,
@@ -43,7 +45,9 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    const userId = session?.user?.id || session?.user?.email;
+
+    if (!userId) {
       return NextResponse.json(
         { error: "Sessão necessária para atualizar preferências." },
         { status: 401 }
@@ -78,7 +82,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const updated = await updateUserNotificationPreferences(session.user.id, sanitizedPrefs);
+    const updated = await updateUserNotificationPreferences(userId, sanitizedPrefs);
 
     return NextResponse.json({
       success: true,

@@ -17,7 +17,11 @@ import {
 } from "lucide-react";
 import { useFavorites } from "./FavoritesContext";
 import { DiscoveryCard } from "@/components/discovery/DiscoveryCard";
-import type { DiscoveryItem } from "@/lib/discovery-data";
+import {
+  getAllDiscoveryItems,
+  getDiscoveryItemById,
+  type DiscoveryItem,
+} from "@/lib/discovery-data";
 import { CardGridSkeleton } from "@/components/cards/CardSkeleton";
 
 export function FavoritesView() {
@@ -26,23 +30,22 @@ export function FavoritesView() {
   const isLoggedIn = status === "authenticated" && !!session?.user;
   const { favoriteIds, isLoading: isContextLoading } = useFavorites();
 
-  const [items, setItems] = useState<DiscoveryItem[]>([]);
-  const [isLoadingItems, setIsLoadingItems] = useState(true);
+  const [serverItems, setServerItems] = useState<DiscoveryItem[]>([]);
+  const [isLoadingServerItems, setIsLoadingServerItems] = useState(false);
   const [searchFilter, setSearchFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string>("todos");
 
-  // Busca os itens detalhados dos favoritos
+  // Carrega itens dinâmicos do servidor para complementar os estáticos
   useEffect(() => {
     let isMounted = true;
 
-    async function loadFavoriteItems() {
-      if (!isLoggedIn) {
-        setIsLoadingItems(false);
-        setItems([]);
+    async function loadServerItems() {
+      if (!isLoggedIn || favoriteIds.length === 0) {
+        setServerItems([]);
         return;
       }
 
-      setIsLoadingItems(true);
+      setIsLoadingServerItems(true);
       try {
         const res = await fetch("/api/favorites?full=true", {
           headers: { Accept: "application/json" },
@@ -50,30 +53,55 @@ export function FavoritesView() {
         if (res.ok) {
           const data = await res.json();
           if (isMounted && Array.isArray(data.items)) {
-            setItems(data.items);
+            setServerItems(data.items);
           }
         }
       } catch {
         // Falha silenciosa
       } finally {
         if (isMounted) {
-          setIsLoadingItems(false);
+          setIsLoadingServerItems(false);
         }
       }
     }
 
-    loadFavoriteItems();
+    loadServerItems();
 
     return () => {
       isMounted = false;
     };
-  }, [isLoggedIn, favoriteIds]);
+  }, [isLoggedIn, favoriteIds.length]);
+
+  // Resolução combinada de itens: catálogo consolidado + dados dinâmicos do servidor
+  const resolvedItems = useMemo(() => {
+    const catalog = getAllDiscoveryItems();
+    const map = new Map<string, DiscoveryItem>();
+
+    // 1. Catálogo local sincronizado
+    catalog.forEach((it) => map.set(it.id, it));
+
+    // 2. Itens dinâmicos vindos do servidor
+    serverItems.forEach((it) => map.set(it.id, it));
+
+    // Mapear cada ID favorito para o seu respetivo item
+    const list: DiscoveryItem[] = [];
+    const seenIds = new Set<string>();
+
+    for (const id of favoriteIds) {
+      if (seenIds.has(id)) continue;
+      const found = map.get(id) || getDiscoveryItemById(id);
+      if (found) {
+        list.push(found);
+        seenIds.add(id);
+      }
+    }
+
+    return list;
+  }, [favoriteIds, serverItems]);
 
   // Filtra itens com base na pesquisa local e na categoria
   const filteredItems = useMemo(() => {
-    return items.filter((item) => {
-      if (!favoriteIds.includes(item.id)) return false;
-
+    return resolvedItems.filter((item) => {
       if (categoryFilter !== "todos" && item.category !== categoryFilter) {
         return false;
       }
@@ -86,7 +114,7 @@ export function FavoritesView() {
 
       return true;
     });
-  }, [items, favoriteIds, categoryFilter, searchFilter]);
+  }, [resolvedItems, categoryFilter, searchFilter]);
 
   // 1. Estado: Carregando Sessão
   if (status === "loading") {
@@ -190,10 +218,10 @@ export function FavoritesView() {
               Todos ({totalFavs})
             </button>
 
-            {Array.from(new Set(items.map((i) => i.category))).map((cat) => {
-              const count = items.filter((i) => i.category === cat && favoriteIds.includes(i.id)).length;
+            {Array.from(new Set(resolvedItems.map((i) => i.category))).map((cat) => {
+              const count = resolvedItems.filter((i) => i.category === cat).length;
               if (count === 0) return null;
-              const sample = items.find((i) => i.category === cat);
+              const sample = resolvedItems.find((i) => i.category === cat);
               return (
                 <button
                   key={cat}
@@ -214,7 +242,7 @@ export function FavoritesView() {
       )}
 
       {/* Conteúdo Principal */}
-      {isLoadingItems || isContextLoading ? (
+      {isContextLoading && totalFavs === 0 ? (
         <CardGridSkeleton count={8} />
       ) : totalFavs === 0 ? (
         /* Estado Vazio: Nenhum Favorito Salvo */

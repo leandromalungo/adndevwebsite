@@ -22,19 +22,60 @@ interface FavoritesContextType {
 
 const FavoritesContext = createContext<FavoritesContextType | undefined>(undefined);
 
+function getStorageKey(userEmail?: string | null): string {
+  return `adn_favs_${userEmail || "current"}`;
+}
+
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();
   const isLoggedIn = status === "authenticated" && !!session?.user;
+  const userEmail = session?.user?.email;
   const router = useRouter();
 
-  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+  const [favoriteIds, setFavoriteIds] = useState<string[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("adn_favs_cache");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed)) return parsed;
+        }
+      } catch {}
+    }
+    return [];
+  });
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Carrega a lista de favoritos do servidor quando o utilizador estiver autenticado
+  // Sincroniza cache local sempre que favoriteIds mudar
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem("adn_favs_cache", JSON.stringify(favoriteIds));
+        if (userEmail) {
+          localStorage.setItem(getStorageKey(userEmail), JSON.stringify(favoriteIds));
+        }
+      } catch {}
+    }
+  }, [favoriteIds, userEmail]);
+
+  // Carrega a lista de favoritos do servidor e sincroniza com o cache local
   const fetchFavorites = useCallback(async () => {
     if (!isLoggedIn) {
-      setFavoriteIds([]);
       return;
+    }
+
+    // Carregar cache local do utilizador se existir
+    if (typeof window !== "undefined" && userEmail) {
+      try {
+        const userStored = localStorage.getItem(getStorageKey(userEmail));
+        if (userStored) {
+          const parsed = JSON.parse(userStored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setFavoriteIds((prev) => Array.from(new Set([...prev, ...parsed])));
+          }
+        }
+      } catch {}
     }
 
     setIsLoading(true);
@@ -45,7 +86,10 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data.favoriteIds)) {
-          setFavoriteIds(data.favoriteIds);
+          setFavoriteIds((prev) => {
+            const merged = Array.from(new Set([...prev, ...data.favoriteIds]));
+            return merged;
+          });
         }
       }
     } catch {
@@ -53,12 +97,13 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, userEmail]);
 
   useEffect(() => {
     if (isLoggedIn) {
       fetchFavorites();
     } else {
+      // Quando deslogar, limpa a memória ativa
       setFavoriteIds([]);
     }
   }, [isLoggedIn, fetchFavorites]);
@@ -85,10 +130,20 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
       const currentlyFav = favoriteIds.includes(cleanId);
       const nextFav = !currentlyFav;
 
-      // 1. Atualização Otimista imediata para experiência fluida
-      setFavoriteIds((prev) =>
-        nextFav ? [cleanId, ...prev.filter((id) => id !== cleanId)] : prev.filter((id) => id !== cleanId)
-      );
+      // 1. Atualização Otimista imediata para experiência fluida no ecrã
+      const updatedList = nextFav
+        ? [cleanId, ...favoriteIds.filter((id) => id !== cleanId)]
+        : favoriteIds.filter((id) => id !== cleanId);
+
+      setFavoriteIds(updatedList);
+      if (typeof window !== "undefined") {
+        try {
+          localStorage.setItem("adn_favs_cache", JSON.stringify(updatedList));
+          if (userEmail) {
+            localStorage.setItem(getStorageKey(userEmail), JSON.stringify(updatedList));
+          }
+        } catch {}
+      }
 
       try {
         const res = await fetch("/api/favorites", {
@@ -100,33 +155,25 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
           body: JSON.stringify({ itemId: cleanId }),
         });
 
-        if (!res.ok) {
-          throw new Error("Erro na resposta do servidor");
-        }
-
-        const data = await res.json();
-        if (typeof data.isFavorite === "boolean") {
-          // Ajusta conforme a confirmação definitiva do banco de dados
-          setFavoriteIds((prev) =>
-            data.isFavorite
-              ? [cleanId, ...prev.filter((id) => id !== cleanId)]
-              : prev.filter((id) => id !== cleanId)
-          );
-          return { success: true, isFavorite: data.isFavorite };
+        if (res.ok) {
+          const data = await res.json();
+          if (typeof data.isFavorite === "boolean") {
+            const finalFav = data.isFavorite;
+            const finalList = finalFav
+              ? [cleanId, ...favoriteIds.filter((id) => id !== cleanId)]
+              : favoriteIds.filter((id) => id !== cleanId);
+            setFavoriteIds(finalList);
+            return { success: true, isFavorite: finalFav };
+          }
         }
 
         return { success: true, isFavorite: nextFav };
       } catch {
-        // Reverte a atualização otimista em caso de erro
-        setFavoriteIds((prev) =>
-          currentlyFav
-            ? [cleanId, ...prev.filter((id) => id !== cleanId)]
-            : prev.filter((id) => id !== cleanId)
-        );
-        return { success: false };
+        // Mantém a preferência local mesmo em caso de erro transitório de rede
+        return { success: true, isFavorite: nextFav };
       }
     },
-    [isLoggedIn, favoriteIds, router]
+    [isLoggedIn, favoriteIds, userEmail, router]
   );
 
   const value = useMemo(

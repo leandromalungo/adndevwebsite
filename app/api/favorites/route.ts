@@ -18,7 +18,9 @@ export const dynamic = "force-dynamic";
 export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    const userId = session?.user?.id || session?.user?.email;
+
+    if (!userId) {
       return NextResponse.json(
         { error: "Sessão necessária para aceder aos favoritos." },
         { status: 401 }
@@ -29,7 +31,7 @@ export async function GET(req: NextRequest) {
     const wantFull = searchParams.get("full") === "true";
 
     if (wantFull) {
-      const items = await getUserFavoriteItems(session.user.id);
+      const items = await getUserFavoriteItems(userId);
       return NextResponse.json({
         success: true,
         items,
@@ -37,7 +39,7 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    const favoriteIds = await getUserFavoriteIds(session.user.id);
+    const favoriteIds = await getUserFavoriteIds(userId);
     return NextResponse.json({
       success: true,
       favoriteIds,
@@ -59,7 +61,9 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    const userId = session?.user?.id || session?.user?.email;
+
+    if (!userId) {
       return NextResponse.json(
         { error: "Inicie sessão para guardar conteúdos como favoritos." },
         { status: 401 }
@@ -76,7 +80,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const result = await toggleFavorite(session.user.id, sanitizedId);
+    const result = await toggleFavorite(userId, sanitizedId);
 
     return NextResponse.json({
       success: true,
