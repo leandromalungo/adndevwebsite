@@ -204,8 +204,6 @@ export function HeaderSearch() {
         <div className="flex items-center gap-2 flex-1 min-w-0">
           {isLoading ? (
             <Loader2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-600 animate-spin shrink-0" />
-          ) : !isLoggedIn ? (
-            <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600 shrink-0" strokeWidth={1.9} />
           ) : (
             <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500 shrink-0" strokeWidth={1.9} />
           )}
@@ -226,7 +224,7 @@ export function HeaderSearch() {
               }
             }}
             onKeyDown={handleKeyDown}
-            placeholder={isLoggedIn ? "Pesquisar..." : "Inicie sessão para pesquisar..."}
+            placeholder="Pesquisar..."
             className="w-full bg-transparent text-xs sm:text-sm text-gray-800 placeholder:text-gray-500 outline-none border-none focus:ring-0 p-0"
             aria-label="Campo de pesquisa da plataforma"
             aria-expanded={isOpen}
@@ -249,15 +247,11 @@ export function HeaderSearch() {
         {/* Botão com ícone de busca / lupa (Leva à página de resultados ou ao login se não autenticado) */}
         <button
           type="submit"
-          aria-label={isLoggedIn ? "Pesquisar e ver resultados completos" : "Iniciar sessão para pesquisar"}
-          title={isLoggedIn ? "Pesquisar" : "Inicie sessão para pesquisar"}
+          aria-label="Pesquisar"
+          title="Pesquisar"
           className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#18181b] hover:bg-black text-white flex items-center justify-center shrink-0 ml-1.5 transition-transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-black/20 cursor-pointer"
         >
-          {isLoggedIn ? (
-            <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" strokeWidth={2.2} />
-          ) : (
-            <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-300" strokeWidth={2.2} />
-          )}
+          <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" strokeWidth={2.2} />
         </button>
       </form>
 

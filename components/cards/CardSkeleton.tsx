@@ -5,18 +5,20 @@ export function CardSkeleton({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "flex flex-col h-full rounded-2xl border border-violet-500/10 overflow-hidden bg-white shadow-lg",
+        "relative w-full h-52 sm:h-56 rounded-xl overflow-hidden bg-gray-200 animate-pulse flex flex-col justify-between p-3 sm:p-3.5",
         className
       )}
       aria-hidden
     >
-      <Skeleton className="h-44 sm:h-48 w-full rounded-none" />
-      <div className="p-4 sm:p-5 flex flex-col flex-1 gap-3">
-        <Skeleton className="h-5 w-4/5" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-2/3" />
-        <div className="mt-auto pt-3 border-t border-gray-100">
-          <Skeleton className="h-9 w-full rounded-lg" />
+      <div className="flex items-center justify-between">
+        <Skeleton className="h-5 w-24 rounded-full bg-gray-300" />
+        <Skeleton className="h-4 w-16 rounded-full bg-gray-300" />
+      </div>
+      <div className="mt-auto flex flex-col gap-2">
+        <Skeleton className="h-5 w-4/5 rounded bg-gray-300" />
+        <div className="flex items-center justify-between pt-1 border-t border-gray-300/40">
+          <Skeleton className="h-4 w-24 rounded bg-gray-300" />
+          <Skeleton className="h-6 w-16 rounded-md bg-gray-300" />
         </div>
       </div>
     </div>

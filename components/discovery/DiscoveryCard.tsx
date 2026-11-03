@@ -35,85 +35,98 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
   const getFormatBadge = () => {
     if (item.format === "online") {
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-700 border border-emerald-200">
-          <Globe className="w-3 h-3" />
+        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/85 backdrop-blur-md px-2 py-0.5 text-[10px] font-semibold text-white border border-emerald-400/30 shadow-xs">
+          <Globe className="w-2.5 h-2.5" />
           Online
         </span>
       );
     }
     if (item.format === "hibrido") {
       return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-cyan-50 px-2 py-0.5 text-[11px] font-medium text-cyan-700 border border-cyan-200">
-          <Sparkles className="w-3 h-3" />
+        <span className="inline-flex items-center gap-1 rounded-full bg-cyan-500/85 backdrop-blur-md px-2 py-0.5 text-[10px] font-semibold text-white border border-cyan-400/30 shadow-xs">
+          <Sparkles className="w-2.5 h-2.5" />
           Híbrido
         </span>
       );
     }
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-700 border border-gray-200">
-        <MapPin className="w-3 h-3" />
+      <span className="inline-flex items-center gap-1 rounded-full bg-black/45 backdrop-blur-md px-2 py-0.5 text-[10px] font-semibold text-white/95 border border-white/20 shadow-xs">
+        <MapPin className="w-2.5 h-2.5" />
         Presencial
       </span>
     );
   };
 
+  const handleActionClick = (e: React.MouseEvent) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      router.push("/?auth=login");
+    }
+  };
+
   return (
-    <article className="group flex flex-col h-full bg-white rounded-xl">
-   
-      {/* Imagem de Capa */}
-      <div className="relative w-full h-44 sm:h-48 bg-gray-100 overflow-hidden shrink-0">
-        <Image
-          src={imgSrc}
-          alt={item.title}
-          fill
-          priority={priority}
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover rounded-xl"
-          onError={handleImageError}
-          referrerPolicy="no-referrer"
-        />
+    <article className="group relative w-full h-52 sm:h-56 rounded-xl overflow-hidden bg-gray-900 border border-gray-200/80 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between p-3 sm:p-3.5">
+      {/* Imagem de Capa que preenche todo o card */}
+      <Image
+        src={imgSrc}
+        alt={item.title}
+        fill
+        priority={priority}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+        className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+        onError={handleImageError}
+        referrerPolicy="no-referrer"
+      />
 
-        {/* Gradiente sutil para legibilidade dos badges sobrepostos */}
-        <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
+      {/* Gradiente uniforme de alta legibilidade para todo o conteúdo sobreposto */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/30 pointer-events-none" />
 
+      {/* Topo do Card: Organizador e Badge de Formato */}
+      <div className="relative z-10 flex items-center justify-between gap-2">
         {/* Organizador */}
-        <div className="absolute bottom-2.5 left-3 right-3 flex items-center gap-2 min-w-0">
+        <div className="flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-2 py-1 rounded-full border border-white/15 max-w-[65%] min-w-0 shadow-xs">
           {item.organizerLogo ? (
             <img
               src={item.organizerLogo}
               alt={item.organizer || "Organização"}
-              className="w-5 h-5 rounded-full object-cover border border-gray-200 shrink-0"
+              className="w-4 h-4 rounded-full object-cover shrink-0"
               onError={(e) => {
                 (e.target as HTMLElement).style.display = "none";
               }}
             />
           ) : (
-            <div className="w-5 h-5 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-[10px] font-bold shrink-0">
+            <div className="w-4 h-4 rounded-full bg-violet-600 text-white flex items-center justify-center text-[9px] font-bold shrink-0">
               {item.organizer?.charAt(0) || "A"}
             </div>
           )}
           <span
-            className="text-xs text-gray-100 truncate max-w-[95px] sm:max-w-[120px] font-medium"
-            title={item.organizer || "Ver Organizador"}
+            className="text-[11px] font-medium text-white/95 truncate"
+            title={item.organizer || "Organizador"}
           >
-            {item.organizer || "Ver Organizador"}
+            {item.organizer || "Organizador"}
           </span>
         </div>
 
-        {/* Título com Link para a Página de Detalhes (protegido por autenticação) */}
-        <h3 className="absolute bottom-2.5 left-3 right-3 text-base sm:text-lg font-semibold text-gray-100 line-clamp-2 leading-snug">
+        {/* Badge de Formato (Online, Presencial, Híbrido) */}
+        <div className="shrink-0">{getFormatBadge()}</div>
+      </div>
+
+      {/* Base do Card: Título, Localização e Botão "Ver mais" */}
+      <div className="relative z-10 mt-auto flex flex-col gap-2 pt-2">
+        {/* Título com Link protegido por autenticação */}
+        <h3 className="text-sm sm:text-base font-semibold text-white line-clamp-2 leading-snug drop-shadow-xs">
           {isLoggedIn ? (
             <Link
               href={`/oportunidades/${encodeURIComponent(item.id)}`}
-              className="hover:text-violet-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 rounded"
+              className="hover:text-violet-200 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white rounded"
             >
               {item.title}
             </Link>
           ) : (
             <button
               type="button"
-              onClick={() => router.push("/?auth=login")}
-              className="text-left font-bold hover:text-violet-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 rounded cursor-pointer"
+              onClick={handleActionClick}
+              className="text-left font-semibold hover:text-violet-200 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white rounded cursor-pointer"
               title="Inicie sessão para ver detalhes"
             >
               {item.title}
@@ -121,66 +134,48 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
           )}
         </h3>
 
-      </div>
-
-      {/* Corpo do Card */}
-      <div className="flex flex-col flex-1 p-4 sm:p-5">
-
-        {/* Descrição curta */}
-        <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 leading-relaxed mb-1 flex-1">
-          {item.description}
-        </p>
-
-        {/* Localização / País no canto inferior da imagem */}
-        <div className=" flex items-center justify-between text-white text-xs font-medium">
-          <div className="flex items-center text-gray-600 gap-1.5 drop-shadow">
-            <MapPin className="w-3.5 h-3.5 text-violet-500 shrink-0" />
-            <span className="truncate max-w-[200px]">
-              {item.location || item.country}
-            </span>
-          </div>
-          {item.membersCount ? (
-            <div className="flex items-center gap-1 drop-shadow bg-black/40 px-2 py-0.5 rounded-full text-[11px]">
-              <Users className="w-3 h-3 text-violet-300" />
-              <span>{item.membersCount} membros</span>
+        {/* Rodapé: Localização/Membros e Botão "Ver mais" */}
+        <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/10">
+          <div className="flex items-center gap-2 text-white/85 text-[11px] font-medium min-w-0">
+            <div className="flex items-center gap-1 truncate">
+              <MapPin className="w-3 h-3 text-violet-300 shrink-0" />
+              <span className="truncate max-w-[130px] sm:max-w-[160px]">
+                {item.location || item.country || "Geral"}
+              </span>
             </div>
-          ) : null}
-        </div>
+            {item.membersCount ? (
+              <div className="hidden min-[400px]:flex items-center gap-1 text-white/70 shrink-0">
+                <Users className="w-3 h-3 text-violet-300" />
+                <span>{item.membersCount}</span>
+              </div>
+            ) : null}
+          </div>
 
-        {/* Rodapé do Cartão com Ação Única: Apenas "Ver mais" */}
-        <div className="pt-3 border-t border-gray-100 flex items-center justify-between mt-auto mb-3 gap-2">
-
-          {/* Botão de Ação Único: APENAS "Ver mais" (botão Aceder removido) */}
-          <div className="flex items-center shrink-0">
+          {/* Botão Único: APENAS "Ver mais" */}
+          <div className="shrink-0">
             {isLoggedIn ? (
               <Link
                 href={`/oportunidades/${encodeURIComponent(item.id)}`}
-                className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold 
-                rounded-lg bg-gray-100 hover:bg-violet-700 text-gray-800 hover:text-white border border-gray-400 
-                hover:border-violet-700 transition-all focus-visible:outline-none focus-visible:ring-2 
-                focus-visible:ring-violet-600 active:scale-95 cursor-pointer shadow-2xs"
+                className="inline-flex items-center justify-center gap-1 px-2.5 py-1 text-[11px] font-semibold rounded-md bg-white hover:bg-violet-700 text-gray-900 hover:text-white transition-all shadow-xs active:scale-95 cursor-pointer"
                 aria-label={`Ver mais sobre ${item.title}`}
               >
                 <span>Ver mais</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3 h-3" />
               </Link>
             ) : (
               <button
                 type="button"
-                onClick={() => router.push("/?auth=login")}
-                className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold 
-                rounded-lg bg-gray-100 hover:bg-violet-100 text-gray-700 hover:text-violet-800 border border-gray-400 
-                hover:border-violet-300 transition-all focus-visible:outline-none focus-visible:ring-2 
-                focus-visible:ring-violet-600 active:scale-95 cursor-pointer shadow-2xs"
+                onClick={handleActionClick}
+                className="inline-flex items-center justify-center gap-1 px-2.5 py-1 text-[11px] font-semibold rounded-md bg-white hover:bg-violet-700 text-gray-900 hover:text-white transition-all shadow-xs active:scale-95 cursor-pointer"
                 aria-label={`Inicie sessão para ver mais sobre ${item.title}`}
-                title="Inicie sessão para ver detalhes da oportunidade"
+                title="Inicie sessão para ver detalhes"
               >
                 <span>Ver mais</span>
+                <ArrowRight className="w-3 h-3" />
               </button>
             )}
           </div>
         </div>
-
       </div>
     </article>
   );
