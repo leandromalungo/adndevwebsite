@@ -4,9 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Globe, MapPin, Users, Sparkles, ArrowRight } from "lucide-react";
+import { Globe, MapPin, Users, Sparkles, ArrowRight, Heart } from "lucide-react";
 import type { DiscoveryItem } from "@/lib/discovery-data";
 import { useState } from "react";
+import { useFavorites } from "@/components/favorites/FavoritesContext";
 
 interface DiscoveryCardProps {
   item: DiscoveryItem;
@@ -17,7 +18,11 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
   const router = useRouter();
   const { data: session } = useSession();
   const isLoggedIn = !!session;
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const isFav = isFavorite(item.id);
+
   const [imgSrc, setImgSrc] = useState(item.imageUrl || "/images-events.webp");
+  const [isSavingFav, setIsSavingFav] = useState(false);
 
   // Fallback visual para imagens quebradas ou indisponíveis
   const handleImageError = () => {
@@ -64,6 +69,22 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
     }
   };
 
+  const handleFavoriteClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!isLoggedIn) {
+      router.push("/?auth=login");
+      return;
+    }
+    if (isSavingFav) return;
+    setIsSavingFav(true);
+    try {
+      await toggleFavorite(item.id);
+    } finally {
+      setIsSavingFav(false);
+    }
+  };
+
   return (
     <article className="group relative w-full h-52 sm:h-56 rounded-xl overflow-hidden bg-gray-900 border border-gray-200/80 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between p-3 sm:p-3.5">
       {/* Imagem de Capa que preenche todo o card */}
@@ -81,10 +102,10 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
       {/* Gradiente uniforme de alta legibilidade para todo o conteúdo sobreposto */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/30 pointer-events-none" />
 
-      {/* Topo do Card: Organizador e Badge de Formato */}
+      {/* Topo do Card: Organizador, Badge de Formato e Botão de Coração (Favoritos) */}
       <div className="relative z-10 flex items-center justify-between gap-2">
         {/* Organizador */}
-        <div className="flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-2 py-1 rounded-full border border-white/15 max-w-[65%] min-w-0 shadow-xs">
+        <div className="flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-2 py-1 rounded-full border border-white/15 max-w-[55%] min-w-0 shadow-xs">
           {item.organizerLogo ? (
             <img
               src={item.organizerLogo}
@@ -107,8 +128,37 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
           </span>
         </div>
 
-        {/* Badge de Formato (Online, Presencial, Híbrido) */}
-        <div className="shrink-0">{getFormatBadge()}</div>
+        {/* Canto direito superior: Badge de Formato + Botão de Coração */}
+        <div className="shrink-0 flex items-center gap-1.5">
+          {getFormatBadge()}
+
+          {/* Botão de Coração (Favoritos) Seguro */}
+          <button
+            type="button"
+            onClick={handleFavoriteClick}
+            disabled={isSavingFav}
+            className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center transition-all cursor-pointer backdrop-blur-md shadow-xs active:scale-90 ${
+              isFav
+                ? "bg-rose-600 text-white border border-rose-400 shadow-rose-950/40"
+                : "bg-black/50 text-white/90 hover:text-white hover:bg-black/70 border border-white/20"
+            }`}
+            aria-label={isFav ? "Remover dos favoritos" : "Salvar como favorito"}
+            title={
+              isLoggedIn
+                ? isFav
+                  ? "Remover dos favoritos"
+                  : "Salvar como favorito"
+                : "Inicie sessão para salvar como favorito"
+            }
+          >
+            <Heart
+              className={`w-3.5 h-3.5 transition-all ${
+                isFav ? "fill-current text-white scale-110" : "text-white"
+              }`}
+              strokeWidth={isFav ? 2.5 : 2}
+            />
+          </button>
+        </div>
       </div>
 
       {/* Base do Card: Título, Localização e Botão "Ver mais" */}

@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import { BackButton } from "@/components/discovery/BackButton";
 import { OpportunityMap } from "@/components/discovery/OpportunityMap";
 import { ShareButton } from "@/components/discovery/ShareButton";
+import { FavoriteButton } from "@/components/discovery/FavoriteButton";
 import { fetchOpportunity, getAllOpportunityIds } from "@/lib/opportunity-detail";
 import {
   Calendar,
@@ -160,6 +161,7 @@ export default async function OpportunityDetailPage({ params }: PageProps) {
             </div>
 
             <div className="flex items-center gap-2">
+              <FavoriteButton itemId={item.id} variant="detail" />
               <ShareButton title={item.title} />
 
               {/* Botão de ação desktop compacto no cabeçalho */}

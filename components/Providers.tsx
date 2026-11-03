@@ -3,6 +3,7 @@
 import { SessionProvider } from "next-auth/react";
 import { ReactNode, useEffect } from "react";
 import { PageViewTracker } from "@/components/analytics/PageViewTracker";
+import { FavoritesProvider } from "@/components/favorites/FavoritesContext";
 
 export default function Providers({ children }: { children: ReactNode }) {
   useEffect(() => {
@@ -22,8 +23,10 @@ export default function Providers({ children }: { children: ReactNode }) {
 
   return (
     <SessionProvider>
-      <PageViewTracker />
-      {children}
+      <FavoritesProvider>
+        <PageViewTracker />
+        {children}
+      </FavoritesProvider>
     </SessionProvider>
   );
 }

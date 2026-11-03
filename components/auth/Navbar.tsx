@@ -12,6 +12,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { HeaderSearch } from "@/components/navigation/HeaderSearch";
 import { registerUser } from "@/app/actions/auth";
 import { UserLoginSchema, UserRegistrationSchema } from "@/lib/schemas";
+import { useFavorites } from "@/components/favorites/FavoritesContext";
 
 /* =============================================================
    Componentes Auxiliares - Blocos reutilizáveis para links e handlers de autenticação
@@ -101,6 +102,7 @@ const NavbarContent = () => {
   const user = session?.user;
   const pathname = usePathname();
   const router = useRouter();
+  const { favoritesCount } = useFavorites();
 
   const [openMenu, setOpenMenu] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
@@ -588,25 +590,39 @@ const NavbarContent = () => {
           <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             
             
-            {/* Sessao dos favoritos */}
+            {/* Sessão dos favoritos */}
             <button
-                type="button"
-                onClick={() => {
-                  setNotificationsOpen((open) => !open);
-                  setUserDropdown(false);
-                }}
-                className={`relative flex h-9 w-9 items-center justify-center sm:w-10 ${
-                  notificationsOpen
-                    ? "text-violet-700"
-                    : "text-gray-600 hover:border-violet-200 hover:text-violet-700"
-                }`}
-                aria-label="Notificações"
-                aria-expanded={notificationsOpen}
-                aria-controls="header-notifications"
-                title="Notificações"
-              >
-                <Heart className="h-[16px] w-[16px] sm:h-5 sm:w-5" strokeWidth={1.8} aria-hidden="true" />
-              </button>
+              type="button"
+              onClick={() => {
+                if (!isLoggedIn) {
+                  setLoginModal(true);
+                } else {
+                  router.push("/favoritos");
+                }
+              }}
+              className={`relative flex h-9 w-9 items-center justify-center sm:w-10 rounded-full transition-colors cursor-pointer ${
+                pathname === "/favoritos"
+                  ? "text-rose-600 bg-rose-50"
+                  : "text-gray-600 hover:text-rose-600 hover:bg-rose-50/60"
+              }`}
+              aria-label="Ver itens favoritos"
+              title={isLoggedIn ? "Os meus favoritos" : "Inicie sessão para ver favoritos"}
+            >
+              <Heart
+                className={`h-[18px] w-[18px] sm:h-5 sm:w-5 transition-transform ${
+                  pathname === "/favoritos" || (isLoggedIn && favoritesCount > 0)
+                    ? "text-rose-600"
+                    : "text-gray-600"
+                } ${pathname === "/favoritos" ? "fill-current" : ""}`}
+                strokeWidth={1.8}
+                aria-hidden="true"
+              />
+              {isLoggedIn && favoritesCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[17px] h-[17px] px-1 rounded-full bg-rose-600 text-white text-[10px] font-bold flex items-center justify-center shadow-xs">
+                  {favoritesCount > 99 ? "99+" : favoritesCount}
+                </span>
+              )}
+            </button>
             
             
             <div ref={notificationsRef} className="relative">
@@ -701,6 +717,18 @@ const NavbarContent = () => {
                     <Link href="/profile" onClick={() => setUserDropdown(false)} className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition-colors">
                       <UserIcon className="w-4 h-4 text-violet-600" />
                       <span>O meu perfil</span>
+                    </Link>
+
+                    <Link href="/favoritos" onClick={() => setUserDropdown(false)} className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-700 transition-colors">
+                      <div className="flex items-center gap-2.5">
+                        <Heart className="w-4 h-4 text-rose-600" />
+                        <span>Os meus favoritos</span>
+                      </div>
+                      {favoritesCount > 0 && (
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-rose-100 text-rose-700">
+                          {favoritesCount}
+                        </span>
+                      )}
                     </Link>
 
                     <button type="button" onClick={handleCopyShareLink} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition-colors flex items-center gap-2.5 cursor-pointer">
@@ -879,6 +907,15 @@ const NavbarContent = () => {
               href="/roadmaps"
               icon={Map}
               isActive={pathname.startsWith("/roadmaps")}
+              onClick={closeMobileMenu}
+            />
+
+            <MobileNavLink
+              label="Os Meus Favoritos"
+              href="/favoritos"
+              icon={Heart}
+              isActive={pathname.startsWith("/favoritos")}
+              badge={favoritesCount > 0 ? String(favoritesCount) : undefined}
               onClick={closeMobileMenu}
             />
 
