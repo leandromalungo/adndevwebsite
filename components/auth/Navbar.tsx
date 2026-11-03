@@ -2,8 +2,7 @@
 /**
  * Navbar: Componente de navegação global que inclui gestão de autenticação, menus e perfil de utilizador.
  */
-import { X, Search, Bell, User as UserIcon, Loader2, Heart, Info, Eye, EyeOff, Link as LinkIcon, Users, LogOut, Map, Rocket, Code, Compass, ChevronRight,
-} from "lucide-react";
+import { X, Search, Bell, User as UserIcon, Loader2, Heart, Info, Eye, EyeOff, Link as LinkIcon, Users, LogOut, Map, Rocket, Code, Compass, ChevronRight, Sliders, CheckCheck } from "lucide-react";
 import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,6 +12,7 @@ import { HeaderSearch } from "@/components/navigation/HeaderSearch";
 import { registerUser } from "@/app/actions/auth";
 import { UserLoginSchema, UserRegistrationSchema } from "@/lib/schemas";
 import { useFavorites } from "@/components/favorites/FavoritesContext";
+import { useNotifications } from "@/components/notifications/NotificationsContext";
 
 /* =============================================================
    Componentes Auxiliares - Blocos reutilizáveis para links e handlers de autenticação
@@ -103,6 +103,7 @@ const NavbarContent = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { favoritesCount } = useFavorites();
+  const { unreadCount, notifications, markAllAsRead, markAsRead } = useNotifications();
 
   const [openMenu, setOpenMenu] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
@@ -629,38 +630,120 @@ const NavbarContent = () => {
               <button
                 type="button"
                 onClick={() => {
-                  setNotificationsOpen((open) => !open);
-                  setUserDropdown(false);
+                  if (!isLoggedIn) {
+                    setLoginModal(true);
+                  } else {
+                    setNotificationsOpen((open) => !open);
+                    setUserDropdown(false);
+                  }
                 }}
-                className={`relative flex h-9 w-9 items-center justify-center sm:w-10 ${
-                  notificationsOpen
-                    ? "text-violet-700"
-                    : "text-gray-600 hover:border-violet-200 hover:text-violet-700"
+                className={`relative flex h-9 w-9 items-center justify-center sm:w-10 rounded-full transition-colors cursor-pointer ${
+                  notificationsOpen || pathname.startsWith("/notificacoes")
+                    ? "text-violet-700 bg-violet-50"
+                    : "text-gray-600 hover:border-violet-200 hover:text-violet-700 hover:bg-gray-100/70"
                 }`}
                 aria-label="Notificações"
                 aria-expanded={notificationsOpen}
                 aria-controls="header-notifications"
-                title="Notificações"
+                title={isLoggedIn ? "Notificações" : "Inicie sessão para ver notificações"}
               >
                 <Bell className="h-[16px] w-[16px] sm:h-5 sm:w-5" strokeWidth={1.8} aria-hidden="true" />
+                {isLoggedIn && unreadCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 min-w-[17px] h-[17px] px-1 rounded-full bg-violet-700 text-white text-[10px] font-bold flex items-center justify-center shadow-xs animate-in zoom-in-75">
+                    {unreadCount > 99 ? "99+" : unreadCount}
+                  </span>
+                )}
               </button>
 
-              {/* Sessao onde aparecem as notifiacoes */}
-
-              {notificationsOpen && (
-                <div id="header-notifications"
-                  className="absolute right-0 top-full z-[60] mt-3 w-72 max-w-[calc(100vw-1.5rem)] overflow-hidden rounded 
-                  border border-gray-200 bg-white p-4 text-gray-800 shadow animate-in fade-in zoom-in-95 duration-150 origin-top-right"
+              {/* Dropdown de Pré-visualização de Notificações */}
+              {notificationsOpen && isLoggedIn && (
+                <div
+                  id="header-notifications"
+                  className="absolute right-0 top-full z-[60] mt-3 w-80 sm:w-96 max-w-[calc(100vw-1.5rem)] overflow-hidden rounded-xl border border-gray-200 bg-white text-gray-800 shadow-2xl animate-in fade-in zoom-in-95 duration-150 origin-top-right"
                   role="status"
                 >
-                  <div className="flex items-center gap-2.5">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-50 text-violet-700">
-                      <Bell className="h-4 w-4" aria-hidden="true" />
-                    </span>
-                    <div>
-                      <p className="text-sm font-semibold text-gray-900">Notificações</p>
-                      <p className="text-xs text-gray-500">Ainda não tem notificações.</p>
+                  {/* Cabeçalho */}
+                  <div className="p-3.5 bg-gray-50/90 border-b border-gray-100 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-gray-900">Notificações</span>
+                      {unreadCount > 0 && (
+                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-violet-100 text-violet-700">
+                          {unreadCount} novas
+                        </span>
+                      )}
                     </div>
+                    {unreadCount > 0 && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          markAllAsRead();
+                        }}
+                        className="text-[11px] font-semibold text-violet-700 hover:text-violet-900 transition flex items-center gap-1 cursor-pointer"
+                      >
+                        <CheckCheck className="w-3.5 h-3.5" />
+                        <span>Marcar lidas</span>
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Lista de Pré-visualização */}
+                  <div className="max-h-72 overflow-y-auto divide-y divide-gray-100">
+                    {notifications.length === 0 ? (
+                      <div className="p-6 text-center">
+                        <div className="w-10 h-10 rounded-xl bg-gray-100 text-gray-400 flex items-center justify-center mx-auto mb-2">
+                          <Bell className="w-5 h-5" />
+                        </div>
+                        <p className="text-xs text-gray-500 font-medium">Ainda não tem notificações nas categorias ativas.</p>
+                      </div>
+                    ) : (
+                      notifications.slice(0, 4).map((notif) => (
+                        <Link
+                          key={notif.id}
+                          href={notif.link || "/notificacoes"}
+                          onClick={() => {
+                            setNotificationsOpen(false);
+                            if (!notif.isRead) markAsRead(notif.id);
+                          }}
+                          className={`p-3.5 block transition-colors ${
+                            notif.isRead ? "hover:bg-gray-50" : "bg-violet-50/40 hover:bg-violet-50/70"
+                          }`}
+                        >
+                          <div className="flex items-start justify-between gap-2 mb-1">
+                            <span className="text-xs font-bold text-gray-900 line-clamp-1">
+                              {notif.title}
+                            </span>
+                            {!notif.isRead && (
+                              <span className="w-2 h-2 rounded-full bg-violet-600 shrink-0 mt-1" />
+                            )}
+                          </div>
+                          <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
+                            {notif.message}
+                          </p>
+                        </Link>
+                      ))
+                    )}
+                  </div>
+
+                  {/* Rodapé com atalho para a Central e para a Sessão de Escolha de Preferências */}
+                  <div className="p-2.5 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-xs font-semibold">
+                    <Link
+                      href="/notificacoes"
+                      onClick={() => setNotificationsOpen(false)}
+                      className="text-violet-700 hover:text-violet-900 transition flex items-center gap-1"
+                    >
+                      <span>Ver todas</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </Link>
+
+                    <Link
+                      href="/notificacoes?tab=preferencias"
+                      onClick={() => setNotificationsOpen(false)}
+                      className="text-gray-600 hover:text-violet-700 transition flex items-center gap-1"
+                    >
+                      <Sliders className="w-3 h-3 text-violet-600" />
+                      <span>Preferências</span>
+                    </Link>
                   </div>
                 </div>
               )}
@@ -729,6 +812,23 @@ const NavbarContent = () => {
                           {favoritesCount}
                         </span>
                       )}
+                    </Link>
+
+                    <Link href="/notificacoes" onClick={() => setUserDropdown(false)} className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition-colors">
+                      <div className="flex items-center gap-2.5">
+                        <Bell className="w-4 h-4 text-violet-600" />
+                        <span>Notificações</span>
+                      </div>
+                      {unreadCount > 0 && (
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-violet-100 text-violet-700">
+                          {unreadCount}
+                        </span>
+                      )}
+                    </Link>
+
+                    <Link href="/notificacoes?tab=preferencias" onClick={() => setUserDropdown(false)} className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition-colors">
+                      <Sliders className="w-4 h-4 text-violet-600" />
+                      <span>Preferências de alertas</span>
                     </Link>
 
                     <button type="button" onClick={handleCopyShareLink} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition-colors flex items-center gap-2.5 cursor-pointer">
@@ -916,6 +1016,15 @@ const NavbarContent = () => {
               icon={Heart}
               isActive={pathname.startsWith("/favoritos")}
               badge={favoritesCount > 0 ? String(favoritesCount) : undefined}
+              onClick={closeMobileMenu}
+            />
+
+            <MobileNavLink
+              label="Notificações & Alertas"
+              href="/notificacoes"
+              icon={Bell}
+              isActive={pathname.startsWith("/notificacoes")}
+              badge={unreadCount > 0 ? String(unreadCount) : undefined}
               onClick={closeMobileMenu}
             />
 
