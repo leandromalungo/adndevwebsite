@@ -312,11 +312,7 @@ export function DiscoveryFilters({
       </div>
 
       {/* 3. Barra Secundária: Informações e Limpar Filtros */}
-      <div className="flex items-center justify-between gap-3 pt-1 text-xs text-gray-600">
-        <span className="font-semibold text-gray-800">
-          {totalResults} {totalResults === 1 ? "oportunidade" : "oportunidades"}
-        </span>
-
+      <div className="flex items-center justify-between gap- text-xs text-gray-600">
         {hasActiveFilters ? (
           <button
             type="button"

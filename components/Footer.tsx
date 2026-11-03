@@ -15,23 +15,20 @@ const Footer = () => {
         {/* Rodapé Inferior - Informação de copyright, políticas legais e contacto oficial */}
         <div className="pt-4 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-4 text-xs font-medium text-gray-500">
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-gray-700">ADN Developer</span>
-            </div>
-            <span>©2025-2026</span>
+            <span>©2026</span>
             <Link href="/politicas-de-privacidade" className="hover:text-violet-700 transition-colors">
               Políticas de Privacidade
             </Link>
             <span className="text-gray-300">|</span>
-            <Link href="/termos-de-uso" className="hover:text-violet-700 transition-colors">
+            <Link href="/sobre" className="hover:text-violet-700 transition-colors">
+              Sobre Nós
+            </Link>
+             <Link href="/termos-de-uso" className="hover:text-violet-700 transition-colors">
               Termos de Uso
             </Link>
+           
           </div>
-          <div className="flex flex-wrap justify-center gap-4 text-xs font-medium text-gray-500">
-            <a href="mailto:geral.adndeveloper@gmail.com" className="hover:text-violet-700 transition-colors">
-              adndeveloper@gmail.com
-            </a>
-          </div>
+
           {/* Sobre e Disclaimer - Nota legal sobre a natureza informativa da plataforma e links sociais */}
           <div>
             {/* Nossas Redes Socias */}

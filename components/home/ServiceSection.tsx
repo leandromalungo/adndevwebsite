@@ -75,23 +75,6 @@ export const SectionHero: React.FC<ServicesSectionProps> = ({ services, }) => {
                   </p>
                 </div>
 
-                {/* Botão de Ação Transformado em Link do Next.js */}
-                <Link
-                  href={service.link}
-                  className="w-full py-2.5 px-4 flex items-center gap-2 text-sm font-medium text-neutral-200 hover:text-violet-400 transition-all duration-300 cursor-pointer"
-                >
-                  <span>Saber mais</span>
-                  <svg
-                    className="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1 text-neutral-400 group-hover:text-violet-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </Link>
-
               </div>
             </div>
           </FadeIn>

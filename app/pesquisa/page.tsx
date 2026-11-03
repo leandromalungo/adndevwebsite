@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Lock } from "lucide-react";
+import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Navbar from "@/components/auth/Navbar";
@@ -41,13 +41,20 @@ export default async function PesquisaPage({ searchParams }: PesquisaPageProps) 
       <div className="min-h-screen flex flex-col bg-[#fafbfc]">
         <Navbar />
         <main className="flex-1 max-w-2xl mx-auto px-4 py-24 text-center flex flex-col items-center justify-center">
-          <div className="w-16 h-16 rounded bg-amber-50 text-amber-600 flex items-center justify-center mb-5 border border-amber-200 shadow-sm">
-            <Lock className="w-8 h-8" />
+          <div className="w-16 h-16 rounded bg-amber-50 text-amber-600 flex items-center justify-center mb-5">
+           <Link href="/" className="focus:outline-none flex items-center shrink-0" aria-label="Página Inicial">
+              <Image
+                src="/logo.png"
+                alt="ADN Developer"
+                width={130}
+                height={38}
+                className="h-7 sm:h-8 md:h-9 w-auto cursor-pointer object-contain"
+                priority
+                referrerPolicy="no-referrer"
+              />
+            </Link>
           </div>
-          <span className="text-xs font-bold text-amber-700 bg-amber-50 px-3 py-1 rounded-full border border-amber-200 mb-3">
-            Pesquisa Restrita a Membros
-          </span>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3 tracking-tight">
+          <h1 className="text-2xl font-semibold uppercase text-gray-900 mb-3 tracking-tight">
             Inicie sessão para pesquisar no acervo
           </h1>
           <p className="text-sm text-gray-600 mb-8 leading-relaxed max-w-md mx-auto">
@@ -56,13 +63,13 @@ export default async function PesquisaPage({ searchParams }: PesquisaPageProps) 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
             <Link
               href="/?auth=login"
-              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-violet-700 hover:bg-violet-800 text-white font-bold text-sm shadow-sm transition active:scale-95 text-center"
+              className="w-full sm:w-auto px-6 py-3 rounded bg-violet-700 hover:bg-violet-800 text-white font-bold text-sm shadow-sm transition active:scale-95 text-center"
             >
               Iniciar Sessão / Criar Conta
             </Link>
             <Link
               href="/"
-              className="w-full sm:w-auto px-6 py-3 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 font-bold text-sm shadow-2xs transition text-center"
+              className="w-full sm:w-auto px-6 py-3 rounded border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 font-bold text-sm shadow-2xs transition text-center"
             >
               Voltar ao Início
             </Link>

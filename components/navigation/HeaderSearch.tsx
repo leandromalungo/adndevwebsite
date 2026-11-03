@@ -3,19 +3,10 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { Search, Loader2, X, SearchX, Calendar, MapPin, ArrowRight, Sparkles } from "lucide-react";
+
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Search,
-  Loader2,
-  X,
-  SearchX,
-  Calendar,
-  MapPin,
-  ArrowRight,
-  Sparkles,
-  Lock,
-} from "lucide-react";
 
 interface SearchResultItem {
   id: string;
@@ -274,13 +265,7 @@ export function HeaderSearch() {
          UI DE FEEDBACK / BLOQUEIO PARA USUÁRIO NÃO AUTENTICADO
          ============================================================= */}
       {isOpen && !isLoggedIn && (
-        <div className="absolute top-full mt-2.5 w-[calc(100vw-24px)] min-[380px]:w-[340px] sm:w-[420px] left-1/2 -translate-x-1/2 bg-white rounded shadow-2xl border border-gray-200/90 p-5 z-50 animate-in fade-in zoom-in-95 duration-150 text-center">
-          <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-3 border border-amber-200 shadow-2xs">
-            <Lock className="w-6 h-6" />
-          </div>
-          <h4 className="text-sm sm:text-base font-bold text-gray-900 mb-1.5">
-            Crie uma conta e use todas as funcionalidades
-          </h4>
+        <div className="absolute top-full mt-2.5 w-[calc(100vw-24px)] min-[380px]:w-[340px] sm:w-[420px] left-1/2 -translate-x-1/2 bg-white rounded border border-gray-200/90 p-5 z-50 animate-in fade-in zoom-in-95 duration-150 text-center">
           <p className="text-xs text-gray-600 mb-4 leading-relaxed">
             Para pesquisar, acessar conteúdos e ver mais detalhes, é necessário iniciar sessão com a sua conta.
           </p>
@@ -291,7 +276,7 @@ export function HeaderSearch() {
                 setIsOpen(false);
                 router.push("/?auth=login");
               }}
-              className="w-full py-2.5 px-4 rounded-xl bg-violet-700 hover:bg-violet-800 text-white font-bold text-xs transition shadow-xs cursor-pointer active:scale-98"
+              className="w-full py-2.5 px-4 rounded bg-violet-700 hover:bg-violet-800 text-white font-bold text-xs transition shadow-xs cursor-pointer active:scale-98"
             >
               Iniciar Sessão / Criar Conta
             </button>
@@ -340,11 +325,10 @@ export function HeaderSearch() {
               <button
                 type="button"
                 onClick={() => setActiveCategory("todos")}
-                className={`px-2.5 py-1 rounded-full font-semibold transition shrink-0 ${
-                  activeCategory === "todos"
+                className={`px-2.5 py-1 rounded-full font-semibold transition shrink-0 ${activeCategory === "todos"
                     ? "bg-violet-700 text-white shadow-2xs"
                     : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
+                  }`}
               >
                 Todos ({results.length})
               </button>
@@ -358,11 +342,10 @@ export function HeaderSearch() {
                     key={cat}
                     type="button"
                     onClick={() => setActiveCategory(cat)}
-                    className={`px-2.5 py-1 rounded-full font-semibold transition shrink-0 ${
-                      activeCategory === cat
+                    className={`px-2.5 py-1 rounded-full font-semibold transition shrink-0 ${activeCategory === cat
                         ? "bg-violet-700 text-white shadow-2xs"
                         : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     {label} ({count})
                   </button>
@@ -433,9 +416,8 @@ export function HeaderSearch() {
                     setQuery("");
                   }}
                   onMouseEnter={() => setActiveIndex(idx)}
-                  className={`flex items-start gap-3 p-3 sm:p-3.5 transition group ${
-                    activeIndex === idx ? "bg-violet-50/70" : "hover:bg-gray-50"
-                  }`}
+                  className={`flex items-start gap-3 p-3 sm:p-3.5 transition group ${activeIndex === idx ? "bg-violet-50/70" : "hover:bg-gray-50"
+                    }`}
                 >
                   <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden bg-gray-100 border border-gray-200 shrink-0">
                     <Image

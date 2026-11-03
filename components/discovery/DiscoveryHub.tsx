@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
 import {
   getAllDiscoveryItems,
   DiscoveryItem,
@@ -312,11 +314,11 @@ export function DiscoveryHub() {
 
   const hasActiveFilters = Boolean(
     searchQuery.trim() ||
-      selectedCategory !== "todos" ||
-      selectedCountry !== "Todos" ||
-      selectedFormat !== "todos" ||
-      selectedStatus !== "todos" ||
-      selectedPrice !== "todos"
+    selectedCategory !== "todos" ||
+    selectedCountry !== "Todos" ||
+    selectedFormat !== "todos" ||
+    selectedStatus !== "todos" ||
+    selectedPrice !== "todos"
   );
 
   // Paginação
@@ -422,13 +424,23 @@ export function DiscoveryHub() {
 
         {/* Banner de Acesso Exclusivo para Membros quando não autenticado */}
         {!isLoggedIn && (
-          <div className="mt-8 p-5 sm:p-6 rounded bg-gradient-to-r from-violet-900 via-indigo-900 to-violet-950 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 border border-violet-800">
+          <div className="mt-8 p-5 sm:p-6 rounded bg-gradient-to-r from-violet-900 via-indigo-900 to-violet-950 text-white flex flex-col sm:flex-row items-center justify-between gap-4 border border-violet-800">
             <div className="flex items-center gap-3.5">
               <div className="w-12 h-12 flex items-center justify-center shrink-0">
-                <Lock className="w-6 h-6 text-violet-200" />
+                <Link href="/" className="focus:outline-none flex items-center shrink-0" aria-label="Página Inicial">
+                  <Image
+                    src="/logolight.png"
+                    alt="ADN Developer"
+                    width={130}
+                    height={38}
+                    className="h-7 sm:h-8 md:h-9 w-auto cursor-pointer object-contain"
+                    priority
+                    referrerPolicy="no-referrer"
+                  />
+                </Link>
               </div>
               <div>
-                <h4 className="text-sm sm:text-base font-bold">
+                <h4 className="text-sm sm:text-base font-semibold uppercase">
                   Inicie sessão para desbloquear todas as oportunidades
                 </h4>
                 <p className="text-xs text-violet-200 mt-0.5 leading-relaxed">
@@ -439,7 +451,7 @@ export function DiscoveryHub() {
             <button
               type="button"
               onClick={() => router.push("/?auth=login")}
-              className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-white text-violet-900 font-bold text-xs sm:text-sm hover:bg-violet-50 transition-all shadow-md shrink-0 cursor-pointer active:scale-95 text-center"
+              className="w-full sm:w-auto px-5 py-2.5 rounded bg-white text-violet-900 font-bold text-xs sm:text-sm hover:bg-violet-50 transition-all shadow-md shrink-0 cursor-pointer active:scale-95 text-center"
             >
               Iniciar Sessão / Criar Conta
             </button>
@@ -460,7 +472,7 @@ export function DiscoveryHub() {
                 type="button"
                 onClick={() => goToPage(currentPage - 1)}
                 disabled={currentPage <= 1}
-                className="inline-flex items-center gap-1 px-3 py-2 rounded-lg border border-gray-200 bg-white text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                className="inline-flex items-center gap-1 px-3 py-2 rounded-full border border-gray-200 bg-white text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                 aria-label="Página anterior"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -481,11 +493,10 @@ export function DiscoveryHub() {
                     key={pageNumber}
                     type="button"
                     onClick={() => goToPage(pageNumber)}
-                    className={`w-8 h-8 rounded-lg text-xs font-bold transition-all ${
-                      isActive
+                    className={`w-8 h-8 rounded-full text-xs font-bold transition-all ${isActive
                         ? "bg-violet-700 text-white shadow-sm"
                         : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"
-                    }`}
+                      }`}
                     aria-current={isActive ? "page" : undefined}
                   >
                     {pageNumber}
@@ -498,7 +509,7 @@ export function DiscoveryHub() {
                 type="button"
                 onClick={() => goToPage(currentPage + 1)}
                 disabled={currentPage >= totalPages}
-                className="inline-flex items-center gap-1 px-3 py-2 rounded-lg border border-gray-200 bg-white text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                className="inline-flex items-center gap-1 px-3 py-2 rounded-full border border-gray-200 bg-white text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                 aria-label="Próxima página"
               >
                 Seguinte

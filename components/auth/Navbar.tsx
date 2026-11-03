@@ -2,26 +2,7 @@
 /**
  * Navbar: Componente de navegação global que inclui gestão de autenticação, menus e perfil de utilizador.
  */
-import {
-  Menu,
-  X,
-  Search,
-  User as UserIcon,
-  Loader2,
-  CreditCard,
-  Eye,
-  EyeOff,
-  Link as LinkIcon,
-  Users,
-  LogOut,
-  Calendar,
-  Map,
-  GraduationCap,
-  Rocket,
-  Code,
-  Compass,
-  Info,
-  ChevronRight,
+import { X, Search, Bell, User as UserIcon, Loader2, Heart, Info, Eye, EyeOff, Link as LinkIcon, Users, LogOut, Map, Rocket, Code, Compass, ChevronRight,
 } from "lucide-react";
 import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
@@ -29,15 +10,6 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { HeaderSearch } from "@/components/navigation/HeaderSearch";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog";
 import { registerUser } from "@/app/actions/auth";
 import { UserLoginSchema, UserRegistrationSchema } from "@/lib/schemas";
 
@@ -132,6 +104,7 @@ const NavbarContent = () => {
 
   const [openMenu, setOpenMenu] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [headerSearch, setHeaderSearch] = useState("");
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -152,6 +125,7 @@ const NavbarContent = () => {
   const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const notificationsRef = useRef<HTMLDivElement>(null);
 
   // Estado do painel de Login/Registo e controlo de modais
   const prevIsLoggedIn = useRef(false);
@@ -239,6 +213,9 @@ const NavbarContent = () => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setUserDropdown(false);
+      }
+      if (notificationsRef.current && !notificationsRef.current.contains(event.target as Node)) {
+        setNotificationsOpen(false);
       }
       if (categoriesRef.current && !categoriesRef.current.contains(event.target as Node)) {
         setCategoriesDropdown(false);
@@ -392,6 +369,7 @@ const NavbarContent = () => {
   useEffect(() => {
     setOpenMenu(false);
     setUserDropdown(false);
+    setNotificationsOpen(false);
   }, [pathname]);
 
   // Fechar menu lateral ao pressionar a tecla Escape
@@ -400,6 +378,7 @@ const NavbarContent = () => {
       if (e.key === "Escape") {
         setOpenMenu(false);
         setUserDropdown(false);
+        setNotificationsOpen(false);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -582,20 +561,21 @@ const NavbarContent = () => {
                 href="/startups"
                 className={`transition-colors ${pathname.startsWith("/startups") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
               >
-                Negocios
+                Startups Lusofonas 
               </Link>
               <Link
                 href="/roadmaps"
                 className={`transition-colors ${pathname.startsWith("/roadmaps") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
               >
-                Formações
+                RoadMaps
               </Link>
               <Link
-                href="/sobre"
-                className={`transition-colors ${pathname.startsWith("/sobre") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
+                href="/Ranking"
+                className={`transition-colors ${pathname.startsWith("/Ranking") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
               >
-                Sobre Nós
+                Ranking
               </Link>
+             
             </div>
           </div>
 
@@ -606,10 +586,74 @@ const NavbarContent = () => {
 
           {/* 3. Ponta da Direita: Perfil / Ações de Login + Botão Hambúrguer (exclusivo para telas menores) */}
           <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            
+            
+            {/* Sessao dos favoritos */}
+            <button
+                type="button"
+                onClick={() => {
+                  setNotificationsOpen((open) => !open);
+                  setUserDropdown(false);
+                }}
+                className={`relative flex h-9 w-9 items-center justify-center sm:w-10 ${
+                  notificationsOpen
+                    ? "text-violet-700"
+                    : "text-gray-600 hover:border-violet-200 hover:text-violet-700"
+                }`}
+                aria-label="Notificações"
+                aria-expanded={notificationsOpen}
+                aria-controls="header-notifications"
+                title="Notificações"
+              >
+                <Heart className="h-[16px] w-[16px] sm:h-5 sm:w-5" strokeWidth={1.8} aria-hidden="true" />
+              </button>
+            
+            
+            <div ref={notificationsRef} className="relative">
+              <button
+                type="button"
+                onClick={() => {
+                  setNotificationsOpen((open) => !open);
+                  setUserDropdown(false);
+                }}
+                className={`relative flex h-9 w-9 items-center justify-center sm:w-10 ${
+                  notificationsOpen
+                    ? "text-violet-700"
+                    : "text-gray-600 hover:border-violet-200 hover:text-violet-700"
+                }`}
+                aria-label="Notificações"
+                aria-expanded={notificationsOpen}
+                aria-controls="header-notifications"
+                title="Notificações"
+              >
+                <Bell className="h-[16px] w-[16px] sm:h-5 sm:w-5" strokeWidth={1.8} aria-hidden="true" />
+              </button>
+
+              {/* Sessao onde aparecem as notifiacoes */}
+
+              {notificationsOpen && (
+                <div id="header-notifications"
+                  className="absolute right-0 top-full z-[60] mt-3 w-72 max-w-[calc(100vw-1.5rem)] overflow-hidden rounded 
+                  border border-gray-200 bg-white p-4 text-gray-800 shadow animate-in fade-in zoom-in-95 duration-150 origin-top-right"
+                  role="status"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-50 text-violet-700">
+                      <Bell className="h-4 w-4" aria-hidden="true" />
+                    </span>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-900">Notificações</p>
+                      <p className="text-xs text-gray-500">Ainda não tem notificações.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
             <div className="relative">
               <button
                 type="button"
                 onClick={() => {
+                  setNotificationsOpen(false);
                   if (!isLoggedIn) {
                     setLoginModal(true);
                   } else {
@@ -624,7 +668,7 @@ const NavbarContent = () => {
                 ) : (
                   <div className="flex items-center gap-1.5">
                     <UserIcon className="w-5 h-5 text-gray-700" />
-                    <span className="hidden sm:inline text-xs font-semibold text-gray-700">{isLoggedIn ? "Conta" : "Entrar"}</span>
+                    <span className="hidden sm:inline text-xs font-semibold text-gray-700">{isLoggedIn ? "Conta" : "Iniciar Sessão"}</span>
                     <svg className="w-3 h-3 text-gray-500 hidden sm:inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                     </svg>
@@ -661,7 +705,7 @@ const NavbarContent = () => {
 
                     <button type="button" onClick={handleCopyShareLink} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition-colors flex items-center gap-2.5 cursor-pointer">
                       <LinkIcon className="w-4 h-4 text-violet-600" />
-                      <span>{shareLinkCopied ? "✓ Copiado!" : "Partilhar perfil"}</span>
+                      <span>{shareLinkCopied ? "Copiado!" : "Partilhar o link do perfil"}</span>
                     </button>
 
                     <Link href="/" onClick={() => setUserDropdown(false)} className="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-700 hover:bg-violet-50 hover:text-violet-700 transition-colors">
@@ -704,17 +748,16 @@ const NavbarContent = () => {
                 <line x1="4" y1="15.5" x2="20" y2="15.5" />
               </svg>
             </button>
-          </div>
+          </div>   
+           
         </nav>
       </header>
 
       {/* =============================================================
           MENU LATERAL (DRAWER) DIREITO - FORA DO HEADER (VIEWPORT REAL)
-          Fixa à janela global (h-dvh, w-[86vw] max-w-sm) com fundo branco 100% opaco
          ============================================================= */}
       {/* 1. Backdrop escuro com blur cobrindo a viewport inteira */}
-      <div
-        className={`fixed inset-0 z-[90] bg-black/60 backdrop-blur-xs lg:hidden transition-opacity duration-300 ${
+      <div className={`fixed inset-0 z-[90] bg-black/60 backdrop-blur-xs lg:hidden transition-opacity duration-300 ${
           openMenu ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={closeMobileMenu}

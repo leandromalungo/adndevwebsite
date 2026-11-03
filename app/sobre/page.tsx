@@ -8,18 +8,7 @@ import { CTACardsContainer } from "@/components/home/cardCta/Content";
 import Vision from "@/components/home/VisionSection";
 import SectionCall from "@/components/sectionCall";
 import FAQSection from "@/components/home/FAQSection";
-import {
-  Compass,
-  Globe2,
-  Mail,
-  MapPin,
-  Sparkles,
-  Users2,
-  GraduationCap,
-  Calendar,
-  Rocket,
-  ShieldCheck,
-} from "lucide-react";
+import { Globe2, MapPin, Users2, Calendar, Rocket, GraduationCap, Mail } from "lucide-react";
 
 export default function SobrePage() {
   const servicesData = [
@@ -61,35 +50,33 @@ export default function SobrePage() {
   const teamMembers = [
     {
       name: "Leandro Malungo",
-      role: "Founder & Manager",
+      role: "FullStack Developer",
       country: "Angola",
       image: "/leandro.jpg",
     },
     {
       name: "Neuza Nascimento",
-      role: "Co-Founder",
+      role: "42 Porto",
       country: "Portugal",
       image: "/neuza.jpg",
   },
     {
       name: "Whitney Velasco",
-      role: "Content Creator",
+      role: "Eng. Informática",
       country: "Moçambique",
       image: "/whitiney.jpg",
-      description: "Estudante de engenharia informática e criadora de conteúdos tecnológicos focada na lusofonia.",
     },
     {
       name: "Filipe Mafuila",
       role: "Frontend Developer",
       country: "Angola",
       image: "/filipe.jpg",
-      description: "Desenvolvedor frontend focado em criar interfaces modernas, responsivas e de alta performance.",
     },
     {
       name: "Thomas Herinques",
-      role: "Frontend Developer",
+      role: "AWS",
       country: "Brazil",
-      image: "/filipe.jpg",
+      image: "/Thomas.jpg",
     },
   ];
 
@@ -99,7 +86,6 @@ export default function SobrePage() {
 
       <main className="flex-1 w-full">
         {/* 1. HERO INSTITUCIONAL */}
-
         <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -148,56 +134,37 @@ export default function SobrePage() {
           </div>
         </section>
 
-        {/* 3. SERVIÇOS E OFERTAS DA PLATAFORMA */}
+        {/* 2. SERVIÇOS E OFERTAS DA PLATAFORMA */}
         <section className="bg-[#111111] text-white py-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <span className="text-violet-400 text-xs font-bold uppercase tracking-widest">
-                O que oferecemos
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight mt-2 text-white">
-                Recursos selecionados para a tua evolução
-              </h2>
-            </div>
             <ServiceSection services={servicesData} />
           </div>
         </section>
 
-        {/* 4. VISÃO, MISSÃO E PILARES */}
-        <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-violet-700 text-xs font-bold uppercase tracking-widest">
-              Compromisso
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mt-1">
-              Nossa Visão e Princípios de Atuação
-            </h2>
-          </div>
+        {/* 3. VISÃO, MISSÃO E PILARES */}
+        <section className="px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
           <Vision />
         </section>
 
-        {/* 5. EQUIPA DA ADN DEVELOPER */}
-        <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 border-t border-b border-gray-200">
+        {/* 4. EQUIPA DA ADN DEVELOPER */}
+        <section className="px-4 sm:px-6 lg:px-8 bg-gray-50">
           <div className="max-w-6xl mx-auto">
             <div className="text-center max-w-2xl mx-auto mb-12">
               <span className="text-violet-700 text-xs font-bold uppercase tracking-widest">
-                Quem Faz Acontecer
+               Nossa Equipa
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mt-1">
-                A Equipa ADN Developer
-              </h2>
               <p className="mt-2 text-sm text-gray-600">
-                Líderes comunitários, desenvolvedores e designers de Angola, Brasil, Moçambique e Portugal.
+                Líderes comunitários e desenvolvedores de Angola, Brasil, Moçambique e Portugal.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
               {teamMembers.map((member, idx) => (
                 <div
                   key={`${member.name}-${idx}`}
-                  className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center"
+                  className="p-6 flex flex-col items-center text-center"
                 >
-                  <div className="relative w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-violet-100">
+                  <div className="relative w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-violet-300">
                     <Image
                       src={member.image}
                       alt={member.name}
@@ -211,55 +178,17 @@ export default function SobrePage() {
                     <MapPin className="w-3 h-3 text-gray-400" />
                     <span>{member.country}</span>
                   </div>
-                  <p className="text-xs text-gray-600 leading-relaxed">{member.description}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* 6. CHAMADA E CTA */}
-        <section className="bg-white">
-          <SectionCall />
-          <CTACardsContainer />
-        </section>
-
-        {/* 7. PARCEIROS */}
+        {/* 5. PARCEIROS */}
         <section className="bg-white py-12 border-t border-gray-100">
           <PartnersSection />
         </section>
 
-        {/* 8. FAQ E CANAIS OFICIAIS DE CONTACTO */}
-        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Perguntas Frequentes</h2>
-            <p className="mt-2 text-sm text-gray-500">Tudo o que precisas saber sobre a nossa atuação.</p>
-          </div>
-          <FAQSection />
-
-          {/* Cartão de Contacto Oficial */}
-          <div className="mt-12 p-8 rounded-2xl bg-gradient-to-r from-violet-900 to-indigo-900 text-white text-center">
-            <h3 className="text-xl font-bold mb-2">Queres sugerir uma oportunidade ou fazer parceria?</h3>
-            <p className="text-sm text-violet-200 max-w-xl mx-auto mb-6">
-              Estamos sempre abertos a colaborar com organizadores de eventos, universidades, startups e comunidades tecnológicas.
-            </p>
-            <div className="flex flex-wrap justify-center items-center gap-4">
-              <a
-                href="mailto:geral.adndeveloper@gmail.com"
-                className="inline-flex items-center gap-2 bg-white text-violet-950 px-6 py-2.5 rounded-lg text-sm font-bold shadow hover:bg-violet-50 transition-colors"
-              >
-                <Mail className="w-4 h-4" />
-                geral.adndeveloper@gmail.com
-              </a>
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 bg-violet-800/80 hover:bg-violet-800 text-white border border-violet-600 px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors"
-              >
-                Voltar à Descoberta
-              </Link>
-            </div>
-          </div>
-        </section>
       </main>
 
       <Footer />

@@ -49,9 +49,9 @@ export default function Error({
           {/* Logo / Ícone da Empresa */}
           <div className="flex justify-center mb-6 sm:mb-8 transition-transform hover:scale-105">
             <img
-              src="/logoNavbar.png"
+              src="/logo.png"
               alt="Logo Adn Developer"
-              className="h-10 sm:h-12 md:h-14 w-auto object-contain"
+              className="h-13 sm:h-14 md:h-14 w-auto object-contain"
             />
           </div>
 

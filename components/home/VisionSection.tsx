@@ -89,7 +89,7 @@ const VisionSection = () => {
   ];
 
   return (
-    <section className="py-16 md:py-20 bg-white text-gray-800 border-t border-gray-300">
+    <section className="py-16 md:py-20 bg-white text-gray-800">
       <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         
         {/* Conteúdo de Texto à Esquerda */}
