@@ -34,6 +34,19 @@ import { useSession } from "next-auth/react";
 
 const ITEMS_PER_PAGE = 12;
 
+/**
+ * Algoritmo Fisher-Yates para baralhamento verdadeiramente aleatório e uniforme dos conteúdos.
+ * Garante que a ordem das oportunidades seja diferente a cada novo carregamento da tela.
+ */
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 export function DiscoveryHub() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -60,6 +73,11 @@ export function DiscoveryHub() {
   const [items, setItems] = useState<DiscoveryItem[]>(() => getAllDiscoveryItems());
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Aleatorizar a ordem dos conteúdos a cada carregamento da tela/página (uma única vez por sessão/recarga)
+  useEffect(() => {
+    setItems((prev) => shuffleArray(prev));
+  }, []);
 
   // Carregar dados extras de publicações recentes do banco de dados (se disponíveis)
   useEffect(() => {
@@ -165,7 +183,7 @@ export function DiscoveryHub() {
           setItems((prev) => {
             const existingIds = new Set(prev.map((i) => i.id));
             const fresh = extraItems.filter((i) => !existingIds.has(i.id));
-            return [...fresh, ...prev];
+            return shuffleArray([...fresh, ...prev]);
           });
         }
       } catch (err) {
