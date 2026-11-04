@@ -2,7 +2,7 @@
 /**
  * Navbar: Componente de navegação global que inclui gestão de autenticação, menus e perfil de utilizador.
  */
-import { X, Search, Bell, User as UserIcon, Loader2, Heart, Info, Eye, EyeOff, Link as LinkIcon, Users, LogOut, Map, Rocket, Code, Compass, ChevronRight, Sliders, CheckCheck } from "lucide-react";
+import { X, Search, Bell, User as UserIcon, Loader2, Heart, Info, Eye, EyeOff, Link as LinkIcon, Users, LogOut, Map, Rocket, Code, Compass, ChevronRight, Sliders, CheckCheck, Trophy } from "lucide-react";
 import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -573,8 +573,8 @@ const NavbarContent = () => {
                 RoadMaps
               </Link>
               <Link
-                href="/Ranking"
-                className={`transition-colors ${pathname.startsWith("/Ranking") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
+                href="/ranking"
+                className={`transition-colors ${pathname.toLowerCase().startsWith("/ranking") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
               >
                 Ranking
               </Link>
@@ -1007,6 +1007,14 @@ const NavbarContent = () => {
               href="/roadmaps"
               icon={Map}
               isActive={pathname.startsWith("/roadmaps")}
+              onClick={closeMobileMenu}
+            />
+
+            <MobileNavLink
+              label="Ranking de Tecnologias"
+              href="/ranking"
+              icon={Trophy}
+              isActive={pathname.toLowerCase().startsWith("/ranking")}
               onClick={closeMobileMenu}
             />
 

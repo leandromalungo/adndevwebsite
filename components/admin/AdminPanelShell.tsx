@@ -3,17 +3,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ReactNode, useState } from "react";
-import { Activity, CircleUserRound, ChevronLeft, ChevronRight, Database, LayoutDashboard, Mail, Menu, Settings, ShieldCheck, ShieldAlert, Users, X } from "lucide-react";
+import { Activity, CircleUserRound, ChevronLeft, ChevronRight, Database, LayoutDashboard, Mail, Menu, Settings, ShieldCheck, ShieldAlert, Users, X, Trophy } from "lucide-react";
 import { AdminLogoutButton } from "@/components/admin/AdminLogoutButton";
 import { adminPath } from "@/lib/admin-routes";
 
 type AdminPanelShellProps = {
   children: ReactNode;
-  active: "dashboard" | "users" | "profiles" | "auth" | "emails" | "events" | "settings" | "content" | "security";
+  active: "dashboard" | "users" | "profiles" | "auth" | "emails" | "events" | "settings" | "content" | "security" | "ranking";
 };
 
 const navItems = [
   { key: "dashboard", label: "Dashboard", href: adminPath("/dashboard"), icon: LayoutDashboard },
+  { key: "ranking", label: "Ranking Tech", href: adminPath("/ranking"), icon: Trophy },
   { key: "security", label: "Segurança", href: adminPath("/security"), icon: ShieldAlert },
   { key: "users", label: "Utilizadores", href: adminPath("/users"), icon: Users },
   { key: "profiles", label: "Perfis", href: adminPath("/profiles"), icon: CircleUserRound },
@@ -22,7 +23,6 @@ const navItems = [
   { key: "events", label: "Eventos", href: adminPath("/events"), icon: Activity },
   { key: "content", label: "Publicações", href: adminPath("/content"), icon: Database },
   { key: "settings", label: "Configurações", href: adminPath("/settings"), icon: Settings },
-  
 ] as const;
 
 export function AdminPanelShell({ children, active }: AdminPanelShellProps) {
