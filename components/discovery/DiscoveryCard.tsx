@@ -183,6 +183,13 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
           )}
         </h3>
 
+        {/* Pequena descrição abaixo do nome do evento */}
+        {item.description ? (
+          <p className="text-[11px] sm:text-xs text-white/80 line-clamp-2 leading-normal drop-shadow-xs font-normal">
+            {item.description}
+          </p>
+        ) : null}
+
         {/* Rodapé: Localização/Membros e Botão "Ver mais" */}
         <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/10">
           <div className="flex items-center gap-2 text-white/85 text-[11px] font-medium min-w-0">
