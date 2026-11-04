@@ -3,17 +3,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ReactNode, useState } from "react";
-import { Activity, CircleUserRound, ChevronLeft, ChevronRight, Database, LayoutDashboard, Mail, Menu, Settings, ShieldCheck, ShieldAlert, Users, X, Trophy } from "lucide-react";
+import { Activity, CircleUserRound, ChevronLeft, ChevronRight, Database, LayoutDashboard, Mail, Menu, Settings, ShieldCheck, ShieldAlert, Users, X, Trophy, Rocket } from "lucide-react";
 import { AdminLogoutButton } from "@/components/admin/AdminLogoutButton";
 import { adminPath } from "@/lib/admin-routes";
 
 type AdminPanelShellProps = {
   children: ReactNode;
-  active: "dashboard" | "users" | "profiles" | "auth" | "emails" | "events" | "settings" | "content" | "security" | "ranking";
+  active: "dashboard" | "users" | "profiles" | "auth" | "emails" | "events" | "settings" | "content" | "security" | "ranking" | "startups";
 };
 
 const navItems = [
   { key: "dashboard", label: "Dashboard", href: adminPath("/dashboard"), icon: LayoutDashboard },
+  { key: "startups", label: "Startups", href: adminPath("/startups"), icon: Rocket },
   { key: "ranking", label: "Ranking Tech", href: adminPath("/ranking"), icon: Trophy },
   { key: "security", label: "Segurança", href: adminPath("/security"), icon: ShieldAlert },
   { key: "users", label: "Utilizadores", href: adminPath("/users"), icon: Users },
