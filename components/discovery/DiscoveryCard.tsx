@@ -86,7 +86,7 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
   };
 
   return (
-    <article className="group relative w-full h-52 sm:h-56 rounded-xl overflow-hidden bg-gray-900 border border-gray-200/80 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between p-3 sm:p-3.5">
+    <article className="group relative w-full h-56 sm:h-60 rounded-xl overflow-hidden bg-gray-900 border border-gray-200/80 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between p-3 sm:p-3.5">
       {/* Imagem de Capa que preenche todo o card */}
       <Image
         src={imgSrc}
@@ -100,7 +100,7 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
       />
 
       {/* Gradiente uniforme de alta legibilidade para todo o conteúdo sobreposto */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/30 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/30 pointer-events-none" />
 
       {/* Topo do Card: Organizador, Badge de Formato e Botão de Coração (Favoritos) */}
       <div className="relative z-10 flex items-center justify-between gap-2">
@@ -161,8 +161,8 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
         </div>
       </div>
 
-      {/* Base do Card: Título, Localização e Botão "Ver mais" */}
-      <div className="relative z-10 mt-auto flex flex-col gap-2 pt-2">
+      {/* Base do Card: Título, Descrição, Localização e Botão "Ver mais" */}
+      <div className="relative z-10 mt-auto flex flex-col gap-1.5 pt-2">
         {/* Título com Link protegido por autenticação */}
         <h3 className="text-sm sm:text-base font-semibold text-white line-clamp-2 leading-snug drop-shadow-xs">
           {isLoggedIn ? (
@@ -184,8 +184,15 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
           )}
         </h3>
 
+        {/* Descrição curta do evento / oportunidade debaixo do nome */}
+        {item.description ? (
+          <p className="text-[11px] sm:text-xs text-white/80 line-clamp-2 leading-normal drop-shadow-xs font-normal">
+            {item.description}
+          </p>
+        ) : null}
+
         {/* Rodapé: Localização/Membros e Botão "Ver mais" */}
-        <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/10">
+        <div className="flex items-center justify-between gap-2 pt-1.5 border-t border-white/10">
           <div className="flex items-center gap-2 text-white/85 text-[11px] font-medium min-w-0">
             <div className="flex items-center gap-1 truncate">
               <MapPin className="w-3 h-3 text-violet-300 shrink-0" />
