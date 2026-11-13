@@ -1,1736 +1,1118 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { ExternalLink, Users, MapPin, Tag, ChevronLeft, ChevronRight } from "lucide-react";
-import { CountryFilter, FilterTab, LUSOPHONE_COUNTRIES } from "@/components/CountryFilter";
+
+type StartupFilterTab =
+  | "Todos"
+  | "Angola"
+  | "Brasil"
+  | "Portugal"
+  | "Moçambique"
+  | "Cabo Verde"
+  | "Guiné-Bissau"
+  | "São Tomé e Príncipe"
+  | "Timor-Leste"
+  | "Global";
+
+const STARTUP_FILTER_TABS: StartupFilterTab[] = [
+  "Todos",
+  "Angola",
+  "Brasil",
+  "Portugal",
+  "Moçambique",
+  "Cabo Verde",
+  "Guiné-Bissau",
+  "São Tomé e Príncipe",
+  "Timor-Leste",
+  "Global",
+];
 
 type Program = {
-    id: string;
-    name: string;
-    organization: string;
-    logo: string;
-    description: string;
-    tags: string[];
-    region: string;
-    link: string;
-    type: "incubadora" | "aceleradora" | "fundo" | "programa";
+  id: string;
+  name: string;
+  organization: string;
+  country: Exclude<StartupFilterTab, "Todos">;
+  logo: string;
+  imageFit?: "cover" | "contain";
+  description: string;
+  tags: string[];
+  region: string;
+  link: string;
+  type: "incubadora" | "aceleradora" | "fundo" | "programa";
 };
 
-const PROGRAMS_BY_COUNTRY: Record<FilterTab, Program[]> = {
-    Todos: [],
-    Angola: [
-        {
-            id: "ao-1",
-            name: "Acelera Angola",
-            organization: "Acelera Angola",
-            logo: "/images-card1.jpg",
-            description: "Programa de aceleração de startups em Angola, focado em crescimento e inovação.",
-            tags: ["Aceleração", "Inovação"],
-            region: "Luanda",
-            link: "https://acelera.ao",
-            type: "aceleradora",
-        },
-        {
-            id: "ao-2",
-            name: "CILA – Centro de Incubação Local de Angola",
-            organization: "CILA",
-            logo: "/images-card2.webp",
-            description: "Centro de incubação local para startups angolanas, oferecendo suporte e recursos.",
-            tags: ["Incubação", "Local"],
-            region: "Luanda",
-            link: "https://cila.ao",
-            type: "incubadora",
-        },
-        {
-            id: "ao-3",
-            name: "Founder Institute Luanda",
-            organization: "Founder Institute",
-            logo: "/images-card3.webp",
-            description: "Programa global de formação para fundadores de startups em Luanda.",
-            tags: ["Formação", "Fundadores"],
-            region: "Luanda",
-            link: "https://fi.co/luanda",
-            type: "programa",
-        },
-        {
-            id: "ao-4",
-            name: "AASED – Associação Angolana de Startups e Empreendedorismo Digital",
-            organization: "AASED",
-            logo: "/images-community.jpg",
-            description: "Associação que promove startups e empreendedorismo digital em Angola.",
-            tags: ["Associação", "Digital"],
-            region: "Nacional",
-            link: "https://aased.co.ao",
-            type: "programa",
-        },
-        {
-            id: "ao-5",
-            name: "inova.ao",
-            organization: "inova.ao",
-            logo: "/images-card1.jpg",
-            description: "Plataforma de inovação para startups angolanas.",
-            tags: ["Inovação", "Plataforma"],
-            region: "Nacional",
-            link: "https://inova.ao",
-            type: "programa",
-        },
-        {
-            id: "ao-6",
-            name: "Invest-A",
-            organization: "Invest-A",
-            logo: "/images-card2.webp",
-            description: "Agência de investimento angolana que apoia startups e empreendedores.",
-            tags: ["Investimento", "Agência"],
-            region: "Nacional",
-            link: "https://investangola.ao",
-            type: "fundo",
-        },
-        {
-            id: "ao-7",
-            name: "BNA Sandbox Regulatório",
-            organization: "Banco Nacional de Angola",
-            logo: "/images-card3.webp",
-            description: "Sandbox regulatório do Banco Nacional de Angola para testar inovações financeiras.",
-            tags: ["Regulatório", "Fintech"],
-            region: "Luanda",
-            link: "https://www.bna.ao/sandbox",
-            type: "programa",
-        },
-        {
-            id: "ao-8",
-            name: "Startup Weekend Luanda",
-            organization: "Startup Weekend",
-            logo: "/images-community.jpg",
-            description: "Evento global de fim de semana para criar startups em Luanda.",
-            tags: ["Evento", "Criação"],
-            region: "Luanda",
-            link: "https://startupweekend.org/locations/luanda",
-            type: "programa",
-        },
-        {
-            id: "ao-9",
-            name: "ANGOTIC",
-            organization: "ANGOTIC",
-            logo: "/images-card1.jpg",
-            description: "Agência Nacional para a Sociedade da Informação e Comunicação em Angola.",
-            tags: ["Governo", "Tecnologia"],
-            region: "Nacional",
-            link: "https://angotic.gov.ao",
-            type: "programa",
-        },
-        {
-            id: "ao-10",
-            name: "Unitel Go Challenge",
-            organization: "Unitel",
-            logo: "/images-card2.webp",
-            description: "Desafio de inovação da Unitel para startups angolanas.",
-            tags: ["Desafio", "Inovação"],
-            region: "Luanda",
-            link: "https://unitel.ao/go-challenge",
-            type: "programa",
-        },
-        {
-            id: "ao-11",
-            name: "Seedstars Luanda",
-            organization: "Seedstars",
-            logo: "/images-card3.webp",
-            description: "Programa de aceleração Seedstars em Luanda.",
-            tags: ["Aceleração", "Seedstars"],
-            region: "Luanda",
-            link: "https://www.seedstars.com/luanda",
-            type: "aceleradora",
-        },
-        {
-            id: "ao-12",
-            name: "Orange Corners Angola",
-            organization: "Orange Corners",
-            logo: "/images-community.jpg",
-            description: "Hub de inovação da Orange em Angola para startups.",
-            tags: ["Hub", "Inovação"],
-            region: "Luanda",
-            link: "https://orangecorners.com/angola",
-            type: "incubadora",
-        },
-        {
-            id: "ao-13",
-            name: "TotalEnergies Startupper Challenge",
-            organization: "TotalEnergies",
-            logo: "/images-card1.jpg",
-            description: "Desafio de startups da TotalEnergies em Angola.",
-            tags: ["Desafio", "Energia"],
-            region: "Luanda",
-            link: "https://www.totalenergies.com/en/businesses/exploration-production/startupper-challenge",
-            type: "programa",
-        },
-        {
-            id: "ao-14",
-            name: "BFA Solidário",
-            organization: "Banco de Fomento Angola",
-            logo: "/images-card2.webp",
-            description: "Programa solidário do BFA para apoio a empreendedores.",
-            tags: ["Solidário", "Empreendedorismo"],
-            region: "Nacional",
-            link: "https://www.bfa.ao/solidario",
-            type: "fundo",
-        },
-        {
-            id: "ao-15",
-            name: "BAI Empreendedor",
-            organization: "Banco BAI",
-            logo: "/images-card3.webp",
-            description: "Programa do Banco BAI para empreendedores angolanos.",
-            tags: ["Empreendedor", "Banco"],
-            region: "Nacional",
-            link: "https://www.bancobai.ao/empreendedor",
-            type: "programa",
-        },
-        {
-            id: "ao-16",
-            name: "FAS – Fundo de Apoio Social",
-            organization: "FAS",
-            logo: "/images-community.jpg",
-            description: "Fundo de apoio social para projetos inovadores em Angola.",
-            tags: ["Apoio Social", "Fundo"],
-            region: "Nacional",
-            link: "https://fas.gov.ao",
-            type: "fundo",
-        },
-        {
-            id: "ao-17",
-            name: "INAPEM",
-            organization: "INAPEM",
-            logo: "/images-card1.jpg",
-            description: "Instituto Nacional de Apoio às Pequenas e Médias Empresas em Angola.",
-            tags: ["Governo", "PME"],
-            region: "Nacional",
-            link: "https://www.inapem.co.ao",
-            type: "programa",
-        },
-        {
-            id: "ao-18",
-            name: "PRODESI",
-            organization: "PRODESI",
-            logo: "/images-card2.webp",
-            description: "Programa de Desenvolvimento do Sistema de Inovação em Angola.",
-            tags: ["Desenvolvimento", "Inovação"],
-            region: "Nacional",
-            link: "https://prodesi.gov.ao",
-            type: "programa",
-        },
-        {
-            id: "ao-19",
-            name: "Angola Inovação",
-            organization: "Angola Inovação",
-            logo: "/images-card3.webp",
-            description: "Iniciativa para promover inovação em Angola.",
-            tags: ["Inovação", "Promoção"],
-            region: "Nacional",
-            link: "https://angola-inovacao.com",
-            type: "programa",
-        },
-        {
-            id: "ao-20",
-            name: "KiandaHub",
-            organization: "KiandaHub",
-            logo: "/images-community.jpg",
-            description: "Hub de inovação e tecnologia em Angola.",
-            tags: ["Hub", "Tecnologia"],
-            region: "Luanda",
-            link: "https://kiandahub.com",
-            type: "incubadora",
-        },
-        {
-            id: "ao-21",
-            name: "LISPA – Laboratório de Inovação do Sistema de Pagamentos de Angola",
-            organization: "LISPA",
-            logo: "/images-card1.jpg",
-            description: "Laboratório de inovação para o sistema de pagamentos angolano.",
-            tags: ["Pagamentos", "Laboratório"],
-            region: "Luanda",
-            link: "https://www.lispa.ao",
-            type: "programa",
-        },
-    ],
-    Brasil: [
-        {
-            id: "br-1",
-            name: "Cubo Itaú",
-            organization: "Itaú Unibanco",
-            logo: "/images-card1.jpg",
-            description: "Programa de aceleração do Itaú para startups, oferecendo mentoria, investimento e conexão com o ecossistema.",
-            tags: ["Aceleração", "Banco"],
-            region: "São Paulo",
-            link: "https://www.itau.com.br/empreendedorismo/cubo-itau",
-            type: "aceleradora",
-        },
-        {
-            id: "br-2",
-            name: "InovAtiva Brasil",
-            organization: "MDIC / Sebrae",
-            logo: "/images-card2.webp",
-            description: "Maior programa de aceleração de startups do Brasil, com foco em crescimento e internacionalização.",
-            tags: ["Nacional", "Sebrae"],
-            region: "Nacional",
-            link: "https://www.inovativabrasil.com.br/",
-            type: "programa",
-        },
-        {
-            id: "br-3",
-            name: "Darwin Startups",
-            organization: "Darwin Startups",
-            logo: "/images-card3.webp",
-            description: "Aceleradora que conecta startups a grandes corporações para desafios de inovação aberta.",
-            tags: ["Aceleração", "Corporate"],
-            region: "São Paulo",
-            link: "https://darwinstartups.com/",
-            type: "aceleradora",
-        },
-        {
-            id: "br-4",
-            name: "Tecnopuc Startups",
-            organization: "Pontifícia Universidade Católica do Rio Grande do Sul",
-            logo: "/images-community.jpg",
-            description: "Programa de aceleração da PUCRS para startups tecnológicas.",
-            tags: ["Universidade", "Tecnologia"],
-            region: "Porto Alegre",
-            link: "https://www.pucrs.br/tecnopuc/",
-            type: "aceleradora",
-        },
-        {
-            id: "br-5",
-            name: "Porto Digital",
-            organization: "Porto Digital",
-            logo: "/images-card1.jpg",
-            description: "Ecossistema de inovação em Recife, focado em tecnologia e empreendedorismo.",
-            tags: ["Ecossistema", "Tecnologia"],
-            region: "Recife",
-            link: "https://www.portodigital.org/",
-            type: "incubadora",
-        },
-        {
-            id: "br-6",
-            name: "Baita Aceleradora",
-            organization: "Baita Aceleradora",
-            logo: "/images-card2.webp",
-            description: "Aceleradora de startups com foco em impacto social e sustentabilidade.",
-            tags: ["Impacto", "Sustentabilidade"],
-            region: "São Paulo",
-            link: "https://baitaaceleradora.com/",
-            type: "aceleradora",
-        },
-        {
-            id: "br-7",
-            name: "ACE Startups",
-            organization: "ACE",
-            logo: "/images-card3.webp",
-            description: "Programa de aceleração para startups em estágio inicial.",
-            tags: ["Aceleração", "Inicial"],
-            region: "São Paulo",
-            link: "https://acestartups.com.br/",
-            type: "aceleradora",
-        },
-        {
-            id: "br-8",
-            name: "FCJ Venture Builder",
-            organization: "FCJ Capital",
-            logo: "/images-community.jpg",
-            description: "Construtor de empresas que desenvolve startups desde a concepção até o crescimento.",
-            tags: ["Venture Builder", "Desenvolvimento"],
-            region: "São Paulo",
-            link: "https://fcjcapital.com/",
-            type: "incubadora",
-        },
-        {
-            id: "br-9",
-            name: "WOW Aceleradora",
-            organization: "WOW Aceleradora",
-            logo: "/images-card1.jpg",
-            description: "Aceleradora focada em diversidade e inclusão no empreendedorismo.",
-            tags: ["Diversidade", "Inclusão"],
-            region: "São Paulo",
-            link: "https://wowaceleradora.com/",
-            type: "aceleradora",
-        },
-        {
-            id: "br-10",
-            name: "VENTURE Hub",
-            organization: "VENTURE Hub",
-            logo: "/images-card2.webp",
-            description: "Hub de inovação que conecta startups a investidores e corporações.",
-            tags: ["Hub", "Inovação"],
-            region: "São Paulo",
-            link: "https://venturehub.com.br/",
-            type: "incubadora",
-        },
-        {
-            id: "br-11",
-            name: "Artemisia",
-            organization: "Artemisia",
-            logo: "/images-card3.webp",
-            description: "Aceleradora focada em startups lideradas por mulheres.",
-            tags: ["Mulheres", "Empreendedorismo"],
-            region: "São Paulo",
-            link: "https://artemisia.com.br/",
-            type: "aceleradora",
-        },
-        {
-            id: "br-12",
-            name: "Quintessa",
-            organization: "Quintessa",
-            logo: "/images-community.jpg",
-            description: "Aceleradora de impacto social e ambiental.",
-            tags: ["Impacto", "Ambiental"],
-            region: "São Paulo",
-            link: "https://quintessa.com.br/",
-            type: "aceleradora",
-        },
-        {
-            id: "br-13",
-            name: "Climate Ventures",
-            organization: "Climate Ventures",
-            logo: "/images-card1.jpg",
-            description: "Fundo de investimento focado em startups climáticas.",
-            tags: ["Clima", "Investimento"],
-            region: "São Paulo",
-            link: "https://climateventures.com.br/",
-            type: "fundo",
-        },
-        {
-            id: "br-14",
-            name: "Bluefields",
-            organization: "Bluefields",
-            logo: "/images-card2.webp",
-            description: "Aceleradora de startups B2B SaaS.",
-            tags: ["B2B", "SaaS"],
-            region: "São Paulo",
-            link: "https://bluefields.com.br/",
-            type: "aceleradora",
-        },
-        {
-            id: "br-15",
-            name: "Syndreams",
-            organization: "Syndreams",
-            logo: "/images-card3.webp",
-            description: "Aceleradora de startups com foco em inovação aberta.",
-            tags: ["Inovação", "Aberta"],
-            region: "São Paulo",
-            link: "https://syndreams.com.br/",
-            type: "aceleradora",
-        },
-        {
-            id: "br-16",
-            name: "Cyklo Agritech",
-            organization: "Cyklo",
-            logo: "/images-community.jpg",
-            description: "Aceleradora especializada em agritech e foodtech.",
-            tags: ["Agritech", "Foodtech"],
-            region: "São Paulo",
-            link: "https://cyklo.com.br/",
-            type: "aceleradora",
-        },
-        {
-            id: "br-17",
-            name: "AgFoodVentures",
-            organization: "AgFoodVentures",
-            logo: "/images-card1.jpg",
-            description: "Fundo de investimento em agronegócio e alimentos.",
-            tags: ["Agronegócio", "Alimentos"],
-            region: "São Paulo",
-            link: "https://agfoodventures.com.br/",
-            type: "fundo",
-        },
-        {
-            id: "br-18",
-            name: "Orquestra Inovação",
-            organization: "Orquestra Inovação",
-            logo: "/images-card2.webp",
-            description: "Programa de inovação aberta para corporações.",
-            tags: ["Inovação", "Corporativa"],
-            region: "São Paulo",
-            link: "https://orquestrainovacao.com.br/",
-            type: "programa",
-        },
-        {
-            id: "br-19",
-            name: "OBr.global",
-            organization: "OBr.global",
-            logo: "/images-card3.webp",
-            description: "Plataforma global de inovação aberta.",
-            tags: ["Global", "Inovação"],
-            region: "São Paulo",
-            link: "https://obr.global/",
-            type: "programa",
-        },
-        {
-            id: "br-20",
-            name: "HOTMILK PUCPR SpeedUp",
-            organization: "Pontifícia Universidade Católica do Paraná",
-            logo: "/images-community.jpg",
-            description: "Programa de aceleração da PUCPR para startups.",
-            tags: ["Universidade", "Aceleração"],
-            region: "Curitiba",
-            link: "https://www.pucpr.br/hotmilk/",
-            type: "aceleradora",
-        },
-        {
-            id: "br-21",
-            name: "Google for Startups Accelerator Brazil",
-            organization: "Google",
-            logo: "/images-card1.jpg",
-            description: "Programa de aceleração do Google para startups brasileiras.",
-            tags: ["Google", "Tecnologia"],
-            region: "São Paulo",
-            link: "https://startup.google.com/accelerator/",
-            type: "aceleradora",
-        },
-        {
-            id: "br-22",
-            name: "BNDES Garagem",
-            organization: "BNDES",
-            logo: "/images-card2.webp",
-            description: "Programa de aceleração do BNDES para startups de impacto.",
-            tags: ["Governo", "Impacto"],
-            region: "Rio de Janeiro",
-            link: "https://www.bndes.gov.br/wps/portal/site/home/transparencia/garagem",
-            type: "aceleradora",
-        },
-        {
-            id: "br-23",
-            name: "Sebrae Startups",
-            organization: "Sebrae",
-            logo: "/images-card3.webp",
-            description: "Programa do Sebrae para apoio a startups brasileiras.",
-            tags: ["Sebrae", "Apoio"],
-            region: "Nacional",
-            link: "https://www.sebrae.com.br/sites/PortalSebrae/startups",
-            type: "programa",
-        },
-        {
-            id: "br-24",
-            name: "Startup Indústria ABDI",
-            organization: "ABDI",
-            logo: "/images-community.jpg",
-            description: "Programa para startups na indústria brasileira.",
-            tags: ["Indústria", "ABDI"],
-            region: "Nacional",
-            link: "https://www.abdi.com.br/",
-            type: "programa",
-        },
-        {
-            id: "br-25",
-            name: "Conecta Startup Brasil",
-            organization: "Conecta Startup",
-            logo: "/images-card1.jpg",
-            description: "Programa de conexão para startups brasileiras.",
-            tags: ["Conexão", "Rede"],
-            region: "Nacional",
-            link: "https://conectastartup.com.br/",
-            type: "programa",
-        },
-        {
-            id: "br-26",
-            name: "Boostlab BTG Pactual",
-            organization: "BTG Pactual",
-            logo: "/images-card2.webp",
-            description: "Programa de aceleração do BTG Pactual para fintechs.",
-            tags: ["Fintech", "Banco"],
-            region: "São Paulo",
-            link: "https://www.btgpactual.com/boostlab",
-            type: "aceleradora",
-        },
-        {
-            id: "br-27",
-            name: "Serasa Experian Impulsiona",
-            organization: "Serasa Experian",
-            logo: "/images-card3.webp",
-            description: "Programa de aceleração para startups de dados e crédito.",
-            tags: ["Dados", "Crédito"],
-            region: "São Paulo",
-            link: "https://www.serasaexperian.com.br/impulsiona",
-            type: "aceleradora",
-        },
-        {
-            id: "br-28",
-            name: "Natura Innovation Challenge",
-            organization: "Natura",
-            logo: "/images-community.jpg",
-            description: "Desafio de inovação da Natura para startups de beleza e sustentabilidade.",
-            tags: ["Beleza", "Sustentabilidade"],
-            region: "São Paulo",
-            link: "https://www.natura.com.br/innovation",
-            type: "programa",
-        },
-        {
-            id: "br-29",
-            name: "100+ Labs Ambev",
-            organization: "Ambev",
-            logo: "/images-card1.jpg",
-            description: "Programa de inovação aberta da Ambev para startups.",
-            tags: ["Inovação", "Bebidas"],
-            region: "São Paulo",
-            link: "https://www.ambev.com.br/100-labs",
-            type: "programa",
-        },
-        {
-            id: "br-30",
-            name: "Braskem Labs",
-            organization: "Braskem",
-            logo: "/images-card2.webp",
-            description: "Programa de inovação da Braskem para startups químicas.",
-            tags: ["Química", "Inovação"],
-            region: "São Paulo",
-            link: "https://www.braskem.com.br/labs",
-            type: "programa",
-        },
-        {
-            id: "br-31",
-            name: "Grupo Boticário Ventures",
-            organization: "Grupo Boticário",
-            logo: "/images-card3.webp",
-            description: "Fundo de investimento do Grupo Boticário em startups de beleza.",
-            tags: ["Beleza", "Investimento"],
-            region: "São Paulo",
-            link: "https://www.grupoboticario.com.br/ventures",
-            type: "fundo",
-        },
-        {
-            id: "br-32",
-            name: "Acelera Startup Fiesp",
-            organization: "Fiesp",
-            logo: "/images-community.jpg",
-            description: "Programa de aceleração da Fiesp para startups industriais.",
-            tags: ["Indústria", "Fiesp"],
-            region: "São Paulo",
-            link: "https://www.fiesp.com.br/acelera-startup",
-            type: "aceleradora",
-        },
-        {
-            id: "br-33",
-            name: "Programa Centelha",
-            organization: "MCTI",
-            logo: "/images-card1.jpg",
-            description: "Programa do Ministério da Ciência e Tecnologia para apoio a startups.",
-            tags: ["Governo", "Ciência"],
-            region: "Nacional",
-            link: "https://www.mctic.gov.br/programa-centelha",
-            type: "programa",
-        },
-    ],
-    Portugal: [
-        {
-            id: "pt-1",
-            name: "StartUP Portugal",
-            organization: "Startup Portugal",
-            logo: "/images-card1.jpg",
-            description: "Plataforma nacional de apoio a startups e empreendedorismo inovador em Portugal.",
-            tags: ["Nacional", "Ecossistema"],
-            region: "Nacional",
-            link: "https://www.startupportugal.com/",
-            type: "programa",
-        },
-        {
-            id: "pt-2",
-            name: "RNi – Portugal Incubators",
-            organization: "RNi",
-            logo: "/images-card2.webp",
-            description: "Rede nacional de incubadoras que apoia a criação e desenvolvimento de startups.",
-            tags: ["Incubadora", "Rede"],
-            region: "Nacional",
-            link: "https://www.rni.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-3",
-            name: "Startup Lisboa",
-            organization: "Startup Lisboa",
-            logo: "/images-card3.webp",
-            description: "Incubadora urbana que acelera startups com foco em internacionalização.",
-            tags: ["Incubadora", "Internacional"],
-            region: "Lisboa",
-            link: "https://www.startuplisboa.com/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-4",
-            name: "UPTEC",
-            organization: "Universidade do Porto",
-            logo: "/images-community.jpg",
-            description: "Incubadora do Porto que apoia startups tecnológicas e criativas.",
-            tags: ["Incubadora", "Tecnologia"],
-            region: "Porto",
-            link: "https://www.uptec.ulisboa.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-5",
-            name: "Instituto Pedro Nunes",
-            organization: "IPN",
-            logo: "/images-card1.jpg",
-            description: "Centro de incubação e inovação tecnológica ligado à Universidade de Coimbra.",
-            tags: ["Incubadora", "Universidade"],
-            region: "Coimbra",
-            link: "https://www.ipn.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-6",
-            name: "ESA BIC Portugal",
-            organization: "ESA BIC Portugal",
-            logo: "/images-card2.webp",
-            description: "Incubadora da Agência Espacial Europeia para startups de base espacial e deep tech.",
-            tags: ["Espaço", "DeepTech"],
-            region: "Coimbra",
-            link: "https://www.esabic.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-7",
-            name: "Lispolis",
-            organization: "Lispolis",
-            logo: "/images-card3.webp",
-            description: "Incubadora de empresas que apoia projetos tecnológicos e inovadores em Lisboa.",
-            tags: ["Incubadora", "Tecnologia"],
-            region: "Lisboa",
-            link: "https://lispolis.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-8",
-            name: "Fintech House",
-            organization: "Fintech House",
-            logo: "/images-community.jpg",
-            description: "Aceleradora e hub para startups de fintech e inovação financeira.",
-            tags: ["Fintech", "Aceleração"],
-            region: "Lisboa",
-            link: "https://www.fintechhouse.pt/",
-            type: "aceleradora",
-        },
-        {
-            id: "pt-9",
-            name: "Unicorn Factory Lisboa",
-            organization: "Unicorn Factory",
-            logo: "/images-card1.jpg",
-            description: "Hub de incubação e aceleração para startups tecnológicas em Lisboa.",
-            tags: ["Hub", "Tecnologia"],
-            region: "Lisboa",
-            link: "https://unicornfactorylisboa.com/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-10",
-            name: "Startup Braga",
-            organization: "Startup Braga",
-            logo: "/images-card2.webp",
-            description: "Incubadora que apoia startups de base tecnológica na região Norte.",
-            tags: ["Incubadora", "Tecnologia"],
-            region: "Braga",
-            link: "https://www.startupbraga.com/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-11",
-            name: "Startup Madeira",
-            organization: "Startup Madeira",
-            logo: "/images-card3.webp",
-            description: "Hub de apoio a startups e inovação na região da Madeira.",
-            tags: ["Hub", "Região"],
-            region: "Madeira",
-            link: "https://www.startupmadeira.com/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-12",
-            name: "Audax ISCTE",
-            organization: "ISCTE",
-            logo: "/images-community.jpg",
-            description: "Incubadora de startups ligadas ao ISCTE com foco em inovação social e digital.",
-            tags: ["Universidade", "Inovação"],
-            region: "Lisboa",
-            link: "https://audax.iscte-iul.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-13",
-            name: "Tec Labs",
-            organization: "Tec Labs",
-            logo: "/images-card1.jpg",
-            description: "Incubadora e espaço de coworking para startups tecnológicas.",
-            tags: ["Incubadora", "Coworking"],
-            region: "Lisboa",
-            link: "https://www.teclabs.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-14",
-            name: "Madan Parque",
-            organization: "Madan Parque",
-            logo: "/images-card2.webp",
-            description: "Parque tecnológico que apoia incubadoras e startups de inovação.",
-            tags: ["Parque", "Tecnologia"],
-            region: "Lisboa",
-            link: "https://www.madanparque.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-15",
-            name: "Taguspark",
-            organization: "Taguspark",
-            logo: "/images-card3.webp",
-            description: "Parque tecnológico com incubadora para startups e empresas inovadoras.",
-            tags: ["Parque", "Inovação"],
-            region: "Oeiras",
-            link: "https://www.taguspark.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-16",
-            name: "Startup Leiria",
-            organization: "Startup Leiria",
-            logo: "/images-community.jpg",
-            description: "Hub de apoio a startups e novos negócios na região de Leiria.",
-            tags: ["Hub", "Empreendedorismo"],
-            region: "Leiria",
-            link: "https://startupdeleiria.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-17",
-            name: "Startup Santarém",
-            organization: "Startup Santarém",
-            logo: "/images-card1.jpg",
-            description: "Programa regional de incubação para empreendedores em Santarém.",
-            tags: ["Regional", "Incubadora"],
-            region: "Santarém",
-            link: "https://startup-santarem.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-18",
-            name: "Startup Ourém",
-            organization: "Startup Ourém",
-            logo: "/images-card2.webp",
-            description: "Incubadora local que apoia a criação de startups em Ourém.",
-            tags: ["Regional", "Empreendedorismo"],
-            region: "Ourém",
-            link: "https://startupourem.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-19",
-            name: "Startup Torres Novas",
-            organization: "Startup Torres Novas",
-            logo: "/images-card3.webp",
-            description: "Plataforma de apoio e incubação para startups em Torres Novas.",
-            tags: ["Regional", "Inovação"],
-            region: "Torres Novas",
-            link: "https://startup-torresnovas.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-20",
-            name: "CESAE Digital Incubator",
-            organization: "CESAE",
-            logo: "/images-community.jpg",
-            description: "Incubadora digital para startups nas áreas de tecnologia e serviços.",
-            tags: ["Digital", "Incubadora"],
-            region: "Lisboa",
-            link: "https://www.cesae.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-21",
-            name: "IEUA – Incubadora de Empresas da Universidade de Aveiro",
-            organization: "Universidade de Aveiro",
-            logo: "/images-card1.jpg",
-            description: "Incubadora acadêmica que apoia projetos de base científica e tecnológica.",
-            tags: ["Universidade", "Academia"],
-            region: "Aveiro",
-            link: "https://www.ua.pt/ieua",
-            type: "incubadora",
-        },
-        {
-            id: "pt-22",
-            name: "UBI Medical",
-            organization: "Universidade da Beira Interior",
-            logo: "/images-card2.webp",
-            description: "Incubadora de projetos de saúde e biotecnologia ligada à UBI.",
-            tags: ["Saúde", "Biotecnologia"],
-            region: "Covilhã",
-            link: "https://www.ubi.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-23",
-            name: "Parkurbis",
-            organization: "Parkurbis",
-            logo: "/images-card3.webp",
-            description: "Parque de inovação que apoia incubação e desenvolvimento de startups.",
-            tags: ["Parque", "Ecossistema"],
-            region: "Aveiro",
-            link: "https://parkurbis.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-24",
-            name: "Regia Douro Park",
-            organization: "Regia Douro Park",
-            logo: "/images-community.jpg",
-            description: "Parque tecnológico que apoia empresas e startups na região do Douro.",
-            tags: ["Parque", "Tecnologia"],
-            region: "Vila Real",
-            link: "https://www.regiadouropark.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-25",
-            name: "Creative Science Park Aveiro Region",
-            organization: "Creative Science Park",
-            logo: "/images-card1.jpg",
-            description: "Parque científico e incubadora para projetos inovadores em Aveiro.",
-            tags: ["Ciência", "Inovação"],
-            region: "Aveiro",
-            link: "https://www.cspark.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-26",
-            name: "IPStartUp",
-            organization: "IPStartUp",
-            logo: "/images-card2.webp",
-            description: "Incubadora de empresas e projetos tecnológicos em Portugal.",
-            tags: ["Incubadora", "Startups"],
-            region: "Lisboa",
-            link: "https://www.ipstartup.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-27",
-            name: "NET – Novas Empresas e Tecnologias",
-            organization: "NET",
-            logo: "/images-card3.webp",
-            description: "Incubadora e suporte para novas empresas de base tecnológica.",
-            tags: ["Tecnologia", "Incubadora"],
-            region: "Covilhã",
-            link: "https://net.ubi.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-28",
-            name: "DNA Cascais",
-            organization: "DNA Cascais",
-            logo: "/images-community.jpg",
-            description: "Incubadora regional para startups e empreendedores em Cascais.",
-            tags: ["Regional", "Inovação"],
-            region: "Cascais",
-            link: "https://www.dnacascais.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-29",
-            name: "Mercado de Ideias",
-            organization: "Mercado de Ideias",
-            logo: "/images-card1.jpg",
-            description: "Incubadora e aceleradora de startups com foco em negócios inovadores.",
-            tags: ["Aceleração", "Incubação"],
-            region: "Lisboa",
-            link: "https://mercadodeideias.pt/",
-            type: "aceleradora",
-        },
-        {
-            id: "pt-30",
-            name: "Beta-i",
-            organization: "Beta-i",
-            logo: "/images-card2.webp",
-            description: "Consultoria e aceleradora de inovação aberta para startups e grandes empresas.",
-            tags: ["Inovação", "Aceleração"],
-            region: "Lisboa",
-            link: "https://beta-i.pt/",
-            type: "aceleradora",
-        },
-        {
-            id: "pt-31",
-            name: "Fábrica de Startups",
-            organization: "Fábrica de Startups",
-            logo: "/images-card3.webp",
-            description: "Aceleradora de startups com foco em produtos digitais e inovação.",
-            tags: ["Aceleração", "Digital"],
-            region: "Lisboa",
-            link: "https://fabricadestartups.com/",
-            type: "aceleradora",
-        },
-        {
-            id: "pt-32",
-            name: "Building Global Innovators",
-            organization: "BGI",
-            logo: "/images-community.jpg",
-            description: "Programa de aceleração focado em startups com ambição global.",
-            tags: ["Global", "Aceleração"],
-            region: "Lisboa",
-            link: "https://bgi.pt/",
-            type: "aceleradora",
-        },
-        {
-            id: "pt-33",
-            name: "BLC3",
-            organization: "BLC3",
-            logo: "/images-card1.jpg",
-            description: "Parque de tecnologia e incubadora voltada para startups e empresas inovadoras.",
-            tags: ["Parque", "Inovação"],
-            region: "Aveiro",
-            link: "https://www.blc3.com/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-34",
-            name: "Algarve STP",
-            organization: "Algarve STP",
-            logo: "/images-card2.webp",
-            description: "Parque tecnológico e incubadora para startups no Algarve.",
-            tags: ["Parque", "Região"],
-            region: "Algarve",
-            link: "https://algarvestp.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-35",
-            name: "UALMedia Incubator",
-            organization: "UALMedia",
-            logo: "/images-card3.webp",
-            description: "Incubadora para startups de media e comunicação.",
-            tags: ["Media", "Inovação"],
-            region: "Lisboa",
-            link: "https://ualmedia.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-36",
-            name: "Madeira Startup Retreat",
-            organization: "Madeira Startup Retreat",
-            logo: "/images-community.jpg",
-            description: "Evento e incubadora para startups na região da Madeira.",
-            tags: ["Madeira", "Retiro"],
-            region: "Madeira",
-            link: "https://www.madeirastartupretreat.com/",
-            type: "programa",
-        },
-        {
-            id: "pt-37",
-            name: "Impact Hub Lisbon",
-            organization: "Impact Hub",
-            logo: "/images-card1.jpg",
-            description: "Espaço de coworking e comunidade que apoia startups de impacto.",
-            tags: ["Impacto", "Coworking"],
-            region: "Lisboa",
-            link: "https://lisbon.impacthub.net/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-38",
-            name: "Casa do Impacto",
-            organization: "Casa do Impacto",
-            logo: "/images-card2.webp",
-            description: "Incubadora para startups sociais e de impacto no território português.",
-            tags: ["Impacto", "Social"],
-            region: "Lisboa",
-            link: "https://casadoimpacto.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-39",
-            name: "SEA – Social Entrepreneurs Agency",
-            organization: "SEA",
-            logo: "/images-card3.webp",
-            description: "Agência que apoia empreendedorismo social e startups com impacto.",
-            tags: ["Social", "Empreendedorismo"],
-            region: "Lisboa",
-            link: "https://sea.org.pt/",
-            type: "programa",
-        },
-        {
-            id: "pt-40",
-            name: "StartUp Barreiro",
-            organization: "StartUp Barreiro",
-            logo: "/images-community.jpg",
-            description: "Incubadora e comunidade de startups na região do Barreiro.",
-            tags: ["Regional", "Incubadora"],
-            region: "Barreiro",
-            link: "https://startup-barreiro.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-41",
-            name: "StartUp Sintra",
-            organization: "StartUp Sintra",
-            logo: "/images-card1.jpg",
-            description: "Hub local para empreendedorismo e inovação em Sintra.",
-            tags: ["Regional", "Hub"],
-            region: "Sintra",
-            link: "https://startup-sintra.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-42",
-            name: "StartUp Vila Nova de Gaia",
-            organization: "StartUp Gaia",
-            logo: "/images-card2.webp",
-            description: "Incubadora regional que apoia startups na zona do Porto.",
-            tags: ["Regional", "Incubadora"],
-            region: "Vila Nova de Gaia",
-            link: "https://startupgaia.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-43",
-            name: "StartUp Viseu",
-            organization: "StartUp Viseu",
-            logo: "/images-card3.webp",
-            description: "Incubadora e hub de inovação na região de Viseu.",
-            tags: ["Regional", "Inovação"],
-            region: "Viseu",
-            link: "https://startupviseu.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-44",
-            name: "StartUp Évora",
-            organization: "StartUp Évora",
-            logo: "/images-community.jpg",
-            description: "Incubadora para empreendedores e startups em Évora.",
-            tags: ["Regional", "Empreendedorismo"],
-            region: "Évora",
-            link: "https://startupevora.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-45",
-            name: "StartUp Portalegre",
-            organization: "StartUp Portalegre",
-            logo: "/images-card1.jpg",
-            description: "Centro de apoio para startups na região de Portalegre.",
-            tags: ["Regional", "Incubadora"],
-            region: "Portalegre",
-            link: "https://startupportalegre.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-46",
-            name: "StartUp Setúbal",
-            organization: "StartUp Setúbal",
-            logo: "/images-card2.webp",
-            description: "Incubadora e comunidade de startups no distrito de Setúbal.",
-            tags: ["Regional", "Hub"],
-            region: "Setúbal",
-            link: "https://startupsetubal.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-47",
-            name: "StartUp Algarve",
-            organization: "StartUp Algarve",
-            logo: "/images-card3.webp",
-            description: "Rede regional de apoio a startups e inovação no Algarve.",
-            tags: ["Regional", "Rede"],
-            region: "Algarve",
-            link: "https://startupalgarve.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-48",
-            name: "StartUp Azores",
-            organization: "StartUp Azores",
-            logo: "/images-community.jpg",
-            description: "Hub e incubadora para startups na região dos Açores.",
-            tags: ["Regional", "Açores"],
-            region: "Açores",
-            link: "https://startupazores.pt/",
-            type: "incubadora",
-        },
-        {
-            id: "pt-49",
-            name: "StartUp Funchal",
-            organization: "StartUp Funchal",
-            logo: "/images-card1.jpg",
-            description: "Incubadora de startups e espaço de inovação no Funchal.",
-            tags: ["Madeira", "Incubadora"],
-            region: "Funchal",
-            link: "https://startupfunchal.pt/",
-            type: "incubadora",
-        },
-    ],
-    Moçambique: [
-        {
-            id: "mz-1",
-            name: "Incubadora de Negócios da UEM",
-            organization: "Universidade Eduardo Mondlane",
-            logo: "/images-card1.jpg",
-            description: "Incubadora acadêmica ligada à UEM, que apoia startups de base tecnológica e inovação.",
-            tags: ["Universidade", "Incubadora"],
-            region: "Maputo",
-            link: "https://www.uem.mz/",
-            type: "incubadora",
-        },
-        {
-            id: "mz-2",
-            name: "Raizcorp Moçambique",
-            organization: "Raizcorp",
-            logo: "/images-card2.webp",
-            description: "Incubadora e aceleradora de startups em Moçambique com foco em inovação empresarial.",
-            tags: ["Incubadora", "Aceleração"],
-            region: "Maputo",
-            link: "https://raizcorp.com/",
-            type: "incubadora",
-        },
-        {
-            id: "mz-3",
-            name: "INCUBOX",
-            organization: "INCUBOX",
-            logo: "/images-card3.webp",
-            description: "Incubadora de empresas que apoia criação e desenvolvimento de startups em Moçambique.",
-            tags: ["Incubadora", "Desenvolvimento"],
-            region: "Maputo",
-            link: "https://incubox.co.mz/",
-            type: "incubadora",
-        },
-        {
-            id: "mz-4",
-            name: "INCUBOX II",
-            organization: "INCUBOX",
-            logo: "/images-community.jpg",
-            description: "Segunda fase da incubadora INCUBOX com programas avançados para startups.",
-            tags: ["Incubadora", "Avançado"],
-            region: "Maputo",
-            link: "https://www.gapi.co.mz/incubox-ii/",
-            type: "incubadora",
-        },
-        {
-            id: "mz-5",
-            name: "ThinkLab INCM",
-            organization: "Instituto Nacional de Ciência e Tecnologia",
-            logo: "/images-card1.jpg",
-            description: "Laboratório de inovação para desenvolvimento de projetos tecnológicos e startups.",
-            tags: ["Laboratório", "Tecnologia"],
-            region: "Maputo",
-            link: "https://incm.gov.mz/",
-            type: "incubadora",
-        },
-        {
-            id: "mz-6",
-            name: "Seedstars Maputo",
-            organization: "Seedstars",
-            logo: "/images-card2.webp",
-            description: "Programa global de aceleração de startups em Maputo.",
-            tags: ["Aceleração", "Seedstars"],
-            region: "Maputo",
-            link: "https://www.seedstars.com/maputo",
-            type: "aceleradora",
-        },
-        {
-            id: "mz-7",
-            name: "Djampa (CoWork Lab)",
-            organization: "Djampa",
-            logo: "/images-card3.webp",
-            description: "Espaço de coworking e laboratório de inovação para empreendedores e startups.",
-            tags: ["CoWorking", "Laboratório"],
-            region: "Maputo",
-            link: "https://djampa.co.mz/",
-            type: "incubadora",
-        },
-        {
-            id: "mz-8",
-            name: "StartMoz",
-            organization: "StartMoz",
-            logo: "/images-community.jpg",
-            description: "Plataforma de apoio e incubação para startups moçambicanas.",
-            tags: ["Incubadora", "Plataforma"],
-            region: "Maputo",
-            link: "https://startmoz.com/",
-            type: "incubadora",
-        },
-    ],
-    "Cabo Verde": [
-        {
-            id: "cv-1",
-            name: "Cabo Verde Digital",
-            organization: "Governo CV",
-            logo: "/images-card1.jpg",
-            description: "Iniciativa de transformação digital com foco em empreendedorismo e inovação tecnológica.",
-            tags: ["Digital", "Tecnologia"],
-            region: "Nacional",
-            link: "https://caboverdedigital.cv/",
-            type: "programa",
-        },
-        {
-            id: "cv-2",
-            name: "TechPark CV",
-            organization: "TechPark",
-            logo: "/images-card2.webp",
-            description: "Parque tecnológico que abriga startups e empresas inovadoras em Cabo Verde.",
-            tags: ["Parque", "Tecnologia"],
-            region: "Praia",
-            link: "https://techparkcv.cv/",
-            type: "incubadora",
-        },
-        {
-            id: "cv-3",
-            name: "Nôs Startup",
-            organization: "Nôs Innovation",
-            logo: "/images-card3.webp",
-            description: "Plataforma de incubação e aceleração de startups focada em inovação.",
-            tags: ["Incubadora", "Aceleração"],
-            region: "Praia",
-            link: "https://nosstartup.cv/",
-            type: "aceleradora",
-        },
-        {
-            id: "cv-4",
-            name: "Pró Empresa",
-            organization: "Pró Empresa",
-            logo: "/images-community.jpg",
-            description: "Programa de apoio a empreendedores e empresas em Cabo Verde.",
-            tags: ["Empreendedorismo", "Apoio"],
-            region: "Nacional",
-            link: "https://proempresa.cv/",
-            type: "programa",
-        },
-        {
-            id: "cv-5",
-            name: "ADEI – Agência de Desenvolvimento Empresarial e Inovação",
-            organization: "ADEI",
-            logo: "/images-card1.jpg",
-            description: "Agência governamental que promove desenvolvimento empresarial e inovação em Cabo Verde.",
-            tags: ["Governo", "Desenvolvimento"],
-            region: "Nacional",
-            link: "https://adei.cv/",
-            type: "programa",
-        },
-        {
-            id: "cv-6",
-            name: "Cabo Verde Innovation Hub",
-            organization: "CV Innovation",
-            logo: "/images-card2.webp",
-            description: "Hub de inovação conectando talentos, ideias e investidores.",
-            tags: ["Hub", "Inovação"],
-            region: "Praia",
-            link: "https://cvinnovation.cv/",
-            type: "incubadora",
-        },
-        {
-            id: "cv-7",
-            name: "Startup Weekend Cabo Verde",
-            organization: "Startup Weekend",
-            logo: "/images-card3.webp",
-            description: "Evento global de fim de semana para criar startups em Cabo Verde.",
-            tags: ["Evento", "Criação"],
-            region: "Praia",
-            link: "https://startupweekend.org/locations/praia",
-            type: "programa",
-        },
-        {
-            id: "cv-8",
-            name: "Seedstars Praia",
-            organization: "Seedstars",
-            logo: "/images-community.jpg",
-            description: "Programa global de aceleração de startups em Praia.",
-            tags: ["Aceleração", "Global"],
-            region: "Praia",
-            link: "https://www.seedstars.com/praia",
-            type: "aceleradora",
-        },
-        {
-            id: "cv-9",
-            name: "Fintech Cabo Verde",
-            organization: "Fintech CV",
-            logo: "/images-card1.jpg",
-            description: "Programa focado em inovação financial e startups de tecnologia financeira.",
-            tags: ["Fintech", "Inovação"],
-            region: "Praia",
-            link: "https://fintechcaboverde.cv/",
-            type: "programa",
-        },
-        {
-            id: "cv-10",
-            name: "Cabo Verde Social Innovation Hub",
-            organization: "CV Social Innovation",
-            logo: "/images-card2.webp",
-            description: "Hub focado em inovação social e empreendedorismo de impacto.",
-            tags: ["Social", "Impacto"],
-            region: "Praia",
-            link: "https://cvsocialinnovation.cv/",
-            type: "incubadora",
-        },
-    ],
-    "Guiné-Bissau": [
-        {
-            id: "gw-1",
-            name: "CIDE – Centro de Incubação e Desenvolvimento Empresarial",
-            organization: "CIDE",
-            logo: "/images-card1.jpg",
-            description: "Centro que oferece incubação, formação e microcrédito. Já incubou dezenas de empresas em Guiné-Bissau.",
-            tags: ["Incubadora", "Formação"],
-            region: "Bissau",
-            link: "https://cide.gw/",
-            type: "incubadora",
-        },
-        {
-            id: "gw-2",
-            name: "IRMEC – Incubadora Regional de Microempresas de Cacheu",
-            organization: "IRMEC",
-            logo: "/images-card2.webp",
-            description: "Incubadora regional focada em apoio a microempresas e inclusão financeira desde 2015.",
-            tags: ["Microempresas", "Inclusão"],
-            region: "Cacheu",
-            link: "https://irmec.gw/",
-            type: "incubadora",
-        },
-        {
-            id: "gw-3",
-            name: "InnovaLab Guiné-Bissau",
-            organization: "InnovaLab",
-            logo: "/images-card3.webp",
-            description: "Desenvolve programas de inovação, mentoria e ligação com financiamento para startups.",
-            tags: ["Inovação", "Mentoria"],
-            region: "Bissau",
-            link: "https://innovalab.gw/",
-            type: "incubadora",
-        },
-        {
-            id: "gw-4",
-            name: "Orik Capital",
-            organization: "Orik Capital",
-            logo: "/images-community.jpg",
-            description: "Empresa focada em investimento e capital para empreendedores e startups.",
-            tags: ["Investimento", "Capital"],
-            region: "Bissau",
-            link: "https://orikcapital.gw/",
-            type: "fundo",
-        },
-        {
-            id: "gw-5",
-            name: "FUNDEI – Fundação Guineense para o Desenvolvimento Empresarial Industrial",
-            organization: "FUNDEI",
-            logo: "/images-card1.jpg",
-            description: "Fundação dedicada ao desenvolvimento empresarial e industrial em Guiné-Bissau.",
-            tags: ["Desenvolvimento", "Industrial"],
-            region: "Nacional",
-            link: "https://fundei.gw/",
-            type: "programa",
-        },
-        {
-            id: "gw-6",
-            name: "Kau Criar",
-            organization: "PNUD / Kau Criar",
-            logo: "/images-card2.webp",
-            description: "Espaço de inovação, eventos e capacitação apoiado pelo PNUD em Guiné-Bissau.",
-            tags: ["Inovação", "Capacitação"],
-            region: "Bissau",
-            link: "https://kaucriar.gw/",
-            type: "programa",
-        },
-        {
-            id: "gw-7",
-            name: "AIGB – Associação Industrial da Guiné-Bissau",
-            organization: "AIGB",
-            logo: "/images-card3.webp",
-            description: "Associação industrial que apoia e promove iniciativas empresariais e inovação.",
-            tags: ["Industrial", "Associação"],
-            region: "Bissau",
-            link: "https://aigb.gw/",
-            type: "programa",
-        },
-        {
-            id: "gw-8",
-            name: "Bemba Empreendedor",
-            organization: "CIDE",
-            logo: "/images-community.jpg",
-            description: "Programa específico do CIDE focado em empreendedorismo e desenvolvimento de negócios.",
-            tags: ["Empreendedorismo", "CIDE"],
-            region: "Bissau",
-            link: "https://cide.gw/bemba",
-            type: "programa",
-        },
-    ],
-    "São Tomé e Príncipe": [
-        {
-            id: "st-1",
-            name: "Incubadora Central de São Tomé e Príncipe",
-            organization: "Governo de STP",
-            logo: "/images-card1.jpg",
-            description: "Incubadora central que apoia criação e desenvolvimento de startups no país.",
-            tags: ["Incubadora", "Nacional"],
-            region: "São Tomé",
-            link: "https://stp.gov.st/",
-            type: "incubadora",
-        },
-        {
-            id: "st-2",
-            name: "REINA – Rede Nacional de Incubadoras e Aceleradoras de Negócios",
-            organization: "REINA",
-            logo: "/images-card2.webp",
-            description: "Rede nacional que conecta incubadoras e aceleradoras para apoio a startups.",
-            tags: ["Rede", "Aceleração"],
-            region: "Nacional",
-            link: "https://reina.st/",
-            type: "programa",
-        },
-        {
-            id: "st-3",
-            name: "Empreende Jovem",
-            organization: "Empreende Jovem",
-            logo: "/images-card3.webp",
-            description: "Programa de apoio e incubação focado em empreendedores jovens.",
-            tags: ["Juventude", "Empreendedorismo"],
-            region: "São Tomé",
-            link: "https://empreendejovem.st/",
-            type: "programa",
-        },
-        {
-            id: "st-4",
-            name: "StartUp STP",
-            organization: "StartUp STP",
-            logo: "/images-community.jpg",
-            description: "Plataforma de incubação para startups de São Tomé e Príncipe.",
-            tags: ["Incubadora", "Plataforma"],
-            region: "São Tomé",
-            link: "https://startupstp.com/",
-            type: "incubadora",
-        },
-        {
-            id: "st-5",
-            name: "SOW Hub",
-            organization: "SOW Hub",
-            logo: "/images-card1.jpg",
-            description: "Hub de inovação e espaço de coworking para empreendedores e startups.",
-            tags: ["Hub", "CoWorking"],
-            region: "São Tomé",
-            link: "https://sowbub.st/",
-            type: "incubadora",
-        },
-        {
-            id: "st-6",
-            name: "Startup STP (Representante)",
-            organization: "Startup STP",
-            logo: "/images-card2.webp",
-            description: "Representante de aceleração e desenvolvimento de startups no país.",
-            tags: ["Aceleração", "Representante"],
-            region: "Nacional",
-            link: "https://startupstp.com/",
-            type: "aceleradora",
-        },
-        {
-            id: "st-7",
-            name: "ThinkLab STP",
-            organization: "ThinkLab",
-            logo: "/images-card3.webp",
-            description: "Laboratório de inovação e desenvolvimento de projetos tecnológicos.",
-            tags: ["Laboratório", "Tecnologia"],
-            region: "São Tomé",
-            link: "https://thinklabstp.com/",
-            type: "incubadora",
-        },
-        {
-            id: "st-8",
-            name: "Clube dos Empreendedores Sociais de STP",
-            organization: "Clube dos Empreendedores",
-            logo: "/images-community.jpg",
-            description: "Clube focado em empreendedorismo social e impacto comunitário.",
-            tags: ["Social", "Impacto"],
-            region: "São Tomé",
-            link: "https://clubeemp sociais.st/",
-            type: "programa",
-        },
-        {
-            id: "st-9",
-            name: "STP Investment Hub",
-            organization: "STP Investment Hub",
-            logo: "/images-card1.jpg",
-            description: "Hub de investimento conectando startups a investidores locais e internacionais.",
-            tags: ["Investimento", "Hub"],
-            region: "Nacional",
-            link: "https://stpinvestment.com/",
-            type: "programa",
-        },
-        {
-            id: "st-10",
-            name: "STP Tech Innovation Center",
-            organization: "STP TIC",
-            logo: "/images-card2.webp",
-            description: "Centro de inovação tecnológica para desenvolvimento de startups.",
-            tags: ["Tecnologia", "Inovação"],
-            region: "São Tomé",
-            link: "https://stic.st/",
-            type: "incubadora",
-        },
-    ],
-    "Timor-Leste": [
-        {
-            id: "tl-1",
-            name: "Centro de Incubação de Negócios (Timor-Leste)",
-            organization: "Governo de TL",
-            logo: "/images-card1.jpg",
-            description: "Centro nacional de incubação que apoia criação e desenvolvimento de negócios inovadores.",
-            tags: ["Incubadora", "Nacional"],
-            region: "Díli",
-            link: "https://cci.tl/en/",
-            type: "incubadora",
-        },
-        {
-            id: "tl-2",
-            name: "Fasilidade Inkubasaun Negósiu (FIN)",
-            organization: "FIN",
-            logo: "/images-card2.webp",
-            description: "Facilidade de incubação de negócios em Timor-Leste com foco em desenvolvimento empresarial.",
-            tags: ["Incubadora", "Negócios"],
-            region: "Díli",
-            link: "https://timor-leste.gov.tl/?p=47194&print=1&lang=pt",
-            type: "incubadora",
-        },
-        {
-            id: "tl-3",
-            name: "UNDP Timor-Leste Accelerator Lab",
-            organization: "UNDP / Timor-Leste",
-            logo: "/images-card3.webp",
-            description: "Laboratório de aceleração apoiado pelo PNUD com foco em inovação e desenvolvimento.",
-            tags: ["Aceleração", "UNDP"],
-            region: "Díli",
-            link: "https://www.undp.org/acceleratorlabs/undp-timor-leste-accelerator-lab",
-            type: "aceleradora",
-        },
-        {
-            id: "tl-4",
-            name: "Timor-Leste Innovation Hub",
-            organization: "TL Innovation",
-            logo: "/images-community.jpg",
-            description: "Hub de inovação conectando empreendedores, investidores e mentores em Timor-Leste.",
-            tags: ["Hub", "Inovação"],
-            region: "Díli",
-            link: "https://tlih.org/",
-            type: "incubadora",
-        },
-    ],
-};
+const PROGRAMS_LIST: Program[] = [
+  // ==================== ANGOLA ====================
+  {
+    id: "ao-acelera",
+    name: "Acelera Angola",
+    organization: "Acelera Net / Acelera Angola",
+    country: "Angola",
+    logo: "/images/programs/acelera-angola.png",
+    imageFit: "cover",
+    description:
+      "Principal incubadora e aceleradora privada de Angola, com mentoria, programas de validação e ligação entre empreendedores e investidores.",
+    tags: ["Aceleração", "Incubação", "Inovação"],
+    region: "Luanda",
+    link: "https://www.aceleranet.ao/",
+    type: "aceleradora",
+  },
+  {
+    id: "ao-lispa",
+    name: "LISPA – Laboratório de Inovação do Sistema de Pagamentos",
+    organization: "Banco Nacional de Angola & INAPEM",
+    country: "Angola",
+    logo: "/images/programs/lispa.png",
+    imageFit: "contain",
+    description:
+      "Incubadora e laboratório regulatório dedicado a fintechs e soluções de inclusão financeira e pagamentos digitais em Angola.",
+    tags: ["Fintech", "Pagamentos", "Incubação"],
+    region: "Luanda",
+    link: "https://www.lispa.ao/",
+    type: "incubadora",
+  },
+  {
+    id: "ao-orange-corners",
+    name: "Orange Corners Angola",
+    organization: "Reino dos Países Baixos & Parceiros Locais",
+    country: "Angola",
+    logo: "/images/programs/orange-corners.png",
+    imageFit: "cover",
+    description:
+      "Programa internacional de incubação de 6 meses para jovens empreendedores em Luanda, com formação prática, mentoria e acesso a financiamento.",
+    tags: ["Incubação", "Juventude", "Financiamento"],
+    region: "Luanda",
+    link: "https://www.orangecorners.com/country/angola/",
+    type: "incubadora",
+  },
+  {
+    id: "ao-fi-luanda",
+    name: "Founder Institute Luanda",
+    organization: "Founder Institute",
+    country: "Angola",
+    logo: "/images/programs/founder-institute.jpg",
+    imageFit: "cover",
+    description:
+      "Capítulo angolano da maior rede global de pré-aceleração, apoiando fundadores em fase inicial com metodologia estruturada e mentores internacionais.",
+    tags: ["Pré-seed", "Mentoria", "Global"],
+    region: "Luanda",
+    link: "https://fi.co/luanda",
+    type: "aceleradora",
+  },
+  {
+    id: "ao-kiandahub",
+    name: "KiandaHub",
+    organization: "KiandaHub",
+    country: "Angola",
+    logo: "/images/programs/kiandahub.png",
+    imageFit: "contain",
+    description:
+      "Hub pioneiro de tecnologia, coworking e inovação em Luanda que acolhe comunidades tech, programas de aceleração e eventos para startups.",
+    tags: ["Hub Tech", "Coworking", "Comunidade"],
+    region: "Luanda",
+    link: "https://kiandahub.com/",
+    type: "incubadora",
+  },
+  {
+    id: "ao-bantu-makers",
+    name: "Bantu Makers",
+    organization: "Bantu Makers",
+    country: "Angola",
+    logo: "/images/programs/bantu-makers.png",
+    imageFit: "contain",
+    description:
+      "Startup studio angolano que constrói, incuba e apoia novos negócios digitais em Angola com equipa multidisciplinar e capital inicial.",
+    tags: ["Startup Studio", "Venture Builder", "Digital"],
+    region: "Luanda",
+    link: "https://bantumakers.com/",
+    type: "incubadora",
+  },
+  {
+    id: "ao-unitel-go",
+    name: "Unitel Go Challenge",
+    organization: "UNITEL",
+    country: "Angola",
+    logo: "/images/programs/unitel-go.png",
+    imageFit: "contain",
+    description:
+      "Concurso e programa anual de aceleração da UNITEL que premeia e capacita startups digitais angolanas de alto potencial.",
+    tags: ["Desafio", "Prémios", "Inovação"],
+    region: "Nacional",
+    link: "https://www.unitel.ao/",
+    type: "programa",
+  },
+  {
+    id: "ao-bna-sandbox",
+    name: "Sandbox Regulatório do BNA",
+    organization: "Banco Nacional de Angola",
+    country: "Angola",
+    logo: "/images/programs/bna-sandbox.jpg",
+    imageFit: "cover",
+    description:
+      "Ambiente regulatório controlado pelo Banco Nacional de Angola para testar produtos financeiros inovadores com segurança jurídica.",
+    tags: ["Regulação", "Fintech", "Banco Central"],
+    region: "Luanda",
+    link: "https://www.bna.ao/",
+    type: "programa",
+  },
+  {
+    id: "ao-totalenergies",
+    name: "TotalEnergies Startupper Challenge Angola",
+    organization: "TotalEnergies",
+    country: "Angola",
+    logo: "/images/programs/totalenergies-startupper.jpg",
+    imageFit: "cover",
+    description:
+      "Desafio pan-africano da TotalEnergies que apoia jovens empreendedores angolanos com bolsas financeiras, coaching e visibilidade.",
+    tags: ["Impacto", "Energia", "Subvenção"],
+    region: "Nacional",
+    link: "https://startupper.totalenergies.com/",
+    type: "programa",
+  },
 
+  // ==================== BRASIL ====================
+  {
+    id: "br-cubo-itau",
+    name: "Cubo Itaú",
+    organization: "Itaú Unibanco",
+    country: "Brasil",
+    logo: "/images/programs/cubo-itau.webp",
+    imageFit: "cover",
+    description:
+      "Um dos maiores hubs de fomento ao empreendedorismo tecnológico da América Latina, conectando startups em tração a grandes empresas e fundos.",
+    tags: ["Hub", "Corporate", "Escala"],
+    region: "São Paulo",
+    link: "https://cubo.itau/",
+    type: "aceleradora",
+  },
+  {
+    id: "br-inovativa",
+    name: "InovAtiva Brasil",
+    organization: "MDIC & Sebrae",
+    country: "Brasil",
+    logo: "/images/programs/inovativa-brasil.jpg",
+    imageFit: "cover",
+    description:
+      "Programa público gratuito de aceleração em larga escala para startups brasileiras, com ciclos para tração, impacto socioambiental e bioeconomia.",
+    tags: ["Gratuito", "Equity-free", "Nacional"],
+    region: "Nacional",
+    link: "https://www.inovativa.online/",
+    type: "programa",
+  },
+  {
+    id: "br-google-campus-sp",
+    name: "Google for Startups Campus São Paulo",
+    organization: "Google for Startups",
+    country: "Brasil",
+    logo: "/images/programs/google-startups.webp",
+    imageFit: "cover",
+    description:
+      "Campus físico e programas de aceleração do Google no Brasil com mentorias em IA, cloud, produto e acesso à rede global do Google.",
+    tags: ["Google", "IA & Cloud", "Aceleração"],
+    region: "São Paulo",
+    link: "https://startup.google.com/campus/sao-paulo/",
+    type: "aceleradora",
+  },
+  {
+    id: "br-porto-digital",
+    name: "Porto Digital",
+    organization: "Porto Digital",
+    country: "Brasil",
+    logo: "/images/programs/porto-digital.png",
+    imageFit: "contain",
+    description:
+      "Um dos maiores parques tecnológicos e ambientes abertos de inovação do Brasil, abrigando mais de 400 empresas e programas de incubação no Recife.",
+    tags: ["Parque Tech", "Ecossistema", "Software"],
+    region: "Recife",
+    link: "https://www.portodigital.org/",
+    type: "incubadora",
+  },
+  {
+    id: "br-tecnopuc",
+    name: "Tecnopuc (PUCRS)",
+    organization: "PUCRS",
+    country: "Brasil",
+    logo: "/images/programs/tecnopuc.webp",
+    imageFit: "cover",
+    description:
+      "Parque Científico e Tecnológico da PUCRS em Porto Alegre, referência nacional em pré-incubação, incubação e conexão universidade-empresa.",
+    tags: ["Universidade", "Deep Tech", "Incubação"],
+    region: "Porto Alegre",
+    link: "https://www.pucrs.br/tecnopuc/",
+    type: "incubadora",
+  },
+  {
+    id: "br-hotmilk",
+    name: "HOTMILK – Ecossistema de Inovação PUCPR",
+    organization: "PUCPR",
+    country: "Brasil",
+    logo: "/images/programs/hotmilk.png",
+    imageFit: "contain",
+    description:
+      "Ecossistema de inovação da PUCPR em Curitiba com programas de aceleração, venture building e conexão corporativa para startups tecnológicas.",
+    tags: ["Universidade", "Aceleração", "Inovação"],
+    region: "Curitiba",
+    link: "https://www.pucpr.br/hotmilk/",
+    type: "aceleradora",
+  },
+  {
+    id: "br-darwin",
+    name: "Darwin Startups",
+    organization: "Darwin Startups",
+    country: "Brasil",
+    logo: "/images/programs/darwin-startups.webp",
+    imageFit: "cover",
+    description:
+      "Aceleradora premiada do Sul e Sudeste brasileiro com investimento financeiro, mentoria intensiva e parceria estratégica com grandes corporações.",
+    tags: ["Seed", "Fintech", "B2B"],
+    region: "Florianópolis / SP",
+    link: "https://darwinstartups.com/",
+    type: "aceleradora",
+  },
+  {
+    id: "br-sebrae-startups",
+    name: "Sebrae Startups",
+    organization: "Sebrae",
+    country: "Brasil",
+    logo: "/images/programs/sebrae-startups.webp",
+    imageFit: "cover",
+    description:
+      "Plataforma nacional do Sebrae que oferece capacitação, mentorias, editais e acesso a feiras como Startup Summit para startups em todo o Brasil.",
+    tags: ["Nacional", "Capacitação", "Networking"],
+    region: "Nacional",
+    link: "https://sebraestartups.com.br/",
+    type: "programa",
+  },
+  {
+    id: "br-bndes-garagem",
+    name: "BNDES Garagem",
+    organization: "BNDES",
+    country: "Brasil",
+    logo: "/images/programs/bndes-garagem.jpg",
+    imageFit: "cover",
+    description:
+      "Programa do Banco Nacional de Desenvolvimento Econômico e Social para criação e aceleração de negócios de impacto socioambiental positivo.",
+    tags: ["Impacto", "Equity-free", "Nacional"],
+    region: "Rio de Janeiro / Nacional",
+    link: "https://www.bndes.gov.br/wps/portal/site/home/onde-atuamos/inovacao/bndes-garagem",
+    type: "aceleradora",
+  },
+  {
+    id: "br-artemisia",
+    name: "Artemisia",
+    organization: "Artemisia",
+    country: "Brasil",
+    logo: "/images/programs/artemisia.jpg",
+    imageFit: "cover",
+    description:
+      "Organização pioneira no Brasil no apoio e aceleração de negócios de impacto social em saúde, educação, finanças e inclusão produtiva.",
+    tags: ["Impacto Social", "Educação", "Saúde"],
+    region: "São Paulo",
+    link: "https://artemisia.org.br/",
+    type: "aceleradora",
+  },
+  {
+    id: "br-quintessa",
+    name: "Quintessa",
+    organization: "Quintessa",
+    country: "Brasil",
+    logo: "/images/programs/quintessa.png",
+    imageFit: "contain",
+    description:
+      "Aceleradora de negócios de impacto positivo que conecta startups brasileiras a fundos de investimento e corporações comprometidas com ESG.",
+    tags: ["Impacto", "ESG", "Aceleração"],
+    region: "São Paulo",
+    link: "https://quintessa.org.br/",
+    type: "aceleradora",
+  },
+  {
+    id: "br-wow",
+    name: "WOW Aceleradora",
+    organization: "WOW Aceleradora",
+    country: "Brasil",
+    logo: "/images/programs/wow-aceleradora.png",
+    imageFit: "cover",
+    description:
+      "Aceleradora independente que une mais de 300 investidores-anjos executivos para investir e mentorar startups B2B de todo o Brasil.",
+    tags: ["Investimento Anjo", "SaaS", "Mentoria"],
+    region: "Porto Alegre / Nacional",
+    link: "https://www.wow.ac/",
+    type: "aceleradora",
+  },
+  {
+    id: "br-distrito",
+    name: "Distrito",
+    organization: "Distrito",
+    country: "Brasil",
+    logo: "/images/programs/distrito.webp",
+    imageFit: "cover",
+    description:
+      "Plataforma de inovação aberta e inteligência sobre startups da América Latina, conectando founders a grandes empresas e venture capital.",
+    tags: ["Inovação Aberta", "Dados", "Corporate"],
+    region: "São Paulo",
+    link: "https://distrito.me/",
+    type: "programa",
+  },
+  {
+    id: "br-endeavor",
+    name: "Endeavor Brasil – Scale-Up",
+    organization: "Endeavor",
+    country: "Brasil",
+    logo: "/images/programs/endeavor-brasil.webp",
+    imageFit: "cover",
+    description:
+      "Rede global de apoio a empreendedores de alto crescimento, com programas Scale-Up e mentoria com líderes das maiores scale-ups do país.",
+    tags: ["Scale-Up", "Alto Impacto", "Rede Global"],
+    region: "Nacional",
+    link: "https://brasil.endeavor.org/",
+    type: "aceleradora",
+  },
+  {
+    id: "br-boostlab",
+    name: "boostLAB – BTG Pactual",
+    organization: "BTG Pactual",
+    country: "Brasil",
+    logo: "/images/programs/boostlab-btg.png",
+    imageFit: "cover",
+    description:
+      "Hub de negócios do BTG Pactual que acelera startups em estágio de escala com mentoria executiva e oportunidades comerciais diretas.",
+    tags: ["Fintech", "B2B", "Scale-Up"],
+    region: "São Paulo",
+    link: "https://www.btgpactual.com/boostlab",
+    type: "aceleradora",
+  },
+  {
+    id: "br-centelha",
+    name: "Programa Centelha",
+    organization: "FINEP / MCTI / CONFAP",
+    country: "Brasil",
+    logo: "/images/programs/centelha.png",
+    imageFit: "contain",
+    description:
+      "Iniciativa federal e estadual que concede subvenção econômica (recursos não reembolsáveis) para ideias inovadoras virarem startups em todo o Brasil.",
+    tags: ["Subvenção", "P&D", "Governo"],
+    region: "Nacional",
+    link: "https://programacentelha.com.br/",
+    type: "fundo",
+  },
+  {
+    id: "br-wayra",
+    name: "Wayra Brasil",
+    organization: "Telefónica / Vivo",
+    country: "Brasil",
+    logo: "/images/programs/wayra.png",
+    imageFit: "cover",
+    description:
+      "Fundo de corporate venture capital e hub de inovação aberta da Telefónica que investe e escala startups integradas ao ecossistema Vivo.",
+    tags: ["CVC", "Telecom", "Venture Capital"],
+    region: "São Paulo",
+    link: "https://www.wayra.com/",
+    type: "fundo",
+  },
+
+  // ==================== PORTUGAL ====================
+  {
+    id: "pt-startup-portugal",
+    name: "Startup Portugal",
+    organization: "Startup Portugal",
+    country: "Portugal",
+    logo: "/images/programs/startup-portugal.png",
+    imageFit: "cover",
+    description:
+      "Entidade pública de fomento ao ecossistema empreendedor em Portugal, responsável por programas como Vale Incubação, Startup Visa e RNI.",
+    tags: ["Nacional", "Startup Visa", "Políticas Públicas"],
+    region: "Nacional",
+    link: "https://startupportugal.com/",
+    type: "programa",
+  },
+  {
+    id: "pt-unicorn-factory",
+    name: "Unicorn Factory Lisboa & Startup Lisboa",
+    organization: "Unicorn Factory Lisboa",
+    country: "Portugal",
+    logo: "/images/programs/unicorn-factory-lisboa.webp",
+    imageFit: "cover",
+    description:
+      "Principal plataforma de inovação de Lisboa, reunindo incubação, hubs temáticos (IA, Web3, Gaming) e o programa ScaleUp para empresas globais.",
+    tags: ["Lisboa", "ScaleUp", "Hubs Temáticos"],
+    region: "Lisboa",
+    link: "https://unicornfactorylisboa.com/",
+    type: "aceleradora",
+  },
+  {
+    id: "pt-fintech-house",
+    name: "The Fintech House",
+    organization: "Portugal Fintech & Sitawi",
+    country: "Portugal",
+    logo: "/images/programs/fintech-house.png",
+    imageFit: "contain",
+    description:
+      "Maior hub de fintech, regtech, insurtech e cibersegurança em Portugal, reunindo startups, bancos, reguladores e investidores em Lisboa.",
+    tags: ["Fintech", "Insurtech", "RegTech"],
+    region: "Lisboa",
+    link: "https://thefintechhouse.com/",
+    type: "incubadora",
+  },
+  {
+    id: "pt-uptec",
+    name: "UPTEC – Parque de Ciência e Tecnologia",
+    organization: "Universidade do Porto",
+    country: "Portugal",
+    logo: "/images/programs/uptec.png",
+    imageFit: "cover",
+    description:
+      "Parque científico e incubadora da Universidade do Porto com centros em Tecnologias, Biotecnologia, Indústrias Criativas e Mar.",
+    tags: ["Porto", "Universidade", "Deep Tech"],
+    region: "Porto",
+    link: "https://uptec.up.pt/",
+    type: "incubadora",
+  },
+  {
+    id: "pt-ipn",
+    name: "Instituto Pedro Nunes (IPN)",
+    organization: "Universidade de Coimbra / IPN",
+    country: "Portugal",
+    logo: "/images/programs/ipn.jpg",
+    imageFit: "cover",
+    description:
+      "Incubadora tecnológica de Coimbra eleita entre as melhores do mundo, que também aloja a ESA BIC Portugal para tecnologias espaciais.",
+    tags: ["Coimbra", "ESA BIC", "Transferência Tech"],
+    region: "Coimbra",
+    link: "https://www.ipn.pt/",
+    type: "incubadora",
+  },
+  {
+    id: "pt-startup-braga",
+    name: "Startup Braga",
+    organization: "InvestBraga",
+    country: "Portugal",
+    logo: "/images/programs/startup-braga.png",
+    imageFit: "contain",
+    description:
+      "Hub de inovação do Norte de Portugal com programas de pré-aceleração e aceleração em HealthTech, Nanotecnologia e Economia Digital.",
+    tags: ["Braga", "HealthTech", "Aceleração"],
+    region: "Braga",
+    link: "https://startupbraga.com/",
+    type: "aceleradora",
+  },
+  {
+    id: "pt-beta-i",
+    name: "Beta-i",
+    organization: "Beta-i",
+    country: "Portugal",
+    logo: "/images/programs/beta-i.png",
+    imageFit: "cover",
+    description:
+      "Consultora e aceleradora internacional sediada em Lisboa, promotora do Lisbon Investment Summit e programas de inovação colaborativa.",
+    tags: ["Inovação Aberta", "Internacional", "Lisboa"],
+    region: "Lisboa",
+    link: "https://beta-i.com/",
+    type: "aceleradora",
+  },
+  {
+    id: "pt-fabrica-startups",
+    name: "Fábrica de Startups",
+    organization: "Fábrica de Startups",
+    country: "Portugal",
+    logo: "/images/programs/fabrica-startups.webp",
+    imageFit: "cover",
+    description:
+      "Aceleradora portuguesa especializada em criação de novos negócios digitais, ideação e capacitação de empreendedores e intraempreendedores.",
+    tags: ["Ideação", "Aceleração", "Negócios Digitais"],
+    region: "Lisboa",
+    link: "https://www.fabricadestartups.com/",
+    type: "aceleradora",
+  },
+  {
+    id: "pt-bgi",
+    name: "BGI – Building Global Innovators",
+    organization: "BGI & EIT",
+    country: "Portugal",
+    logo: "/images/programs/bgi.png",
+    imageFit: "contain",
+    description:
+      "Aceleradora deep-tech nascida da parceria MIT Portugal, focada em escalar startups de ciência e tecnologia com mentorias e acesso à Europa.",
+    tags: ["Deep Tech", "EIT", "Europa"],
+    region: "Lisboa",
+    link: "https://www.bgi.pt/",
+    type: "aceleradora",
+  },
+  {
+    id: "pt-casa-impacto",
+    name: "Casa do Impacto",
+    organization: "Santa Casa da Misericórdia de Lisboa",
+    country: "Portugal",
+    logo: "/images/programs/casa-do-impacto.png",
+    imageFit: "cover",
+    description:
+      "Hub de empreendedorismo social e investimento de impacto em Lisboa com prémios de financiamento, incubação e mentoria para os ODS.",
+    tags: ["Impacto Social", "ODS", "Prémios"],
+    region: "Lisboa",
+    link: "https://casadoimpacto.scml.pt/",
+    type: "incubadora",
+  },
+  {
+    id: "pt-impact-hub-lisbon",
+    name: "Impact Hub Lisbon",
+    organization: "Impact Hub",
+    country: "Portugal",
+    logo: "/images/programs/impact-hub-lisbon.webp",
+    imageFit: "cover",
+    description:
+      "Comunidade global de empreendedores de impacto em Lisboa com programas de aceleração sustentável, eventos e espaço colaborativo.",
+    tags: ["Comunidade Global", "Sustentabilidade", "Coworking"],
+    region: "Lisboa",
+    link: "https://lisbon.impacthub.net/",
+    type: "incubadora",
+  },
+  {
+    id: "pt-lispolis",
+    name: "Lispolis – Polo Tecnológico de Lisboa",
+    organization: "Lispolis",
+    country: "Portugal",
+    logo: "/images/programs/lispolis.png",
+    imageFit: "contain",
+    description:
+      "Polo tecnológico e incubadora certificada para Startup Visa em Lisboa, apoiando empresas tech e centros de investigação.",
+    tags: ["Startup Visa", "Polo Tech", "Lisboa"],
+    region: "Lisboa",
+    link: "https://www.lispolis.pt/",
+    type: "incubadora",
+  },
+  {
+    id: "pt-madan-parque",
+    name: "Madan Parque",
+    organization: "FCT NOVA & Municípios da Margem Sul",
+    country: "Portugal",
+    logo: "/images/programs/madan-parque.png",
+    imageFit: "contain",
+    description:
+      "Parque de ciência e tecnologia ligado à NOVA School of Science and Technology (Almada), apoiando spin-offs e startups tecnológicas.",
+    tags: ["Spin-offs", "Ciência", "Almada"],
+    region: "Almada / Lisboa",
+    link: "https://www.madanparque.pt/",
+    type: "incubadora",
+  },
+  {
+    id: "pt-dna-cascais",
+    name: "DNA Cascais",
+    organization: "DNA Cascais",
+    country: "Portugal",
+    logo: "/images/programs/dna-cascais.webp",
+    imageFit: "cover",
+    description:
+      "Agência municipal de promoção do empreendedorismo em Cascais com incubadora física, rede de anjos e programas juvenis de inovação.",
+    tags: ["Incubadora", "Investimento Anjo", "Cascais"],
+    region: "Cascais",
+    link: "https://dnacascais.pt/",
+    type: "incubadora",
+  },
+
+  // ==================== MOÇAMBIQUE ====================
+  {
+    id: "mz-ideialab",
+    name: "ideiaLab Moçambique",
+    organization: "ideiaLab",
+    country: "Moçambique",
+    logo: "/images/programs/ideialab.png",
+    imageFit: "contain",
+    description:
+      "Pioneira em incubação e aceleração em Moçambique, com programas como Orange Corners Maputo e FemTech apoiando empreendedores locais.",
+    tags: ["Incubação", "FemTech", "Ecossistema"],
+    region: "Maputo",
+    link: "https://ideialab.biz/",
+    type: "aceleradora",
+  },
+  {
+    id: "mz-orange-corners",
+    name: "Orange Corners Moçambique",
+    organization: "Orange Corners & ideiaLab",
+    country: "Moçambique",
+    logo: "/images/programs/orange-corners.png",
+    imageFit: "cover",
+    description:
+      "Programa holandês de incubação para jovens fundadores em Maputo com formação empresarial intensiva, mentoria e fundos de prototipagem.",
+    tags: ["Juventude", "Prototipagem", "Mentoria"],
+    region: "Maputo",
+    link: "https://www.orangecorners.com/country/mozambique/",
+    type: "incubadora",
+  },
+  {
+    id: "mz-standard-bank",
+    name: "Incubadora de Negócios Standard Bank",
+    organization: "Standard Bank Moçambique",
+    country: "Moçambique",
+    logo: "/images/programs/standard-bank-mz.jpg",
+    imageFit: "cover",
+    description:
+      "Espaço de referência em Maputo dedicado ao empreendedorismo, hackathon fintech, capacitação de PMEs e networking corporativo.",
+    tags: ["Banco", "Fintech", "Espaço de Inovação"],
+    region: "Maputo",
+    link: "https://www.standardbank.co.mz/",
+    type: "incubadora",
+  },
+  {
+    id: "mz-uem",
+    name: "Incubadora de Empresas da UEM",
+    organization: "Universidade Eduardo Mondlane",
+    country: "Moçambique",
+    logo: "/images/programs/uem-mz.png",
+    imageFit: "cover",
+    description:
+      "Incubadora académica da Universidade Eduardo Mondlane que transforma investigação e talento universitário em negócios tecnológicos viáveis.",
+    tags: ["Universidade", "Académica", "Inovação"],
+    region: "Maputo",
+    link: "https://uem.mz/",
+    type: "incubadora",
+  },
+  {
+    id: "mz-gapi",
+    name: "Gapi – Sociedade de Investimentos",
+    organization: "Gapi S.I.",
+    country: "Moçambique",
+    logo: "/images/programs/gapi-mz.png",
+    imageFit: "contain",
+    description:
+      "Instituição financeira de desenvolvimento em Moçambique que combina assistência técnica, incubação e financiamento a jovens e PMEs inovadoras.",
+    tags: ["Financiamento", "Desenvolvimento", "PMEs"],
+    region: "Nacional",
+    link: "https://www.gapi.co.mz/",
+    type: "fundo",
+  },
+  {
+    id: "mz-mozdevz",
+    name: "MozDevz – Incubação & Talentos Digitais",
+    organization: "MozDevz",
+    country: "Moçambique",
+    logo: "/images/programs/mozdevz.png",
+    imageFit: "contain",
+    description:
+      "Comunidade e iniciativa moçambicana de programadores que promove hackathons, bootcamps e apoio ao nascimento de produtos digitais.",
+    tags: ["Developers", "Hackathons", "Produtos Digitais"],
+    region: "Maputo / Beira / Nampula",
+    link: "https://www.mozdevz.org/",
+    type: "programa",
+  },
+
+  // ==================== CABO VERDE ====================
+  {
+    id: "cv-digital",
+    name: "Cabo Verde Digital (Bolsa Digital & Startup Young)",
+    organization: "Cabo Verde Digital / Governo de Cabo Verde",
+    country: "Cabo Verde",
+    logo: "/images/programs/cabo-verde-digital.jpg",
+    imageFit: "contain",
+    description:
+      "Plataforma pública de referência no arquipélago com programas Bolsa Digital e Startup Young para capacitação, pré-incubação e bolsas tech.",
+    tags: ["Bolsa Digital", "Pré-incubação", "Governo"],
+    region: "Praia / Nacional",
+    link: "https://caboverdedigital.cv/",
+    type: "programa",
+  },
+  {
+    id: "cv-techpark",
+    name: "TechPark CV – Parque Tecnológico de Cabo Verde",
+    organization: "TechPark CV",
+    country: "Cabo Verde",
+    logo: "/images/programs/techpark-cv.png",
+    imageFit: "contain",
+    description:
+      "Infraestrutura tecnológica internacional na Praia e Mindelo com centro de incubação, data center, centro de formação e espaços para startups.",
+    tags: ["Parque Tech", "Incubação", "África Ocidental"],
+    region: "Praia & São Vicente",
+    link: "https://techpark.cv/",
+    type: "incubadora",
+  },
+  {
+    id: "cv-proempresa",
+    name: "Pró Empresa – Fundo & Apoio ao Empreendedor",
+    organization: "Pró Empresa",
+    country: "Cabo Verde",
+    logo: "/images/programs/proempresa-cv.png",
+    imageFit: "contain",
+    description:
+      "Instituto público cabo-verdiano que apoia jovens e micro, pequenas e médias empresas através de assistência técnica, pré-incubação e garantias.",
+    tags: ["Financiamento", "MPME", "Assistência Técnica"],
+    region: "Nacional",
+    link: "https://proempresa.cv/index.php/pt/",
+    type: "fundo",
+  },
+  {
+    id: "cv-nosi",
+    name: "NOSi Akademia",
+    organization: "NOSi – Núcleo Operacional da Sociedade de Informação",
+    country: "Cabo Verde",
+    logo: "/images/programs/nosi-cv.png",
+    imageFit: "contain",
+    description:
+      "Programa de estágios e inovação tecnológica do NOSi que prepara jovens engenheiros e fundadores de soluções digitais em Cabo Verde.",
+    tags: ["Engenharia", "Estágios Tech", "Inovação"],
+    region: "Praia",
+    link: "https://www.nosi.cv/",
+    type: "programa",
+  },
+
+  // ==================== GUINÉ-BISSAU ====================
+  {
+    id: "gw-orange-digital",
+    name: "Orange Digital Center & Orange Fab Guiné-Bissau",
+    organization: "Orange Guiné-Bissau / Fundação Orange",
+    country: "Guiné-Bissau",
+    logo: "/images/programs/orange-digital-center.png",
+    imageFit: "contain",
+    description:
+      "Centro gratuito em Bissau com Escola de Código, FabLab Solidário e aceleradora Orange Fab para jovens programadores e startups locais.",
+    tags: ["Escola de Código", "FabLab", "Aceleração"],
+    region: "Bissau",
+    link: "https://orangedigitalcenters.com/",
+    type: "aceleradora",
+  },
+  {
+    id: "gw-innovalab",
+    name: "InnovaLab Guiné-Bissau",
+    organization: "InnovaLab",
+    country: "Guiné-Bissau",
+    logo: "/images/programs/innovalab-gw.jpg",
+    imageFit: "cover",
+    description:
+      "Centro de inovação tecnológica e empreendedorismo em Bissau que fomenta a transformação digital, prototipagem e apoio a novos projetos.",
+    tags: ["Hub Tech", "Inovação", "Juventude"],
+    region: "Bissau",
+    link: "https://www.innovalab-gw.org/",
+    type: "incubadora",
+  },
+  {
+    id: "gw-undp-lab",
+    name: "UNDP Accelerator Lab Guiné-Bissau",
+    organization: "PNUD Guiné-Bissau",
+    country: "Guiné-Bissau",
+    logo: "/images/programs/undp-accelerator.png",
+    imageFit: "contain",
+    description:
+      "Laboratório do PNUD que apoia empreendedores locais, desafios de inovação social e soluções digitais para o desenvolvimento sustentável.",
+    tags: ["PNUD", "Impacto Social", "Experimentação"],
+    region: "Bissau",
+    link: "https://www.undp.org/guinea-bissau/accelerator-lab",
+    type: "programa",
+  },
+
+  // ==================== SÃO TOMÉ E PRÍNCIPE ====================
+  {
+    id: "st-empreende",
+    name: "REINA & Plataforma Empreende+ STP",
+    organization: "Governo de São Tomé e Príncipe",
+    country: "São Tomé e Príncipe",
+    logo: "/images/programs/empreende-stp.png",
+    imageFit: "contain",
+    description:
+      "Portal oficial do ecossistema empreendedor santomense integrando a Rede Nacional de Incubadoras (REINA), mentoria e concursos para jovens.",
+    tags: ["REINA", "Incubação", "Juventude"],
+    region: "São Tomé",
+    link: "https://empreendedorismo.gov.st/pt/",
+    type: "programa",
+  },
+  {
+    id: "st-undp",
+    name: "PNUD São Tomé e Príncipe – Juventude & Inovação",
+    organization: "PNUD STP",
+    country: "São Tomé e Príncipe",
+    logo: "/images/programs/undp-accelerator.png",
+    imageFit: "contain",
+    description:
+      "Iniciativas do PNUD em São Tomé e Príncipe de fomento ao empreendedorismo jovem, economia azul/verde e capacitação digital.",
+    tags: ["PNUD", "Economia Azul", "Capacitação"],
+    region: "São Tomé e Príncipe",
+    link: "https://www.undp.org/sao-tome-and-principe",
+    type: "programa",
+  },
+
+  // ==================== TIMOR-LESTE ====================
+  {
+    id: "tl-iade",
+    name: "IADE – Instituto de Apoio ao Desenvolvimento Empresarial",
+    organization: "IADE Timor-Leste",
+    country: "Timor-Leste",
+    logo: "/images/programs/iade-tl.jpg",
+    imageFit: "cover",
+    description:
+      "Instituição pública timorense responsável por incubação empresarial, concursos de planos de negócio inovadores e capacitação de empreendedores.",
+    tags: ["Incubação", "Governo", "Empresas"],
+    region: "Díli",
+    link: "https://iade.gov.tl/",
+    type: "incubadora",
+  },
+  {
+    id: "tl-undp",
+    name: "UNDP Timor-Leste Accelerator Lab & YEES",
+    organization: "PNUD Timor-Leste",
+    country: "Timor-Leste",
+    logo: "/images/programs/undp-accelerator.png",
+    imageFit: "contain",
+    description:
+      "Laboratório de aceleração e programa Youth Employment & Entrepreneurship Skills que financia e acompanha jovens fundadores em Timor-Leste.",
+    tags: ["PNUD", "Juventude", "Aceleração"],
+    region: "Díli",
+    link: "https://www.undp.org/timor-leste/accelerator-labs",
+    type: "aceleradora",
+  },
+
+  // ==================== GLOBAL (ACESSÍVEL À LUSOFONIA) ====================
+  {
+    id: "gl-aws-activate",
+    name: "AWS Activate for Startups",
+    organization: "Amazon Web Services",
+    country: "Global",
+    logo: "/images/programs/aws-activate.png",
+    imageFit: "contain",
+    description:
+      "Créditos gratuitos de infraestrutura cloud (até USD 100.000), suporte técnico e arquitetura para startups elegíveis em toda a lusofonia.",
+    tags: ["Créditos Cloud", "Infraestrutura", "Global"],
+    region: "Online / Global",
+    link: "https://aws.amazon.com/startups/",
+    type: "programa",
+  },
+  {
+    id: "gl-ms-founders",
+    name: "Microsoft for Startups Founders Hub",
+    organization: "Microsoft",
+    country: "Global",
+    logo: "/images/programs/microsoft-startups.webp",
+    imageFit: "cover",
+    description:
+      "Créditos Azure até USD 150.000, acesso a modelos OpenAI/AI, ferramentas GitHub Enterprise e mentoria técnica sem exigir investidor prévio.",
+    tags: ["Azure & IA", "GitHub", "Sem Investidor Prévio"],
+    region: "Online / Global",
+    link: "https://www.microsoft.com/en-us/startups",
+    type: "programa",
+  },
+  {
+    id: "gl-google-startups",
+    name: "Google for Startups Cloud Program",
+    organization: "Google Cloud",
+    country: "Global",
+    logo: "/images/programs/google-startups.webp",
+    imageFit: "cover",
+    description:
+      "Acesso a créditos Google Cloud para startups early-stage e de IA (até USD 200.000 ou USD 350.000 em programas AI-first) além de sessões técnicas.",
+    tags: ["Google Cloud", "AI-First", "Créditos"],
+    region: "Online / Global",
+    link: "https://startup.google.com/",
+    type: "programa",
+  },
+  {
+    id: "gl-y-combinator",
+    name: "Y Combinator (YC)",
+    organization: "Y Combinator",
+    country: "Global",
+    logo: "/images/programs/y-combinator.png",
+    imageFit: "contain",
+    description:
+      "A mais reconhecida aceleradora mundial de startups: investimento padrão de USD 500.000 e imersão de 3 meses aberta a fundadores de qualquer país.",
+    tags: ["Venture Capital", "Aceleração", "EUA / Global"],
+    region: "San Francisco / Global",
+    link: "https://www.ycombinator.com/",
+    type: "aceleradora",
+  },
+  {
+    id: "gl-techstars",
+    name: "Techstars Accelerators",
+    organization: "Techstars",
+    country: "Global",
+    logo: "/images/programs/techstars.png",
+    imageFit: "contain",
+    description:
+      "Rede global com dezenas de programas verticais e regionais (fintech, IA, clima) oferecendo capital semente e acesso vitalício a mentores.",
+    tags: ["Rede Global", "Pré-seed", "Mentoria"],
+    region: "Global",
+    link: "https://www.techstars.com/",
+    type: "aceleradora",
+  },
+  {
+    id: "gl-seedstars",
+    name: "Seedstars International Programs",
+    organization: "Seedstars",
+    country: "Global",
+    logo: "/images/programs/seedstars.png",
+    imageFit: "contain",
+    description:
+      "Programas de aceleração e investimentos voltados a mercados emergentes em África, América Latina e Europa, com foco em impacto escalável.",
+    tags: ["Mercados Emergentes", "África & LATAM", "Aceleração"],
+    region: "Global",
+    link: "https://www.seedstars.com/",
+    type: "aceleradora",
+  },
+];
 
 export default function StartupProgramsSlider() {
-    const [selectedCountry, setSelectedCountry] = useState<FilterTab>(LUSOPHONE_COUNTRIES[0]);
-    const sliderRef = useRef<HTMLDivElement>(null);
-    const { data: session } = useSession();
-    const pathname = usePathname();
-    const isLoggedIn = !!session;
-    const getActionHref = (href: string) => (isLoggedIn ? href : `${pathname}?auth=login`);
+  const [selectedCountry, setSelectedCountry] = useState<StartupFilterTab>("Todos");
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const { data: session } = useSession();
+  const pathname = usePathname();
+  const isLoggedIn = !!session;
+  const getActionHref = (href: string) => (isLoggedIn ? href : `${pathname}?auth=login`);
 
-    const programs = PROGRAMS_BY_COUNTRY[selectedCountry] ?? [];
+  const programs = useMemo(() => {
+    if (selectedCountry === "Todos") {
+      return PROGRAMS_LIST;
+    }
+    return PROGRAMS_LIST.filter((p) => p.country === selectedCountry);
+  }, [selectedCountry]);
 
-    const scrollLeft = () => {
-        sliderRef.current?.scrollBy({ left: -340, behavior: "smooth" });
-    };
-    const scrollRight = () => {
-        sliderRef.current?.scrollBy({ left: 340, behavior: "smooth" });
-    };
+  const scrollLeft = () => {
+    sliderRef.current?.scrollBy({ left: -340, behavior: "smooth" });
+  };
+  const scrollRight = () => {
+    sliderRef.current?.scrollBy({ left: 340, behavior: "smooth" });
+  };
 
-    return (
-        <section className="py-10 px-4 bg-zinc-50 w-full">
-            <div className="max-w-6xl mx-auto">
-                {/* Header */}
-                <div className="mb-2 sm:mb-3">
-                    <h2 className="text-xl text-center sm:text-2xl md:text-3xl lg:text-4xl text-zinc-900 mb-2 tracking-tight uppercase">
-                        Programas de Apoio a Startups
-                    </h2>
-                    <p className="text-gray-500 text-center text-sm sm:text-base">
-                        Descubra incubadoras, aceleradoras e fundos de investimento na lusofonia. Escolha um país para ver os recursos disponíveis.
-                    </p>
-                </div>
+  return (
+    <section className="py-12 px-4 bg-zinc-50 w-full border-t border-zinc-200/70">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="mb-4">
+          <h2 className="text-xl text-center sm:text-2xl md:text-3xl font-bold text-zinc-900 mb-2 tracking-tight uppercase">
+            Programas de Apoio a Startups
+          </h2>
+          <p className="text-gray-500 text-center text-sm sm:text-base max-w-2xl mx-auto">
+            Incubadoras, aceleradoras, fundos e programas reais com atuação na lusofonia e acesso global para fundadores.
+          </p>
+        </div>
 
-                {/* Country Filter */}
-                <CountryFilter
-                    selectedCountry={selectedCountry}
-                    onCountryChange={setSelectedCountry}
-                    className="mb-6 flex flex-col items-center justify-center"
-                />
+        {/* Filtro de País */}
+        <div className="mb-6 flex items-center justify-center">
+          <div className="flex gap-1.5 sm:gap-2 overflow-x-auto max-w-full pb-1 px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {STARTUP_FILTER_TABS.map((country) => (
+              <button
+                key={country}
+                type="button"
+                onClick={() => setSelectedCountry(country)}
+                className={`px-3 py-1.5 rounded-lg font-medium text-xs sm:text-sm whitespace-nowrap transition-all duration-200 flex-shrink-0 cursor-pointer ${
+                  selectedCountry === country
+                    ? "bg-zinc-900 text-white shadow-sm"
+                    : "bg-white border border-zinc-200 text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                {country}
+              </button>
+            ))}
+          </div>
+        </div>
 
-                {/* Slider */}
-                {programs.length > 0 ? (
-                    <div className="relative group">
-                        {/* Left Arrow */}
-                        <button
-                            onClick={scrollLeft}
-                            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-50"
-                            aria-label="Scroll para esquerda"
-                        >
-                            <ChevronLeft className="w-5 h-5" />
-                        </button>
+        {/* Slider */}
+        {programs.length > 0 ? (
+          <div className="relative group">
+            {/* Left Arrow */}
+            <button
+              type="button"
+              onClick={scrollLeft}
+              className="hidden sm:flex absolute left-1 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white border border-gray-200 shadow-md items-center justify-center text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-50 cursor-pointer"
+              aria-label="Scroll para esquerda"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
 
-                        {/* Cards Container */}
-                        <div ref={sliderRef} className="flex gap-6 overflow-x-auto pb-4 pt-2 scroll-smooth" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-                            
-                            <style dangerouslySetInnerHTML={{ __html: `.no-scroll::-webkit-scrollbar { display: none; }` }} /> {programs.map((program) => (
-                               
-                               <div key={program.id}
-                                    className="min-w-[300px] w-[300px] sm:min-w-[320px] sm:w-[320px] bg-white overflow-hidden flex-shrink-0 flex flex-col backdrop-blur-md rounded-2xl border border-violet-500/10 hover:border-violet-200 overflow-hidden shadow-lg hover:shadow-violet-300/55 transition-all duration-300 group relative">
-                                    {/* Card Image */}
-                                    <div className="relative h-44 w-full bg-zinc-100 overflow-hidden">
-                                        <Image src={program.logo} alt={program.name} fill className="object-cover" />
-                                    </div>
-
-                                    {/* Card Body */}
-                                    <div className="p-5 flex flex-col flex-1">
-                                        <div className="flex items-start justify-between gap-2 mb-1">
-                                            <h3 className="text-zinc-900 text-lg leading-tight">{program.name}</h3>
-                                        </div>
-                                        <p className="text-sm text-gray-500 mb-1 flex items-center gap-1">
-                                            <Users className="w-3.5 h-3.5 flex-shrink-0" />
-                                            {program.organization}
-                                        </p>
-                                        <p className="text-sm text-gray-500 mb-3 flex items-center gap-1">
-                                            <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
-                                            {program.region}, {selectedCountry}
-                                        </p>
-                                        <p className="text-sm text-zinc-600 leading-relaxed mb-4 flex-1">
-                                            {program.description}
-                                        </p>
-
-                                        {/* Tags */}
-                                        <div className="flex flex-wrap gap-2 mb-4">
-                                            {program.tags.map((tag) => (
-                                                <span key={tag} className="flex items-center gap-1 text-xs bg-zinc-100 text-zinc-600 px-2.5 py-1 rounded-lg">
-                                                    <Tag className="w-3 h-3" />
-                                                    {tag}
-                                                </span>
-                                            ))}
-                                        </div>
-
-                                        <Link
-                                            href={getActionHref(program.link)}
-                                            target={isLoggedIn ? "_blank" : undefined}
-                                            rel={isLoggedIn ? "noopener noreferrer" : undefined}
-                                            className="flex items-center justify-center gap-2 text-sm font-semibold text-white bg-zinc-900 hover:bg-zinc-700 transition-colors rounded py-2.5"
-                                        >
-                                            Ver programa
-                                            <ExternalLink className="w-4 h-4" />
-                                        </Link>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Right Arrow */}
-                        <button
-                            onClick={scrollRight}
-                            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-50"
-                            aria-label="Scroll para direita"
-                        >
-                            <ChevronRight className="w-5 h-5" />
-                        </button>
+            {/* Cards Container */}
+            <div
+              ref={sliderRef}
+              className="flex gap-6 overflow-x-auto pb-4 pt-2 scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {programs.map((program) => {
+                const isContain = program.imageFit === "contain";
+                return (
+                  <div
+                    key={program.id}
+                    className="min-w-[300px] w-[300px] sm:min-w-[320px] sm:w-[320px] bg-white flex-shrink-0 flex flex-col rounded-2xl border border-violet-500/10 hover:border-violet-200 overflow-hidden shadow-lg hover:shadow-violet-300/40 transition-all duration-300 group/card relative"
+                  >
+                    {/* Card Image */}
+                    <div
+                      className={`relative h-44 w-full overflow-hidden border-b border-zinc-100 ${
+                        isContain ? "bg-white" : "bg-zinc-900"
+                      }`}
+                    >
+                      <Image
+                        src={program.logo}
+                        alt={program.name}
+                        fill
+                        sizes="320px"
+                        referrerPolicy="no-referrer"
+                        className={
+                          isContain
+                            ? "object-contain p-6 transition-transform duration-300 group-hover/card:scale-105"
+                            : "object-cover transition-transform duration-300 group-hover/card:scale-105"
+                        }
+                      />
                     </div>
-                ) : (
-                    <div className="flex flex-col items-center justify-center text-center py-20 text-gray-400">
-                        <p className="text-lg font-medium mb-2">Nenhum programa disponível ainda</p>
+
+                    {/* Card Body */}
+                    <div className="p-5 flex flex-col flex-1">
+                      <div className="flex items-start justify-between gap-2 mb-1.5">
+                        <h3 className="text-zinc-900 font-bold text-base sm:text-lg leading-tight line-clamp-2">
+                          {program.name}
+                        </h3>
+                      </div>
+                      <p className="text-xs sm:text-sm text-gray-500 mb-1 flex items-center gap-1.5">
+                        <Users className="w-3.5 h-3.5 flex-shrink-0 text-violet-600" />
+                        <span className="truncate">{program.organization}</span>
+                      </p>
+                      <p className="text-xs sm:text-sm text-gray-500 mb-3 flex items-center gap-1.5">
+                        <MapPin className="w-3.5 h-3.5 flex-shrink-0 text-violet-600" />
+                        <span className="truncate">
+                          {program.region}, {program.country}
+                        </span>
+                      </p>
+                      <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed mb-4 flex-1 line-clamp-3">
+                        {program.description}
+                      </p>
+
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-1.5 mb-4">
+                        {program.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="flex items-center gap-1 text-[11px] bg-zinc-100 text-zinc-700 px-2.5 py-1 rounded-lg font-medium"
+                          >
+                            <Tag className="w-3 h-3 text-zinc-500" />
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      <Link
+                        href={getActionHref(program.link)}
+                        target={isLoggedIn ? "_blank" : undefined}
+                        rel={isLoggedIn ? "noopener noreferrer" : undefined}
+                        className="flex items-center justify-center gap-2 text-sm font-semibold text-white bg-zinc-900 hover:bg-violet-700 transition-colors rounded-lg py-2.5"
+                      >
+                        Ver programa
+                        <ExternalLink className="w-4 h-4" />
+                      </Link>
                     </div>
-                )}
+                  </div>
+                );
+              })}
             </div>
-        </section>
-    );
+
+            {/* Right Arrow */}
+            <button
+              type="button"
+              onClick={scrollRight}
+              className="hidden sm:flex absolute right-1 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white border border-gray-200 shadow-md items-center justify-center text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-50 cursor-pointer"
+              aria-label="Scroll para direita"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center text-center py-16 text-gray-400">
+            <p className="text-base font-medium">Nenhum programa encontrado para este país.</p>
+          </div>
+        )}
+      </div>
+    </section>
+  );
 }

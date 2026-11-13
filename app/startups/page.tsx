@@ -5,6 +5,7 @@ import { getStartupFeed } from "@/lib/startup-service";
 import Navbar from "@/components/auth/Navbar";
 import Footer from "@/components/Footer";
 import { StartupFeed } from "@/components/startups/StartupFeed";
+import StartupProgramsSlider from "@/components/startups/StartupProgramsSlider";
 
 export const metadata: Metadata = {
   title: "Startups Lusófonas – Diretório & Comunidade de Inovação da CPLP",
@@ -68,6 +69,7 @@ export default async function StartupsPage() {
           isLoggedIn={Boolean(session?.user)}
           currentUser={session?.user}
         />
+        <StartupProgramsSlider />
       </div>
 
       <Footer />

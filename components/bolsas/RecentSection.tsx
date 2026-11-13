@@ -5,6 +5,10 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { bolsas } from "@/data/bolsas";
 import { intercambio } from "@/data/intercambio";
+import { cursos } from "@/data/cursos";
+import { bootcamps } from "@/data/bootcamps";
+import { certificacoes } from "@/data/certificacoes";
+import { estagios } from "@/data/estagios";
 import type { FilterTab } from "@/components/CountryFilter";
 import type { NavCategory, ScholarshipItem } from "@/data/types";
 import { CardGridSkeleton } from "@/components/cards/CardSkeleton";
@@ -208,7 +212,14 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
   }, []);
 
   // Lista de dados
-  const categories = [...bolsas, ...intercambio];
+  const categories = [
+    ...bolsas,
+    ...intercambio,
+    ...cursos,
+    ...bootcamps,
+    ...certificacoes,
+    ...estagios,
+  ];
 
   const allCategories = [...dynamicItems, ...categories];
 

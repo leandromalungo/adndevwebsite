@@ -756,7 +756,7 @@ export const mockCommunities: Community[] = [
     "country": "Brasil",
     "description": "Comunidade e meetup de pessoas desenvolvedoras no Brasil com eventos presenciais e online, talks técnicas e networking.",
     "logoUrl": "https://iili.io/qfi6tqb.png",
-    "members": 19.000,
+    "members": 19000,
     "type": "Meetup",
     "category": "Comunidade Dev",
     "tags": ["Meetup", "Desenvolvedores", "Talks", "Networking"],
@@ -764,7 +764,7 @@ export const mockCommunities: Community[] = [
     "link": "https://www.meetup.com/pt-BR/Developers-SP/"
   },
   {
-    "id": "40",
+    "id": "br-40",
     "name": "PHPSP",
     "location": "São Paulo, SP",
     "country": "Brasil",
@@ -1020,7 +1020,7 @@ export const mockCommunities: Community[] = [
     "link": "https://www.linkedin.com/company/cda-girls"
   },
   {
-    "id": "53",
+    "id": "ao-53",
     "name": "GitTogether Luanda",
     "location": "Luanda",
     "country": "Angola",
@@ -1034,7 +1034,7 @@ export const mockCommunities: Community[] = [
     "link": "https://www.meetup.com/gittogether-luanda/"
   },
   {
-    "id": "54",
+    "id": "ao-54",
     "name": "Angola Open-source Community",
     "location": "Luanda",
     "country": "Angola",
@@ -1062,7 +1062,7 @@ export const mockCommunities: Community[] = [
     "link": "https://gdg.community.dev/gdg-luanda/"
   },
   {
-    "id": "56",
+    "id": "ao-56",
     "name": "Women in Tech Angola",
     "location": "Luanda",
     "country": "Angola",
@@ -1188,7 +1188,7 @@ export const mockCommunities: Community[] = [
     "link": "https://www.facebook.com/groups/988523841976282"
   },
   {
-    "id": "61",
+    "id": "ao-61",
     "name": "Cloud Native Luanda",
     "location": "Luanda (online)",
     "country": "Angola",
@@ -1369,6 +1369,132 @@ export const mockCommunities: Community[] = [
     "tags": ["Mulheres na Tecnologia", "Empoderamento", "Workshops", "Mentoria"],
     "imageSource": "Women in Tech Cabo Verde",
     "link": "https://www.instagram.com/womenintechcaboverde/"
+  },
+  {
+    "id": "mz-mozdevz",
+    "name": "MozDevz – Comunidade de Desenvolvedores Moçambicanos",
+    "location": "Maputo, Beira & Nampula",
+    "country": "Moçambique",
+    "description": "Maior comunidade de programadores e criadores de software de Moçambique, promovendo bootcamps, hackathons e capacitação jovem.",
+    "logoUrl": "/images/programs/mozdevz.png",
+    "members": 6000,
+    "type": "Comunidade",
+    "category": "Comunidade Dev",
+    "tags": ["Moçambique", "Open Source", "Bootcamps", "Networking"],
+    "imageSource": "MozDevz",
+    "link": "https://www.mozdevz.org/"
+  },
+  {
+    "id": "mz-django-girls",
+    "name": "Django Girls Maputo",
+    "location": "Maputo",
+    "country": "Moçambique",
+    "description": "Capítulo moçambicano da iniciativa global que organiza workshops gratuitos de Python e Django para mulheres em Maputo.",
+    "logoUrl": "/images/communities/django-girls.png",
+    "members": 650,
+    "type": "Comunidade",
+    "category": "Diversidade em Tech",
+    "tags": ["Mulheres na Tecnologia", "Python", "Django", "Workshops"],
+    "imageSource": "Django Girls",
+    "link": "https://djangogirls.org/en/maputo/"
+  },
+  {
+    "id": "br-flutterando",
+    "name": "Flutterando",
+    "location": "Brasil (online)",
+    "country": "Brasil",
+    "description": "Maior comunidade lusófona dedicada a Flutter e Dart, com conteúdos gratuitos, packages open source, mentorias e eventos.",
+    "logoUrl": "/images/communities/flutterando.png",
+    "members": 35000,
+    "type": "Comunidade",
+    "category": "Mobile",
+    "tags": ["Flutter", "Dart", "Mobile", "Open Source"],
+    "imageSource": "Flutterando",
+    "link": "https://flutterando.com.br/"
+  },
+  {
+    "id": "br-pyladies",
+    "name": "PyLadies Brasil",
+    "location": "Brasil (vários capítulos)",
+    "country": "Brasil",
+    "description": "Rede brasileira da comunidade internacional PyLadies voltada para apoiar e aumentar a participação de mulheres no ecossistema Python.",
+    "logoUrl": "/images/communities/pyladies-br.png",
+    "members": 12000,
+    "type": "Comunidade",
+    "category": "Diversidade em Tech",
+    "tags": ["Mulheres na Tecnologia", "Python", "Eventos", "Inclusão"],
+    "imageSource": "PyLadies Brasil",
+    "link": "https://brasil.pyladies.com/"
+  },
+  {
+    "id": "br-rocketseat",
+    "name": "Comunidade Rocketseat",
+    "location": "Brasil (online)",
+    "country": "Brasil",
+    "description": "Comunidade ativa no Discord com milhares de desenvolvedores aprendendo JavaScript, TypeScript, React, Node.js e IA aplicada.",
+    "logoUrl": "/images/communities/rocketseat.png",
+    "members": 80000,
+    "type": "Comunidade",
+    "category": "Comunidade Dev",
+    "tags": ["JavaScript", "TypeScript", "React", "Node.js"],
+    "imageSource": "Rocketseat",
+    "link": "https://www.rocketseat.com.br/"
+  },
+  {
+    "id": "br-cocoaheads",
+    "name": "CocoaHeads Brasil",
+    "location": "Brasil (São Paulo, BH, Rio, Porto Alegre)",
+    "country": "Brasil",
+    "description": "Comunidade brasileira dedicada ao desenvolvimento no ecossistema Apple (iOS, macOS, Swift e SwiftUI) com meetups e conferência anual.",
+    "logoUrl": "/images/communities/cocoaheads-br.png",
+    "members": 4500,
+    "type": "Meetup",
+    "category": "Mobile",
+    "tags": ["Swift", "iOS", "Apple", "Mobile"],
+    "imageSource": "CocoaHeads Brasil",
+    "link": "https://www.cocoaheads.com.br/"
+  },
+  {
+    "id": "br-rust",
+    "name": "Comunidade Rust Brasil",
+    "location": "Brasil (online)",
+    "country": "Brasil",
+    "description": "Grupo lusófono focado na linguagem Rust, programação de sistemas, WebAssembly e serviços seguros de alta performance.",
+    "logoUrl": "/images/communities/rust-br.jpg",
+    "members": 2800,
+    "type": "Comunidade",
+    "category": "Linguagens de Programação",
+    "tags": ["Rust", "Sistemas", "WebAssembly", "Backend"],
+    "imageSource": "Rust",
+    "link": "https://rust-lang.org/"
+  },
+  {
+    "id": "pt-gdg-lisboa",
+    "name": "GDG Lisbon (Google Developer Group Lisboa)",
+    "location": "Lisboa",
+    "country": "Portugal",
+    "description": "Comunidade oficial Google Developer Group em Lisboa organizando o DevFest Lisbon, workshops de Cloud, Android, AI e networking técnico.",
+    "logoUrl": "/images/communities/gdg.webp",
+    "members": 3200,
+    "type": "Meetup",
+    "category": "Google Technologies",
+    "tags": ["GDG", "DevFest", "Cloud", "Android"],
+    "imageSource": "GDG",
+    "link": "https://gdg.community.dev/gdg-lisbon/"
+  },
+  {
+    "id": "cv-gdg-praia",
+    "name": "GDG Praia",
+    "location": "Praia, Santiago",
+    "country": "Cabo-Verde",
+    "description": "Capítulo oficial Google Developer Group na Cidade da Praia, promovendo encontros sobre desenvolvimento web, mobile, cloud e IA em Cabo Verde.",
+    "logoUrl": "/images/communities/gdg.webp",
+    "members": 600,
+    "type": "Meetup",
+    "category": "Google Technologies",
+    "tags": ["GDG", "Cabo Verde", "Android", "Web"],
+    "imageSource": "GDG",
+    "link": "https://gdg.community.dev/gdg-praia/"
   },
 ];
 

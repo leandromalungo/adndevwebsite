@@ -1,8 +1,12 @@
 import { COMPREHENSIVE_EVENTS } from "@/data/eventsDatabase";
 import { bolsas } from "@/data/bolsas";
 import { intercambio } from "@/data/intercambio";
+import { cursos } from "@/data/cursos";
+import { bootcamps } from "@/data/bootcamps";
+import { certificacoes } from "@/data/certificacoes";
+import { estagios } from "@/data/estagios";
 import { mockCommunities } from "@/data/dataCommunity";
-import type { Event, ScholarshipItem, Community } from "@/data/types";
+import type { Event, ScholarshipItem, Community, NavCategory } from "@/data/types";
 
 export type DiscoveryCategory =
   | "todos"
@@ -10,6 +14,7 @@ export type DiscoveryCategory =
   | "hackathons"
   | "bolsas"
   | "cursos"
+  | "estagios"
   | "comunidades"
   | "startups"
   | "mulheres_ti"
@@ -178,11 +183,29 @@ function normalizeEvents(eventsList: Event[]): DiscoveryItem[] {
 /**
  * Converte bolsas e programas de intercâmbio
  */
-function normalizeScholarships(list: ScholarshipItem[], typeOverride?: "bolsas" | "intercambio" | "cursos"): DiscoveryItem[] {
+function normalizeScholarships(list: ScholarshipItem[], typeOverride?: NavCategory): DiscoveryItem[] {
   return list.map((b) => {
-    const isIntercambio = typeOverride === "intercambio" || b.category === "intercambio";
-    const category: DiscoveryCategory = isIntercambio ? "intercambio" : (typeOverride === "cursos" || b.category === "cursos" ? "cursos" : "bolsas");
-    const categoryLabel = isIntercambio ? "Intercâmbio & Voluntariado" : (category === "cursos" ? "Curso Gratuito" : "Bolsa de Estudo");
+    const resolvedType = typeOverride || b.category;
+    let category: DiscoveryCategory = "bolsas";
+    let categoryLabel = "Bolsa de Estudo";
+
+    if (resolvedType === "intercambio") {
+      category = "intercambio";
+      categoryLabel = "Intercâmbio & Voluntariado";
+    } else if (resolvedType === "cursos") {
+      category = "cursos";
+      categoryLabel = "Curso Gratuito";
+    } else if (resolvedType === "bootcamps") {
+      category = "cursos";
+      categoryLabel = "Bootcamp Gratuito";
+    } else if (resolvedType === "certificações") {
+      category = "cursos";
+      categoryLabel = "Certificação Gratuita";
+    } else if (resolvedType === "Estágios") {
+      category = "estagios";
+      categoryLabel = "Estágio & Mentoria";
+    }
+
     const isExpired = checkIsExpired(b.deadline);
 
     // Identificar país do título/descrição se não estiver explícito
@@ -202,6 +225,13 @@ function normalizeScholarships(list: ScholarshipItem[], typeOverride?: "bolsas" 
       else country = "Internacional";
     }
 
+    const lowerDesc = `${b.title} ${b.description} ${b.degreeLevels || ""}`.toLowerCase();
+    const isOnline =
+      category === "cursos" ||
+      category === "estagios" ||
+      lowerDesc.includes("online") ||
+      lowerDesc.includes("remoto");
+
     return {
       id: `scholarship-${b.id}`,
       title: b.title,
@@ -210,7 +240,7 @@ function normalizeScholarships(list: ScholarshipItem[], typeOverride?: "bolsas" 
       categoryLabel,
       country,
       location: country,
-      format: b.description.toLowerCase().includes("online") ? "online" : "presencial",
+      format: isOnline && !lowerDesc.includes("presencial") ? "online" : "presencial",
       isFree: true,
       isExpired,
       dateOrDeadline: b.deadline ? `Prazo: ${b.deadline}` : undefined,
@@ -268,13 +298,13 @@ function normalizeCommunities(list: Community[]): DiscoveryItem[] {
 }
 
 /**
- * Programas reais de aceleração e startups da Lusofonia
+ * Programas reais de aceleração e startups da Lusofonia e globais
  */
 const STARTUP_ITEMS: DiscoveryItem[] = [
   {
     id: "startup-acelera-angola",
     title: "Acelera Angola",
-    description: "Programa de aceleração de startups em Angola, focado em crescimento, captação de investimento e validação de modelo de negócio.",
+    description: "Principal incubadora e aceleradora privada de Angola, com mentoria, validação e ligação a investidores.",
     category: "startups",
     categoryLabel: "Aceleradora de Startups",
     country: "Angola",
@@ -282,70 +312,161 @@ const STARTUP_ITEMS: DiscoveryItem[] = [
     format: "hibrido",
     isFree: true,
     isExpired: false,
-    organizer: "Acelera Angola",
-    organizerLogo: "/images-card1.jpg",
-    imageUrl: "/images-card1.jpg",
-    link: "https://acelera.ao",
+    organizer: "Acelera Net",
+    organizerLogo: "/images/programs/acelera-angola.png",
+    imageUrl: "/images/programs/acelera-angola.png",
+    link: "https://www.aceleranet.ao/",
     isExternalLink: true,
     tags: ["Startups", "Aceleração", "Luanda", "Investimento"],
   },
   {
-    id: "startup-cila-angola",
-    title: "CILA – Centro de Incubação Local de Angola",
-    description: "Centro de incubação dedicado ao suporte de empreendedores e startups em fases iniciais no mercado angolano.",
+    id: "startup-lispa-angola",
+    title: "LISPA – Laboratório de Inovação do Sistema de Pagamentos",
+    description: "Incubadora e laboratório regulatório em Luanda dedicado a fintechs e inclusão financeira.",
     category: "startups",
-    categoryLabel: "Incubadora Tech",
+    categoryLabel: "Incubadora Fintech",
     country: "Angola",
     location: "Luanda",
     format: "presencial",
     isFree: true,
     isExpired: false,
-    organizer: "CILA",
-    organizerLogo: "/images-card2.webp",
-    imageUrl: "/images-card2.webp",
-    link: "/startups",
-    isExternalLink: false,
-    tags: ["Incubação", "Empreendedorismo", "Angola"],
+    organizer: "BNA & INAPEM",
+    organizerLogo: "/images/programs/lispa.png",
+    imageUrl: "/images/programs/lispa.png",
+    link: "https://www.lispa.ao/",
+    isExternalLink: true,
+    tags: ["Fintech", "Pagamentos", "Angola", "Incubação"],
+  },
+  {
+    id: "startup-orange-corners-angola",
+    title: "Orange Corners Angola",
+    description: "Programa internacional de incubação de 6 meses para jovens empreendedores em Luanda com formação e acesso a financiamento.",
+    category: "startups",
+    categoryLabel: "Programa de Incubação",
+    country: "Angola",
+    location: "Luanda",
+    format: "presencial",
+    isFree: true,
+    isExpired: false,
+    organizer: "Orange Corners",
+    organizerLogo: "/images/programs/orange-corners.png",
+    imageUrl: "/images/programs/orange-corners.png",
+    link: "https://www.orangecorners.com/country/angola/",
+    isExternalLink: true,
+    tags: ["Incubação", "Angola", "Juventude", "Startups"],
   },
   {
     id: "startup-founder-institute-luanda",
     title: "Founder Institute Luanda",
-    description: "Capítulo angolano do maior acelerador pré-seed do mundo, com mentoria direta de líderes da indústria global.",
+    description: "Capítulo angolano da maior rede global de pré-aceleração pré-seed, com mentoria internacional direta.",
     category: "startups",
-    categoryLabel: "Programa Global",
+    categoryLabel: "Aceleradora Global",
     country: "Angola",
     location: "Luanda",
     format: "hibrido",
     isFree: false,
     isExpired: false,
     organizer: "Founder Institute",
-    organizerLogo: "/images-card3.webp",
-    imageUrl: "/images-card3.webp",
+    organizerLogo: "/images/programs/founder-institute.jpg",
+    imageUrl: "/images/programs/founder-institute.jpg",
     link: "https://fi.co/luanda",
     isExternalLink: true,
-    tags: ["Startups", "Global", "Pré-seed"],
+    tags: ["Startups", "Global", "Pré-seed", "Luanda"],
   },
   {
-    id: "startup-startup-lisboa",
-    title: "Startup Lisboa",
-    description: "Uma das principais incubadoras e polos de inovação da Europa, apoiando startups lusófonas e internacionais a expandir no mercado europeu.",
+    id: "startup-cubo-itau",
+    title: "Cubo Itaú",
+    description: "Um dos maiores hubs de empreendedorismo tecnológico da América Latina conectando startups em tração a grandes corporações e investidores.",
     category: "startups",
-    categoryLabel: "Incubadora Europeia",
+    categoryLabel: "Hub & Aceleradora",
+    country: "Brasil",
+    location: "São Paulo",
+    format: "hibrido",
+    isFree: true,
+    isExpired: false,
+    organizer: "Itaú Unibanco",
+    organizerLogo: "/images/programs/cubo-itau.webp",
+    imageUrl: "/images/programs/cubo-itau.webp",
+    link: "https://cubo.itau/",
+    isExternalLink: true,
+    tags: ["Brasil", "Startups", "Scale-up", "Corporativo"],
+  },
+  {
+    id: "startup-inovativa-brasil",
+    title: "InovAtiva Brasil",
+    description: "Maior programa público gratuito e equity-free de aceleração de startups do Brasil, realizado pelo MDIC e Sebrae.",
+    category: "startups",
+    categoryLabel: "Aceleração Gratuita",
+    country: "Brasil",
+    location: "Nacional / Online",
+    format: "online",
+    isFree: true,
+    isExpired: false,
+    organizer: "MDIC & Sebrae",
+    organizerLogo: "/images/programs/inovativa-brasil.jpg",
+    imageUrl: "/images/programs/inovativa-brasil.jpg",
+    link: "https://www.inovativa.online/",
+    isExternalLink: true,
+    tags: ["Brasil", "Equity-free", "Aceleração", "Sebrae"],
+  },
+  {
+    id: "startup-google-campus-sp",
+    title: "Google for Startups Campus São Paulo",
+    description: "Hub e programas de aceleração do Google no Brasil oferecendo mentorias em IA, produto, cloud e expansão internacional.",
+    category: "startups",
+    categoryLabel: "Aceleradora Tech",
+    country: "Brasil",
+    location: "São Paulo",
+    format: "hibrido",
+    isFree: true,
+    isExpired: false,
+    organizer: "Google for Startups",
+    organizerLogo: "/images/programs/google-startups.webp",
+    imageUrl: "/images/programs/google-startups.webp",
+    link: "https://startup.google.com/campus/sao-paulo/",
+    isExternalLink: true,
+    tags: ["Google", "IA", "Cloud", "Brasil"],
+  },
+  {
+    id: "startup-unicorn-factory-lisboa",
+    title: "Unicorn Factory Lisboa & Startup Lisboa",
+    description: "Principal hub europeu de incubação e aceleração em Lisboa, com programas temáticos em IA, Web3 e apoio a startups internacionais.",
+    category: "startups",
+    categoryLabel: "Incubadora & ScaleUp",
     country: "Portugal",
     location: "Lisboa",
     format: "hibrido",
     isFree: true,
     isExpired: false,
-    organizer: "Startup Lisboa",
-    imageUrl: "/images-card4.webp",
-    link: "https://www.startuplisboa.com",
+    organizer: "Unicorn Factory Lisboa",
+    organizerLogo: "/images/programs/unicorn-factory-lisboa.webp",
+    imageUrl: "/images/programs/unicorn-factory-lisboa.webp",
+    link: "https://unicornfactorylisboa.com/",
     isExternalLink: true,
-    tags: ["Portugal", "Escala", "Europa", "Startups"],
+    tags: ["Portugal", "Escala", "Europa", "Lisboa"],
+  },
+  {
+    id: "startup-uptec-porto",
+    title: "UPTEC – Parque de Ciência e Tecnologia da U.Porto",
+    description: "Incubadora tecnológica ligada à Universidade do Porto que apoia startups de software, biotecnologia e indústrias criativas.",
+    category: "startups",
+    categoryLabel: "Incubadora Universitária",
+    country: "Portugal",
+    location: "Porto",
+    format: "presencial",
+    isFree: true,
+    isExpired: false,
+    organizer: "Universidade do Porto",
+    organizerLogo: "/images/programs/uptec.png",
+    imageUrl: "/images/programs/uptec.png",
+    link: "https://uptec.up.pt/",
+    isExternalLink: true,
+    tags: ["Portugal", "Porto", "Deep Tech", "Incubadora"],
   },
   {
     id: "startup-cabo-verde-digital",
-    title: "Cabo Verde Digital",
-    description: "Iniciativa governamental e ecossistémica que apoia jovens empreendedores com bolsas, capacitação e bolsas de aceleração tecnológica.",
+    title: "Cabo Verde Digital (Bolsa Digital & TechPark CV)",
+    description: "Iniciativa oficial de Cabo Verde que apoia jovens fundadores com bolsas, capacitação e pré-incubação no Parque Tecnológico da Praia.",
     category: "startups",
     categoryLabel: "Programa de Apoio",
     country: "Cabo Verde",
@@ -354,15 +475,16 @@ const STARTUP_ITEMS: DiscoveryItem[] = [
     isFree: true,
     isExpired: false,
     organizer: "Governo de Cabo Verde",
-    imageUrl: "/images-card1.jpg",
-    link: "https://digital.cv",
+    organizerLogo: "/images/programs/cabo-verde-digital.jpg",
+    imageUrl: "/images/programs/cabo-verde-digital.jpg",
+    link: "https://caboverdedigital.cv/",
     isExternalLink: true,
-    tags: ["Cabo Verde", "Inovação", "Bolsas Tech"],
+    tags: ["Cabo Verde", "Inovação", "Bolsa Digital"],
   },
   {
     id: "startup-inova-moz",
-    title: "IdeiaLab Moçambique",
-    description: "Hub de aceleração e desenvolvimento de ecossistemas inovadores em Moçambique, focado em negócios de impacto e base tecnológica.",
+    title: "ideiaLab Moçambique & Orange Corners Maputo",
+    description: "Hub de referência em Moçambique que capacita e acelera startups de base tecnológica e impacto social em Maputo.",
     category: "startups",
     categoryLabel: "Hub de Empreendedorismo",
     country: "Moçambique",
@@ -370,11 +492,66 @@ const STARTUP_ITEMS: DiscoveryItem[] = [
     format: "presencial",
     isFree: true,
     isExpired: false,
-    organizer: "IdeiaLab",
-    imageUrl: "/images-card2.webp",
-    link: "/startups",
-    isExternalLink: false,
+    organizer: "ideiaLab",
+    organizerLogo: "/images/programs/ideialab.png",
+    imageUrl: "/images/programs/ideialab.png",
+    link: "https://ideialab.biz/",
+    isExternalLink: true,
     tags: ["Moçambique", "Aceleração", "Maputo"],
+  },
+  {
+    id: "startup-orange-digital-gw",
+    title: "Orange Digital Center & Orange Fab Guiné-Bissau",
+    description: "Centro gratuito em Bissau com escola de programação, FabLab e aceleradora para impulsionar startups locais.",
+    category: "startups",
+    categoryLabel: "Aceleradora & Escola",
+    country: "Guiné-Bissau",
+    location: "Bissau",
+    format: "presencial",
+    isFree: true,
+    isExpired: false,
+    organizer: "Orange Digital Centers",
+    organizerLogo: "/images/programs/orange-digital-center.png",
+    imageUrl: "/images/programs/orange-digital-center.png",
+    link: "https://orangedigitalcenters.com/",
+    isExternalLink: true,
+    tags: ["Guiné-Bissau", "FabLab", "Startups"],
+  },
+  {
+    id: "startup-microsoft-founders-hub",
+    title: "Microsoft for Startups Founders Hub",
+    description: "Até USD 150.000 em créditos Azure, acesso a modelos OpenAI, GitHub Enterprise e mentoria técnica para startups em fase inicial.",
+    category: "startups",
+    categoryLabel: "Programa Global",
+    country: "Internacional",
+    location: "Global / Online",
+    format: "online",
+    isFree: true,
+    isExpired: false,
+    organizer: "Microsoft",
+    organizerLogo: "/images/programs/microsoft-startups.webp",
+    imageUrl: "/images/programs/microsoft-startups.webp",
+    link: "https://www.microsoft.com/en-us/startups",
+    isExternalLink: true,
+    tags: ["Azure", "IA", "Créditos Cloud", "Global"],
+  },
+  {
+    id: "startup-aws-activate",
+    title: "AWS Activate for Startups",
+    description: "Créditos gratuitos de computação em nuvem AWS até USD 100.000, suporte técnico e benefícios para startups em crescimento.",
+    category: "startups",
+    categoryLabel: "Programa Global",
+    country: "Internacional",
+    location: "Global / Online",
+    format: "online",
+    isFree: true,
+    isExpired: false,
+    organizer: "Amazon Web Services",
+    organizerLogo: "/images/programs/aws-activate.png",
+    imageUrl: "/images/programs/aws-activate.png",
+    link: "https://aws.amazon.com/startups/",
+    isExternalLink: true,
+    tags: ["AWS", "Cloud", "Infraestrutura", "Global"],
   },
 ];
 
@@ -385,12 +562,20 @@ export function getAllDiscoveryItems(): DiscoveryItem[] {
   const events = normalizeEvents(COMPREHENSIVE_EVENTS);
   const scholarshipsList = normalizeScholarships(bolsas, "bolsas");
   const exchangeList = normalizeScholarships(intercambio, "intercambio");
+  const coursesList = normalizeScholarships(cursos, "cursos");
+  const bootcampsList = normalizeScholarships(bootcamps, "bootcamps");
+  const certificationsList = normalizeScholarships(certificacoes, "certificações");
+  const internshipsList = normalizeScholarships(estagios, "Estágios");
   const communitiesList = normalizeCommunities(mockCommunities);
 
   const combined = [
     ...events,
     ...scholarshipsList,
     ...exchangeList,
+    ...coursesList,
+    ...bootcampsList,
+    ...certificationsList,
+    ...internshipsList,
     ...communitiesList,
     ...STARTUP_ITEMS,
   ];

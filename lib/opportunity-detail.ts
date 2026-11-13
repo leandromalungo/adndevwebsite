@@ -3,6 +3,10 @@ import { supabaseAdmin, isSupabaseConfigured } from "@/lib/supabase/admin";
 import { COMPREHENSIVE_EVENTS } from "@/data/eventsDatabase";
 import { bolsas } from "@/data/bolsas";
 import { intercambio } from "@/data/intercambio";
+import { cursos } from "@/data/cursos";
+import { bootcamps } from "@/data/bootcamps";
+import { certificacoes } from "@/data/certificacoes";
+import { estagios } from "@/data/estagios";
 import { mockCommunities } from "@/data/dataCommunity";
 
 /**
@@ -53,23 +57,56 @@ export async function fetchOpportunity(id: string): Promise<DiscoveryItem | null
     };
   }
 
-  // b) Bolsas
-  const allBolsas = [...bolsas, ...intercambio];
+  // b) Bolsas, Cursos, Bootcamps, Certificações, Estágios e Intercâmbio
+  const allBolsas = [
+    ...bolsas,
+    ...intercambio,
+    ...cursos,
+    ...bootcamps,
+    ...certificacoes,
+    ...estagios,
+  ];
   const matchedBolsa = allBolsas.find(
     (b) => b.id.toLowerCase() === cleanId || b.id.toLowerCase() === decodedId.toLowerCase()
   );
   if (matchedBolsa) {
-    const isIntercambio = matchedBolsa.category === "intercambio";
+    const category =
+      matchedBolsa.category === "intercambio"
+        ? "intercambio"
+        : matchedBolsa.category === "Estágios"
+          ? "estagios"
+          : matchedBolsa.category === "cursos" ||
+              matchedBolsa.category === "bootcamps" ||
+              matchedBolsa.category === "certificações"
+            ? "cursos"
+            : "bolsas";
+    const categoryLabel =
+      matchedBolsa.category === "intercambio"
+        ? "Intercâmbio & Voluntariado"
+        : matchedBolsa.category === "cursos"
+          ? "Curso Gratuito"
+          : matchedBolsa.category === "bootcamps"
+            ? "Bootcamp Gratuito"
+            : matchedBolsa.category === "certificações"
+              ? "Certificação Gratuita"
+              : matchedBolsa.category === "Estágios"
+                ? "Estágio & Mentoria"
+                : "Bolsa de Estudo";
     return {
       id: `scholarship-${matchedBolsa.id}`,
       title: matchedBolsa.title,
       description: matchedBolsa.description,
       fullDescription: matchedBolsa.fullDescription || matchedBolsa.description,
-      category: isIntercambio ? "intercambio" : "bolsas",
-      categoryLabel: isIntercambio ? "Intercâmbio & Voluntariado" : "Bolsa de Estudo",
+      category,
+      categoryLabel,
       country: matchedBolsa.country || "Internacional",
       location: matchedBolsa.country || "Exterior",
-      format: matchedBolsa.description?.toLowerCase().includes("online") ? "online" : "presencial",
+      format:
+        category === "cursos" ||
+        category === "estagios" ||
+        matchedBolsa.description?.toLowerCase().includes("online")
+          ? "online"
+          : "presencial",
       isFree: true,
       isExpired: false,
       dateOrDeadline: matchedBolsa.deadline ? `Prazo: ${matchedBolsa.deadline}` : undefined,
@@ -77,7 +114,7 @@ export async function fetchOpportunity(id: string): Promise<DiscoveryItem | null
       imageUrl: matchedBolsa.image || "/images-bolsas.webp",
       link: matchedBolsa.href || "#",
       isExternalLink: Boolean(matchedBolsa.href && matchedBolsa.href.startsWith("http")),
-      tags: ["Bolsa", matchedBolsa.country || "Internacional"].filter(Boolean),
+      tags: [categoryLabel, matchedBolsa.country || "Internacional"].filter(Boolean),
       institution: matchedBolsa.institution,
       degreeLevels: matchedBolsa.degreeLevels,
       funding: matchedBolsa.funding,

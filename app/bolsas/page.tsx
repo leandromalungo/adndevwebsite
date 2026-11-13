@@ -11,6 +11,7 @@ import { ArrowRight, Smartphone } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { AppComingSoonModal } from "@/components/AppComingSoonModal";
 import { usePublicFetch } from "@/hooks/usePublicFetch";
+import type { NavCategory } from "@/data/types";
 
 /**
  * Função para determinar se uma bolsa expirou ou está ativa
@@ -28,8 +29,6 @@ function isScholarshipExpired(deadline: string | null | undefined): boolean {
     return false;
   }
 }
-
-type NavCategory = "bolsas" | "intercambio" | "cursos" | "certificações";
 
 interface ScholarshipData {
   id: string;

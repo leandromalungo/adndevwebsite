@@ -34,7 +34,7 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({ community }) => {
     }
   };
 
-  const imageSrc = isLikelyImage(community.logoUrl) ? community.logoUrl! : '/cafelogo.png';
+  const imageSrc = isLikelyImage(community.logoUrl) ? community.logoUrl! : '/images-community.jpg';
 
   return (
     <div className="bg-white rounded-xl p-5 flex flex-col h-full backdrop-blur-md rounded-2xl border border-violet-500/10 hover:border-violet-200 overflow-hidden shadow-lg hover:shadow-violet-300/55 transition-all duration-300 group relative">
@@ -48,6 +48,7 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({ community }) => {
             className="object-cover"
             loading="lazy"
             sizes="48px"
+            referrerPolicy="no-referrer"
           />
         </div>
         <div className="flex flex-col min-w-0 flex-1">

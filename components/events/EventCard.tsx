@@ -32,6 +32,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
           loading="lazy"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           placeholder="empty"
+          referrerPolicy="no-referrer"
         />
         
       </div>
@@ -44,7 +45,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
         {/* Informação do organizador */}
         <div className="flex items-center gap-2 mb-2">
-          <Image src={event.organizerLogo} alt="" width={24} height={24} quality={80} className="rounded-full border border-gray-100" loading="lazy" />
+          <Image src={event.organizerLogo} alt="" width={24} height={24} quality={80} className="rounded-full border border-gray-100" loading="lazy" referrerPolicy="no-referrer" />
           <span className="text-xs text-gray-500 font-medium truncate">{event.organizer}</span>
         </div>
 
