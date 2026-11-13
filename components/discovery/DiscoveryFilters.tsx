@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
+import Image from "next/image";
 import {
   X,
   SlidersHorizontal,
@@ -23,16 +24,16 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 
-export const CATEGORIES: { id: DiscoveryCategory; label: string; icon?: string }[] = [
-  { id: "eventos", label: "Eventos & Meetups" },
-  { id: "hackathons", label: "Hackathons & Desafios" },
-  { id: "bolsas", label: "Bolsas de Estudo" },
-  { id: "cursos", label: "Cursos Gratuitos" },
-  { id: "comunidades", label: "Comunidades Tech" },
-  { id: "startups", label: "Startups & Apoio" },
-  { id: "mulheres_ti", label: "Mulheres na TI" },
-  { id: "game_dev", label: "Game Development" },
-  { id: "intercambio", label: "Intercâmbio & Voluntariado" },
+export const CATEGORIES: { id: DiscoveryCategory; label: string; icon: string }[] = [
+  { id: "eventos", label: "Eventos & Meetups", icon: "/images/discovery-icons/eventos.png" },
+  { id: "hackathons", label: "Hackathons & Desafios", icon: "/images/discovery-icons/hackathons.png" },
+  { id: "bolsas", label: "Bolsas de Estudo", icon: "/images/discovery-icons/bolsas.png" },
+  { id: "cursos", label: "Cursos Gratuitos", icon: "/images/discovery-icons/cursos.png" },
+  { id: "comunidades", label: "Comunidades Tech", icon: "/images/discovery-icons/comunidades.png" },
+  { id: "startups", label: "Startups & Apoio", icon: "/images/discovery-icons/startups.png" },
+  { id: "mulheres_ti", label: "Mulheres na TI", icon: "/images/discovery-icons/mulheres_ti.png" },
+  { id: "game_dev", label: "Game Development", icon: "/images/discovery-icons/game_dev.png" },
+  { id: "intercambio", label: "Intercâmbio & Voluntariado", icon: "/images/discovery-icons/intercambio.png" },
 ];
 
 export const COUNTRIES = [
@@ -283,12 +284,20 @@ export function DiscoveryFilters({
                 aria-label={cat.label}
                 title={cat.label}
                 onClick={() => onCategoryChange(selectedCategory === cat.id ? "todos" : cat.id)}
-                className={`whitespace-nowrap shrink-0 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-full text-xs font-semibold transition-all border cursor-pointer select-none ${
+                className={`inline-flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-full text-xs font-semibold transition-all border cursor-pointer select-none ${
                   isSelected
                     ? "bg-violet-700 text-white border-violet-700 shadow-xs"
                     : "bg-white text-gray-700 border-gray-200 hover:border-violet-300 hover:bg-violet-50/50"
                 }`}
               >
+                <Image
+                  src={cat.icon}
+                  alt=""
+                  width={18}
+                  height={18}
+                  referrerPolicy="no-referrer"
+                  className="w-4 h-4 sm:w-[18px] sm:h-[18px] object-contain shrink-0 rounded-xs"
+                />
                 <span>{cat.label}</span>
               </button>
             );
@@ -345,7 +354,17 @@ export function DiscoveryFilters({
           ) : null}
 
           {selectedCategory !== "todos" ? (
-            <span className="inline-flex items-center gap-1 bg-violet-50 text-violet-800 border border-violet-200 px-2.5 py-0.5 rounded-full font-medium text-[11px]">
+            <span className="inline-flex items-center gap-1.5 bg-violet-50 text-violet-800 border border-violet-200 px-2.5 py-0.5 rounded-full font-medium text-[11px]">
+              {CATEGORIES.find((c) => c.id === selectedCategory)?.icon ? (
+                <Image
+                  src={CATEGORIES.find((c) => c.id === selectedCategory)!.icon}
+                  alt=""
+                  width={14}
+                  height={14}
+                  referrerPolicy="no-referrer"
+                  className="w-3.5 h-3.5 object-contain shrink-0 rounded-xs"
+                />
+              ) : null}
               {CATEGORIES.find((c) => c.id === selectedCategory)?.label || selectedCategory}
               <button
                 type="button"
@@ -426,6 +445,40 @@ export function DiscoveryFilters({
           </DialogHeader>
 
           <div className="space-y-5 py-3">
+            {/* Assunto / Categoria */}
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
+                Assunto
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                {CATEGORIES.map((cat) => {
+                  const isSelected = selectedCategory === cat.id;
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => onCategoryChange(isSelected ? "todos" : cat.id)}
+                      className={`inline-flex items-center gap-2 p-2 rounded-lg border text-xs font-semibold text-left cursor-pointer transition-colors ${
+                        isSelected
+                          ? "bg-violet-700 text-white border-violet-700"
+                          : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-violet-50/60"
+                      }`}
+                    >
+                      <Image
+                        src={cat.icon}
+                        alt=""
+                        width={18}
+                        height={18}
+                        referrerPolicy="no-referrer"
+                        className="w-[18px] h-[18px] object-contain shrink-0 rounded-xs"
+                      />
+                      <span className="truncate">{cat.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* País */}
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
