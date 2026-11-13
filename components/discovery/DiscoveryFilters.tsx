@@ -437,57 +437,23 @@ export function DiscoveryFilters({
 
       {/* Modal / Dialog de Filtros para Mobile */}
       <Dialog open={mobileModalOpen} onOpenChange={setMobileModalOpen}>
-        <DialogContent className="sm:max-w-md bg-white p-6 max-h-[85vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="text-lg font-bold text-gray-900">
+        <DialogContent className="w-[88vw] max-w-[320px] sm:max-w-[320px] rounded-xl bg-white p-4 gap-3 max-h-[80vh] overflow-y-auto">
+          <DialogHeader className="text-left space-y-0">
+            <DialogTitle className="text-sm font-bold text-gray-900">
               Filtrar Oportunidades
             </DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-5 py-3">
-            {/* Assunto / Categoria */}
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
-                Assunto
-              </label>
-              <div className="grid grid-cols-2 gap-2">
-                {CATEGORIES.map((cat) => {
-                  const isSelected = selectedCategory === cat.id;
-                  return (
-                    <button
-                      key={cat.id}
-                      type="button"
-                      onClick={() => onCategoryChange(isSelected ? "todos" : cat.id)}
-                      className={`inline-flex items-center gap-2 p-2 rounded-lg border text-xs font-semibold text-left cursor-pointer transition-colors ${
-                        isSelected
-                          ? "bg-violet-700 text-white border-violet-700"
-                          : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-violet-50/60"
-                      }`}
-                    >
-                      <Image
-                        src={cat.icon}
-                        alt=""
-                        width={18}
-                        height={18}
-                        referrerPolicy="no-referrer"
-                        className="w-[18px] h-[18px] object-contain shrink-0 rounded-xs"
-                      />
-                      <span className="truncate">{cat.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
+          <div className="space-y-3 py-0.5">
             {/* País */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1">
                 País ou Região
               </label>
               <select
                 value={selectedCountry}
                 onChange={(e) => onCountryChange(e.target.value)}
-                className="w-full bg-white border border-gray-300 rounded-lg p-2.5 text-sm text-gray-800 focus:border-violet-600 outline-none"
+                className="w-full bg-white border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-800 focus:border-violet-600 outline-none"
               >
                 <option value="Todos">Todos os Países</option>
                 {COUNTRIES.filter((c) => c !== "Todos").map((c) => (
@@ -500,10 +466,10 @@ export function DiscoveryFilters({
 
             {/* Formato */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1">
                 Formato
               </label>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-1.5">
                 {[
                   { id: "todos", label: "Qualquer" },
                   { id: "online", label: "Online" },
@@ -514,10 +480,10 @@ export function DiscoveryFilters({
                     key={f.id}
                     type="button"
                     onClick={() => onFormatChange(f.id as DiscoveryFormat)}
-                    className={`p-2 rounded-lg border text-xs font-semibold text-center cursor-pointer ${
+                    className={`py-1.5 px-2 rounded-lg border text-[11px] font-semibold text-center cursor-pointer transition-colors ${
                       selectedFormat === f.id
                         ? "bg-violet-700 text-white border-violet-700"
-                        : "bg-gray-50 text-gray-700 border-gray-200"
+                        : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100"
                     }`}
                   >
                     {f.label}
@@ -528,23 +494,23 @@ export function DiscoveryFilters({
 
             {/* Estado */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
-                Estado da Oportunidade
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1">
+                Estado
               </label>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-3 gap-1.5">
                 {[
                   { id: "todos", label: "Todos" },
-                  { id: "ativos", label: "Abertos / Ativos" },
+                  { id: "ativos", label: "Abertos" },
                   { id: "encerrados", label: "Encerrados" },
                 ].map((s) => (
                   <button
                     key={s.id}
                     type="button"
                     onClick={() => onStatusChange(s.id as DiscoveryStatus)}
-                    className={`p-2 rounded-lg border text-xs font-semibold text-center cursor-pointer ${
+                    className={`py-1.5 px-2 rounded-lg border text-[11px] font-semibold text-center cursor-pointer transition-colors ${
                       selectedStatus === s.id
                         ? "bg-violet-700 text-white border-violet-700"
-                        : "bg-gray-50 text-gray-700 border-gray-200"
+                        : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100"
                     }`}
                   >
                     {s.label}
@@ -555,10 +521,10 @@ export function DiscoveryFilters({
 
             {/* Preço */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">
-                Custo
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1">
+                Valor
               </label>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-1.5">
                 {[
                   { id: "todos", label: "Todos" },
                   { id: "gratis", label: "Gratuito" },
@@ -568,10 +534,10 @@ export function DiscoveryFilters({
                     key={p.id}
                     type="button"
                     onClick={() => onPriceChange(p.id as DiscoveryPrice)}
-                    className={`p-2 rounded-lg border text-xs font-semibold text-center cursor-pointer ${
+                    className={`py-1.5 px-2 rounded-lg border text-[11px] font-semibold text-center cursor-pointer transition-colors ${
                       selectedPrice === p.id
                         ? "bg-violet-700 text-white border-violet-700"
-                        : "bg-gray-50 text-gray-700 border-gray-200"
+                        : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100"
                     }`}
                   >
                     {p.label}
@@ -581,18 +547,18 @@ export function DiscoveryFilters({
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-4 border-t border-gray-200 gap-3">
+          <div className="flex items-center justify-between pt-2.5 border-t border-gray-200 gap-2">
             <button
               type="button"
               onClick={onClearFilters}
-              className="text-xs font-semibold text-gray-600 hover:text-gray-900 cursor-pointer"
+              className="text-[11px] font-semibold text-gray-600 hover:text-gray-900 cursor-pointer"
             >
-              Limpar todos
+              Limpar tudo
             </button>
             <DialogClose asChild>
               <button
                 type="button"
-                className="bg-violet-700 hover:bg-violet-800 text-white text-xs font-bold px-5 py-2.5 rounded-lg cursor-pointer"
+                className="bg-violet-700 hover:bg-violet-800 text-white text-[11px] font-bold px-3.5 py-2 rounded-lg cursor-pointer"
               >
                 Ver {totalResults} resultados
               </button>
