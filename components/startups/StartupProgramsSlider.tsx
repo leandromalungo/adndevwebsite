@@ -692,7 +692,7 @@ const PROGRAMS_LIST: Program[] = [
     logo: "/images/programs/mozdevz.png",
     imageFit: "contain",
     description:
-      "Comunidade e iniciativa moçambicana de programadores que promove hackathons, bootcamps e apoio ao nascimento de produtos digitais.",
+      "Comunidade e iniciativa moçambicana de programadores que promove hackathons, formações práticas e apoio ao nascimento de produtos digitais.",
     tags: ["Developers", "Hackathons", "Produtos Digitais"],
     region: "Maputo / Beira / Nampula",
     link: "https://www.mozdevz.org/",
@@ -750,8 +750,8 @@ const PROGRAMS_LIST: Program[] = [
     logo: "/images/programs/nosi-cv.png",
     imageFit: "contain",
     description:
-      "Programa de estágios e inovação tecnológica do NOSi que prepara jovens engenheiros e fundadores de soluções digitais em Cabo Verde.",
-    tags: ["Engenharia", "Estágios Tech", "Inovação"],
+      "Programa de capacitação e inovação tecnológica do NOSi que prepara jovens engenheiros e fundadores de soluções digitais em Cabo Verde.",
+    tags: ["Engenharia", "Talentos Tech", "Inovação"],
     region: "Praia",
     link: "https://www.nosi.cv/",
     type: "programa",

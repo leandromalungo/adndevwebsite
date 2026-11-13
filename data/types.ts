@@ -45,7 +45,7 @@ export interface Event {
  * Type FilterTab
  * Define os países/regiões disponíveis para filtro
  */
-export type FilterTab = 'Angola' | 'Brasil' | 'Moçambique' | 'Portugal' | 'São Tomé e Principe' | 'Guiné-Bissau' | 'Cabo-Verde' | 'Timor-Leste';
+export type FilterTab = 'Angola' | 'Brasil' | 'Moçambique' | 'Portugal' | 'São Tomé e Principe' | 'São Tomé e Príncipe' | 'Guiné-Bissau' | 'Cabo-Verde' | 'Cabo Verde' | 'Timor-Leste';
 
 // ============================================
 // COMENTÁRIOS E EDIÇÕES
