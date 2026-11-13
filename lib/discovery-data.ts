@@ -2,9 +2,7 @@ import { COMPREHENSIVE_EVENTS } from "@/data/eventsDatabase";
 import { bolsas } from "@/data/bolsas";
 import { intercambio } from "@/data/intercambio";
 import { cursos } from "@/data/cursos";
-import { bootcamps } from "@/data/bootcamps";
 import { certificacoes } from "@/data/certificacoes";
-import { estagios } from "@/data/estagios";
 import { mockCommunities } from "@/data/dataCommunity";
 import type { Event, ScholarshipItem, Community, NavCategory } from "@/data/types";
 
@@ -14,7 +12,6 @@ export type DiscoveryCategory =
   | "hackathons"
   | "bolsas"
   | "cursos"
-  | "estagios"
   | "comunidades"
   | "startups"
   | "mulheres_ti"
@@ -195,15 +192,9 @@ function normalizeScholarships(list: ScholarshipItem[], typeOverride?: NavCatego
     } else if (resolvedType === "cursos") {
       category = "cursos";
       categoryLabel = "Curso Gratuito";
-    } else if (resolvedType === "bootcamps") {
-      category = "cursos";
-      categoryLabel = "Bootcamp Gratuito";
     } else if (resolvedType === "certificações") {
       category = "cursos";
       categoryLabel = "Certificação Gratuita";
-    } else if (resolvedType === "Estágios") {
-      category = "estagios";
-      categoryLabel = "Estágio & Mentoria";
     }
 
     const isExpired = checkIsExpired(b.deadline);
@@ -228,7 +219,6 @@ function normalizeScholarships(list: ScholarshipItem[], typeOverride?: NavCatego
     const lowerDesc = `${b.title} ${b.description} ${b.degreeLevels || ""}`.toLowerCase();
     const isOnline =
       category === "cursos" ||
-      category === "estagios" ||
       lowerDesc.includes("online") ||
       lowerDesc.includes("remoto");
 
@@ -563,9 +553,7 @@ export function getAllDiscoveryItems(): DiscoveryItem[] {
   const scholarshipsList = normalizeScholarships(bolsas, "bolsas");
   const exchangeList = normalizeScholarships(intercambio, "intercambio");
   const coursesList = normalizeScholarships(cursos, "cursos");
-  const bootcampsList = normalizeScholarships(bootcamps, "bootcamps");
   const certificationsList = normalizeScholarships(certificacoes, "certificações");
-  const internshipsList = normalizeScholarships(estagios, "Estágios");
   const communitiesList = normalizeCommunities(mockCommunities);
 
   const combined = [
@@ -573,9 +561,7 @@ export function getAllDiscoveryItems(): DiscoveryItem[] {
     ...scholarshipsList,
     ...exchangeList,
     ...coursesList,
-    ...bootcampsList,
     ...certificationsList,
-    ...internshipsList,
     ...communitiesList,
     ...STARTUP_ITEMS,
   ];

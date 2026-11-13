@@ -322,19 +322,7 @@ export interface SearchState {
   query: string;
 }
 
-export interface Bootcamp {
-  id: string;
-  title: string;
-  description: string;
-  logoUrl: string;
-  link: string;
-  startDate: string;
-  endDate: string;
-  country: string;
-  tags: string[];
-}
-
-export type NavCategory = "bolsas" | "intercambio" | "cursos" | "bootcamps" | "certificações" | "Estágios";
+export type NavCategory = "bolsas" | "intercambio" | "cursos" | "certificações";
 
 export interface ScholarshipItem {
   id: string;

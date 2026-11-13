@@ -436,26 +436,6 @@ export const COMPREHENSIVE_EVENTS: Event[] = [
     tags: ['Criatividade', 'Inovação', 'Cultura'],
     link: 'https://screamfestival.com.br'
   },
-  {
-    id: 'br-ba-002',
-    title: 'Bootcamp: Full Stack Developer',
-    description: 'Programa intensivo de 8 semanas em desenvolvimento full stack.',
-    date: 'March 1, 2026',
-    timeRange: '9:00 AM - 5:00 PM BRT',
-    location: 'Centro, Salvador',
-    country: 'Brasil',
-    state: 'Bahia',
-    category: 'Bootcamp',
-    organizer: 'Code Academy Bahia',
-    organizerLogo: 'https://iili.io/qqC7OYJ.png',
-    imageUrl: 'https://iili.io/qqC7jrg.webp',
-    isOnline: false,
-    isFree: false,
-    day: '1',
-    month: 'Mar',
-    tags: ['Full Stack', 'Bootcamp', 'Intensive'],
-    link: 'https://www.codeacademybahia.com.br'
-  },
 
   // CEARÁ
   {

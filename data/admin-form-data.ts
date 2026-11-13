@@ -20,7 +20,6 @@ export const EVENT_CATEGORIES = [
   'Seminário',
   'Webinar',
   'Hackathon',
-  'Bootcamp',
   'Networking',
   'Palestra',
   'Treinamento',

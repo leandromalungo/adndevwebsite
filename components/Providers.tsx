@@ -4,7 +4,6 @@ import { SessionProvider } from "next-auth/react";
 import { ReactNode, useEffect } from "react";
 import { PageViewTracker } from "@/components/analytics/PageViewTracker";
 import { FavoritesProvider } from "@/components/favorites/FavoritesContext";
-import { NotificationsProvider } from "@/components/notifications/NotificationsContext";
 
 export default function Providers({ children }: { children: ReactNode }) {
   useEffect(() => {
@@ -25,10 +24,8 @@ export default function Providers({ children }: { children: ReactNode }) {
   return (
     <SessionProvider>
       <FavoritesProvider>
-        <NotificationsProvider>
-          <PageViewTracker />
-          {children}
-        </NotificationsProvider>
+        <PageViewTracker />
+        {children}
       </FavoritesProvider>
     </SessionProvider>
   );

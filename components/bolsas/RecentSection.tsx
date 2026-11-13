@@ -6,9 +6,7 @@ import { useSession } from "next-auth/react";
 import { bolsas } from "@/data/bolsas";
 import { intercambio } from "@/data/intercambio";
 import { cursos } from "@/data/cursos";
-import { bootcamps } from "@/data/bootcamps";
 import { certificacoes } from "@/data/certificacoes";
-import { estagios } from "@/data/estagios";
 import type { FilterTab } from "@/components/CountryFilter";
 import type { NavCategory, ScholarshipItem } from "@/data/types";
 import { CardGridSkeleton } from "@/components/cards/CardSkeleton";
@@ -216,9 +214,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
     ...bolsas,
     ...intercambio,
     ...cursos,
-    ...bootcamps,
     ...certificacoes,
-    ...estagios,
   ];
 
   const allCategories = [...dynamicItems, ...categories];
@@ -238,9 +234,7 @@ export const RecentSection: React.FC<RecentSectionProps> = ({
     { id: "bolsas", label: "Bolsas de Estudo" },
     { id: "intercambio", label: "Programas de Intercâmbio" },
     { id: "cursos", label: "Cursos" },
-    { id: "bootcamps", label: "Bootcamps" },
     { id: "certificações", label: "Certificações" },
-    { id: "Estágios", label: "Estágios" },
   ];
 
   const timeTabs = [

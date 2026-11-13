@@ -28,7 +28,6 @@ export const CATEGORIES: { id: DiscoveryCategory; label: string; icon?: string }
   { id: "hackathons", label: "Hackathons & Desafios" },
   { id: "bolsas", label: "Bolsas de Estudo" },
   { id: "cursos", label: "Cursos Gratuitos" },
-  { id: "estagios", label: "Estágios & Mentorias" },
   { id: "comunidades", label: "Comunidades Tech" },
   { id: "startups", label: "Startups & Apoio" },
   { id: "mulheres_ti", label: "Mulheres na TI" },

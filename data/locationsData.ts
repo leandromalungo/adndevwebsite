@@ -174,7 +174,6 @@ export const EVENT_CATEGORIES = [
   'Meetup',
   'Webinar',
   'Palestra',
-  'Bootcamp',
   'Networking',
   'Treinamento',
   'Competição',
