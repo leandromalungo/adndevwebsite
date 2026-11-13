@@ -2,7 +2,7 @@
 /**
  * Navbar: Componente de navegação global que inclui gestão de autenticação, menus e perfil de utilizador.
  */
-import { X, Search, User as UserIcon, Loader2, Heart, Info, Eye, EyeOff, Link as LinkIcon, Users, LogOut, Map, Rocket, Code, Compass, ChevronRight, Trophy } from "lucide-react";
+import { X, Search, User as UserIcon, Loader2, Heart, Eye, EyeOff, Link as LinkIcon, Users, LogOut, ChevronRight } from "lucide-react";
 import { useState, useRef, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -37,14 +37,14 @@ function AuthQueryHandler({ setLoginModal, setIsRegistering, isLoggedIn }: any) 
 const MobileNavLink = ({
   label,
   href,
-  icon: Icon,
+  iconSrc,
   isActive,
   badge,
   onClick,
 }: {
   label: string;
   href: string;
-  icon?: React.ComponentType<{ className?: string }>;
+  iconSrc?: string;
   isActive?: boolean;
   badge?: string;
   onClick: () => void;
@@ -59,15 +59,22 @@ const MobileNavLink = ({
     }`}
   >
     <div className="flex items-center gap-3 min-w-0">
-      {Icon && (
+      {iconSrc && (
         <span
-          className={`flex items-center justify-center w-8 h-8 rounded-lg shrink-0 transition-colors ${
+          className={`flex items-center justify-center w-8 h-8 rounded-lg shrink-0 transition-colors overflow-hidden ${
             isActive
-              ? "bg-violet-700 text-white shadow-xs"
-              : "bg-gray-100 text-gray-600 group-hover:bg-violet-100 group-hover:text-violet-700"
+              ? "bg-violet-100 ring-1 ring-violet-300 shadow-xs"
+              : "bg-gray-100 group-hover:bg-violet-50"
           }`}
         >
-          <Icon className="w-4 h-4" />
+          <Image
+            src={iconSrc}
+            alt=""
+            width={24}
+            height={24}
+            referrerPolicy="no-referrer"
+            className="w-6 h-6 object-contain"
+          />
         </span>
       )}
       <span className="truncate">{label}</span>
@@ -833,7 +840,14 @@ const NavbarContent = () => {
                 }}
                 className="w-full py-2.5 px-4 rounded bg-violet-700 hover:bg-violet-800 text-white font-bold text-xs transition shadow-xs flex items-center justify-center gap-2 cursor-pointer active:scale-98"
               >
-                <UserIcon className="w-4 h-4" />
+                <Image
+                  src="/images/menu-icons/entrar.png"
+                  alt=""
+                  width={18}
+                  height={18}
+                  referrerPolicy="no-referrer"
+                  className="w-[18px] h-[18px] object-contain rounded-xs"
+                />
                 <span>Entrar ou Criar Conta</span>
               </button>
             </div>
@@ -848,7 +862,7 @@ const NavbarContent = () => {
             <MobileNavLink
               label="Startups & Inovação"
               href="/startups"
-              icon={Rocket}
+              iconSrc="/images/menu-icons/startups.png"
               isActive={pathname.startsWith("/startups")}
               onClick={closeMobileMenu}
             />
@@ -856,7 +870,7 @@ const NavbarContent = () => {
             <MobileNavLink
               label="Formações & Roadmaps"
               href="/roadmaps"
-              icon={Map}
+              iconSrc="/images/menu-icons/roadmaps.png"
               isActive={pathname.startsWith("/roadmaps")}
               onClick={closeMobileMenu}
             />
@@ -864,7 +878,7 @@ const NavbarContent = () => {
             <MobileNavLink
               label="Ranking de Tecnologias"
               href="/ranking"
-              icon={Trophy}
+              iconSrc="/images/menu-icons/ranking.png"
               isActive={pathname.toLowerCase().startsWith("/ranking")}
               onClick={closeMobileMenu}
             />
@@ -872,7 +886,7 @@ const NavbarContent = () => {
             <MobileNavLink
               label="Os Meus Favoritos"
               href="/favoritos"
-              icon={Heart}
+              iconSrc="/images/menu-icons/favoritos.png"
               isActive={pathname.startsWith("/favoritos")}
               badge={favoritesCount > 0 ? String(favoritesCount) : undefined}
               onClick={closeMobileMenu}
@@ -881,7 +895,7 @@ const NavbarContent = () => {
             <MobileNavLink
               label="Pesquisar Conteúdo"
               href="/pesquisa"
-              icon={Search}
+              iconSrc="/images/menu-icons/pesquisa.png"
               isActive={pathname.startsWith("/pesquisa")}
               onClick={closeMobileMenu}
             />
@@ -889,7 +903,7 @@ const NavbarContent = () => {
             <MobileNavLink
               label="Sobre Nós"
               href="/sobre"
-              icon={Info}
+              iconSrc="/images/menu-icons/sobre.png"
               isActive={pathname.startsWith("/sobre")}
               onClick={closeMobileMenu}
             />
@@ -904,8 +918,15 @@ const NavbarContent = () => {
                 className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold text-gray-700 hover:text-violet-700 hover:bg-gray-100/70 transition cursor-pointer"
               >
                 <div className="flex items-center gap-3">
-                  <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-600 shrink-0">
-                    <LinkIcon className="w-4 h-4" />
+                  <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 shrink-0 overflow-hidden">
+                    <Image
+                      src="/images/menu-icons/partilhar.png"
+                      alt=""
+                      width={24}
+                      height={24}
+                      referrerPolicy="no-referrer"
+                      className="w-6 h-6 object-contain"
+                    />
                   </span>
                   <span>{shareLinkCopied ? "✓ Link copiado!" : "Partilhar perfil"}</span>
                 </div>
@@ -916,8 +937,15 @@ const NavbarContent = () => {
                 onClick={handleLogout}
                 className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-red-600 hover:bg-red-50 hover:text-red-700 transition cursor-pointer"
               >
-                <span className="flex items-center justify-center w-8 h-8 text-red-600 shrink-0">
-                  <LogOut className="w-4 h-4" />
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 overflow-hidden">
+                  <Image
+                    src="/images/menu-icons/sair.png"
+                    alt=""
+                    width={24}
+                    height={24}
+                    referrerPolicy="no-referrer"
+                    className="w-6 h-6 object-contain"
+                  />
                 </span>
                 <span>Terminar sessão</span>
               </button>
