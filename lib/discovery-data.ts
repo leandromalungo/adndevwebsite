@@ -13,8 +13,7 @@ export type DiscoveryCategory =
   | "bolsas"
   | "cursos"
   | "comunidades"
-  | "startups"
-  | "game_dev";
+  | "startups";
 
 export type DiscoveryFormat = "todos" | "online" | "presencial" | "hibrido";
 export type DiscoveryStatus = "todos" | "ativos" | "encerrados";
@@ -94,42 +93,31 @@ export function checkIsExpired(dateStr?: string | null): boolean {
 }
 
 /**
- * Identifica se um evento/hackathon pertence a categorias especiais (mulheres na TI, game dev, etc.)
+ * Classifica eventos entre Hackathons & Desafios ou Eventos & Meets
  */
-function detectSpecialCategory(title: string, desc: string, tags: string[] = []): DiscoveryCategory | null {
-  const text = `${title} ${desc} ${tags.join(" ")}`.toLowerCase();
+function detectEventCategory(e: Event): "eventos" | "hackathons" {
+  const titleAndCat = `${e.title} ${e.category || ""}`.toLowerCase();
+  const link = (e.link || "").toLowerCase();
 
   if (
-    text.includes("women") ||
-    text.includes("mulher") ||
-    text.includes("wtm") ||
-    text.includes("meninas") ||
-    text.includes("shebuilds") ||
-    text.includes("female")
-  ) {
-    return "eventos";
-  }
-
-  if (
-    text.includes("game") ||
-    text.includes("jogos") ||
-    text.includes("unity") ||
-    text.includes("unreal") ||
-    text.includes("godot")
-  ) {
-    return "game_dev";
-  }
-
-  if (
-    text.includes("hackathon") ||
-    text.includes("maratona") ||
-    text.includes("desafio") ||
-    text.includes("challenge")
+    titleAndCat.includes("hackathon") ||
+    titleAndCat.includes("hackatohn") ||
+    titleAndCat.includes("hackatho") ||
+    titleAndCat.includes("maratona") ||
+    titleAndCat.includes("desafio") ||
+    titleAndCat.includes("challenge") ||
+    titleAndCat.includes("competiç") ||
+    titleAndCat.includes("competicao") ||
+    titleAndCat.includes("concurso") ||
+    titleAndCat.includes("coding sprint") ||
+    titleAndCat.includes("game jam") ||
+    titleAndCat.includes("award") ||
+    link.includes("challenges-awards")
   ) {
     return "hackathons";
   }
 
-  return null;
+  return "eventos";
 }
 
 /**
@@ -137,12 +125,10 @@ function detectSpecialCategory(title: string, desc: string, tags: string[] = [])
  */
 function normalizeEvents(eventsList: Event[]): DiscoveryItem[] {
   return eventsList.map((e) => {
-    const special = detectSpecialCategory(e.title, e.description, e.tags);
-    const category: DiscoveryCategory = special || (e.category?.toLowerCase().includes("hackathon") ? "hackathons" : "eventos");
+    const category: DiscoveryCategory = detectEventCategory(e);
 
     let categoryLabel = "Evento";
-    if (category === "hackathons") categoryLabel = "Hackathon";
-    else if (category === "game_dev") categoryLabel = "Game Development";
+    if (category === "hackathons") categoryLabel = "Hackathon & Desafio";
     else if (e.category) categoryLabel = e.category;
 
     const isExpired = checkIsExpired(e.date);
@@ -252,12 +238,8 @@ function normalizeScholarships(list: ScholarshipItem[], typeOverride?: NavCatego
  */
 function normalizeCommunities(list: Community[]): DiscoveryItem[] {
   return list.map((c) => {
-    const special = detectSpecialCategory(c.name, c.description, c.tags);
-    const category: DiscoveryCategory = special || "comunidades";
-
-    let categoryLabel = "Comunidade Tech";
-    if (category === "eventos") categoryLabel = "Evento & Comunidade";
-    else if (category === "game_dev") categoryLabel = "Game Development";
+    const category: DiscoveryCategory = "comunidades";
+    const categoryLabel = c.category || "Comunidade Tech";
 
     const isOnline = c.location.toLowerCase().includes("online");
 

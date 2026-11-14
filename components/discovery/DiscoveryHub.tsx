@@ -57,7 +57,7 @@ export function DiscoveryHub() {
   const initialQ = searchParams?.get("q") || "";
   const rawCat = searchParams?.get("categoria") || "todos";
   const initialCategory: DiscoveryCategory =
-    rawCat === "mulheres_ti"
+    rawCat === "mulheres_ti" || rawCat === "game_dev"
       ? "eventos"
       : rawCat === "intercambio"
       ? "bolsas"
@@ -107,11 +107,21 @@ export function DiscoveryHub() {
           if (Array.isArray(data?.events)) {
             data.events.forEach((ev: any) => {
               const cleanId = String(ev.id || "").startsWith("admin-") ? ev.id : `admin-event-${ev.id}`;
+              const evText = `${ev.title || ""} ${ev.category || ""}`.toLowerCase();
+              const resolvedCategory: DiscoveryCategory =
+                evText.includes("hackathon") ||
+                evText.includes("desafio") ||
+                evText.includes("challenge") ||
+                evText.includes("competiç") ||
+                evText.includes("competicao") ||
+                evText.includes("concurso")
+                  ? "hackathons"
+                  : "eventos";
               extraItems.push({
                 id: cleanId,
                 title: ev.title,
                 description: ev.description,
-                category: "eventos",
+                category: resolvedCategory,
                 categoryLabel: ev.category || "Evento",
                 country: ev.country || "Angola",
                 location: ev.location,
@@ -235,14 +245,8 @@ export function DiscoveryHub() {
 
     return items.filter((item) => {
       // 1. Filtro de Categoria
-      if (selectedCategory !== "todos") {
-        if (selectedCategory === "cursos") {
-          if (item.category !== "cursos" && !item.categoryLabel.toLowerCase().includes("curso")) {
-            return false;
-          }
-        } else if (item.category !== selectedCategory) {
-          return false;
-        }
+      if (selectedCategory !== "todos" && item.category !== selectedCategory) {
+        return false;
       }
 
       // 2. Filtro de País

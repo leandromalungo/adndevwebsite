@@ -25,10 +25,9 @@ import {
 } from "@/components/ui/dialog";
 
 export const CATEGORIES: { id: DiscoveryCategory; label: string; icon: string }[] = [
-  { id: "bolsas", label: "Bolsas de Estudo", icon: "/images/discovery-icons/bolsas.png" },
-  { id: "hackathons", label: "Hackathons & Desafios", icon: "/hktn.png" },
-  { id: "game_dev", label: "Game Development", icon: "/videogame.png" },
-  { id: "eventos", label: "Eventos", icon: "/eventos.png" },
+  { id: "bolsas", label: "Bolsas e Intercâmbio", icon: "/intercambio.png" },
+  { id: "hackathons", label: "Hackathons e Desafios", icon: "/hktn.png" },
+  { id: "eventos", label: "Eventos e Meets", icon: "/eventos.png" },
   { id: "comunidades", label: "Comunidades Tech", icon: "/comunidades.png" },
   { id: "cursos", label: "Cursos", icon: "/cursos.png" },
   { id: "startups", label: "Startups & Apoio", icon: "/startups.png" },
