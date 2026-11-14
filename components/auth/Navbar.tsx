@@ -52,24 +52,20 @@ const MobileNavLink = ({
   <Link
     href={href}
     onClick={onClick}
-    className={`group flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-semibold transition-all duration-150 cursor-pointer ${
+    className={`group flex items-center justify-between px-3.5 py-3 text-sm rounded-lg font-semibold transition-all duration-150 cursor-pointer ${
       isActive
-        ? "bg-violet-50 text-violet-800 font-bold border border-violet-200/80 shadow-2xs"
+        ? "text-violet-800 font-bold border border-violet-200/80 shadow-2xs"
         : "text-gray-700 hover:text-violet-700 hover:bg-gray-100/70"
     }`}
   >
     <div className="flex items-center gap-3 min-w-0">
       {iconSrc && (
         <span
-          className={`flex items-center justify-center w-8 h-8 rounded-lg shrink-0 transition-colors overflow-hidden ${
-            isActive
-              ? "bg-violet-100 ring-1 ring-violet-300 shadow-xs"
-              : "bg-gray-100 group-hover:bg-violet-50"
-          }`}
+          className={`flex items-center justify-center w-8 h-8 shrink-0 transition-colors overflow-hidden shadow-xs`}
         >
           <Image
             src={iconSrc}
-            alt=""
+            alt="startup"
             width={24}
             height={24}
             referrerPolicy="no-referrer"
@@ -565,16 +561,10 @@ const NavbarContent = () => {
                 Startups Lusofonas 
               </Link>
               <Link
-                href="/roadmaps"
-                className={`transition-colors ${pathname.startsWith("/roadmaps") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
-              >
-                RoadMaps
-              </Link>
-              <Link
                 href="/ranking"
                 className={`transition-colors ${pathname.toLowerCase().startsWith("/ranking") ? "text-violet-700 font-bold" : "text-gray-700 hover:text-violet-700"}`}
               >
-                Ranking
+                Rankings
               </Link>
              
             </div>
@@ -601,7 +591,7 @@ const NavbarContent = () => {
               }}
               className={`relative flex h-9 w-9 items-center justify-center sm:w-10 rounded-full transition-colors cursor-pointer ${
                 pathname === "/favoritos"
-                  ? "text-rose-600 bg-rose-50"
+                  ? "text-rose-600"
                   : "text-gray-600 hover:text-rose-600 hover:bg-rose-50/60"
               }`}
               aria-label="Ver itens favoritos"
@@ -862,7 +852,7 @@ const NavbarContent = () => {
             <MobileNavLink
               label="Startups & Inovação"
               href="/startups"
-              iconSrc="/images/menu-icons/startups.png"
+              iconSrc="/startups.png"
               isActive={pathname.startsWith("/startups")}
               onClick={closeMobileMenu}
             />
@@ -870,7 +860,7 @@ const NavbarContent = () => {
             <MobileNavLink
               label="Formações & Roadmaps"
               href="/roadmaps"
-              iconSrc="/images/menu-icons/roadmaps.png"
+              iconSrc="/cursos.png"
               isActive={pathname.startsWith("/roadmaps")}
               onClick={closeMobileMenu}
             />

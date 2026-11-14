@@ -25,15 +25,15 @@ import {
 } from "@/components/ui/dialog";
 
 export const CATEGORIES: { id: DiscoveryCategory; label: string; icon: string }[] = [
-  { id: "eventos", label: "Eventos & Meetups", icon: "/images/discovery-icons/eventos.png" },
-  { id: "hackathons", label: "Hackathons & Desafios", icon: "/images/discovery-icons/hackathons.png" },
   { id: "bolsas", label: "Bolsas de Estudo", icon: "/images/discovery-icons/bolsas.png" },
-  { id: "cursos", label: "Cursos Gratuitos", icon: "/images/discovery-icons/cursos.png" },
-  { id: "comunidades", label: "Comunidades Tech", icon: "/images/discovery-icons/comunidades.png" },
-  { id: "startups", label: "Startups & Apoio", icon: "/images/discovery-icons/startups.png" },
+  { id: "hackathons", label: "Hackathons & Desafios", icon: "/hktn.png" },
+  { id: "game_dev", label: "Game Development", icon: "/videogame.png" },
+  { id: "eventos", label: "Eventos", icon: "/eventos.png" },
+  { id: "comunidades", label: "Comunidades Tech", icon: "/comunidades.png" },
+  { id: "cursos", label: "Cursos", icon: "/cursos.png" },
+  { id: "startups", label: "Startups & Apoio", icon: "/startups.png" },
   { id: "mulheres_ti", label: "Mulheres na TI", icon: "/images/discovery-icons/mulheres_ti.png" },
-  { id: "game_dev", label: "Game Development", icon: "/images/discovery-icons/game_dev.png" },
-  { id: "intercambio", label: "Intercâmbio & Voluntariado", icon: "/images/discovery-icons/intercambio.png" },
+  { id: "intercambio", label: "Intercâmbio", icon: "/intercambio.png" },
 ];
 
 export const COUNTRIES = [
@@ -284,7 +284,8 @@ export function DiscoveryFilters({
                 aria-label={cat.label}
                 title={cat.label}
                 onClick={() => onCategoryChange(selectedCategory === cat.id ? "todos" : cat.id)}
-                className={`inline-flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-full text-xs font-semibold transition-all border cursor-pointer select-none ${
+                className={`inline-flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0 px-2.5 sm:px-3.5 py-1.5 sm:py-2 
+                  rounded-full text-xs font-semibold transition-all border cursor-pointer select-none ${
                   isSelected
                     ? "bg-violet-700 text-white border-violet-700 shadow-xs"
                     : "bg-white text-gray-700 border-gray-200 hover:border-violet-300 hover:bg-violet-50/50"
