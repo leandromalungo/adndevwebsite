@@ -865,7 +865,6 @@ const NavbarContent = () => {
               onClick={closeMobileMenu}
             />
 
-
             <MobileNavLink
               label="Sobre Nós"
               href="/sobre"
@@ -883,19 +882,7 @@ const NavbarContent = () => {
                 onClick={handleCopyShareLink}
                 className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold text-gray-700 hover:text-violet-700 hover:bg-gray-100/70 transition cursor-pointer"
               >
-                <div className="flex items-center gap-3">
-                  <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 shrink-0 overflow-hidden">
-                    <Image
-                      src="/images/menu-icons/partilhar.png"
-                      alt=""
-                      width={24}
-                      height={24}
-                      referrerPolicy="no-referrer"
-                      className="w-6 h-6 object-contain"
-                    />
-                  </span>
-                  <span>{shareLinkCopied ? "✓ Link copiado!" : "Partilhar perfil"}</span>
-                </div>
+            
               </button>
 
               <button
@@ -904,14 +891,6 @@ const NavbarContent = () => {
                 className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-red-600 hover:bg-red-50 hover:text-red-700 transition cursor-pointer"
               >
                 <span className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 overflow-hidden">
-                  <Image
-                    src="/images/menu-icons/sair.png"
-                    alt=""
-                    width={24}
-                    height={24}
-                    referrerPolicy="no-referrer"
-                    className="w-6 h-6 object-contain"
-                  />
                 </span>
                 <span>Terminar sessão</span>
               </button>
