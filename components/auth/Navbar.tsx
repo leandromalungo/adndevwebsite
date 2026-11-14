@@ -858,14 +858,6 @@ const NavbarContent = () => {
             />
 
             <MobileNavLink
-              label="Formações & Roadmaps"
-              href="/roadmaps"
-              iconSrc="/cursos.png"
-              isActive={pathname.startsWith("/roadmaps")}
-              onClick={closeMobileMenu}
-            />
-
-            <MobileNavLink
               label="Ranking de Tecnologias"
               href="/ranking"
               iconSrc="/images/menu-icons/ranking.png"
@@ -873,22 +865,6 @@ const NavbarContent = () => {
               onClick={closeMobileMenu}
             />
 
-            <MobileNavLink
-              label="Os Meus Favoritos"
-              href="/favoritos"
-              iconSrc="/images/menu-icons/favoritos.png"
-              isActive={pathname.startsWith("/favoritos")}
-              badge={favoritesCount > 0 ? String(favoritesCount) : undefined}
-              onClick={closeMobileMenu}
-            />
-
-            <MobileNavLink
-              label="Pesquisar Conteúdo"
-              href="/pesquisa"
-              iconSrc="/images/menu-icons/pesquisa.png"
-              isActive={pathname.startsWith("/pesquisa")}
-              onClick={closeMobileMenu}
-            />
 
             <MobileNavLink
               label="Sobre Nós"
