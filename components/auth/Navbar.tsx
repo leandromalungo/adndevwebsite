@@ -918,7 +918,7 @@ const NavbarContent = () => {
             </Link>
           </div>
           <p className="text-[11px] text-gray-400 text-center">
-            ADN Developer &copy; {new Date().getFullYear()} • Lusofonia Tech
+            ADN Developer &copy; {new Date().getFullYear()}
           </p>
         </div>
       </aside>
