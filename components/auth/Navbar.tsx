@@ -780,7 +780,7 @@ const NavbarContent = () => {
         <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 space-y-5 bg-white">
           {/* Card de Usuário / Sessão no Mobile */}
           {isLoggedIn ? (
-            <div className="p-3.5 rounded bg-violet-50 border border-violet-100 flex items-center justify-between gap-3 shadow-2xs">
+            <div className="p-3.5 flex items-center justify-between gap-3 shadow-2xs">
               <div className="flex items-center gap-3 min-w-0">
                 {profilePhoto ? (
                   <img
@@ -828,7 +828,7 @@ const NavbarContent = () => {
                   closeMobileMenu();
                   setLoginModal(true);
                 }}
-                className="w-full py-2.5 px-4 rounded bg-violet-700 hover:bg-violet-800 text-white font-bold text-xs transition shadow-xs flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+                className="w-full py-2.5 px-4 text-white font-bold text-xs transition shadow-xs flex items-center justify-center gap-2 cursor-pointer active:scale-98"
               >
                 <Image
                   src="/images/menu-icons/entrar.png"
