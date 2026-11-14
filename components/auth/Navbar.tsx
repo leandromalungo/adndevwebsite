@@ -60,18 +60,14 @@ const MobileNavLink = ({
   >
     <div className="flex items-center gap-3 min-w-0">
       {iconSrc && (
-        <span
-          className={`flex items-center justify-center w-8 h-8 shrink-0 transition-colors overflow-hidden shadow-xs`}
-        >
-          <Image
-            src={iconSrc}
-            alt="startup"
-            width={24}
-            height={24}
-            referrerPolicy="no-referrer"
-            className="w-6 h-6 object-contain"
-          />
-        </span>
+        <Image
+          src={iconSrc}
+          alt=""
+          width={36}
+          height={36}
+          referrerPolicy="no-referrer"
+          className="w-9 h-9 object-contain shrink-0"
+        />
       )}
       <span className="truncate">{label}</span>
     </div>
@@ -836,10 +832,10 @@ const NavbarContent = () => {
                 <Image
                   src="/images/menu-icons/entrar.png"
                   alt=""
-                  width={18}
-                  height={18}
+                  width={24}
+                  height={24}
                   referrerPolicy="no-referrer"
-                  className="w-[18px] h-[18px] object-contain rounded-xs"
+                  className="w-6 h-6 object-contain shrink-0"
                 />
                 <span>Entrar ou Criar Conta</span>
               </button>
@@ -885,7 +881,17 @@ const NavbarContent = () => {
                 onClick={handleCopyShareLink}
                 className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold text-gray-700 hover:text-violet-700 hover:bg-gray-100/70 transition cursor-pointer"
               >
-            
+                <span className="flex items-center gap-3">
+                  <Image
+                    src="/images/menu-icons/partilhar.png"
+                    alt=""
+                    width={32}
+                    height={32}
+                    referrerPolicy="no-referrer"
+                    className="w-8 h-8 object-contain shrink-0"
+                  />
+                  <span>{shareLinkCopied ? "Link copiado!" : "Partilhar perfil"}</span>
+                </span>
               </button>
 
               <button
@@ -893,6 +899,14 @@ const NavbarContent = () => {
                 onClick={handleLogout}
                 className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-red-600 hover:bg-red-50 hover:text-red-700 transition cursor-pointer"
               >
+                <Image
+                  src="/images/menu-icons/sair.png"
+                  alt=""
+                  width={32}
+                  height={32}
+                  referrerPolicy="no-referrer"
+                  className="w-8 h-8 object-contain shrink-0"
+                />
                 <span>Terminar sessão</span>
               </button>
             </div>

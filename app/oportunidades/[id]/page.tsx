@@ -117,7 +117,6 @@ export default async function OpportunityDetailPage({ params }: PageProps) {
   const getActionLabel = () => {
     switch (item.category) {
       case "bolsas":
-      case "intercambio":
         return "Candidatar-se à Bolsa";
       case "hackathons":
         return "Inscrever no Hackathon";

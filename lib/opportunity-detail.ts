@@ -67,15 +67,13 @@ export async function fetchOpportunity(id: string): Promise<DiscoveryItem | null
   );
   if (matchedBolsa) {
     const category =
-      matchedBolsa.category === "intercambio"
-        ? "intercambio"
-        : matchedBolsa.category === "cursos" ||
-            matchedBolsa.category === "certificações"
-          ? "cursos"
-          : "bolsas";
+      matchedBolsa.category === "cursos" ||
+      matchedBolsa.category === "certificações"
+        ? "cursos"
+        : "bolsas";
     const categoryLabel =
       matchedBolsa.category === "intercambio"
-        ? "Intercâmbio & Voluntariado"
+        ? "Intercâmbio & Bolsa"
         : matchedBolsa.category === "cursos"
           ? "Curso Gratuito"
           : matchedBolsa.category === "certificações"

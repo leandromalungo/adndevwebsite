@@ -32,8 +32,6 @@ export const CATEGORIES: { id: DiscoveryCategory; label: string; icon: string }[
   { id: "comunidades", label: "Comunidades Tech", icon: "/comunidades.png" },
   { id: "cursos", label: "Cursos", icon: "/cursos.png" },
   { id: "startups", label: "Startups & Apoio", icon: "/startups.png" },
-  { id: "mulheres_ti", label: "Mulheres na TI", icon: "/images/discovery-icons/mulheres_ti.png" },
-  { id: "intercambio", label: "Intercâmbio", icon: "/intercambio.png" },
 ];
 
 export const COUNTRIES = [
@@ -284,7 +282,7 @@ export function DiscoveryFilters({
                 aria-label={cat.label}
                 title={cat.label}
                 onClick={() => onCategoryChange(selectedCategory === cat.id ? "todos" : cat.id)}
-                className={`inline-flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0 px-2.5 sm:px-3.5 py-1.5 sm:py-2 
+                className={`inline-flex items-center gap-2 sm:gap-2.5 whitespace-nowrap shrink-0 px-2.5 sm:px-3.5 py-1.5 sm:py-2 
                   rounded-full text-xs font-semibold transition-all border cursor-pointer select-none ${
                   isSelected
                     ? "bg-violet-700 text-white border-violet-700 shadow-xs"
@@ -294,10 +292,10 @@ export function DiscoveryFilters({
                 <Image
                   src={cat.icon}
                   alt=""
-                  width={18}
-                  height={18}
+                  width={28}
+                  height={28}
                   referrerPolicy="no-referrer"
-                  className="w-4 h-4 sm:w-[18px] sm:h-[18px] object-contain shrink-0 rounded-xs"
+                  className="w-6 h-6 sm:w-7 sm:h-7 object-contain shrink-0"
                 />
                 <span>{cat.label}</span>
               </button>
@@ -360,10 +358,10 @@ export function DiscoveryFilters({
                 <Image
                   src={CATEGORIES.find((c) => c.id === selectedCategory)!.icon}
                   alt=""
-                  width={14}
-                  height={14}
+                  width={20}
+                  height={20}
                   referrerPolicy="no-referrer"
-                  className="w-3.5 h-3.5 object-contain shrink-0 rounded-xs"
+                  className="w-5 h-5 object-contain shrink-0"
                 />
               ) : null}
               {CATEGORIES.find((c) => c.id === selectedCategory)?.label || selectedCategory}

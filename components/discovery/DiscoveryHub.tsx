@@ -55,7 +55,13 @@ export function DiscoveryHub() {
 
   // Estados dos filtros inicializados a partir dos parâmetros da URL
   const initialQ = searchParams?.get("q") || "";
-  const initialCategory = (searchParams?.get("categoria") as DiscoveryCategory) || "todos";
+  const rawCat = searchParams?.get("categoria") || "todos";
+  const initialCategory: DiscoveryCategory =
+    rawCat === "mulheres_ti"
+      ? "eventos"
+      : rawCat === "intercambio"
+      ? "bolsas"
+      : (rawCat as DiscoveryCategory);
   const initialCountry = searchParams?.get("pais") || "Todos";
   const initialFormat = (searchParams?.get("formato") as DiscoveryFormat) || "todos";
   const initialStatus = (searchParams?.get("estado") as DiscoveryStatus) || "todos";

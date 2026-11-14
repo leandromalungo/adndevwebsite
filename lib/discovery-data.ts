@@ -14,9 +14,7 @@ export type DiscoveryCategory =
   | "cursos"
   | "comunidades"
   | "startups"
-  | "mulheres_ti"
-  | "game_dev"
-  | "intercambio";
+  | "game_dev";
 
 export type DiscoveryFormat = "todos" | "online" | "presencial" | "hibrido";
 export type DiscoveryStatus = "todos" | "ativos" | "encerrados";
@@ -109,7 +107,7 @@ function detectSpecialCategory(title: string, desc: string, tags: string[] = [])
     text.includes("shebuilds") ||
     text.includes("female")
   ) {
-    return "mulheres_ti";
+    return "eventos";
   }
 
   if (
@@ -144,7 +142,6 @@ function normalizeEvents(eventsList: Event[]): DiscoveryItem[] {
 
     let categoryLabel = "Evento";
     if (category === "hackathons") categoryLabel = "Hackathon";
-    else if (category === "mulheres_ti") categoryLabel = "Mulheres na TI";
     else if (category === "game_dev") categoryLabel = "Game Development";
     else if (e.category) categoryLabel = e.category;
 
@@ -187,8 +184,8 @@ function normalizeScholarships(list: ScholarshipItem[], typeOverride?: NavCatego
     let categoryLabel = "Bolsa de Estudo";
 
     if (resolvedType === "intercambio") {
-      category = "intercambio";
-      categoryLabel = "Intercâmbio & Voluntariado";
+      category = "bolsas";
+      categoryLabel = "Intercâmbio & Bolsa";
     } else if (resolvedType === "cursos") {
       category = "cursos";
       categoryLabel = "Curso Gratuito";
@@ -259,7 +256,7 @@ function normalizeCommunities(list: Community[]): DiscoveryItem[] {
     const category: DiscoveryCategory = special || "comunidades";
 
     let categoryLabel = "Comunidade Tech";
-    if (category === "mulheres_ti") categoryLabel = "Mulheres na TI";
+    if (category === "eventos") categoryLabel = "Evento & Comunidade";
     else if (category === "game_dev") categoryLabel = "Game Development";
 
     const isOnline = c.location.toLowerCase().includes("online");

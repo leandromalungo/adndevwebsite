@@ -26,7 +26,7 @@ export function DiscoveryCard({ item, priority = false }: DiscoveryCardProps) {
 
   // Fallback visual para imagens quebradas ou indisponíveis
   const handleImageError = () => {
-    if (item.category === "bolsas" || item.category === "intercambio") {
+    if (item.category === "bolsas") {
       setImgSrc("/images-bolsas.webp");
     } else if (item.category === "comunidades") {
       setImgSrc("/images-community.jpg");
