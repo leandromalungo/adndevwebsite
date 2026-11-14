@@ -890,8 +890,6 @@ const NavbarContent = () => {
                 onClick={handleLogout}
                 className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-red-600 hover:bg-red-50 hover:text-red-700 transition cursor-pointer"
               >
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 overflow-hidden">
-                </span>
                 <span>Terminar sessão</span>
               </button>
             </div>
