@@ -765,6 +765,9 @@ const NavbarContent = () => {
               referrerPolicy="no-referrer"
             />
           </Link>
+          <p className="text-sm font-bold text-gray-900 truncate">
+         ADN Developer
+          </p>
 
           <button
             type="button"
@@ -828,7 +831,7 @@ const NavbarContent = () => {
                   closeMobileMenu();
                   setLoginModal(true);
                 }}
-                className="w-full py-2.5 px-4 text-white font-bold text-xs transition shadow-xs flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+                className="w-full py-2.5 px-4 text-white rounded bg-violet-600 font-semibold text-xs transition shadow-xs flex items-center justify-center gap-2 cursor-pointer active:scale-98"
               >
                 <Image
                   src="/images/menu-icons/entrar.png"
